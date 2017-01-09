@@ -170,6 +170,9 @@
       td:first-child {
         text-align: left;
       }
+      tfoot {
+        border-top: 2px solid #aaa;
+      }
     }
 
     .price-wrapper {
