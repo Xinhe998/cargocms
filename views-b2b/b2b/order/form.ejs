@@ -97,7 +97,7 @@
       </div>
     </div>
 
-    <table class="table" style="margin-top: 3.2em;">
+    <table class="table product-list" style="margin-top: 3.2em;">
       <thead>
         <tr>
           <th>品名</th><th>單價</th><th>數量</th><th>小計</th>
@@ -105,7 +105,7 @@
       </thead>
       <tbody>
         <tr v-for="cart in carts">
-          <td>{{cart.name}}</td><td>{{cart.price | moneyNum}}</td><td>{{cart.quantity}}</td><td>{{parseFloat(cart.price) * parseFloat(cart.quantity) | moneyNum }}</td>
+          <td>{{cart.name}}</td><td>$ {{cart.price | moneyNum}}</td><td>{{cart.quantity}}</td><td>$ {{parseFloat(cart.price) * parseFloat(cart.quantity) | moneyNum }}</td>
         </tr>
       </tbody>
     </table>
