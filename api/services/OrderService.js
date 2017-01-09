@@ -17,7 +17,7 @@ module.exports = {
 
       data.tracking = '訂單建立';
       data.shippingCode = '';
-      data.comment = '';
+      data.comment = data.comment || '';
       data.fax = '';
 
       data.shippingLastname = data.shippingLastname || data.lastname;
