@@ -53,6 +53,17 @@
     color: red;
     font-size: 1em;
   }
+  .product-list {
+    th {
+      text-align: center;
+    }
+    td {
+      text-align: center;
+    }
+    td:first-child {
+      text-align: left;
+    }
+  }
 }
 em.invalid{
   color: #a94442;
