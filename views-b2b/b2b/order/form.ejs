@@ -13,21 +13,22 @@
       <div class="col-sm-8">
         <% var loginUser = AuthService.getSessionUser(req);%>
         <h3>訂購人資訊</h3>
+        <p><span class="column-require">*</span> 必填欄位</p>
         <hr />
         <div class="form-group">
-          <label for="">訂購人 姓氏</label>
+          <label for=""><span class="column-require">*</span>訂購人 姓氏</label>
           <input name="lastname" type="text" class="form-control" value=<%= loginUser.lastName %>>
         </div>
         <div class="form-group">
-          <label for="">訂購人 名字</label>
+          <label for=""><span class="column-require">*</span>訂購人 名字</label>
           <input name="firstname" type="text" class="form-control" value=<%= loginUser.firstName %>>
         </div>
         <div class="form-group">
-          <label for="">電子郵件</label>
+          <label for=""><span class="column-require">*</span>電子郵件</label>
           <input name="email" type="email" class="form-control" value=<%= loginUser.email %>>
         </div>
         <div class="form-group">
-          <label for="telephone">聯絡電話</label>
+          <label for="telephone"><span class="column-require">*</span>聯絡電話</label>
           <input name="telephone" type="text" class="form-control" value=<%= loginUser.phone1 %>>
         </div>
 
@@ -42,21 +43,22 @@
 
           <h3>收件人資訊</h3>
           <hr />
+          <p><span class="column-require">*</span> 必填欄位</p>
           <div class="checkbox">
             <label>
               <input type="checkbox"> 與訂購人相同請打勾
             </label>
           </div>
           <div class="form-group">
-            <label for="">收件人 姓氏</label>
+            <label for=""><span class="column-require">*</span>收件人 姓氏</label>
             <input name="shippingLastname" type="text" class="form-control">
           </div>
           <div class="form-group">
-            <label for="">收件人 名字</label>
+            <label for=""><span class="column-require">*</span>收件人 名字</label>
             <input name="shippingFirstname" type="text" class="form-control">
           </div>
           <div class="form-group">
-            <label for="">電子郵件</label>
+            <label for=""><span class="column-require">*</span>電子郵件</label>
             <input name="shippingEmail" type="email" class="form-control">
           </div>
           <div class="form-group">
@@ -64,7 +66,8 @@
             <input name="shippingTelephone" type="text" class="form-control">
           </div>
 
-          <h3>收件地址</h3>
+
+          <h3><span class="column-require">*</span>收件地址</h3>
           <hr />
           <div class="row" id="twzipcode">
             <div class="col-xs-4 form-group" data-role="county" ></div>
@@ -73,13 +76,18 @@
           </div>
 
           <div class="form-group">
-            <label for="">地址</label>
+            <label for=""><span class="column-require">*</span>地址</label>
             <input name="shippingAddress1" type="text" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="">備註</label>
+            <input name="comment" type="text" class="form-control">
           </div>
 
           <hr />
           <div class="form-group">
-            <label for="">選擇運送方式</label>
+            <label for=""><span class="column-require">*</span>選擇運送方式</label>
             <select class="form-control" name="shippingMethod">
               <option value="低溫宅配">低溫宅配</option>
               <option value="集貨自取">集貨自取</option>
