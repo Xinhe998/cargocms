@@ -1,0 +1,158 @@
+body {
+  background-color: #ededed;
+}
+.top-line {
+  margin-top: 0px;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+  position: relative;
+  width: 100%;
+  height: 14px;
+  background-image: url('http://www.motorworld.com.tw/Themes/00044/Content/images/mwns/header-bg01.jpg');
+  background-repeat: repeat-x;
+}
+.moto-header {
+  background: #FFFFFF;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+  padding: 0;
+  .logo-block {
+    padding: 15px 15px 12px;
+    overflow: hidden;
+    .logo-wrapper {
+      float: left;
+      img.logo {
+        width: 232px;
+      }
+      .logo-text {
+        margin: 7px 3px;
+        font-size: 15px;
+        color: #E80000;
+        letter-spacing: 2.49px;
+      }
+    }
+    .header-tools {
+      float: right;
+      margin-top: 4px;
+      .moto-search {
+        padding: 4px 6px;
+        background: #ededed;
+        float: right;
+        margin-bottom: 7px;
+        .search-wrapper {
+          display: inline-block;
+          background: white;
+          border: 1px solid #efefef;
+          margin-right: 3px;
+          input {
+            border: none;
+            outline: none;
+            height: 23px;
+            padding: 5px;
+            width: 11em;
+          }
+        }
+        button {
+          width: 50px;
+          height: 24px;
+          line-height: 19px;
+          font-size: 13px;
+          font-weight: bold;
+          text-align: center;
+          letter-spacing: 2px;
+          background-color: #FFF;
+          color: #666;
+          cursor: pointer;
+          border: #666 1px solid;
+          transform: translateY(-1px);
+        }
+      }
+      .moto-user {
+        clear: right;
+        margin-bottom: 7px;
+        text-align: right;
+        font-size: 14px;
+        i {
+          color: #E38282;
+        }
+        > * {
+          color: #9A0000;
+          margin: 0 6px;
+        }
+      }
+    }
+  }
+  .banner-wrapper {
+    margin-bottom: 19px;
+    img {
+      width: 100%;
+    }
+  }
+  .moto-navbar {
+    ul.main-nav {
+      background-image: linear-gradient(-180deg, #363636 0%, #3A3A3A 16%, #0A0A0A 100%);
+      text-align: center;
+      margin: 0;
+      li {
+        display: inline-block;
+        a {
+          cursor: pointer;
+          display: block;
+          padding: 10px 17px;
+          font-size: 15px;
+          color: #FFFFFF;
+          letter-spacing: 2.49px;
+          text-decoration: none !important;
+          span {
+            color: #FFCD00;
+          }
+          &.active {
+            background: #FFFFFF;
+            position: relative;
+            color: #1C5BAB;
+            span {
+              color: #1C5BAB;
+            }
+            &:before {
+              content: '';
+              width: 100%;
+              height: 4px;
+              top: -4px;
+              left: 0;
+              position: absolute;
+              background: #54AAFD;
+              border-radius: 2px 2px 0 0;
+            }
+          }
+        }
+      }
+    }
+    ul.sec-nav {
+      margin: 0;
+      padding: 0 22px;
+      li {
+        display: inline-block;
+        &:last-child a:after {
+          display: none;
+        }
+        a {
+          cursor: pointer;
+          display: block;
+          padding: 10px;
+          font-size: 13px;
+          color: #1C5BAB;
+          text-decoration: none !important;
+          position: relative;
+          &:after {
+            content: '';
+            height: 1em;
+            border-right: 1px solid #cccccc;
+            position: absolute;
+            top: 12px;
+            right: -1px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -25,6 +25,13 @@ module.exports = function(grunt) {
           src: ["importer.scss"],
           dest: ".tmp/public/css/b2b/",
           ext: ".css"
+        } ,
+        {
+          expand: true,
+          cwd: "assets-motorworld/sass/",
+          src: ["importer.scss"],
+          dest: ".tmp/public/css/motorworld/",
+          ext: ".css"
         }
       ]
     }

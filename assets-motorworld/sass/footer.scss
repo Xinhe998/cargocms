@@ -1,0 +1,48 @@
+.moto-footer {
+  .footer-link {
+    margin-top: 1.3em;
+    margin-bottom: 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      &:first-child a {
+        padding: 0px 50px 10px 0px;
+      }
+      &:last-child a:after {
+        display: none;
+      }
+      a {
+        cursor: pointer;
+        display: block;
+        padding: 0px 50px;
+        font-size: 13px;
+        color: #4F85B8;
+        text-decoration: none !important;
+        position: relative;
+        &:after {
+          content: '';
+          height: 1em;
+          border-right: 1px solid #4F85B8;
+          position: absolute;
+          top: 2.6px;
+          right: -1px;
+        }
+      }
+    }
+  }
+  .footer-info {
+    text-align: center;
+    background: #4381B6;
+    color: white;
+    padding: 6px 0 4px;
+    a {
+      color: white;
+    }
+    > * {
+      padding: 0 1em;
+    }
+    span:first-child {
+      border-right: 1px solid white;
+    }
+  }
+}

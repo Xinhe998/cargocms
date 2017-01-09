@@ -1,0 +1,52 @@
+.moto-content {
+  .facebook-btn{
+    width: 330px;
+    margin: auto;
+    background: #39579A;
+    border-radius: 3px;
+    padding: 10px 28px;
+    font-size: 20px;
+    color: #FFFFFF;
+    i {
+      margin-right: 15px;
+    }
+  }
+  .or-divider {
+    margin: 45px 5.6em;
+    overflow: hidden;
+    position: relative;
+    &:before {
+      content: '';
+      display: block;
+      margin: 0 auto;
+      width: 100%;
+      border-bottom: 1px solid #909090;
+      position: absolute;
+      top: 29px;
+    }
+    &:after {
+      font-size: 18px;
+      color: #4A4A4A;
+      content: 'OR';
+      display: block;
+      margin: 5px auto;
+      text-align: center;
+      width: 47px;
+      height: 47px;
+      line-height: 47px;
+      border-radius: 50%;
+      border: 1px solid #909090;
+      position: relative;
+      background: white;
+    }
+  }
+  .login-form {
+    width: 330px;
+    margin: auto;
+    input {
+      box-shadow: none;
+      border: 1px solid #979797;
+      border-radius: 3px;
+    }
+  }
+}
