@@ -1,5 +1,22 @@
+<!--
 <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+-->
+
+<!-- jQuery Plugins -->
+<script type="text/javascript" src="/assets/unify/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/unify/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.unveil.js"></script>
+<script type="text/javascript" src="/assets/unify/plugins/jquery-validate/jquery.validate.min.js"></script>
+
+
+<!-- JS Page Level -->
+<% LayoutUtils.getScripts().forEach(function(scriptSrc) { %><script type="text/javascript" src="<%= scriptSrc %>"></script>
+<% }); %>
+
+<script type="text/javascript">
+<%- LayoutUtils.getScriptBlock() %>
+</script>
