@@ -124,7 +124,7 @@ function ShipCardDetail(props) {
               </tr>
               <tr>
                 <th>統一編號</th>
-                <td></td>
+                <td>{props.orderSupplier.taxId}</td>
               </tr>
             </table>
           </div>
