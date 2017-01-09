@@ -24,7 +24,8 @@ module.exports = {
       email: '168_seafood@gmail.com',
       telephone: '(04)-2201-1688',
       fax: '(04)-2201-1168',
-      address: '台中市清水區北提路'
+      address: '台中市清水區北提路',
+      taxId: '54891351'
     });
 
 
