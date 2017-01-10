@@ -9,5 +9,8 @@
   },
   "paths": {
     "views": "views-b2b"
+  },
+  "configLoader": {
+    "modules": ["labfnp"]
   }
 }
