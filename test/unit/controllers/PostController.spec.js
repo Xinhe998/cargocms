@@ -87,7 +87,7 @@ describe('about Post Controller operation.', function() {
 
         /*
         {
-          "message": "Create post success.",
+          "message": "get post success.",
           "success": true
           "data": [
             {
@@ -99,7 +99,9 @@ describe('about Post Controller operation.', function() {
               "type": "blog",
               "publish": true,
               "alias": "postAwesome",
-              "coverUrl": 'http://localhost:5001/blog/flower.jpg'
+              "cover": {
+                url: 'http://localhost:5001/blog/flower.jpg'
+              }
           },
         }
         */
