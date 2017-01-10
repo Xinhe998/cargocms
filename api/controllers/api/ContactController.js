@@ -15,7 +15,22 @@ module.exports = {
       let message = await Message.create(messageConfig);
       await MessageService.sendMail(message);
 
-      messageConfig = {name, email, phone, subject, content, success: true};
+      let adminRole = await Role.find({
+        where: {
+          authority: 'admin'
+        }
+      });
+      let admin = await User.findAll({
+        include:[{
+          model: Role,
+          where: {
+            id: adminRole.id
+          }
+        }]
+      })
+      const adminMail = ( user.map((data) => data.email) ).join(',');
+      
+      messageConfig = {name, email, phone, subject, content, success: true, adminMail};
       messageConfig = await MessageService.contactSendToAdmin(messageConfig);
       message = await Message.create(messageConfig);
       await MessageService.sendMail(message);

@@ -263,11 +263,11 @@ module.exports = {
     }
   },
   contactSendToAdmin: ( result = {
-    name, email, phone, subject, content, success
+    name, email, phone, subject, content, success, adminMail
   }) => {
     try{
       let contactConfirmTemplete = sails.config.mail.templete.contact.SendToAdmin;
-      let mailSendConfig = {...contactConfirmTemplete, to: sails.config.mail.admin};
+      let mailSendConfig = {...contactConfirmTemplete, to: adminMail};
 
       mailSendConfig.subject = sprintf(mailSendConfig.subject, {
         name: result.name,

@@ -168,5 +168,27 @@ describe('about User model operation.', function() {
         else done(e);
       }
     });
+
+    it('test find user include role', async (done) => {
+      try {
+        let adminRole = await Role.find({
+          where: {
+            authority: 'admin'
+          }
+        });
+        let user = await User.findAll({
+          include:[{
+            model: Role,
+            where: {
+              id: adminRole.id
+            }
+          }]
+        })
+        console.log((user.map((data) => data.email)).join(','));
+        done();
+      } catch (e) {
+        done(e)
+      }
+    });
   });
 });
