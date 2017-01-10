@@ -49,7 +49,7 @@ export function fetchShipListData(status) {
     // success
     if (fetchResult.status) {
       dispatch(deliverShipListData({ items: fetchResult.data.data }));
-      if (fetchResult.data.data.items.length > 0) {
+      if (fetchResult.data.data.length > 0) {
         dispatch(showToast('載入完成'));
       } else {
         dispatch(showToast('沒有資料'));
