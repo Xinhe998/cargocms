@@ -1,7 +1,9 @@
+/* @flow */
 import {
   postData,
 } from '../utils/fetchApi';
 import { showToast } from './toast';
+import { handleResponse } from './errorHandler';
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -11,7 +13,7 @@ export const FIND_SHIP_ITEM = 'FIND_SHIP_ITEM';
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function deliverShipListData(data) {
+export function deliverShipListData(data: Array = []) {
   return {
     type: GET_SHIP_LIST,
     list: data,
@@ -22,7 +24,6 @@ export function fetchShipListData() {
   return async(dispatch) => {
     const api = '/api/admin/suppliershiporder/all';
     const fetchResult = await postData(api);
-    let result = '';
     // success
     if (fetchResult.status) {
       dispatch(deliverShipListData(fetchResult.data.data));
@@ -31,19 +32,17 @@ export function fetchShipListData() {
       } else {
         dispatch(showToast('沒有資料'));
       }
+    // error
     } else {
-      // error
-      if (fetchResult.response) {
-        result = fetchResult.response.statusText;
-      } else {
-        result = fetchResult.message;
-      }
-      dispatch(showToast(result));
+      dispatch(handleResponse(fetchResult.response, fetchResult.message));
     }
   };
 }
 
-export function deliverFindShipItem(searchText, data) {
+export function deliverFindShipItem(
+  searchText: String = '',
+  data: Object = {},
+) {
   // console.log('deliverFindShipItem=>', data);
   return {
     type: FIND_SHIP_ITEM,
@@ -52,8 +51,8 @@ export function deliverFindShipItem(searchText, data) {
   };
 }
 
-export function fetchFindShipItem(value) {
-  return async(dispatch, getState) => {
+export function fetchFindShipItem(value: String = '') {
+  return async(dispatch) => {
     const api = '/api/admin/suppliershiporder/all';
     const query = {
       serverSidePaging: true,
@@ -91,7 +90,6 @@ export function fetchFindShipItem(value) {
       _: new Date().getTime(),
     };
     const fetchResult = await postData(api, query);
-    let result = '';
     // success
     if (fetchResult.status) {
       dispatch(deliverFindShipItem(value, { items: fetchResult.data.data }));
@@ -100,14 +98,9 @@ export function fetchFindShipItem(value) {
       } else {
         dispatch(showToast('沒有資料'));
       }
+    // error
     } else {
-      // error
-      if (fetchResult.response) {
-        result = fetchResult.response.statusText;
-      } else {
-        result = fetchResult.message;
-      }
-      dispatch(showToast(result));
+      dispatch(handleResponse(fetchResult.response, fetchResult.message));
     }
   };
 }
@@ -115,6 +108,8 @@ export function fetchFindShipItem(value) {
 export const actions = {
   deliverShipListData,
   fetchShipListData,
+  deliverFindShipItem,
+  fetchFindShipItem,
 };
 
 // ------------------------------------
