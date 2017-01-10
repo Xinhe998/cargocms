@@ -228,4 +228,33 @@ module.exports = {
       res.serverError(e);
     }
   },
+
+  updateStatus: async (req, res) => {
+    try{
+      const { id } = req.params;
+      const {status ,statusComment} = req.body;
+      console.log('new status ==>', status);
+
+      const orderStatus = await OrderStatus.findOne({
+        where: {
+          name: status
+        }
+      });
+      console.log('orderStatus ==>',  orderStatus);
+
+      const item = await Order.update({
+        OrderStatusId: orderStatus.id
+      },{
+        where: {
+          id
+        }
+      })
+
+      const message = '訂單狀態變更成功.';
+      res.ok({ message, data: { item } });
+
+    } catch (e) {
+      res.serverError(e);
+    }
+  }
 }
