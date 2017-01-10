@@ -132,7 +132,7 @@ appMain.DataTableInitComplete = function() {
           };
 
           $.ajax({
-            url: '/api/' + prefix + 'order/status' + '/' + orderId,
+            url: '/api/' + prefix + 'order/confirm' + '/' + orderId,
             type: 'PUT',
             dataType: 'json',
             data: {tracking:'CONFIRM'},
