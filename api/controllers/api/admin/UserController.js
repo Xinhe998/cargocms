@@ -1,6 +1,6 @@
 module.exports = {
 
-  findCurrentUser: async (req, res) => {
+  getCurrentUser: async (req, res) => {
     try {
       if (!req.user.id)
         throw Error('no login');
