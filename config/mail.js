@@ -206,7 +206,7 @@ var defaultConfig = {
         sendBy: 'email',
         subject: '%(storeName)s 客戶 %(name)s 詢問了 %(subject)s',
         html: `<html><body>
-        <br /><p>客戶 %(name)s 聯繫 LFP ！</p>
+        <br /><p>客戶 %(name)s 聯繫 %(storeName)s ！</p>
         <br />
         <br />聯繫內容：
         <br /><p> 客戶名稱：%(name)s </p>
