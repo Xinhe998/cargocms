@@ -69,7 +69,7 @@ appMain.DataTableInitComplete = function() {
 
   $("#main-table").delegate("[name='updateStatus']", 'change', function() {
     var that = this;
-    var id = $(this).data("id");
+    // var id = $(this).data("id");
     var orderId = $(this).attr("data-orderId");
     var selectedDesc = $(this).find('option:selected').text();
     var oldVal = $(this).attr('data-oldValue');
@@ -77,19 +77,34 @@ appMain.DataTableInitComplete = function() {
 
     var msgInfo = {
       title: '注意',
-      content: '確認更新訂單 ID: '+ orderId +' 訂單狀態為: '+ selectedDesc,
+      content: '確認更新訂單 ID: '+ orderId +' 訂單狀態為: '+ selectedDesc +
+      '<br/>請輸入變更狀態的事由：<br />'+
+      "<input id='statusComment' type='text' class='form-control'/>" +
+      "<br/>",
       btnArray: ['確認', '取消'],
     };
     var action = function(ButtonPressed) {
       if (ButtonPressed === '確認') {
+
         $(that).val(newVal);
+        var statusComment = $('#statusComment').val();
+        if(statusComment === ''){
+          messageApp.show({
+            desc: '請輸入變更狀態的理由',
+            type: 'error'
+          });
+          $(that).val(oldVal);
+          return 0;
+        }
+
         $.ajax({
-          url: '/api/admin/order/status/' + id,
+          url: '/api/admin/order/status/' + orderId,
           method: "put",
           dataType: 'json',
           cache: false,
           data:{
-            productionStatus: newVal
+            status: newVal,
+            statusComment: statusComment
           }
         }).done(function (result) {
           messageApp.show({
@@ -110,9 +125,23 @@ appMain.DataTableInitComplete = function() {
       var orderId = $(that).attr("data-id");
       $.SmartMessageBox({
         title : "確認訂單",
+        content:
+        '請輸入確定訂單的理由：<br />'+
+        "<input id='orderConfirmComment' type='text' class='form-control'/>" +
+        "<br/>",
         buttons : "[確認][取消]"
       }, function(ButtonPress) {
            if(ButtonPress === "取消"){
+             return 0;
+           }
+
+           var orderConfirmComment = $('#orderConfirmComment').val()
+
+           if(orderConfirmComment === ''){
+             messageApp.show({
+               desc: '請輸入確定訂單的理由',
+               type: 'error'
+             });
              return 0;
            }
 
@@ -126,7 +155,7 @@ appMain.DataTableInitComplete = function() {
 
           var ajaxError = function (result) {
             messageApp.show({
-              desc: '更新資料失敗！errorMessage: ' + result.responseJSON.message,
+              desc: '確認訂單失敗！errorMessage: ' + result.responseJSON.message,
               type: 'error'
             });
           };
@@ -135,7 +164,10 @@ appMain.DataTableInitComplete = function() {
             url: '/api/' + prefix + 'order/confirm' + '/' + orderId,
             type: 'PUT',
             dataType: 'json',
-            data: {tracking:'CONFIRM'},
+            data: {
+              tracking:'CONFIRM',
+              orderConfirmComment: orderConfirmComment
+            },
             xhrFields: {
             withCredentials: true,
             },
