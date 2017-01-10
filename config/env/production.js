@@ -11,6 +11,7 @@
  */
 
 module.exports = {
+  storeName: '',
   port: 5011,
   socials: ["facebook", "googleplus", "twitter"],
   /***************************************************************************

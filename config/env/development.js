@@ -11,6 +11,7 @@
  */
 
 module.exports = {
+  storeName: '',
   appUrl: 'cargo-dev.trunksys.com',
   port: 5001,
   socials: ["facebook", "googleplus", "twitter"],

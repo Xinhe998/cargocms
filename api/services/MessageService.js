@@ -17,7 +17,7 @@ module.exports = {
       });
 
       mailSendConfig.html = sprintf(mailSendConfig.html, {
-        storeName: 'LFP',
+        storeName: sails.config.storeName,
         username: user.username
       });
 
@@ -48,7 +48,7 @@ module.exports = {
       mailSendConfig.html = sprintf(mailSendConfig.html, {
         ...result,
         orderSerialNumber,
-        storeName: 'LFP',
+        storeName: sails.config.storeName,
         orderConfirmLink
       });
 
@@ -79,7 +79,7 @@ module.exports = {
       mailSendConfig.html = sprintf(mailSendConfig.html, {
         ...result,
         orderSerialNumber,
-        storeName: 'LFP',
+        storeName: sails.config.storeName,
         orderConfirmLink
       });
 
@@ -110,7 +110,7 @@ module.exports = {
       mailSendConfig.html = sprintf(mailSendConfig.html, {
         syncLink,
         email,
-        storeName: 'LFP',
+        storeName: sails.config.storeName,
         username: user.username
       });
 
@@ -133,7 +133,7 @@ module.exports = {
 
       mailSendConfig.subject = sprintf(mailSendConfig.subject, {orderSerialNumber: order.serialNumber});
       mailSendConfig.text = sprintf(mailSendConfig.text, {
-        storeName: 'LFP',
+        storeName: sails.config.storeName,
         username: order.username
       });
 
@@ -155,7 +155,7 @@ module.exports = {
 
       mailSendConfig.subject = sprintf(mailSendConfig.subject, {orderSerialNumber: order.serialNumber});
       mailSendConfig.text = sprintf(mailSendConfig.text, {
-        storeName: 'LFP',
+        storeName: sails.config.storeName,
         username: order.User.username
       });
 
@@ -177,7 +177,7 @@ module.exports = {
       mailSendConfig.html = sprintf(mailSendConfig.html, {
         username,
         url,
-        storeName: 'LFP',
+        storeName: sails.config.storeName,
       });
 
       mailSendConfig.type = 'forgotPassword';
@@ -202,7 +202,7 @@ module.exports = {
       mailSendConfig.html = sprintf(mailSendConfig.html, {
         ...result,
         orderSerialNumber,
-        storeName: 'LFP',
+        storeName: sails.config.storeName,
       });
 
       mailSendConfig.type = 'orderConfirm';
@@ -224,7 +224,7 @@ module.exports = {
 
       mailSendConfig.subject = sprintf(mailSendConfig.subject, {orderSerialNumber: order.serialNumber});
       mailSendConfig.text = sprintf(mailSendConfig.text, {
-        storeName: 'LFP',
+        storeName: sails.config.storeName,
         username: order.username,
         orderSerialNumber: order.serialNumber
       });
@@ -245,10 +245,10 @@ module.exports = {
 
       mailSendConfig.subject = sprintf(mailSendConfig.subject, {
         name: result.name,
-        storeName: 'LFP'
+        storeName: sails.config.storeName,
       });
       mailSendConfig.html    = sprintf(mailSendConfig.html, {
-        storeName: 'LFP',
+        storeName: sails.config.storeName,
         name: result.name,
         email: result.email,
         phone: result.phone,
@@ -263,15 +263,15 @@ module.exports = {
     }
   },
   contactSendToAdmin: ( result = {
-    name, email, phone, subject, content, success
+    name, email, phone, subject, content, success, adminMail
   }) => {
     try{
       let contactConfirmTemplete = sails.config.mail.templete.contact.SendToAdmin;
-      let mailSendConfig = {...contactConfirmTemplete, to: 'info@labfnp.com'};
+      let mailSendConfig = {...contactConfirmTemplete, to: result.adminMail};
 
       mailSendConfig.subject = sprintf(mailSendConfig.subject, {
         name: result.name,
-        storeName: 'LFP',
+        storeName: sails.config.storeName,
         subject: result.subject
       });
       mailSendConfig.html    = sprintf(mailSendConfig.html, {
@@ -279,7 +279,8 @@ module.exports = {
         email: result.email,
         phone: result.phone,
         subject: result.subject,
-        content: result.content
+        content: result.content,
+        storeName: sails.config.storeName,
       });
       mailSendConfig.type = 'contact';
       mailSendConfig.success = result.success;
@@ -301,7 +302,7 @@ module.exports = {
         type,
         username,
         url,
-        storeName: 'LFP',
+        storeName: sails.config.storeName,
       });
 
       mailSendConfig.type = 'newEmail';

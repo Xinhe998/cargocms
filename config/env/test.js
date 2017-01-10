@@ -11,6 +11,7 @@
  */
 
 module.exports = {
+  storeName: 'Test',
   port: 1338,
   socials: ["facebook", "googleplus", "twitter"],
   models: {
