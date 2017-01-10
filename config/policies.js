@@ -116,11 +116,23 @@ var defaultConfig = {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
     // '*': [],
   },
-  "api/admin/SupplierShipOrderDescriptionController": {
+  "api/admin/SupplierShipOrderProductController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
 
   "api/admin/OrderController": {
+    '*': ['passport', 'sessionAuth', 'isAdmin'],
+  },
+
+  "api/admin/OrderPaymentController": {
+    '*': ['passport', 'sessionAuth', 'isAdmin'],
+  },
+
+  "api/admin/OrderPaymentStatusController": {
+    '*': ['passport', 'sessionAuth', 'isAdmin'],
+  },
+
+  "api/admin/OrderPaymentHistoryController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
 

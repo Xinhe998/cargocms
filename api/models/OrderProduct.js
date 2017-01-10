@@ -57,11 +57,41 @@ module.exports = {
           sails.log.error(e);
         }
       }
+    },
+    formatTotal: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          let total = this.getDataValue('total');
+          if(!total){
+            return '';
+          }
+          return UtilsService.moneyFormat(total);
+
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
+    },
+    formatPrice: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          let price = this.getDataValue('price');
+          if(!price){
+            return '';
+          }
+
+          return UtilsService.moneyFormat(price);
+
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
     }
 
   },
   associations: () => {
-    OrderProduct.hasOne(SupplierShipOrderDescription);
     OrderProduct.belongsTo(Product);
     OrderProduct.belongsTo(Order);
   },

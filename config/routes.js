@@ -130,8 +130,8 @@ var defaultConfig = {
   'post  /api/admin/suppliershiporder/all': 'api/admin/SupplierShipOrderController.find',
   'put /api/admin/suppliershiporder/status/:id': 'api/admin/SupplierShipOrderController.status',
 
-  'post  /api/admin/suppliershiporderdescription/all': 'api/admin/SupplierShipOrderDescriptionController.find',
-  'put /api/admin/suppliershiporderdescription/status/:id': 'api/admin/SupplierShipOrderDescriptionController.status',
+  'post  /api/admin/suppliershiporderproduct/all': 'api/admin/SupplierShipOrderProductController.find',
+  'put /api/admin/suppliershiporderproduct/status/:id': 'api/admin/SupplierShipOrderProductController.status',
 
   'get /api/admin/order': 'api/admin/OrderController.find',
   'get /api/admin/order/:id': 'api/admin/OrderController.findOne',
@@ -157,12 +157,35 @@ var defaultConfig = {
   'put /api/admin/supplier/:id': 'api/admin/SupplierController.update',
   'delete /api/admin/supplier/:id': 'api/admin/SupplierController.destroy',
 
-  'get /api/admin/suppliershiporderdescription': 'api/admin/SupplierShipOrderDescriptionController.find',
-  'get /api/admin/suppliershiporderdescription/:id': 'api/admin/SupplierShipOrderDescriptionController.findOne',
-  'post /api/admin/suppliershiporderdescription': 'api/admin/SupplierShipOrderDescriptionController.create',
-  'put /api/admin/suppliershiporderdescription/:id': 'api/admin/SupplierShipOrderDescriptionController.update',
-  'delete /api/admin/suppliershiporderdescription/:id': 'api/admin/SupplierShipOrderDescriptionController.destroy',
+  'get /api/admin/suppliershiporderproduct': 'api/admin/SupplierShipOrderProductController.find',
+  'get /api/admin/suppliershiporderproduct/:id': 'api/admin/SupplierShipOrderProductController.findOne',
+  'post /api/admin/suppliershiporderproduct': 'api/admin/SupplierShipOrderProductController.create',
+  'put /api/admin/suppliershiporderproduct/:id': 'api/admin/SupplierShipOrderProductController.update',
+  'delete /api/admin/suppliershiporderproduct/:id': 'api/admin/SupplierShipOrderProductController.destroy',
 
+
+  'get /api/admin/orderpayment': 'api/admin/OrderPaymentController.find',
+  'get /api/admin/orderpayment/:id': 'api/admin/OrderPaymentController.findOne',
+  'post /api/admin/orderpayment': 'api/admin/OrderPaymentController.create',
+  'put /api/admin/orderpayment/:id': 'api/admin/OrderPaymentController.update',
+  'delete /api/admin/orderpayment/:id': 'api/admin/OrderPaymentController.destroy',
+
+  'get /api/admin/orderpaymentstatus': 'api/admin/OrderPaymentStatusController.find',
+  'get /api/admin/orderpaymentstatus/:id': 'api/admin/OrderPaymentStatusController.findOne',
+  'post /api/admin/orderpaymentstatus': 'api/admin/OrderPaymentStatusController.create',
+  'put /api/admin/orderpaymentstatus/:id': 'api/admin/OrderPaymentStatusController.update',
+  'delete /api/admin/orderpaymentstatus/:id': 'api/admin/OrderPaymentStatusController.destroy',
+
+  'get /api/admin/orderpaymenthistory': 'api/admin/OrderPaymentHistoryController.find',
+  'get /api/admin/orderpaymenthistory/:id': 'api/admin/OrderPaymentHistoryController.findOne',
+  'post /api/admin/orderpaymenthistory': 'api/admin/OrderPaymentHistoryController.create',
+  'put /api/admin/orderpaymenthistory/:id': 'api/admin/OrderPaymentHistoryController.update',
+  'delete /api/admin/orderpaymenthistory/:id': 'api/admin/OrderPaymentHistoryController.destroy',
+
+  'get /api/product': 'api/ProductController.find',
+
+  'get /orderinfo/:id': 'api/OrderController.getOrderInfo',
+  'post /order': 'api/OrderController.createOrder',
 
   //----- Event -----
   'get /events/:name': 'EventController.show',
@@ -205,8 +228,16 @@ module.exports.routes = {
 
 
   '/': {
-    view: 'index'
+    controller: 'b2b/ProductController',
+    action: 'index'
   },
+
+  'get /product': 'b2b/ProductController.index',
+
+  '/order/form': {
+    view: 'b2b/order/form'
+  },
+
   'get /ship/*': function(req, res, next) {
     console.log("=== ship path ==="+sails.config.appPath + '/react-app-ship/dist/index.html');
     res.sendfile(sails.config.appPath + '/react-app-ship/dist/index.html');

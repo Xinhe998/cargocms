@@ -55,17 +55,46 @@ module.exports.bootstrap = async (cb) => {
       defaults: {authority: 'user'}
     });
 
-
     let adminUser = await User.findOne({
-      where: {username: 'admin'}
+      where: {
+        username: 'admin'
+      }
     });
-    if(adminUser == null){
+    if(adminUser === null) {
       adminUser = await User.create({
         username: 'admin',
         email: 'admin@example.com',
         firstName: '李仁',
         lastName: '管'
-      })
+      });
+    }
+
+    await Passport.findOrCreate({
+      where: {
+        provider: 'local',
+        UserId: adminUser.id
+      },
+      defaults: {
+        provider: 'local',
+        password: 'admin',
+        UserId: adminUser.id
+      }
+    });
+    await adminUser.addRole(adminRole[0]);
+
+    //admin2
+    adminUser = await User.findOne({
+      where: {
+        username: 'admin2'
+      }
+    });
+    if(adminUser === null) {
+      adminUser = await User.create({
+        username: 'admin2',
+        email: 'admin2@example.com',
+        firstName: '管理',
+        lastName: '員'
+      });
     }
     await Passport.findOrCreate({
       where: {
@@ -78,7 +107,7 @@ module.exports.bootstrap = async (cb) => {
         UserId: adminUser.id
       }
     });
-    console.log("=== bootstrap create admin 4===");
+
     await adminUser.addRole(adminRole[0]);
 
     console.log("=== bootstrap create admin 5===");

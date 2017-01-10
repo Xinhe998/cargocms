@@ -2,67 +2,67 @@ module.exports = {
   createOrder: async (req, res) => {
     try{
       let data = req.body;
-      const products = data.products;
+      const loginUser = AuthService.getSessionUser(req);
+      data.UserId = loginUser.id;
 
-      // data remove products
-      delete data.products;
-      //ignore columns
-      data.customField = '';
-      data.paymentCompany = '';
-      data.paymentAddress2 = '';
-      data.paymentCountry = '';
-      data.paymentCountryId = 0;
-      data.paymentZone = '';
-      data.paymentZoneId = 0;
-      data.paymentAddressFormat = '';
-      data.paymentCustomField = '';
-      data.shippingCompany = '';
-      data.shippingAddress2 = '';
-      data.shippingCountry = '';
-      data.shippingCountryId = 0;
-      data.shippingZone = '';
-      data.shippingZoneId = 0;
-      data.shippingAddressFormat = '';
-      data.shippingCustomField = '';
-      data.commission = 0.0000;
-      data.marketingId = 0;
-      data.languageId = 0;
-      data.acceptLanguage = '';
-
-      const user = await User.findById(data.UserId);
-      data.firstname = user.firstName;
-      data.lastname  = user.lastName;
-
-      const order = await Order.create(data);
-      sails.log.info("new Order Create", order);
-
-      for(let p of products){
-        let product = await Product.find({
-          where: {
-            id: p.id,
-          },
-          include: ProductDescription
-        });
-        await OrderProduct.create({
-          ProductId: product.id,
-          OrderId: order.id,
-          name: product.ProductDescription.name,
-          model: product.model,
-          quantity: p.quantity,
-          price: product.price,
-          total: (product.price * p.quantity),
-          tax: (product.price * p.quantity) * 0.05,
-          // reward: 0
-        });
+      if( data.firstname !== loginUser.firstName || data.lastname  !== loginUser.lastName){
+        data.firstname = loginUser.firstName;
+        data.lastname  = loginUser.lastName;
       }
+
+      // some data can fetch from request
+      data.userAgent = req.header["user-agent"] || '';
+      data.ip = req.ip;
+      // not sure which should record
+      data.forwardedIp = req.headers["X-Real-IP"] || '';
+      // data.forwardedIp = req.headers["X-Forwarded-For"] || '';
+      data.acceptLanguage = req.header["accept-language"] || '';
+
+      const { order , orderProduct } = await OrderService.createOrder(data);
+
       const message = 'Order create success';
+
       res.ok({
+        message,
+        data: {
+          item: order,
+          product: orderProduct
+        },
+      }, {
+        redirect: `/orderinfo/${order.id}`,
+      });
+      // return res.redirect(`/orderinfo/${order.id}`);
+
+    } catch (e) {
+      res.serverError(e);
+    }
+  },
+
+  getOrderInfo: async (req, res) => {
+    try{
+      const orderId = req.params.id;
+      const order = await Order.findById(orderId,{ include: [ User , OrderStatus ]});
+
+      if(!order){
+        return res.notFound();
+      }
+
+      const orderProduct = await OrderProduct.findAll({
+        where: {
+          OrderId: order.id
+        }
+      })
+      const message = 'get Order info success';
+
+      res.view('b2b/order/index',{
         message: message,
         data: {
-          item: order
+          item: order,
+          product: orderProduct,
         }
       });
-    } catch (e) {
+
+    } catch(e) {
       res.serverError(e);
     }
   }
