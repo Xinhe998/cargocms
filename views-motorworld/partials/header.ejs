@@ -16,7 +16,11 @@
       <div class="moto-user">
         <span>共有 168,100 位會員</span>
         <a href="/register"><i class="fa fa-user" aria-hidden="true"></i> 註冊會員</a>
-        <a href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> 登入</a>
+        <% if (!req.session.authenticated) { %>
+          <a href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> 登入</a>
+        <% } else { %>
+          <a class="logout-link" href="javascript: void(0)"><i class="fa fa-sign-in" aria-hidden="true"></i> 登出</a>
+        <% }%>
       </div>
     </div>
   </div>
@@ -25,3 +29,26 @@
   </div>
   <%- include navbar.inc.ejs %>
 </header>
+
+
+<% LayoutUtils.addScriptBlock(`
+  $('.logout-link').click(function(){
+    swal({
+      title: '確認',
+      text: '您確定要登出了嗎？',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: "#e6caa8",
+      confirmButtonText: "登出",
+      cancelButtonText: "取消",
+      closeOnConfirm: true,
+      closeOnCancel: true,
+    },function(isConform){
+      if(isConform){
+        open('/logout', '_self');
+      }else{
+        swal.close();
+      }
+    });
+  });
+`); %>
