@@ -21,9 +21,13 @@ export function deliverErrorStatus(response, message) {
 }
 
 export function handleResponse(
-  response: Object = {},
-  message: String = '',
+  result: Object = {
+    response: {},
+    message: '',
+  },
 ) {
+  const response = result.response;
+  const message = result.message;
   return (dispatch) => {
     switch (response.status) {
       case 403:
@@ -36,6 +40,7 @@ export function handleResponse(
       default:
         break;
     }
+    console.error(message);
     dispatch(deliverErrorStatus(response, message));
     dispatch(showToast(message));
   };

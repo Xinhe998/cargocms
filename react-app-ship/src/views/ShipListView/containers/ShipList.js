@@ -13,7 +13,7 @@ import '../_style.scss';
 import {
   showToast,
   closeToast,
-} from '../../../redux/modules/toast';
+} from '../../../redux/utils/toast';
 import {
   fetchShipListData,
   fetchFindShipItem,

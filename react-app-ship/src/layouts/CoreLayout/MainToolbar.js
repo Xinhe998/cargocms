@@ -6,6 +6,7 @@ import {
   ToolbarSeparator,
   ToolbarTitle,
 } from 'material-ui/Toolbar';
+import { Link } from 'react-router';
 import {
   IconMenu,
   IconButton,
@@ -13,7 +14,7 @@ import {
   MenuItem,
 } from 'material-ui';
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
-import classes from './_style.scss';
+import './_style.scss';
 
 const styles = {
   toolbar: {
@@ -83,9 +84,11 @@ export default class MainToolbar extends React.Component {
       <Toolbar style={styles.toolbar}>
         {/* <ToolbarSeparator style={styles.white} /> */}
         <ToolbarGroup firstChild={true}>
-          <FontIcon className='material-icons' style={styles.white}>
-            account_circle
-          </FontIcon>
+          <Link to={'/ship'}>
+            <FontIcon className='material-icons' style={styles.white}>
+              account_circle
+            </FontIcon>
+          </Link>
           <ToolbarTitle text='一尾鮮魚活海產' style={styles.title} />
           <IconMenu
             style={styles.iconMenu}
@@ -95,8 +98,12 @@ export default class MainToolbar extends React.Component {
               </IconButton>
             }
           >
-            <MenuItem primaryText='Download' />
-            <MenuItem primaryText='More Info' />
+            <Link to={'/ship'}>
+              <MenuItem primaryText='個人資料' />
+            </Link>
+            <Link to={'/ship'}>
+              <MenuItem primaryText='登  出' />
+            </Link>
           </IconMenu>
         </ToolbarGroup>
       </Toolbar>

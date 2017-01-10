@@ -1,7 +1,7 @@
 import {
   getData,
 } from '../utils/fetchApi';
-import { showToast } from './toast';
+import { handleResponse } from '../utils/errorHandler';
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -21,18 +21,12 @@ export function deliverCurrentUserData(data) {
 export function fetchCurrentUserData() {
   return async(dispatch) => {
     const fetchResult = await getData(API_GET_CURRENT_USER);
-    let result = '';
     // success
     if (fetchResult.status) {
       dispatch(deliverCurrentUserData(fetchResult.data.data.currentUser));
+    // error
     } else {
-      // error
-      if (fetchResult.response) {
-        result = fetchResult.response.statusText;
-      } else {
-        result = fetchResult.message;
-      }
-      dispatch(showToast(result));
+      dispatch(handleResponse(fetchResult));
     }
   };
 }

@@ -13,7 +13,10 @@ import FormsyInput from '../../components/FormsyInput';
 import {
   showToast,
   closeToast,
-} from '../../redux/modules/toast';
+} from '../../redux/utils/toast';
+import {
+  fetchCurrentUserData,
+} from '../../redux/modules/user';
 import './_style.scss';
 
 const muiTheme = getMuiTheme({
@@ -29,21 +32,24 @@ const muiTheme = getMuiTheme({
   dispatch => bindActionCreators({
     showToast,
     closeToast,
+    fetchCurrentUserData,
   }, dispatch),
 ) export default class Login extends React.Component {
   static defaultProps = {
     showToast: null,
     closeToast: null,
     toast: {},
+    fetchCurrentUserData: null,
   };
 
   static propTypes = {
     showToast: PropTypes.func,
     closeToast: PropTypes.func,
     toast: PropTypes.object,
+    fetchCurrentUserData: PropTypes.func,
   };
 
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
       canSubmit: false,
@@ -67,6 +73,9 @@ const muiTheme = getMuiTheme({
   submit = () => {
     // FIXME: 需要登入 api ，目前暫時用 form 表單
     document.querySelector('.login-form form').submit();
+    // TODO: 登入表單會引發 locatonChange 會導致遺失 store 資訊
+    // 所以正常情況下應該是要發 api 取得資訊之後再取得 CurrentUserData.
+    this.props.fetchCurrentUserData();
   }
 
   render() {

@@ -13,7 +13,7 @@ import DrawerMenuItems from './DrawerMenuItems';
 import {
   showToast,
   closeToast,
-} from '../../redux/modules/toast';
+} from '../../redux/utils/toast';
 import {
   fetchCurrentUserData,
 } from '../../redux/modules/user';

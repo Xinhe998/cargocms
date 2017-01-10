@@ -14,7 +14,9 @@ import MaterialUi from 'views/MaterialUi/MaterialUi';
 import ShipList from 'views/ShipListView';
 
 function redirectToLogin(props, replace) {
-  // if (Lang.isUndefined(props.auth)) {
+  // TODO: 有登入 api 之後需要啟用這隻 func 以便在進去後台前就先檢查是否已登入
+  // if (Lang.isUndefined(props.user) || Lang.isEmpty(props.user.currentUser)) {
+  //   console.error('please login.');
   //   replace({
   //     pathname: '/ship/login',
   //   });
