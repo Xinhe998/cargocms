@@ -245,7 +245,7 @@ module.exports = {
 
       mailSendConfig.subject = sprintf(mailSendConfig.subject, {
         name: result.name,
-        storeName: 'LFP'
+        storeName: sails.config.storeName,
       });
       mailSendConfig.html    = sprintf(mailSendConfig.html, {
         storeName: sails.config.storeName,
