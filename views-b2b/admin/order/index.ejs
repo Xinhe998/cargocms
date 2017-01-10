@@ -31,7 +31,8 @@
       <th width="" class="" data-hide="always"> ForwardedIP</th>
       <th width="" class="" data-hide="always"> userAgent</th>
       <th width="" class="" data-hide="always"> 建立時間</th>
-			<th width="" class="" data-hide="phone,tablet"></th>
+      <th width="" class="" data-hide=""> 訂單狀態</th>
+			<th width="120px" class="" data-hide="phone,tablet"></th>
 		</tr>
 	</thead>
 	<!-- client only -->
@@ -65,6 +66,7 @@
       <td>{{ item.forwardedIp }}</td>
       <td>{{ item.userAgent }}</td>
       <td>{{ item.createdDateTime.dateTime }}</td>
+      <td>{{ item.OrderStatus.name }}</td>
 			<td align="center" style="cursor: pointer;">
 				<div class="row">
 					<a class="btn btn-default btn-xs" role="button" v-on:click="show(item.id)">
@@ -81,6 +83,9 @@
 
 
 <script type="text/javascript">
+
+  var statusList =  '<%= data.orderStatus %>'.split(',') ;
+
 	var pagefunction = function() {
 
 		// server only
@@ -113,6 +118,7 @@
       { "data": "forwardedIp" },
       { "data": "userAgent" },
       { "data": "createdAt"},
+      { "data": null },
 			{ "data": null }
 		]
 
@@ -136,8 +142,24 @@
           return '<td>' + row.createdDateTime.dateTime + '</td>';
         }
       },
+      {
+        "searchable": true,
+        "targets": 28,
+        "render": function (data, type, row) {
+          var orderStatus =  row.OrderStatus.name;
+          var output = '<select class="form-control input-xs" data-oldValue ="'+ row.OrderStatus.name + '"data-id="'+ row.OrderStatusId +'" data-orderId="'+ row.id + '" name="updateStatus">';
+
+          for( var i = 0 ; i < statusList.length; i++) {
+            var option = statusList[i];
+            output = output + `'<option value="${statusList[i]}" ${ orderStatus == statusList[i] ? 'selected' : ''}>${statusList[i]}</option>'`
+          }
+
+          output = output + '<select>';
+          return output;
+        }
+      },
 			{
-				"targets"  : 28,
+				"targets"  : 29,
 				"orderable": false,
 				"searchable": false,
 				"render": function ( data, type, row ) {
@@ -149,6 +171,9 @@
 						'<a name="editDataButton" class="btn btn-default btn-xs" role="button" data-id="'+row.id+'">'+
 							'<i class="fa-fw fa fa-pencil-square-o text-muted"/>'+
 						'</a>'+
+            '<a name="orderConfirm" class="btn btn-default btn-xs'+(( !data.tracking) ? " hidden ": "") +'" role="button" data-id="'+ row.id +'">'+
+              '<i class="fa-fw fa fa-check text-muted"/>'+
+            '</a>'+
 					'</div>';
 					return colBody;
 				}
