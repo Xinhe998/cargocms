@@ -11,7 +11,7 @@
  */
 
 module.exports = {
-  storeName: 'MotorWorld',
+  storeName: '',
   port: 5011,
   socials: ["facebook", "googleplus", "twitter"],
   /***************************************************************************
