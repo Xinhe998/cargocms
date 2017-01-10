@@ -117,6 +117,23 @@ module.exports = {
         as: 'Tags'
       }
     }),
+
+    Post.belongsToMany(Category,  {
+      through: 'PostCategory',
+      foreignKey: {
+        name: 'PostId',
+        as: 'Categories'
+      }
+    }),
+
+    Category.belongsToMany(Post,  {
+      through: 'PostCategory',
+      foreignKey: {
+        name: 'CategoryId',
+        as: 'Posts'
+      }
+    }),
+
     Post.belongsTo(Image, {
       foreignKey: {
         name: 'cover'
