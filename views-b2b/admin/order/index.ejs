@@ -147,7 +147,7 @@
         "targets": 28,
         "render": function (data, type, row) {
           var orderStatus =  row.OrderStatus.name;
-          var output = '<select class="form-control input-xs" data-oldValue ="'+ row.OrderStatus.name + '"data-id="'+ row.OrderStatusId +'" data-orderId="'+ row.id + '" name="updateStatus">';
+          var output = '<select class="form-control input-xs" data-oldValue ="'+ row.OrderStatus.name + '" data-orderId="'+ row.id + '" name="updateStatus">';
 
           for( var i = 0 ; i < statusList.length; i++) {
             var option = statusList[i];
