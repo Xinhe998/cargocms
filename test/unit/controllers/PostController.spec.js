@@ -67,13 +67,43 @@ describe('about Post Controller operation.', function() {
       }
     });
 
-    it('get all post', async(done) => {
+    it.only('get all post', async(done) => {
       try {
         const res = await request(sails.hooks.http.app)
         .get(`/api/admin/post`);
         sails.log.info(JSON.stringify(res.body, null, 2));
         res.status.should.be.eq(200);
         res.body.should.be.Object;
+        done()
+      } catch (e) {
+        done(e)
+      }
+    });
+
+    it.skip('get all post alias without admin', async(done) => {
+      try {
+        const res = await request(sails.hooks.http.app)
+        .get(`/api/post?CategoryId=1`);
+
+        /*
+        {
+          "message": "Create post success.",
+          "success": true
+          "data": [
+            {
+              "title": "香味的一沙一世界2",
+              "content": "我們可以這樣形容，當你手中捧到一束花時，可以聞到花束中的各種花材（ex:玫瑰、康乃馨..等)所組成的『這束花的味道』，接著抽出其中的一朵康乃馨",
+              "url": "http://localhost:5001/blog/flower",
+              "abstract": "我們可以這樣形容，當你手中捧到一束花時，可以聞到花束中的各種花材",
+              "coverType": "img",
+              "type": "blog",
+              "publish": true,
+              "cover": 1,
+          },
+        }
+        */
+
+
         done()
       } catch (e) {
         done(e)

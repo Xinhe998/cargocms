@@ -8,7 +8,7 @@ describe("about Mailer service", () => {
     }
   }
 
-  it.only('send paymentConfirm', async (done) => {
+  it('send paymentConfirm', async (done) => {
 
     try {
       let messageConfig = await MessageService.paymentConfirm({

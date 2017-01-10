@@ -20,7 +20,7 @@ describe.skip('about category Controller operation.', function() {
              metaTitle: 'meta title 1',
              metaDescription: 'meta desc 1',
              metaKeyword: 'meta,keyword,test,1',
-           }
+          },
          }]
       }
       */
