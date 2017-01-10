@@ -94,20 +94,12 @@
     </tr>
   </table>
 
-  <a href="javascript: void(0)" role="button" class="btn btn-default btn-lg pull-right paid" style="clear:right; display:inline-block; margin:1.6em 0 3em;">付款</a>
+  <a href="/" role="button" class="btn btn-default btn-lg pull-right paid" style="clear:right; display:inline-block; margin:1.6em 0 3em;">繼續選購</a>
 
 </div>
 
 <% LayoutUtils.addScriptBlock(`
   $(document).ready(function(){
-    $('.paid').click(function(){
-      $.ajax({
-        type: 'POST',
-        url: '/api/admin/order/confirm/${data.item.id}',
-        success: function(data) {
-          swal("付款完成!!!")
-        }
-      });
-    });
+    
   })
 `); %>
