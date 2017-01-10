@@ -82,7 +82,7 @@ const inputDelayer = null;
   }
 
   componentWillMount() {
-    this.props.fetchShipListData('NEW');
+    this.props.fetchShipListData('PROCESSING');
   }
 
   shouldComponentUpdate(nextProps, nextState) {
