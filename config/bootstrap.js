@@ -43,11 +43,13 @@ module.exports.bootstrap = async (cb) => {
 
     }
 
+    console.log("=== bootstrap create admin 0===");
+
     let adminRole = await Role.findOrCreate({
       where: {authority: 'admin'},
       defaults: {authority: 'admin'}
     });
-
+    console.log("=== bootstrap create admin 1===");
     let userRole = await Role.findOrCreate({
       where: {authority: 'user'},
       defaults: {authority: 'user'}
@@ -58,7 +60,7 @@ module.exports.bootstrap = async (cb) => {
         username: 'admin'
       }
     });
-    if(adminUser === null){
+    if(adminUser === null) {
       adminUser = await User.create({
         username: 'admin',
         email: 'admin@example.com',
@@ -66,6 +68,7 @@ module.exports.bootstrap = async (cb) => {
         lastName: '管'
       });
     }
+
     await Passport.findOrCreate({
       where: {
         provider: 'local',
@@ -85,7 +88,7 @@ module.exports.bootstrap = async (cb) => {
         username: 'admin2'
       }
     });
-    if(adminUser === null){
+    if(adminUser === null) {
       adminUser = await User.create({
         username: 'admin2',
         email: 'admin2@example.com',
@@ -104,9 +107,10 @@ module.exports.bootstrap = async (cb) => {
         UserId: adminUser.id
       }
     });
+
     await adminUser.addRole(adminRole[0]);
 
-
+    console.log("=== bootstrap create admin 5===");
     /*
      * 是否要匯入的判斷必須交給 init 定義的程式負責
      */

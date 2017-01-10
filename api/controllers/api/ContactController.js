@@ -28,8 +28,8 @@ module.exports = {
           }
         }]
       })
-      const adminMail = ( user.map((data) => data.email) ).join(',');
-      
+      const adminMail = ( admin.map((data) => data.email) ).join(',');
+
       messageConfig = {name, email, phone, subject, content, success: true, adminMail};
       messageConfig = await MessageService.contactSendToAdmin(messageConfig);
       message = await Message.create(messageConfig);

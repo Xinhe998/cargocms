@@ -245,7 +245,7 @@ module.exports = {
 
       mailSendConfig.subject = sprintf(mailSendConfig.subject, {
         name: result.name,
-        storeName: 'LFP'
+        storeName: sails.config.storeName,
       });
       mailSendConfig.html    = sprintf(mailSendConfig.html, {
         storeName: sails.config.storeName,
@@ -267,7 +267,7 @@ module.exports = {
   }) => {
     try{
       let contactConfirmTemplete = sails.config.mail.templete.contact.SendToAdmin;
-      let mailSendConfig = {...contactConfirmTemplete, to: adminMail};
+      let mailSendConfig = {...contactConfirmTemplete, to: result.adminMail};
 
       mailSendConfig.subject = sprintf(mailSendConfig.subject, {
         name: result.name,
