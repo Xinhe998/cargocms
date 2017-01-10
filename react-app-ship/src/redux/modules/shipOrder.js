@@ -1,4 +1,6 @@
+
 /* @flow */
+import Lang from 'lodash';
 import {
   postData,
 } from '../utils/fetchApi';
@@ -9,6 +11,7 @@ import { handleResponse } from './errorHandler';
 // ------------------------------------
 export const GET_SHIP_LIST = 'GET_SHIP_LIST';
 export const FIND_SHIP_ITEM = 'FIND_SHIP_ITEM';
+const API_SHIP_LIST = '/api/admin/suppliershiporder/all';
 
 // ------------------------------------
 // Actions
@@ -21,13 +24,32 @@ export function deliverShipListData(data: Array = []) {
 }
 
 export function fetchShipListData() {
-  return async(dispatch) => {
-    const api = '/api/admin/suppliershiporder/all';
-    const fetchResult = await postData(api);
+  return async(dispatch, getState) => {
+    const query = {
+      serverSidePaging: true,
+      startDate: '1900/01/01',
+      endDate: '3000/01/01',
+      where: {
+        SupplierId: getState().user.currentUser.Supplier.id,
+      },
+      columns: [],
+      order: [{
+        column: 0,
+        dir: 'asc',
+      }],
+      search: {
+        value: '',
+        regex: false,
+      },
+      length: 1000,
+      start: 0,
+      _: new Date().getTime(),
+    };
+    const fetchResult = await postData(API_SHIP_LIST, query);
     // success
     if (fetchResult.status) {
       dispatch(deliverShipListData(fetchResult.data.data));
-      if (fetchResult.data.data.items.length > 0) {
+      if (!Lang.isEmpty(fetchResult.data.data)) {
         dispatch(showToast('載入完成'));
       } else {
         dispatch(showToast('沒有資料'));
@@ -51,9 +73,8 @@ export function deliverFindShipItem(
   };
 }
 
-export function fetchFindShipItem(value: String = '') {
-  return async(dispatch) => {
-    const api = '/api/admin/suppliershiporder/all';
+export function fetchFindShipItem(value) {
+  return async(dispatch, getState) => {
     const query = {
       serverSidePaging: true,
       startDate: '1900/01/01',
@@ -78,10 +99,19 @@ export function fetchFindShipItem(value: String = '') {
           concat: ['lastname', 'firstname'],
         },
       },
-        { data: 'email', searchable: 'true' },
-        { data: 'telephone', searchable: 'true' },
-        { data: 'paymentAddress1', searchable: 'true' },
-        { data: 'paymentCity', searchable: 'true' },
+      {
+        data: '',
+        searchable: true,
+        search: {
+          where: {
+            SupplierId: getState().user.Supplier.id,
+          },
+        },
+      },
+      { data: 'email', searchable: 'true' },
+      { data: 'telephone', searchable: 'true' },
+      { data: 'paymentAddress1', searchable: 'true' },
+      { data: 'paymentCity', searchable: 'true' },
       ],
       order: [{ column: '0', dir: 'asc' }],
       start: 0,
@@ -89,7 +119,7 @@ export function fetchFindShipItem(value: String = '') {
       search: { value, regex: 'false' },
       _: new Date().getTime(),
     };
-    const fetchResult = await postData(api, query);
+    const fetchResult = await postData(API_SHIP_LIST, query);
     // success
     if (fetchResult.status) {
       dispatch(deliverFindShipItem(value, { items: fetchResult.data.data }));
