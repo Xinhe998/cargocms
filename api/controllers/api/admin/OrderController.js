@@ -129,9 +129,16 @@ module.exports = {
   confirm: async (req, res) => {
     try{
       const { id } = req.params;
+      const { tracking, orderConfirmComment } = req.body;
       let order = await Order.findById(id);
-      order.tracking = "CONFIRM";
+      order.tracking = tracking;
       await order.save();
+
+      await OrderHistory.create({
+        notify: true,
+        comment: `訂單 ID: ${id} 確認訂單，確認理由：${orderConfirmComment}.`,
+        OrderId: order.id
+      });
 
       const orderProducts = await OrderProduct.findAll({
         where:{
@@ -233,14 +240,12 @@ module.exports = {
     try{
       const { id } = req.params;
       const {status ,statusComment} = req.body;
-      console.log('new status ==>', status);
 
       const orderStatus = await OrderStatus.findOne({
         where: {
           name: status
         }
       });
-      console.log('orderStatus ==>',  orderStatus);
 
       const item = await Order.update({
         OrderStatusId: orderStatus.id
@@ -249,6 +254,13 @@ module.exports = {
           id
         }
       })
+
+      await OrderHistory.create({
+        notify: true,
+        comment: `訂單 ID:${id} 變更狀態:${status}，變更理由:${statusComment}.`,
+        OrderId: id,
+        OrderStatudId: orderStatus.id
+      });
 
       const message = '訂單狀態變更成功.';
       res.ok({ message, data: { item } });
