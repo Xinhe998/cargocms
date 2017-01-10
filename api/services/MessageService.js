@@ -127,7 +127,7 @@ module.exports = {
     email, serialNumber, username
   }) => {
     try {
-
+      console.log(sails.config.mail, sails.config.urls);
       var paymentConfirmTemplete = sails.config.mail.templete.paymentConfirm;
       var mailSendConfig = {...paymentConfirmTemplete, to: order.email};
 
