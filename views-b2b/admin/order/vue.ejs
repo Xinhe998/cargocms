@@ -63,3 +63,89 @@ appMain.editDisabled = function(){
   $('label.fn-edit-disabled > input').attr('disabled', true);
   $('label.fn-edit-disabled').addClass('state-disabled');
 }
+
+appMain.DataTableInitComplete = function() {
+  $('.loading-wrapper').removeClass('active');
+
+  $("#main-table").delegate("[name='updateStatus']", 'change', function() {
+    var that = this;
+    var id = $(this).data("id");
+    var orderId = $(this).attr("data-orderId");
+    var selectedDesc = $(this).find('option:selected').text();
+    var oldVal = $(this).attr('data-oldValue');
+    var newVal = $(this).val();
+
+    var msgInfo = {
+      title: '注意',
+      content: '確認更新訂單 ID: '+ orderId +' 訂單狀態為: '+ selectedDesc,
+      btnArray: ['確認', '取消'],
+    };
+    var action = function(ButtonPressed) {
+      if (ButtonPressed === '確認') {
+        $(that).val(newVal);
+        $.ajax({
+          url: '/api/admin/order/status/' + id,
+          method: "put",
+          dataType: 'json',
+          cache: false,
+          data:{
+            productionStatus: newVal
+          }
+        }).done(function (result) {
+          messageApp.show({
+            desc: result.message,
+            type: 'success'
+          });
+          defaultTable.api().ajax.reload(null, false);
+        });
+      } else {
+        $(that).val(oldVal);
+      }
+    };
+    messageApp.confirm(msgInfo, action);
+  });
+
+  $("#main-table").delegate("[name='orderConfirm']","click", function(e) {
+      var that = this;
+      var orderId = $(that).attr("data-id");
+      $.SmartMessageBox({
+        title : "確認訂單",
+        buttons : "[確認][取消]"
+      }, function(ButtonPress) {
+           if(ButtonPress === "取消"){
+             return 0;
+           }
+
+           var ajaxSuccess = function (result) {
+             location.href = '/admin/#/admin/' + modelName;
+             messageApp.show({
+             desc: '確認訂單成功！',
+             type: 'success'
+             });
+           }; // end ajaxSuccess
+
+          var ajaxError = function (result) {
+            messageApp.show({
+              desc: '更新資料失敗！errorMessage: ' + result.responseJSON.message,
+              type: 'error'
+            });
+          };
+
+          $.ajax({
+            url: '/api/' + prefix + 'order/status' + '/' + orderId,
+            type: 'PUT',
+            dataType: 'json',
+            data: {tracking:'CONFIRM'},
+            xhrFields: {
+            withCredentials: true,
+            },
+            success: ajaxSuccess,
+            error: ajaxError,
+          }).done(function(result){
+            defaultTable.api().ajax.reload(null, false);
+          });
+         }
+      );
+      e.preventDefault();
+  });
+}
