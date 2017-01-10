@@ -18,14 +18,37 @@ export function deliverShipListData(data) {
   };
 }
 
-export function fetchShipListData() {
+export function fetchShipListData(status) {
   return async(dispatch) => {
     const api = '/api/admin/suppliershiporder/all';
-    const fetchResult = await postData(api);
+    let query = {}
+    if(status){
+      query = {
+        serverSidePaging: true,
+        startDate: '1900/01/01',
+        endDate: '3000/01/01',
+        columns: [{
+          data: 'status',
+          searchable: true,
+          search: {
+            custom: {
+              where: status
+            }
+          }
+        }],
+        order: [{ column: '0', dir: 'asc' }],
+        start: 0,
+        length: 999999,
+        search: { value: '', regex: 'false' },
+        _: new Date().getTime(),
+      }
+    }
+
+    const fetchResult = await postData(api, query);
     let result = '';
     // success
     if (fetchResult.status) {
-      dispatch(deliverShipListData(fetchResult.data.data));
+      dispatch(deliverShipListData({ items: fetchResult.data.data }));
       if (fetchResult.data.data.items.length > 0) {
         dispatch(showToast('載入完成'));
       } else {
