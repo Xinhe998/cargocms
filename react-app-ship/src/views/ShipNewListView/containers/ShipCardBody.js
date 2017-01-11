@@ -90,10 +90,12 @@ import {
                 id: this.props.shipOrderId,
                 data: { status, comment }
               });
+              this.setState({dialogShipOpen: false});
             }
           }
           open={this.state.dialogShipOpen}
           toast={this.props.toast}
+          input={true}
         />
         <DialogShip
           content={'確定要列印出貨單嗎？'}
