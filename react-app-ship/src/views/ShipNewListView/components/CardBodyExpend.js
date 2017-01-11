@@ -36,7 +36,7 @@ function CardBodyExpend(props) {
         <div className='main-title'>
           <FlatButton
             className='btn-shipping'
-            label='完成配送'
+            label='確認訂單'
             onClick={props.handleBtnShip}
           />
           <FlatButton
