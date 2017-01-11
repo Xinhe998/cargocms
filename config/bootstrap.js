@@ -92,15 +92,16 @@ module.exports.bootstrap = async (cb) => {
       {name: 'mail', path: "orderConfirm.subject", value: "", description: ""},
       {name: 'mail', path: "orderConfirm.html", value: "", type: "editor", description: ""},
 
-      {name: 'mail', path: "contact.Confirm.sendBy", value: "", description: ""},
-      {name: 'mail', path: "contact.Confirm.subject", value: "", description: ""},
-      {name: 'mail', path: "contact.Confirm.html", value: "", description: ""},
-      {name: 'mail', path: "contact.Confirm.to", value: "", description: ""},
+      {name: 'mail', path: "contact.confirm.sendBy", value: "", description: ""},
+      {name: 'mail', path: "contact.confirm.subject", value: "", description: ""},
+      {name: 'mail', path: "contact.confirm.html", value: "", description: ""},
+      {name: 'mail', path: "contact.confirm.to", value: "", description: ""},
 
-      {name: 'mail', path: "contact.SendToAdmin.sendBy", value: "", description: ""},
-      {name: 'mail', path: "contact.SendToAdmin.subject", value: "", description: ""},
-      {name: 'mail', path: "contact.SendToAdmin.html", value: "", description: ""},
-      {name: 'mail', path: "contact.SendToAdmin.to", value: "", description: ""},
+      {name: 'mail', path: "contact.sendToAdmin.sendBy", value: "", description: ""},
+      {name: 'mail', path: "contact.sendToAdmin.subject", value: "", description: ""},
+      {name: 'mail', path: "contact.sendToAdmin.html", value: "", description: ""},
+      {name: 'mail', path: "contact.sendToAdmin.to", value: "", description: ""},
+
 
       {name: 'reCAPTCHA', path: "key", value: "", description: ""},
       {name: 'reCAPTCHA', path: "secret", value: "", description: ""},
