@@ -86,6 +86,44 @@ module.exports.bootstrap = async (cb) => {
      * 是否要匯入的判斷必須交給 init 定義的程式負責
      */
 
+    let config = [
+
+      {name: 'mail', path: "orderConfirm.sendBy", value: "", description: ""},
+      {name: 'mail', path: "orderConfirm.subject", value: "", description: ""},
+      {name: 'mail', path: "orderConfirm.html", value: "", description: ""},
+
+      {name: 'reCAPTCHA', path: "key", value: "", description: ""},
+      {name: 'reCAPTCHA', path: "secret", value: "", description: ""},
+
+      {name: 'facebook', path: "accessToken", value: "", description: ""},
+      {name: 'facebook', path: "pageId", value: "", description: ""},
+
+      {name: 'google', path: "analytics.accountid", value: "", description: ""},
+      {name: 'google', path: "analytics.send", value: "", description: ""},
+
+      {name: 'website', path: "store.name", value: "", description: ""},
+      {name: 'website', path: "admin.login.title", value: "", description: ""},
+      {name: 'website', path: "admin.login.footer", value: "", description: ""},
+      {name: 'website', path: "admin.dashboard.title", value: "", description: ""},
+      {name: 'website', path: "admin.dashboard.footer", value: "", description: ""},
+      {name: 'website', path: "admin.dashboard.logo", value: "", type: "file", description: ""},
+
+      {name: 'website', path: "title", value: "", description: ""},
+      {name: 'website', path: "meta.author", value: "", description: ""},
+      {name: 'website', path: "meta.description", value: "", description: ""},
+      {name: 'website', path: "meta.og.site_name", value: "", description: ""},
+      {name: 'website', path: "meta.og.locale", value: "", description: ""},
+      {name: 'website', path: "meta.og.image", value: "", type: "file", description: ""},
+      {name: 'website', path: "meta.og.image.type", value: "", description: ""},
+      {name: 'website', path: "meta.og.image.width", value: "", description: ""},
+      {name: 'website', path: "meta.og.image.height", value: "", description: ""},
+      {name: 'website', path: "meta.og.title", value: "", description: ""},
+      {name: 'website', path: "meta.og.description", value: "", description: ""},
+      {name: 'website', path: "meta.og.type", value: "", description: ""},
+      {name: 'website', path: "favicon", value: "", type: "file", description: ""}
+
+    ]
+
     if (environment !== 'test') {
       // 自動掃描 init 底下的 module 資料夾後執行資料初始化
       fs.readdir('./config/init/', async function(err, files) {
