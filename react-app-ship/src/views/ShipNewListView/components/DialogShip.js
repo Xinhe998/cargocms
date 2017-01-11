@@ -39,19 +39,24 @@ function DialogShip(props) {
       label={props.rightLable}
       primary={true}
       keyboardFocused={true}
-      onTouchTap={() => {props.rightOnPress('123123')}}
+      onTouchTap={() => {
+        props.rightOnPress('PROCESSING', '這是測試的內容')
+      }}
     />,
   ];
   return (
     <div className='dialog-wrapper'>
       <Dialog
-        title={props.title}
+        title={ props.title }
         actions={dialogActions}
         modal={false}
         open={props.open}
         onRequestClose={props.leftOnPress}
       >
-       {props.content}
+        {props.content}
+        <p />
+        <p>請輸入變更訂單狀態的理由</p>
+        <input value={}></input>
       </Dialog>
     </div>
   );

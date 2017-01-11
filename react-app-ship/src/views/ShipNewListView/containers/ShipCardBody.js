@@ -2,8 +2,22 @@ import React, { PropTypes } from 'react';
 import CardBodyNormal from '../components/CardBodyNormal';
 import CardBodyExpend from '../components/CardBodyExpend';
 import DialogShip from '../components/DialogShip';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {
+  updateShipOrderStatus
+} from '../../../redux/modules/shipOrder';
 
-export default class ShipCardBody extends React.Component {
+@connect(
+  state => ({
+    // shipOrder: state.shipOrder,
+    // toast: state.toast,
+    // user: state.user,
+  }),
+  dispatch => bindActionCreators({
+    updateShipOrderStatus
+  }, dispatch),
+) export default class ShipCardBody extends React.Component {
   static defaultProps = {
     toast: null,
     isExpend: false,
@@ -70,7 +84,14 @@ export default class ShipCardBody extends React.Component {
           content={'確認訂單資訊'}
           modal={false}
           leftOnPress={this.handleDialogShipClose}
-          rightOnPress={(a) => {console.log(a)}}
+          rightOnPress={
+            (status, comment) => {
+              this.props.updateShipOrderStatus({
+                id: this.props.shipOrderId,
+                data: { status, comment }
+              });
+            }
+          }
           open={this.state.dialogShipOpen}
           toast={this.props.toast}
         />
