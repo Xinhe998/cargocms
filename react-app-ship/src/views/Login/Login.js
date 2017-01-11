@@ -1,5 +1,7 @@
 /* @flow */
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Formsy from 'formsy-react';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -8,7 +10,13 @@ import { Snackbar } from 'material-ui';
 import Crab from './crab.png';
 import FishLogo from './fish logo.png';
 import FormsyInput from '../../components/FormsyInput';
-// import axios from 'axios';
+import {
+  showToast,
+  closeToast,
+} from '../../redux/utils/toast';
+import {
+  fetchCurrentUserData,
+} from '../../redux/modules/user';
 import './_style.scss';
 
 const muiTheme = getMuiTheme({
@@ -17,32 +25,57 @@ const muiTheme = getMuiTheme({
   },
 });
 
-export default class Login extends React.Component {
-  constructor() {
+@connect(
+  state => ({
+    toast: state.toast,
+  }),
+  dispatch => bindActionCreators({
+    showToast,
+    closeToast,
+    fetchCurrentUserData,
+  }, dispatch),
+) export default class Login extends React.Component {
+  static defaultProps = {
+    showToast: null,
+    closeToast: null,
+    toast: {},
+    fetchCurrentUserData: null,
+  };
+
+  static propTypes = {
+    showToast: PropTypes.func,
+    closeToast: PropTypes.func,
+    toast: PropTypes.object,
+    fetchCurrentUserData: PropTypes.func,
+  };
+
+  constructor(props) {
     super();
     this.state = {
       canSubmit: false,
-      open: false,
     };
   }
 
   enableButton = () => {
     this.setState({
       canSubmit: true,
-      open: false,
     });
+    this.props.closeToast();
   }
 
   disableButton = () => {
     this.setState({
       canSubmit: false,
-      open: true,
     });
+    this.props.showToast('尚有欄位未填寫');
   }
 
   submit = () => {
     // FIXME: 需要登入 api ，目前暫時用 form 表單
     document.querySelector('.login-form form').submit();
+    // TODO: 登入表單會引發 locatonChange 會導致遺失 store 資訊
+    // 所以正常情況下應該是要發 api 取得資訊之後再取得 CurrentUserData.
+    this.props.fetchCurrentUserData();
   }
 
   render() {
@@ -61,15 +94,17 @@ export default class Login extends React.Component {
                 onValid={this.enableButton}
                 onInvalid={this.disableButton}
               >
-                <label>帳號</label>
+                <label htmlFor={this.identifier}>帳號</label>
                 <FormsyInput
+                  ref={(c) => { this.identifier = c; }}
                   name='identifier'
                   placeholder='Username'
                   className='form-control margin-bottom-20'
                   required={true}
                 />
-                <label>密碼</label>
+                <label htmlFor={this.password}>密碼</label>
                 <FormsyInput
+                  ref={(c) => { this.password = c; }}
                   type='password'
                   name='password'
                   placeholder='Password'
@@ -77,7 +112,11 @@ export default class Login extends React.Component {
                   required={true}
                 />
                 <a className='forget-password' href='#!'>忘記密碼？</a>
-                <button type='submit' disabled={!this.state.canSubmit} className='btn login-btn'>登入系統</button>
+                <button
+                  type='submit'
+                  disabled={!this.state.canSubmit}
+                  className='btn login-btn'
+                >登入系統</button>
               </Formsy.Form>
             </div>
             <div className='login-form-footer'>
@@ -96,8 +135,8 @@ export default class Login extends React.Component {
             </div>
           </div>
           <Snackbar
-            open={this.state.open}
-            message='尚有欄位未填寫'
+            open={this.props.toast.open}
+            message={this.props.toast.msg}
             autoHideDuration={4000}
           />
         </div>

@@ -27,7 +27,7 @@ const muiTheme = getMuiTheme({
 class Main extends Component {
   constructor(props, context) {
     super(props, context);
-    injectTapEventPlugin();
+    // injectTapEventPlugin();
     this.state = {
       open: false,
     };
