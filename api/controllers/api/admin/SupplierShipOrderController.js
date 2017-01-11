@@ -140,6 +140,9 @@ module.exports = {
       })
       .then(function() {
         switch (status) {
+          case 'COMPLETED':
+            return updateSupplierShipOrderProductStatus('COMPLETED', transaction);
+            break;
           case 'PROCESSING':
             return updateSupplierShipOrderProductStatus('PROCESSING', transaction);
             break;
