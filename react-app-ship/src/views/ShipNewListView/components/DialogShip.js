@@ -2,67 +2,97 @@ import React, { PropTypes } from 'react';
 import {
   Dialog,
   FlatButton,
+  TextField,
 } from 'material-ui';
 
-const defaultProps = {
-  open: false,
-  leftLable: '取消',
-  rightLable: '確定',
-  leftOnPress: () => {},
-  rightOnPress: () => {},
-  content: '',
-  title: '提示',
-};
+// function handleClose(props) {
+//   this.props.close();
+//   console.log('dialog closeed');
+// }
 
-const propTypes = {
-  open: PropTypes.bool,
-  content: PropTypes.string,
-  leftLable: PropTypes.string,
-  rightLable: PropTypes.string,
-  leftOnPress: PropTypes.func,
-  rightOnPress: PropTypes.func,
-};
+export default class DialogShip extends React.Component {
+  static defaultProps = {
+    open: false,
+    leftLable: '取消',
+    rightLable: '確定',
+    leftOnPress: () => {},
+    rightOnPress: () => {},
+    content: '',
+    title: '提示',
+    input: false,
+  };
 
-function handleClose(props) {
-  props.close();
-  console.log('dialog closeed');
+  static propTypes = {
+    open: PropTypes.bool,
+    content: PropTypes.string,
+    leftLable: PropTypes.string,
+    rightLable: PropTypes.string,
+    leftOnPress: PropTypes.func,
+    rightOnPress: PropTypes.func,
+    input: PropTypes.bool,
+  };
+
+  constructor(props) {
+    super();
+    this.state = {
+      value: '',
+      errorText: '',
+    };
+  }
+
+  handleChange = (event) => {
+    console.log(event.target.value);
+    this.setState({
+      value: event.target.value,
+      errorText: '',
+    });
+  };
+
+  render() {
+
+    const dialogActions = [
+      <FlatButton
+        label={this.props.leftLable}
+        primary={true}
+        onTouchTap={this.props.leftOnPress}
+        />,
+      <FlatButton
+        label={this.props.rightLable}
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={() => {
+          if (this.state.value){
+            this.props.rightOnPress(
+              'PROCESSING',
+              this.state.value
+            )
+          } else {
+            this.setState({errorText: '請輸入事由'})
+          }
+        }}
+        />,
+    ];
+
+    return (
+      <div className='dialog-wrapper'>
+        <Dialog
+          title={ this.props.title }
+          actions={dialogActions}
+          modal={false}
+          open={this.props.open}
+          onRequestClose={this.props.leftOnPress}
+        >
+          {this.props.content}
+          <p />
+          {
+            this.props.input ? <TextField
+              hintText="請輸入變更訂單狀態的理由"
+              onChange={this.handleChange}
+              errorText={this.state.errorText}
+            /> : null
+          }
+        </Dialog>
+      </div>
+    );
+  }
 }
-
-function DialogShip(props) {
-  const dialogActions = [
-    <FlatButton
-      label={props.leftLable}
-      primary={true}
-      onTouchTap={props.leftOnPress}
-    />,
-    <FlatButton
-      label={props.rightLable}
-      primary={true}
-      keyboardFocused={true}
-      onTouchTap={() => {
-        props.rightOnPress('PROCESSING', '這是測試的內容')
-      }}
-    />,
-  ];
-  return (
-    <div className='dialog-wrapper'>
-      <Dialog
-        title={ props.title }
-        actions={dialogActions}
-        modal={false}
-        open={props.open}
-        onRequestClose={props.leftOnPress}
-      >
-        {props.content}
-        <p />
-        <p>請輸入變更訂單狀態的理由</p>
-        <input value={}></input>
-      </Dialog>
-    </div>
-  );
-}
-
-DialogShip.defaultProps = defaultProps;
-DialogShip.propTypes = propTypes;
-
-export default DialogShip;
