@@ -129,9 +129,19 @@ module.exports = {
   confirm: async (req, res) => {
     try{
       const { id } = req.params;
+      const orderStatus = await OrderStatus.findOne({where:{name: 'PROCESSING'}})
       let order = await Order.findById(id);
       order.tracking = "CONFIRM";
+      order.OrderStatusId = orderStatus.id;
       await order.save();
+
+      await OrderHistory.create({
+        OrderId: order.id,
+        OrderStatusId: orderStatus.id,
+        comment: `User ID: ${order.UserId} ,CONFIRM Order ID: ${order.id}. Order Status: 'PROCESSING'.`,
+      });
+
+      sails.log.info('Order CONFIRM', Order);
 
       const orderProducts = await OrderProduct.findAll({
         where:{
@@ -199,6 +209,14 @@ module.exports = {
           userAgent: order.userAgent,
           acceptLanguage: order.acceptLanguage,
           status: 'NEW',
+        });
+
+        const supplierName = await Supplier.findById(supplier);
+
+        await SupplierShipOrderHistory.create({
+          SupplierShipOrderId: supplierShipOrder.id,
+          notify: true,
+          comment: `訂單 ID: ${supplierShipOrder.OrderId} 已確認，建立 ${supplierName.name} 供應商出貨單 ID:${supplierShipOrder.id}.`
         });
 
         for( let orderProduct of orderProducts ){

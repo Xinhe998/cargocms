@@ -4,12 +4,16 @@
 <!-- SCRIPTS ON PAGE EVENT -->
 <script type="text/javascript">
 
+
 	var pagefunction = function() {
 		<%- include vue.ejs %>
-
 		appMain.$mount("#main-edit");
-		appMain.loadItem();
-    appMain.noEditButton();
+		appMain.loadItem(function() {
+      appMain.onEnterPageEdit();
+      appMain.editDisabled();
+      appMain.enableText();
+    });
+		appMain.setupForm("edit");
 	};
 
 </script>

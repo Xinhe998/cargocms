@@ -19,6 +19,8 @@ describe('about admin Supplier Ship Order controllers', () => {
         address2: '台中市',
       });
 
+      await createHelper.orderStatus();
+
       order = await createHelper.order(user.id);
 
       product1 = await createHelper.product('毒刺水母涼拌海蜇皮');
@@ -34,6 +36,11 @@ describe('about admin Supplier Ship Order controllers', () => {
     } catch (e) {
       done(e);
     }
+  });
+
+  after(async (done) => {
+    await createHelper.deleteAllOrderStatus();
+    done();
   });
 
   describe('none admin', () => {
@@ -109,6 +116,13 @@ describe('about admin Supplier Ship Order controllers', () => {
         const checkSupplierShipOrderProduct = await SupplierShipOrderProduct.findById(supplierShipOrderProduct1.id);
         checkSupplierShipOrderProduct.status.should.be.eq('PROCESSING');
 
+        const checkSupplierShipOrderHistory = await SupplierShipOrderHistory.findAll({
+          where: {
+            SupplierShipOrderId: supplierShipOrder1.id
+          }
+        });
+        (checkSupplierShipOrderHistory.length > 0).should.be.true;
+
         done();
       } catch (e) {
         done(e);
@@ -129,6 +143,13 @@ describe('about admin Supplier Ship Order controllers', () => {
 
         const checkSupplierShipOrderProduct = await SupplierShipOrderProduct.findById(supplierShipOrderProduct1.id);
         checkSupplierShipOrderProduct.status.should.be.eq('CANCELLED');
+
+        const checkSupplierShipOrderHistory = await SupplierShipOrderHistory.findAll({
+          where: {
+            SupplierShipOrderId: supplierShipOrder1.id
+          }
+        });
+        checkSupplierShipOrderHistory.length.should.be.equal(2);
 
         done();
       } catch (e) {
@@ -158,6 +179,13 @@ describe('about admin Supplier Ship Order controllers', () => {
             status: 'CANCELLED',
           });
           res.status.should.be.eq(500);
+
+          const checkSupplierShipOrderHistory = await SupplierShipOrderHistory.findAll({
+            where: {
+              SupplierShipOrderId: supplierShipOrder1.id
+            }
+          });
+          (checkSupplierShipOrderHistory.length > 0).should.be.true;
           done()
         } catch (e) {
           done(e)
