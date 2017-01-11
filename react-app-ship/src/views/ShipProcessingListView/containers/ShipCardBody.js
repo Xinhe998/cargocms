@@ -5,8 +5,7 @@ import DialogShip from '../components/DialogShip';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  updateShipOrderStatus,
-  fetchShipListData
+  updateShipOrderStatus
 } from '../../../redux/modules/shipOrder';
 
 @connect(
@@ -16,8 +15,7 @@ import {
     // user: state.user,
   }),
   dispatch => bindActionCreators({
-    updateShipOrderStatus,
-    fetchShipListData
+    updateShipOrderStatus
   }, dispatch),
 ) export default class ShipCardBody extends React.Component {
   static defaultProps = {
@@ -93,7 +91,6 @@ import {
                 data: { status, comment }
               });
               this.setState({dialogShipOpen: false});
-              this.props.fetchShipListData('PROCESSING')
             }
           }
           open={this.state.dialogShipOpen}

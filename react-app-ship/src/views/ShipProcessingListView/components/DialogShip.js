@@ -63,7 +63,7 @@ export default class DialogShip extends React.Component {
           if (this.state.value){
             this.props.rightOnPress(
               'SHIPPED',
-              this.state.value
+              this.state.value,
             )
           } else {
             this.setState({errorText: '請輸入事由'})
