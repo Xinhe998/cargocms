@@ -3,7 +3,7 @@
 import Lang from 'lodash';
 import {
   postData,
-  putData
+  putData,
 } from '../utils/fetchApi';
 import { showToast } from '../utils/toast';
 import { handleResponse } from '../utils/errorHandler';
@@ -24,7 +24,7 @@ export function deliverShipListData(data: Array = []) {
   };
 }
 
-export function fetchShipListData( status ) {
+export function fetchShipListData(status) {
   return async(dispatch, getState) => {
     const query = {
       serverSidePaging: true,
@@ -37,18 +37,18 @@ export function fetchShipListData( status ) {
           search: {
             custom: {
               where: getState().user.currentUser.Supplier.id,
-            }
-          }
+            },
+          },
         },
         {
           data: 'status',
           searchable: true,
           search: {
             custom: {
-              where: status ? status : { $not: ''}
-            }
-          }
-        }
+              where: status ? status : { $not: '' },
+            },
+          },
+        },
       ],
       order: [{
         column: 0,
@@ -65,9 +65,8 @@ export function fetchShipListData( status ) {
     const fetchResult = await postData(API_SHIP_LIST, query);
 
     // success
-    console.log("fetchResult ==>", fetchResult);
+    // console.log("fetchResult ==>", fetchResult);
     if (fetchResult.status) {
-
       dispatch(deliverShipListData(fetchResult.data.data));
       if (!Lang.isEmpty(fetchResult.data.data)) {
         dispatch(showToast('載入完成'));
@@ -164,7 +163,7 @@ export function fetchFindShipItem(value, status) {
   };
 }
 
-export function updateShipOrderStatus({id ,data, status}) {
+export function updateShipOrderStatus({ id, data, status }) {
   return async(dispatch, getState) => {
     const api = '/api/admin/suppliershiporder/status/' + id;
 

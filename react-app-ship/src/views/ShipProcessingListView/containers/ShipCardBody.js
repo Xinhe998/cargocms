@@ -57,10 +57,11 @@ import {
 
   handleDialogPrintOpen = (event) => {
     this.stopPropagation(event);
-    const state = this.state.dialogPrintOpen;
-    this.setState({
-      dialogPrintOpen: !state,
-    });
+    window.print();
+    // const state = this.state.dialogPrintOpen;
+    // this.setState({
+    //   dialogPrintOpen: !state,
+    // });
   }
 
   handleDialogPrintClose = () => {
@@ -102,7 +103,7 @@ import {
           content={'確定要列印出貨單嗎？'}
           modal={false}
           leftOnPress={this.handleDialogPrintClose}
-          rightOnPress={() => {console.log("!!!!!");}}
+          rightOnPress={this.handleDialogPrintOpen}
           open={this.state.dialogPrintOpen}
           toast={this.props.toast}
         />

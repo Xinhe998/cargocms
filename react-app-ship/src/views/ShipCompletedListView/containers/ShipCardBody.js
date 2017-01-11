@@ -43,10 +43,11 @@ export default class ShipCardBody extends React.Component {
 
   handleDialogPrintOpen = (event) => {
     this.stopPropagation(event);
-    const state = this.state.dialogPrintOpen;
-    this.setState({
-      dialogPrintOpen: !state,
-    });
+    window.print();
+    // const state = this.state.dialogPrintOpen;
+    // this.setState({
+    //   dialogPrintOpen: !state,
+    // });
   }
 
   handleDialogPrintClose = () => {

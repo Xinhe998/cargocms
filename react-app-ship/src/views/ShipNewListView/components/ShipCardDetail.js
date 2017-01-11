@@ -64,7 +64,7 @@ const propTypes = {
 
 function ShipCardDetail(props) {
   return (
-    <div className='card-deatil'>
+    <div className='card-deatil print'>
       <div className='row'>
 
         <div className='col-xs-12 row'>

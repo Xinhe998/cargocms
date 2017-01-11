@@ -21,12 +21,16 @@ import {
   static defaultProps = {
     toast: null,
     isExpend: false,
+    updateShipOrderStatus: null,
+    status: '',
   };
 
   static propTypes = {
     shipOrderId: PropTypes.number,
     toast: PropTypes.func,
     isExpend: PropTypes.bool,
+    updateShipOrderStatus: PropTypes.func,
+    status: PropTypes.string,
   };
 
   constructor(props, context) {
@@ -57,10 +61,11 @@ import {
 
   handleDialogPrintOpen = (event) => {
     this.stopPropagation(event);
-    const state = this.state.dialogPrintOpen;
-    this.setState({
-      dialogPrintOpen: !state,
-    });
+    window.print();
+    // const state = this.state.dialogPrintOpen;
+    // this.setState({
+    //   dialogPrintOpen: !state,
+    // });
   }
 
   handleDialogPrintClose = () => {
@@ -91,7 +96,7 @@ import {
                 data: { status, comment },
                 status: this.props.status,
               });
-              this.setState({dialogShipOpen: false});
+              this.setState({ dialogShipOpen: false });
             }
           }
           open={this.state.dialogShipOpen}
@@ -102,11 +107,7 @@ import {
           content={'確定要列印出貨單嗎？'}
           modal={false}
           leftOnPress={this.handleDialogPrintClose}
-          rightOnPress={
-            () => {
-              console.log('!!!!!!!!');
-            }
-          }
+          rightOnPress={this.handleDialogPrintOpen}
           open={this.state.dialogPrintOpen}
           toast={this.props.toast}
         />

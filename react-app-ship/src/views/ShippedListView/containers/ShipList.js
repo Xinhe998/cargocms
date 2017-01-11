@@ -158,7 +158,7 @@ const styles = {
     }
     return (
       <div className='container' >
-        <div className='row' style={styles.searchBarContainer}>
+        <div className='row searchBar' style={styles.searchBarContainer}>
           <div className='col-xs-1'>
             <FontIcon
               className='material-icons'
