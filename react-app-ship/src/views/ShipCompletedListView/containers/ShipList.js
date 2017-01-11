@@ -120,7 +120,7 @@ const inputDelayer = null;
         const nil = Lang.isNil(searchText);
         const empty = Lang.isEmpty(searchText);
         if (!nil && !empty) {
-          this.props.fetchFindShipItem(searchText);
+          this.props.fetchFindShipItem(searchText, 'COMPLETED');
         } else {
           this.props.fetchShipListData();
         }

@@ -75,7 +75,7 @@ export function deliverFindShipItem(searchText, data) {
   };
 }
 
-export function fetchFindShipItem(value) {
+export function fetchFindShipItem(value, status) {
   return async(dispatch, getState) => {
     const api = '/api/admin/suppliershiporder/all';
     const query = {
@@ -106,6 +106,15 @@ export function fetchFindShipItem(value) {
         { data: 'telephone', searchable: 'true' },
         { data: 'paymentAddress1', searchable: 'true' },
         { data: 'paymentCity', searchable: 'true' },
+      {
+        data: 'status',
+        searchable: true,
+        search: {
+          custom: {
+            where: status ? status : { $not: ''}
+          }
+        }
+      }
       ],
       order: [{ column: '0', dir: 'asc' }],
       start: 0,
