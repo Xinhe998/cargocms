@@ -101,7 +101,9 @@ describe('about Post Controller operation.', function() {
               "alias": "postAwesome",
               "cover": {
                 url: 'http://localhost:5001/blog/flower.jpg'
-              }
+              },
+              createdAt: ""
+              updatedAt: ""
           },
         }
         */
