@@ -198,7 +198,6 @@ export const actions = {
 // ------------------------------------
 export const ACTION_HANDLERS = {
   [GET_SHIP_LIST]: (state = {}, action) => {
-    console.log("!!", action.list);
     return ({
       ...state,
       list: action.list,
