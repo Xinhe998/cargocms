@@ -1,0 +1,21 @@
+@media print
+ {
+    .appBar {
+      visibility: hidden;
+    }
+    .drawerContainer {
+      visibility: hidden;
+    }
+    .cardbody-wrapper {
+      visibility: hidden;
+    }
+    .stepper-wrapper {
+      visibility: hidden;
+    }
+    .searchBar {
+      visibility: hidden;
+    }
+    .print {
+      width: 100%;
+    }
+ }
