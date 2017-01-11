@@ -88,7 +88,8 @@ import {
             (status, comment) => {
               this.props.updateShipOrderStatus({
                 id: this.props.shipOrderId,
-                data: { status, comment }
+                data: { status, comment },
+                status: this.props.status,
               });
               this.setState({dialogShipOpen: false});
             }
