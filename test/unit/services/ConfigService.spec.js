@@ -11,7 +11,7 @@ describe.skip('about Config Service operation.', function() {
 
   });
 
-  it('config model 更新後，重新載入 sails.fonfig', async (done) => {
+  it('config model 更新後，重新載入 sails.config', async (done) => {
 
     try {
       let result = ConfigService.load();
@@ -26,7 +26,7 @@ describe.skip('about Config Service operation.', function() {
   it('相關 service 重新初始，如：email, passport', async (done) => {
 
     try {
-      let result = ConfigService.init();
+      let result = ConfigService.initService();
       result.should.be.true;
       done();
     } catch (e) {
