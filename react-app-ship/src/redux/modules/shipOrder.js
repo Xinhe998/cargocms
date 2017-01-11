@@ -164,7 +164,7 @@ export function fetchFindShipItem(value, status) {
   };
 }
 
-export function updateShipOrderStatus(id ,data) {
+export function updateShipOrderStatus({id ,data}) {
   return async(dispatch, getState) => {
     const api = '/api/admin/suppliershiporder/status/' + id;
 
