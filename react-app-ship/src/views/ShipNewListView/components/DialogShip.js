@@ -6,12 +6,21 @@ import {
 
 const defaultProps = {
   open: false,
-  close: null,
+  leftLable: '取消',
+  rightLable: '確定',
+  leftOnPress: () => {},
+  rightOnPress: () => {},
+  content: '',
+  title: '提示',
 };
 
 const propTypes = {
   open: PropTypes.bool,
-  close: PropTypes.func,
+  content: PropTypes.string,
+  leftLable: PropTypes.string,
+  rightLable: PropTypes.string,
+  leftOnPress: PropTypes.func,
+  rightOnPress: PropTypes.func,
 };
 
 function handleClose(props) {
@@ -22,27 +31,27 @@ function handleClose(props) {
 function DialogShip(props) {
   const dialogActions = [
     <FlatButton
-      label='取消'
+      label={props.leftLable}
       primary={true}
-      onTouchTap={props.close}
+      onTouchTap={props.leftOnPress}
     />,
     <FlatButton
-      label='確定'
+      label={props.rightLable}
       primary={true}
       keyboardFocused={true}
-      onTouchTap={props.close}
+      onTouchTap={() => {props.rightOnPress('123123')}}
     />,
   ];
   return (
     <div className='dialog-wrapper'>
       <Dialog
-        title='提示'
+        title={props.title}
         actions={dialogActions}
         modal={false}
         open={props.open}
-        onRequestClose={props.close}
+        onRequestClose={props.leftOnPress}
       >
-       請再次確認本訂單已經完成配送！
+       {props.content}
       </Dialog>
     </div>
   );
