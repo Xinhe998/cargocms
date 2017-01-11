@@ -1,5 +1,6 @@
 import {
   postData,
+  putData
 } from '../utils/fetchApi';
 import { showToast } from './toast';
 // ------------------------------------
@@ -134,6 +135,27 @@ export function fetchFindShipItem(value, status) {
       }
     } else {
       // error
+      if (fetchResult.response) {
+        result = fetchResult.response.statusText;
+      } else {
+        result = fetchResult.message;
+      }
+      dispatch(showToast(result));
+    }
+  };
+}
+
+export function updateShipOrderStatus(id ,data) {
+  return async(dispatch, getState) => {
+    const api = '/api/admin/suppliershiporder/status/' + id;
+
+    const fetchResult = await putData(api, data);
+    let result = '';
+    // success
+    if (fetchResult) {
+      dispatch(showToast('更新完成'));
+    } else {
+    // error
       if (fetchResult.response) {
         result = fetchResult.response.statusText;
       } else {
