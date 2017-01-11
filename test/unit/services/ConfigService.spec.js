@@ -11,7 +11,7 @@ describe.skip('about Config Service operation.', function() {
 
   });
 
-  it('config model 更新後，重新載入 sails.config', async (done) => {
+  it('config model 更新後或是 bootstrap 時，載入 sails.config', async (done) => {
 
     try {
       let result = ConfigService.load();
