@@ -24,16 +24,32 @@ export function deliverShipListData(data: Array = []) {
   };
 }
 
-export function fetchShipListData() {
+export function fetchShipListData( status ) {
   return async(dispatch, getState) => {
     const query = {
       serverSidePaging: true,
       startDate: '1900/01/01',
       endDate: '3000/01/01',
-      where: {
-        SupplierId: getState().user.currentUser.Supplier.id,
-      },
-      columns: [],
+      columns: [
+        {
+          data: 'SupplierId',
+          searchable: true,
+          search: {
+            custom: {
+              where: getState().user.currentUser.Supplier.id,
+            }
+          }
+        },
+        {
+          data: 'status',
+          searchable: true,
+          search: {
+            custom: {
+              where: status ? status : { $not: ''}
+            }
+          }
+        }
+      ],
       order: [{
         column: 0,
         dir: 'asc',
@@ -60,7 +76,7 @@ export function fetchShipListData() {
       }
     // error
     } else {
-      dispatch(handleResponse(fetchResult.response, fetchResult.message));
+      dispatch(handleResponse(fetchResult));
     }
   };
 }
@@ -103,19 +119,28 @@ export function fetchFindShipItem(value, status) {
           concat: ['lastname', 'firstname'],
         },
       },
-      {
-        data: '',
-        searchable: true,
-        search: {
-          where: {
-            SupplierId: getState().user.Supplier.id,
-          },
-        },
-      },
       { data: 'email', searchable: 'true' },
       { data: 'telephone', searchable: 'true' },
       { data: 'paymentAddress1', searchable: 'true' },
       { data: 'paymentCity', searchable: 'true' },
+      {
+        data: 'SupplierId',
+        searchable: true,
+        search: {
+          custom: {
+            where: getState().user.currentUser.Supplier.id,
+          }
+        }
+      },
+      {
+        data: 'status',
+        searchable: true,
+        search: {
+          custom: {
+            where: status ? status : { $not: ''}
+          }
+        }
+      }
       ],
       order: [{ column: '0', dir: 'asc' }],
       start: 0,
@@ -126,7 +151,7 @@ export function fetchFindShipItem(value, status) {
     const fetchResult = await postData(API_SHIP_LIST, query);
     // success
     if (fetchResult.status) {
-      dispatch(deliverFindShipItem(value, { items: fetchResult.data.data }));
+      dispatch(deliverFindShipItem(value, fetchResult.data.data));
       if (fetchResult.data.data.length > 0) {
         dispatch(showToast('載入完成'));
       } else {
