@@ -164,7 +164,7 @@ export function fetchFindShipItem(value, status) {
   };
 }
 
-export function updateShipOrderStatus({id ,data}) {
+export function updateShipOrderStatus({id ,data, status}) {
   return async(dispatch, getState) => {
     const api = '/api/admin/suppliershiporder/status/' + id;
 
@@ -173,6 +173,7 @@ export function updateShipOrderStatus({id ,data}) {
     // success
     if (fetchResult) {
       dispatch(showToast('更新完成'));
+      dispatch(fetchShipListData(status));
     } else {
     // error
       if (fetchResult.response) {
@@ -196,10 +197,13 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 export const ACTION_HANDLERS = {
-  [GET_SHIP_LIST]: (state = {}, action) => ({
-    ...state,
-    list: action.list,
-  }),
+  [GET_SHIP_LIST]: (state = {}, action) => {
+    console.log("!!", action.list);
+    return ({
+      ...state,
+      list: action.list,
+    });
+  },
   [FIND_SHIP_ITEM]: (state = {}, action) => ({
     ...state,
     list: action.list,

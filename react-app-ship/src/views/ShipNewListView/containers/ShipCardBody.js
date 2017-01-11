@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
   updateShipOrderStatus,
-  fetchShipListData,
 } from '../../../redux/modules/shipOrder';
 
 @connect(
@@ -17,7 +16,6 @@ import {
   }),
   dispatch => bindActionCreators({
     updateShipOrderStatus,
-    fetchShipListData
   }, dispatch),
 ) export default class ShipCardBody extends React.Component {
   static defaultProps = {
@@ -90,10 +88,10 @@ import {
             (status, comment) => {
               this.props.updateShipOrderStatus({
                 id: this.props.shipOrderId,
-                data: { status, comment }
+                data: { status, comment },
+                status: this.props.status,
               });
               this.setState({dialogShipOpen: false});
-              this.props.fetchShipListData('NEW');
             }
           }
           open={this.state.dialogShipOpen}
@@ -104,7 +102,11 @@ import {
           content={'確定要列印出貨單嗎？'}
           modal={false}
           leftOnPress={this.handleDialogPrintClose}
-          rightOnPress={() => {console.log("!!!!!");}}
+          rightOnPress={
+            () => {
+              console.log('!!!!!!!!');
+            }
+          }
           open={this.state.dialogPrintOpen}
           toast={this.props.toast}
         />

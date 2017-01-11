@@ -60,14 +60,16 @@ export default class DialogShip extends React.Component {
         primary={true}
         keyboardFocused={true}
         onTouchTap={() => {
+
           if (this.state.value){
             this.props.rightOnPress(
               'PROCESSING',
-              this.state.value
+              this.state.value,
             )
           } else {
             this.setState({errorText: '請輸入事由'})
           }
+
         }}
         />,
     ];
