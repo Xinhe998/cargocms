@@ -32,20 +32,6 @@ function CardBodyExpend(props) {
           更新於 {props.orderDate.updatedAt}
         </div>
       </div>
-      <div className='order-content'>
-        <div className='main-title'>
-          <FlatButton
-            className='btn-shipping'
-            label='完成配送'
-            onClick={props.handleBtnShip}
-          />
-          <FlatButton
-            className='btn-print'
-            label='列印出貨單'
-            onClick={props.handleBtnPrint}
-          />
-        </div>
-      </div>
     </div>
   );
 }
