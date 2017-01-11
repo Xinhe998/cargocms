@@ -78,7 +78,7 @@ module.exports = {
   status: async (req, res) => {
     try {
       const { id } = req.params;
-      const { status } = req.body;
+      const { status, comment } = req.body;
 
       let findSupplierShipOrderProduct = await SupplierShipOrderProduct.findAll({
         where: {
@@ -118,7 +118,7 @@ module.exports = {
 
           SupplierShipOrderHistory.create({
             notify: true,
-            comment: `出貨單 SupplierShipOrder ID: ${id}，狀態變更：${status}`,
+            comment: `出貨單 SupplierShipOrder ID: ${id}，狀態變更:${status}，變更理由: ${comment}`,
             SupplierShipOrderId: id
           })
           .then(function(supplierShipOrderHistory){
