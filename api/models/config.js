@@ -19,7 +19,7 @@ module.exports = {
       allowNull: false,
     },
     type: {
-      type: Sequelize.ENUM('text', 'editor', 'url', 'file'),
+      type: Sequelize.ENUM('text', 'editor', 'url', 'file', 'boolean'),
       defaultValue: 'text',
       allowNull: false,
     },

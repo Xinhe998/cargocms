@@ -96,11 +96,13 @@ module.exports.bootstrap = async (cb) => {
       {name: 'mail', path: "contact.confirm.subject", value: "", description: ""},
       {name: 'mail', path: "contact.confirm.html", value: "", description: ""},
       {name: 'mail', path: "contact.confirm.to", value: "", description: ""},
+      {name: 'mail', path: "contact.confirm.sendMail", value: "", type: "boolean", description: ""},
 
       {name: 'mail', path: "contact.sendToAdmin.sendBy", value: "", description: ""},
       {name: 'mail', path: "contact.sendToAdmin.subject", value: "", description: ""},
       {name: 'mail', path: "contact.sendToAdmin.html", value: "", description: ""},
       {name: 'mail', path: "contact.sendToAdmin.to", value: "", description: ""},
+      {name: 'mail', path: "contact.sendToAdmin.sendMail", value: "", type: "boolean", description: ""},
 
 
       {name: 'reCAPTCHA', path: "key", value: "", description: ""},
