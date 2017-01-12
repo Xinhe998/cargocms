@@ -1,6 +1,6 @@
 
 
-describe('about RoleDetail model operation.', function() {
+describe.skip('about RoleDetail model operation.', function() {
   describe('新增 RoleDetail', function() {
     let testRole, testRoleUser, testMenuItem;
     before(async (done) => {

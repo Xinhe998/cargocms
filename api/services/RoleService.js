@@ -5,10 +5,12 @@ module.exports = {
   },
 
   getRoleOfMenuItem: function(user) {
-  }
+  },
 
-  hasRole: function(user, menuItem, roleName) {
-  }
+  hasRoleOfMenuItem: function(user, menuItem, roleName) {
+  },
 
+  hasRoleOfApi: function(user, menuItem, httpMethod, apiPath) {
+  },
 
 }
