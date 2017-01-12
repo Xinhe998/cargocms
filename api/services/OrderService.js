@@ -1,3 +1,6 @@
+import moment from 'moment';
+import sh from 'shorthash';
+
 module.exports = {
   createOrder: async ( data ) => {
     try{
@@ -14,6 +17,26 @@ module.exports = {
         totalPrice += Number(product.price) * Number( p.quantity );
       }
       data.total = totalPrice;
+
+      //產生訂單編號
+      let date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
+      let orderNumber = await Order.findAll({
+        where: sequelize.where(
+          User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
+        )
+      });
+      if(orderNumber){
+        orderNumber = (orderNumber.length + 1 ).toString();
+        for( let i = orderNumber.length; i < 5 ; i++){
+          orderNumber = '0' + orderNumber;
+        }
+      } else {
+        orderNumber = '00001';
+      }
+
+      const crc = sh.unique(`${data.UserId}${data.product}${date}${orderNumber}`);
+      data.orderNumber = date + orderNumber + crc.substr(0, 3);
+      sails.log.info('產生訂單編號:',data.orderNumber);
 
       data.tracking = '訂單建立';
       data.shippingCode = '';
