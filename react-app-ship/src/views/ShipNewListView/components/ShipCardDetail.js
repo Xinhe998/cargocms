@@ -67,6 +67,14 @@ function ShipCardDetail(props) {
     <div className='card-deatil print'>
       <div className='row'>
 
+        <div className='col-xs-12'>
+          <p/>
+          <h2 className='title text-center'>出貨明細</h2>
+        </div>
+        <div className='col-xs-12'>
+          <hr />
+        </div>
+
         <div className='col-xs-12 row'>
           <div className='col-xs-6'>
             <span className='title'>客戶資料</span>
@@ -130,10 +138,6 @@ function ShipCardDetail(props) {
           </div>
         </div>
 
-        <div className='col-xs-12'>
-          <p/>
-          <h2 className='title text-center'>出貨明細</h2>
-        </div>
         <div className='col-xs-12'>
           <hr />
         </div>
