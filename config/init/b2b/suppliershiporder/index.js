@@ -11,6 +11,7 @@ module.exports.init = async () => {
       const j = [0, 1, 2];
       for(const i of j) {
         let supplierShipOrder = await SupplierShipOrder.create({
+          shipOrderNumber: `20170101${i}0001crc`,
           OrderId: order.id,
           SupplierId: product.SupplierId,
           invoiceNo: order.invoiceNo,

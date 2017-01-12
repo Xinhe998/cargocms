@@ -43,6 +43,7 @@ module.exports.init = async () => {
       });
 
       const order = await Order.create({
+        "orderNumber": '2017010100012crc',
         "invoiceNo": 13145200,
         "invoicePrefix": "HI",
         "firstname": "歐德",
