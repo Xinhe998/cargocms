@@ -9,17 +9,18 @@
         </div>
         -->
 
-        <div class="social-login">
-          <ul class="list-unstyled">
-            <li>
-              <a class="btn rounded btn-block btn-lg btn-facebook-inversed margin-bottom-20" href="/auth/facebook">
-                <i class="fa fa-facebook"></i> <%= __('login.facebook') %>
-              </a>
-            </li>
-          </ul>
-          <div class="or rounded-x">Or</div>
-        </div>
-
+        <% if(sails.config.facebook.login){%>
+          <div class="social-login">
+            <ul class="list-unstyled">
+              <li>
+                <a class="btn rounded btn-block btn-lg btn-facebook-inversed margin-bottom-20" href="/auth/facebook">
+                  <i class="fa fa-facebook"></i> <%= __('login.facebook') %>
+                </a>
+              </li>
+            </ul>
+            <div class="or rounded-x">Or</div>
+          </div>
+        <% } %>
         <div class="reg-header">
           <h2><%= __('login.title') %></h2>
         </div>

@@ -62,6 +62,7 @@ a.btn-facebook-inversed {
   <div id="login-blackcontent"></div>
   <div id="login-page" >
     <form class="reg-page" method="post" action="/auth/local?url=/">
+      <% if(sails.config.facebook.login ) {%>
       <div class="social-login">
         <ul class="list-unstyled">
           <li>
@@ -71,7 +72,7 @@ a.btn-facebook-inversed {
           </li>
         </ul>
       </div>
-
+      <% } %>
       <div class="margin-top-20">
         <input type="text" placeholder="帳號" value="" id="identifier" name="identifier" class="form-control">
       </div>
