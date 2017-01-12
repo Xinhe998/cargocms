@@ -2,12 +2,14 @@
 <script src="https://www.google.com/recaptcha/api.js?hl=zh-TW" async defer></script>
 <div class="moto-content container">
   <div class="row">
+    <!--
     <div class="col-md-3">
       <div class="moto-ad">
 
       </div>
     </div>
-    <div class="col-md-9">
+    -->
+    <div class="col-md-offset-2 col-md-8">
       <div class="register-panel">
         <h1 class="panel-header">註冊會員表單</h1>
         <a style="margin-top: 36px;" class="btn btn-primary btn-lg btn-block facebook-btn"  href="/auth/facebook">
@@ -108,6 +110,7 @@
 <% LayoutUtils.addScripts('/assets/motorworld/lib/formSubmitHelper.js'); %>
 <% LayoutUtils.addScriptBlock(`
   $(document).ready(function(){
+
     $('[data-toggle="tooltip"]').tooltip();
 
     $('input[name="birthday"]').datepicker({
