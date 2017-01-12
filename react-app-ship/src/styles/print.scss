@@ -4,18 +4,28 @@
       visibility: hidden;
     }
     .drawerContainer {
-      visibility: hidden;
+      display: none;
     }
-    .cardbody-wrapper {
-      visibility: hidden;
+    .pageContent {
+      width: 100% !important;
+      margin: 0 0 !important;
+
+
+      .searchBar {
+        display: none;
+      }
+      .cardbody-wrapper {
+        display: none;
+      }
+      .card-deatil{
+        border: 0px !important;
+        hr:first-child{
+          border-top: solid 1px;
+        }
+      }
+      .stepper-wrapper {
+        display: none;
+      }
     }
-    .stepper-wrapper {
-      visibility: hidden;
-    }
-    .searchBar {
-      visibility: hidden;
-    }
-    .card-deatil {
-      width: 100%;
-    }
+
  }

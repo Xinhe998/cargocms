@@ -68,7 +68,7 @@ function ShipCardDetail(props) {
       <div className='row'>
 
         <div className='col-xs-12'>
-          <p/>
+          <p />
           <h2 className='title text-center'>出貨明細</h2>
         </div>
         <div className='col-xs-12'>
@@ -113,7 +113,7 @@ function ShipCardDetail(props) {
           <div className='col-xs-6'>
             <span className='title'>{props.orderSupplier.name}</span>
             <p />
-            <table  className='table'>
+            <table className='table'>
               <tr>
                 <th>聯絡電話</th>
                 <td>{props.orderSupplier.telephone}</td>
@@ -132,7 +132,7 @@ function ShipCardDetail(props) {
               </tr>
               <tr>
                 <th>統一編號</th>
-                <td></td>
+                <td>{}</td>
               </tr>
             </table>
           </div>
@@ -154,9 +154,9 @@ function ShipCardDetail(props) {
             </thead>
             <tfoot>
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
                 <td>總計：{props.total}</td>
               </tr>
             </tfoot>
