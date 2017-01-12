@@ -1,6 +1,9 @@
 module.exports = {
   attributes: {
-    name: Sequelize.STRING
+    name: {
+      type: Sequelize.ENUM("READ_WRITE", "READ", "CREATE", "UPDATE", "DELETE"),
+      defaultValue: 'READ_WRITE',
+    }
   },
 
   associations: function() {
