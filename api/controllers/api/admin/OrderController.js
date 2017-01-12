@@ -1,3 +1,6 @@
+import moment from 'moment';
+import sh from 'shorthash';
+
 module.exports = {
 
   find: async (req, res) => {
@@ -143,7 +146,7 @@ module.exports = {
 
       sails.log.info('Order CONFIRM', Order);
 
-      const orderProducts = await OrderProduct.findAll({
+      let orderProducts = await OrderProduct.findAll({
         where:{
           OrderId: id
         },
@@ -157,9 +160,34 @@ module.exports = {
         }
       }
 
+      const orderProductsName = orderProducts.map((data) => {
+        return data.name;
+      })
+
       for( let supplier of suppliers){
 
+        //產生Ship訂單編號
+        let date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
+        let shipOrderNumber = await SupplierShipOrder.findAll({
+          where: sequelize.where(
+            User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
+          )
+        });
+        if(shipOrderNumber){
+          shipOrderNumber = (shipOrderNumber.length + 1 ).toString();
+          for( let i = shipOrderNumber.length; i < 5 ; i++){
+            shipOrderNumber = '0' + shipOrderNumber;
+          }
+        } else {
+          shipOrderNumber = '00001';
+        }
+
+        const crc = sh.unique(`${order.UserId}${orderProductsName.toString()}${date}${shipOrderNumber}`);
+        shipOrderNumber = date + shipOrderNumber + crc.substr(0, 3);
+        sails.log.info('產生出貨單編號:', shipOrderNumber);
+
         let supplierShipOrder = await SupplierShipOrder.create({
+          shipOrderNumber: shipOrderNumber,
           OrderId: id,
           SupplierId: supplier,
           invoiceNo: order.invoiceNo,
