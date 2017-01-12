@@ -17,6 +17,7 @@
       box-shadow: none;
       border: 1px solid #979797;
       border-radius: 3px;
+      background-color: #eff0f0;
     }
     .reg-btn {
       font-size: 20px;
@@ -28,7 +29,9 @@
     }
   }
   .register-panel {
-    background-color: #ededed;
+    background-color: #FFF;
+    border-style: solid;
+    border-color: #efefef;
     margin: 0 2.6em;
     padding-bottom: 1em;
     .panel-header {
