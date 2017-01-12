@@ -3,7 +3,7 @@
 <table id="main-table" class="table table-striped table-bordered table-hover" width="100%">
 	<thead>
 		<tr>
-      <th width="" class="" data-hide="always"> ID</th>
+      <th width="" class="" data-hide="always"> 訂單編號</th>
 			<th width="" class="" data-hide="always">發票</th>
       <th width="" class="" data-hide="always"> 發票開頭</th>
       <th width="" class="" data-class="expand"><i class="fa fa-fw text-muted fa-hashtag"/> 姓名</th>
@@ -37,7 +37,8 @@
 	<!-- client only -->
 	<tbody>
 		<tr v-for="item in data.items">
-      <td>{{ item.id }}</td>
+      <!--<td>{{ item.id }}</td>-->
+      <td>{{ item.orderNumber }}</td>
       <td>{{ item.invoiceNo }}</td>
       <td>{{ item.invoicePrefix }}</td>
       <td>{{ item.lastname + item.firstname }}</td>
@@ -85,7 +86,7 @@
 
 		// server only
 		var columns = [
-      { "data": "id" },
+      { "data": "orderNumber" },
       { "data": "invoiceNo" },
       { "data": "invoicePrefix" },
       { "data": null},
