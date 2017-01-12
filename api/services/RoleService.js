@@ -6,10 +6,10 @@ module.exports = {
   getAllRoleDetail: function(user) {
   },
 
-  hasRole: function(roleName) {
+  hasRole: function(user, roleName) {
   },
 
-  hasRoleDetail: function(roleName) {
+  hasRoleDetail: function(user, roleName) {
   },
 
   getAccessibleMenuItems: function(user) {
