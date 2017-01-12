@@ -5,6 +5,7 @@ const defaultProps = {};
 
 const propTypes = {
   shipOrderId: PropTypes.number,
+  shipOrderNumber: PropTypes.string,
   invoiceCode: PropTypes.string,
   orderDetail: PropTypes.array,
   orderDate: PropTypes.object,
@@ -32,8 +33,8 @@ function CardBodyNormal(props) {
     <div className='cardbody'>
       <div className='order-invoice'>
         <div className='title'>
-          {props.shipOrderId}
-          {props.invoiceCode.length > 1 ? (<span>({props.invoiceCode})</span>) : '' }
+          {props.shipOrderNumber}
+          {/* {props.invoiceCode.length > 1 ? (<span>({props.invoiceCode})</span>) : '' } */}
         </div>
         <div className='sub-title'>
           更新於 {props.orderDate.updatedAt}
