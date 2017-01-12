@@ -17,10 +17,10 @@
         <form class="register-form" id="registerForm" method='post' action="/auth/local/register">
           <div class="row">
             <div class="form-group col-xs-6">
-              <input type="text" name="lastName" class="form-control" placeholder="<%= '*' + __('register.label.last_name')%>">
+              <input type="text" name="lastName" class="form-control" placeholder="<%= '* ' + __('register.label.last_name')%>">
             </div>
             <div class="form-group col-xs-6">
-              <input type="text" name="firstName" class="form-control" placeholder="<%= '*' + __('register.label.first_name')%>">
+              <input type="text" name="firstName" class="form-control" placeholder="<%= '* ' + __('register.label.first_name')%>">
             </div>
           </div>
 
@@ -28,23 +28,25 @@
             <input type="email" name="email" class="form-control" placeholder="* Email">
           </div>
           <div class="form-group">
-            <input type="text" name="username" class="form-control" placeholder="<%= '*' + __('register.label.username')%>">
+            <input type="text" name="username" class="form-control" placeholder="<%= '* ' + __('register.label.username')%>">
           </div>
           <div class="form-group">
-            <input type="password" name="password" id="firstPassword" class="form-control" placeholder="<%= '*' + __('register.label.password')%>">
+            <input type="password" name="password" id="firstPassword" class="form-control" placeholder="<%= '* ' + __('register.label.password')%>">
           </div>
           <div class="form-group">
-            <input type="password" name="passwordAgain" class="form-control" placeholder="<%= '*' + __('register.label.repeat_password')%>">
+            <input type="password" name="passwordAgain" class="form-control" placeholder="<%= '* ' + __('register.label.repeat_password')%>">
           </div>
 
           <div class="form-group">
-            <input type="number" name="phone1" class="form-control" placeholder="<%= '*' + __('register.label.cell_phone')%>">
+            <input type="number" name="phone1" class="form-control" placeholder="<%= '* ' + __('register.label.cell_phone')%>" data-toggle="tooltip" data-placement="top" title="國內會員請輸入0912345678，海外請輸入+886912345678">
           </div>
+          <!--
           <div class="form-group">
             <input type="number" name="phone2" class="form-control" placeholder="<%= __('register.label.telephone')%>">
           </div>
+          -->
           <div class="form-group">
-            <input type="text"  name="birthday" class="form-control" placeholder="<%= '*' + __('register.label.birthday') + __('register.placeholder.EX') + '1981-01-31'%>">
+            <input type="text"  name="birthday" class="form-control" placeholder="<%= '* ' + __('register.label.birthday') + __('register.placeholder.EX') + '1981-01-31'%>">
           </div>
           <div class="form-group">
             <input type="text" name="subscriberId" class="form-control" style="margin-bottom: 60px;" placeholder="<%= __('register.label.subscribe_no')%>">
@@ -106,6 +108,8 @@
 <% LayoutUtils.addScripts('/assets/motorworld/lib/formSubmitHelper.js'); %>
 <% LayoutUtils.addScriptBlock(`
   $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+
     $('input[name="birthday"]').datepicker({
       changeYear: true,
       yearRange: "-100:+0",
