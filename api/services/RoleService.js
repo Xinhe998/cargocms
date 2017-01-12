@@ -1,16 +1,24 @@
-import jwt from 'jsonwebtoken';
 module.exports = {
 
   getAllRole: function(user) {
   },
 
-  getRoleOfMenuItem: function(user) {
+  getAllRoleDetail: function(user) {
   },
 
-  hasRoleOfMenuItem: function(user, menuItem, roleName) {
+  hasRole: function(roleName) {
   },
 
-  hasRoleOfApi: function(user, menuItem, httpMethod, apiPath) {
+  hasRoleDetail: function(roleName) {
+  },
+
+  getAccessibleMenuItems: function(user) {
+  },
+
+  hasRoleDetailOfMenuItem: function(user, menuItem, roleDetailName) {
+  },
+
+  canAccessApi: function(user, menuItem, httpMethod, apiPath) {
   },
 
 }
