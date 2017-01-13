@@ -19,12 +19,24 @@ module.exports = {
 
       let url = req.query.url || '/';
 
-      res.ok({
-        //layout: false,
-        user,
-        errors: req.flash('error')[0],
-        url
-      });
+      // res.ok({
+      //   //layout: false,
+      //   user,
+      //   errors: req.flash('error')[0],
+      //   url
+      // });
+
+      res.view(
+        'auth/login',
+        {
+          layout: 'auth/layout',
+          data: {
+            user,
+            errors: req.flash('error')[0],
+            url
+          }
+        }
+      )
     } catch (e){
       sails.log.error(e);
       res.serverError(e);
