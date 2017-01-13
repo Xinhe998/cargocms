@@ -1,9 +1,15 @@
 module.exports = {
   index: async (req, res) => {
+    let orderStatus = await OrderStatus.findAll();
+    orderStatus = orderStatus.map((data) => {
+      return data.name;
+    })
+    
     res.ok({
       view: true,
       serverSidePaging: true,
-      layout: 'admin/default/index'
+      layout: 'admin/default/index',
+      orderStatus
     });
   },
   create: async (req, res) => {

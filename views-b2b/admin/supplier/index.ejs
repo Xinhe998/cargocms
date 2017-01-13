@@ -7,6 +7,7 @@
       <th data-hide="" class="no-sort">郵件</th>
       <th data-hide="" class="no-sort">電話</th>
       <th data-hide="" class="no-sort">傳真</th>
+      <th data-hide="" class="no-sort">統一編號</th>
       <th data-hide="" class="no-sort">地址</th>
       <th width="80" data-hide="phone,tblet"></th>
     </tr>
@@ -18,6 +19,7 @@
       <td>{{ item.email}}</td>
       <td>{{ item.telephone}}</td>
       <td>{{ item.fax}}</td>
+      <td>{{ item.taxId}}</td>
       <td>{{ item.address}}</td>
       <td align="center" style="cursor: pointer;">
         <div class="row">
@@ -41,6 +43,7 @@
       { "data": "email" },
       { "data": "telephone" },
       { "data": "fax" },
+      { "data": "taxId" },
       { "data": "address" },
       { "data": null },
     ];
@@ -52,7 +55,7 @@
         "orderable": false,
       },
       {
-        "targets"  : 5,
+        "targets"  : 6,
         "orderable": false,
         "searchable": false,
         "render": function ( data, type, row ) {
