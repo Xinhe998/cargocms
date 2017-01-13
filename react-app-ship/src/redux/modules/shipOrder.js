@@ -32,6 +32,10 @@ export function fetchShipListData(status) {
       endDate: '3000/01/01',
       columns: [
         {
+          data: 'id',
+          searchable: true,
+        },
+        {
           data: 'SupplierId',
           searchable: true,
           search: {
@@ -52,7 +56,7 @@ export function fetchShipListData(status) {
       ],
       order: [{
         column: 0,
-        dir: 'asc',
+        dir: 'DESC',
       }],
       search: {
         value: '',
