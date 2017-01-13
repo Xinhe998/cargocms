@@ -64,3 +64,121 @@ appMain.editDisabled = function(){
   $('label.fn-edit-disabled > input').attr('disabled', true);
   $('label.fn-edit-disabled').addClass('state-disabled');
 }
+
+appMain.DataTableInitComplete = function() {
+  $('.loading-wrapper').removeClass('active');
+
+  $("#main-table").delegate("[name='updateStatus']", 'change', function() {
+    var that = this;
+    // var id = $(this).data("id");
+    var orderId = $(this).attr("data-orderId");
+    var selectedDesc = $(this).find('option:selected').text();
+    var oldVal = $(this).attr('data-oldValue');
+    var newVal = $(this).val();
+
+    var msgInfo = {
+      title: '注意',
+      content: '確認更新訂單 ID: '+ orderId +' 訂單狀態為: '+ selectedDesc +
+      '<br/>請輸入變更狀態的事由：<br />'+
+      "<input id='statusComment' type='text' class='form-control'/>" +
+      "<br/>",
+      btnArray: ['確認', '取消'],
+    };
+    var action = function(ButtonPressed) {
+      if (ButtonPressed === '確認') {
+
+        $(that).val(newVal);
+        var statusComment = $('#statusComment').val();
+        if(statusComment === ''){
+          messageApp.show({
+            desc: '請輸入變更狀態的理由',
+            type: 'error'
+          });
+          $(that).val(oldVal);
+          return 0;
+        }
+
+        $.ajax({
+          url: '/api/admin/order/status/' + orderId,
+          method: "put",
+          dataType: 'json',
+          cache: false,
+          data:{
+            status: newVal,
+            statusComment: statusComment
+          }
+        }).done(function (result) {
+          messageApp.show({
+            desc: result.message,
+            type: 'success'
+          });
+          defaultTable.api().ajax.reload(null, false);
+        });
+      } else {
+        $(that).val(oldVal);
+      }
+    };
+    messageApp.confirm(msgInfo, action);
+  });
+
+  $("#main-table").delegate("[name='orderConfirm']","click", function(e) {
+      var that = this;
+      var orderId = $(that).attr("data-id");
+      $.SmartMessageBox({
+        title : "確認訂單",
+        content:
+        '請輸入確定訂單的理由：<br />'+
+        "<input id='orderConfirmComment' type='text' class='form-control' value='訂單資訊與內容已確認'/>" +
+        "<br/>",
+        buttons : "[確認][取消]"
+      }, function(ButtonPress) {
+           if(ButtonPress === "取消"){
+             return 0;
+           }
+
+           var orderConfirmComment = $('#orderConfirmComment').val()
+
+           if(orderConfirmComment === ''){
+             messageApp.show({
+               desc: '請輸入確定訂單的理由',
+               type: 'error'
+             });
+             return 0;
+           }
+
+           var ajaxSuccess = function (result) {
+             location.href = '/admin/#/admin/' + modelName;
+             messageApp.show({
+             desc: '確認訂單成功！',
+             type: 'success'
+             });
+           }; // end ajaxSuccess
+
+          var ajaxError = function (result) {
+            messageApp.show({
+              desc: '確認訂單失敗！errorMessage: ' + result.responseJSON.message,
+              type: 'error'
+            });
+          };
+
+          $.ajax({
+            url: '/api/' + prefix + 'order/confirm' + '/' + orderId,
+            type: 'PUT',
+            dataType: 'json',
+            data: {
+              tracking:'CONFIRM',
+              orderConfirmComment: orderConfirmComment
+            },
+            xhrFields: {
+            withCredentials: true,
+            },
+            success: ajaxSuccess,
+            error: ajaxError,
+          }).done(function(result){
+            defaultTable.api().ajax.reload(null, false);
+          });
+         }
+      );
+      e.preventDefault();
+  });
+}

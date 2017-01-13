@@ -126,7 +126,7 @@ var defaultConfig = {
 
   'post /api/order': 'api/OrderController.createOrder',
 
-  'post /api/admin/order/confirm/:id': 'api/admin/OrderController.confirm',
+  'put /api/admin/order/confirm/:id': 'api/admin/OrderController.confirm',
 
   'post  /api/admin/suppliershiporder/all': 'api/admin/SupplierShipOrderController.find',
   'put /api/admin/suppliershiporder/status/:id': 'api/admin/SupplierShipOrderController.status',
@@ -137,6 +137,7 @@ var defaultConfig = {
   'get /api/admin/order': 'api/admin/OrderController.find',
   'get /api/admin/order/:id': 'api/admin/OrderController.findOne',
   'post /api/admin/order': 'api/admin/OrderController.create',
+  'put /api/admin/order/status/:id': 'api/admin/OrderController.updateStatus',
   'put /api/admin/order/:id': 'api/admin/OrderController.update',
   'delete /api/admin/order/:id': 'api/admin/OrderController.destroy',
 

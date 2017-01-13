@@ -132,16 +132,17 @@ module.exports = {
   confirm: async (req, res) => {
     try{
       const { id } = req.params;
+      const { tracking, orderConfirmComment } = req.body;
       const orderStatus = await OrderStatus.findOne({where:{name: 'PROCESSING'}})
       let order = await Order.findById(id);
-      order.tracking = "CONFIRM";
+      order.tracking = tracking;
       order.OrderStatusId = orderStatus.id;
       await order.save();
 
       await OrderHistory.create({
-        OrderId: order.id,
-        OrderStatusId: orderStatus.id,
-        comment: `User ID: ${order.UserId} ,CONFIRM Order ID: ${order.id}. Order Status: 'PROCESSING'.`,
+        notify: true,
+        comment: `訂單 ID: ${id} 確認訂單，確認理由：${orderConfirmComment}.`,
+        OrderId: order.id
       });
 
       sails.log.info('Order CONFIRM', Order);
@@ -274,4 +275,38 @@ module.exports = {
       res.serverError(e);
     }
   },
+
+  updateStatus: async (req, res) => {
+    try{
+      const { id } = req.params;
+      const {status ,statusComment} = req.body;
+
+      const orderStatus = await OrderStatus.findOne({
+        where: {
+          name: status
+        }
+      });
+
+      const item = await Order.update({
+        OrderStatusId: orderStatus.id
+      },{
+        where: {
+          id
+        }
+      })
+
+      await OrderHistory.create({
+        notify: true,
+        comment: `訂單 ID:${id} 變更狀態:${status}，變更理由:${statusComment}.`,
+        OrderId: id,
+        OrderStatudId: orderStatus.id
+      });
+
+      const message = '訂單狀態變更成功.';
+      res.ok({ message, data: { item } });
+
+    } catch (e) {
+      res.serverError(e);
+    }
+  }
 }

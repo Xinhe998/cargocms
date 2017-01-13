@@ -259,5 +259,19 @@
     });
 
     $('form').preventDoubleSubmission();
+
+    if( $('input[name=products]').val() === '[]' ){
+      
+      $('button[type=submit]').attr('disabled',true);
+
+      swal({
+        type: "error",
+        title: "注意",
+        text: '此訂單已失效，請重新訂購',
+        confirmButtonText: "確定"
+      }, function(){
+        window.location = "/";
+      });
+    }
   });
 `); %>
