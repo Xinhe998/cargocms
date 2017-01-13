@@ -4,7 +4,7 @@
     <h1>確認訂購</h1>
   </div>
 </div>
-<form id="order" method='post' action='/order'>
+<form id="order" method='post' action='/order' onsubmit="return confirmOrder(event, this);">
   <div class="container b2b-order-form" id="orderForm">
   	<div class="row" style="margin-top: 2em;">
       <div class="col-sm-4">
@@ -131,23 +131,37 @@
 
 <% LayoutUtils.addScripts('/assets/b2b/plugins/jquery.twzipcode.min.js'); %>
 <% LayoutUtils.addScriptBlock(`
-  $(document).ready(function(){
 
-    $.fn.preventDoubleSubmission = function() {
-      $(this).on('submit',function(e){
-        var $form = $(this);
-
-        if ($form.data('submitted') === true || !$(this).valid()) {
-          e.preventDefault();
+  function confirmOrder(event, form){
+    event.preventDefault()
+    swal({
+      title: "確認",
+      text: "是否確定訂購？",
+      type: "warning",
+      confirmButtonClass: "btn-info",
+      confirmButtonText: "是的",
+      cancelButtonText: "先不要",
+      showCancelButton: true,
+      closeOnConfirm: false,
+      showLoaderOnConfirm: false
+    }, function (confirm) {
+      if(confirm){
+        if ( $('#order').data('submitted') === true || !$('#order').valid()) {
+          return false;
         } else {
-          $form.data('submitted', true);
-
+          $('#order').data('submitted', true);
           localStorage.cart = [];
+          form.onsubmit = '';
+          $('#order').submit();
+          return true;
         }
-      });
+      } else {
+        return false;
+      }
+    });
+  }
 
-      return this;
-    };
+  $(document).ready(function(){
 
     $('#twzipcode').twzipcode({});
     $('#twzipcode input').addClass('form-control');
@@ -257,8 +271,6 @@
         },
       }
     });
-
-    $('form').preventDoubleSubmission();
 
     if( $('input[name=products]').val() === '[]' ){
 
