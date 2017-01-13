@@ -18,7 +18,6 @@ module.exports = {
       if(form) user = form;
 
       let url = req.query.url || '/';
-
       // res.ok({
       //   //layout: false,
       //   user,
@@ -71,7 +70,7 @@ module.exports = {
       }
       let form = req.flash('form')[0];
       if(form) user = form;
-
+      const url = req.query.url || '/';
       // res.ok({
       //   user,
       //   errors: req.flash('error'),
@@ -85,7 +84,8 @@ module.exports = {
           data: {
             user,
             errors: req.flash('error'),
-            reCAPTCHAKey: sails.config.reCAPTCHA.key
+            reCAPTCHAKey: sails.config.reCAPTCHA.key,
+            url
           }
         }
       )

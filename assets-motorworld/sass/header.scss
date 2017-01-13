@@ -14,7 +14,8 @@ body {
 }
 .moto-header {
   background: #FFFFFF;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+  // box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+  box-shadow: none;
   padding: 0;
   .logo-block {
     padding: 15px 15px 12px;
@@ -30,6 +31,10 @@ body {
         color: #E80000;
         letter-spacing: 2.49px;
       }
+    }
+    .returnTo {
+      float: right;
+      margin: 15px;
     }
     .header-tools {
       float: right;
