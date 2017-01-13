@@ -11,6 +11,6 @@
     "views": "views-b2b"
   },
   "configLoader": {
-    "modules": ["labfnp"]
+    "modules": ["b2b"]
   }
 }

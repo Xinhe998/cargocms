@@ -3,7 +3,6 @@ import rc from 'rc';
 export default (configName) => {
   let rcConfig = rc('sails');
   let {modules} = rcConfig.configLoader
-  console.log("modules", modules);
 
   var result = {}
   var files = fs.readdirSync('./config')
