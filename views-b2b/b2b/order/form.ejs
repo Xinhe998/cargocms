@@ -115,13 +115,13 @@
     <hr style="border-top: 2px solid #aaa"/>
     <table class="b2b-bill-info pull-right">
       <tr>
-        <th>合計</th><td>{{priceSum | moneyNum}}</td>
+        <th>合計</th><td>$ {{priceSum | moneyNum}}</td>
       </tr>
       <tr>
-        <th>營業稅</th><td>{{ Math.round(priceSum * 0.05) | moneyNum }}</td>
+        <th>營業稅</th><td>$ {{ Math.round(priceSum * 0.05) | moneyNum }}</td>
       </tr>
       <tr>
-        <th>總計</th><td>{{priceSum | moneyNum}}</td>
+        <th>總計</th><td>$ {{priceSum | moneyNum}}</td>
       </tr>
     </table>
     <button class="btn btn-default btn-lg pull-right" type="submit" style="clear:right; display:inline-block; margin:1.6em 0 3em;">確認訂單</button>
@@ -261,7 +261,7 @@
     $('form').preventDoubleSubmission();
 
     if( $('input[name=products]').val() === '[]' ){
-      
+
       $('button[type=submit]').attr('disabled',true);
 
       swal({
