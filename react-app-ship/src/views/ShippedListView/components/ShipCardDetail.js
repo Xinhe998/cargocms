@@ -113,7 +113,7 @@ function ShipCardDetail(props) {
           <div className='col-xs-6'>
             <span className='title'>{props.orderSupplier.name}</span>
             <p />
-            <table  className='table'>
+            <table className='table'>
               <tr>
                 <th>聯絡電話</th>
                 <td>{props.orderSupplier.telephone}</td>
@@ -132,7 +132,7 @@ function ShipCardDetail(props) {
               </tr>
               <tr>
                 <th>統一編號</th>
-                <td></td>
+                <td>{props.orderSupplier.taxId}</td>
               </tr>
             </table>
           </div>
