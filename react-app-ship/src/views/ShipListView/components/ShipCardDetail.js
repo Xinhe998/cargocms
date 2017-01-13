@@ -38,7 +38,7 @@ const defaultProps = {
   paymentMethod: 'ATM',
   shippingName: '潘子',
   shippingAddress: '403 taichung 台灣城市的某個街道隨機號',
-  shippingMethod: '郵局遞送',
+  shippingMethod: 'n/a',
   tracking: '確認訂單',
   comment: 'no comment',
 };
@@ -105,7 +105,7 @@ function ShipCardDetail(props) {
           <div className='col-xs-6'>
             <span className='title'>{props.orderSupplier.name}</span>
             <p />
-            <table  className='table'>
+            <table className='table'>
               <tr>
                 <th>聯絡電話</th>
                 <td>{props.orderSupplier.telephone}</td>
@@ -124,14 +124,14 @@ function ShipCardDetail(props) {
               </tr>
               <tr>
                 <th>統一編號</th>
-                <td></td>
+                <td>{}</td>
               </tr>
             </table>
           </div>
         </div>
 
         <div className='col-xs-12'>
-          <p/>
+          <p />
           <h2 className='title text-center'>出貨明細</h2>
         </div>
         <div className='col-xs-12'>
@@ -150,9 +150,9 @@ function ShipCardDetail(props) {
             </thead>
             <tfoot>
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
                 <td>總計：{props.total}</td>
               </tr>
             </tfoot>
@@ -170,7 +170,6 @@ function ShipCardDetail(props) {
             </tbody>
           </table>
         </div>
-
       </div>
       <ShipCardStepper />
     </div>
