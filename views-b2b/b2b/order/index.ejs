@@ -103,11 +103,32 @@
     </tr>
   </table>
 
-  <a href="/" role="button" class="btn btn-default btn-lg pull-right paid" style="clear:right; display:inline-block; margin:1.6em 0 3em;">繼續選購</a>
+  <button class="btn btn-default btn-lg pull-right paid" style="clear:right; display:inline-block; margin:1.6em 0 3em;" onclick="goBackIndex();">繼續選購</button>
 
 </div>
 
 <% LayoutUtils.addScriptBlock(`
+  function goBackIndex(){
+    swal({
+      title: "確認",
+      text: "是否離開此頁面？",
+      type: "info",
+      confirmButtonClass: "btn-info",
+      confirmButtonText: "是的",
+      cancelButtonText: "先不要",
+      showCancelButton: true,
+      closeOnConfirm: true,
+      showLoaderOnConfirm: true
+    }, function (confirm) {
+      if(confirm){
+        window.location = "/";
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+  
   $(document).ready(function(){
 
   })

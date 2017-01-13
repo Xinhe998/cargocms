@@ -137,13 +137,13 @@
     swal({
       title: "確認",
       text: "是否確定訂購？",
-      type: "warning",
+      type: "info",
       confirmButtonClass: "btn-info",
       confirmButtonText: "是的",
       cancelButtonText: "先不要",
       showCancelButton: true,
       closeOnConfirm: false,
-      showLoaderOnConfirm: false
+      showLoaderOnConfirm: true
     }, function (confirm) {
       if(confirm){
         if ( $('#order').data('submitted') === true || !$('#order').valid()) {
