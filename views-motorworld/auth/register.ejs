@@ -20,7 +20,7 @@
           <i class="fa fa-facebook-official" aria-hidden="true"></i> 使用 FB 臉書帳號登入
         </a>
         <div class="or-divider"></div>
-        <form class="register-form" id="registerForm" method='post' action="/auth/local/register">
+        <form class="register-form" id="registerForm" method='post' action="/auth/local/register<%= data.url ? '?url=' + data.url : '' %>">
           <div class="row">
             <div class="form-group col-xs-6">
               <input type="text" name="lastName" class="form-control" placeholder="<%= '* ' + __('register.label.last_name')%>">
