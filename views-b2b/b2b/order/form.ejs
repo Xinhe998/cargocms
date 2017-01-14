@@ -134,6 +134,11 @@
 
   function confirmOrder(event, form){
     event.preventDefault()
+
+    if(!$('#order').valid()){
+      return false;
+    }
+
     swal({
       title: "確認",
       text: "是否確定訂購？",
@@ -142,11 +147,11 @@
       confirmButtonText: "是的",
       cancelButtonText: "先不要",
       showCancelButton: true,
-      closeOnConfirm: true,
+      closeOnConfirm: false,
       showLoaderOnConfirm: true
     }, function (confirm) {
       if(confirm){
-        if ( $('#order').data('submitted') === true || !$('#order').valid()) {
+        if ( $('#order').data('submitted') === true) {
           return false;
         } else {
           $('#order').data('submitted', true);
