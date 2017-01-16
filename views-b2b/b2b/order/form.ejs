@@ -167,7 +167,7 @@
     		}
     	};
     	var catchDone = function (result) {
-        open('/orderinfo/' + result.data.item.id, '_self');
+        open('/orderinfo/' + result.data.item.orderNumber, '_self');
     	};
     	var catchFail = function (result) {
     		swal('錯誤', '建立訂單時出現問題，請稍候再試。', 'error');
