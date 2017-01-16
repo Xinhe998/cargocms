@@ -1,4 +1,4 @@
-var mainUrl = 'http://beta.motorworld.com.tw/';
+var mainUrl = 'http://beta.motorworld.com.tw';
 var divId = '#member';
 var urlParams = '';
 var height = 30;
