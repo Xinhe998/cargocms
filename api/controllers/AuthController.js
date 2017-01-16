@@ -7,6 +7,27 @@
  */
 const url = require('url');
 module.exports = {
+  entrance: async function(req, res) {
+    console.log('authenticated=>', req.session.authenticated);
+    console.log('req.session=>', req.session);
+    const authenticated = req.session.authenticated ? true : false;
+    const user = {
+      name: 'user_name',
+    };
+    const count = await User.count();
+    console.log('userCount=>',count);
+    res.view(
+      'auth/memberEnterance',
+      {
+        layout: 'auth/memberEnterance',
+        data: {
+          user,
+          authenticated,
+          count,
+        }
+      }
+    )
+  },
   login: function(req, res) {
     try{
       if(req.session.authenticated) return res.redirect('/');
