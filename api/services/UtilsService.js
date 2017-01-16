@@ -1,4 +1,5 @@
 import moment from 'moment';
+import crypto from 'crypto';
 import axios from 'axios';
 
 module.exports = {
@@ -43,5 +44,15 @@ module.exports = {
     } catch (e) {
       throw e;
     }
+  },
+
+  tokenGenerator: async function() {
+    try{
+      const token = crypto.randomBytes(32).toString('hex').substr(0, 32);
+      return token;
+    } catch (e) {
+      throw e;
+    }
+
   }
 }
