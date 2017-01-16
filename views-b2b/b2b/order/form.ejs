@@ -1,7 +1,7 @@
 
 <div class="b2b-breadcrumbs">
   <div class="container" style="max-width: 960px;">
-    <h1>填寫訂購單</h1>
+    <h1>確認訂購</h1>
   </div>
 </div>
 <form id="order" method='post' action='/order'>
@@ -17,19 +17,19 @@
         <hr />
         <div class="form-group">
           <label for=""><span class="column-require">*</span>訂購人 姓氏</label>
-          <input name="lastname" type="text" class="form-control" value=<%= loginUser.lastName %>>
+          <input name="lastname" type="text" class="form-control" value=<%= loginUser.lastName ? loginUser.lastName : '' %>>
         </div>
         <div class="form-group">
           <label for=""><span class="column-require">*</span>訂購人 名字</label>
-          <input name="firstname" type="text" class="form-control" value=<%= loginUser.firstName %>>
+          <input name="firstname" type="text" class="form-control" value=<%= loginUser.firstName ? loginUser.firstName : ''%>>
         </div>
         <div class="form-group">
           <label for=""><span class="column-require">*</span>電子郵件</label>
-          <input name="email" type="email" class="form-control" value=<%= loginUser.email %>>
+          <input name="email" type="email" class="form-control" value=<%= loginUser.email ? loginUser.email : '' %>>
         </div>
         <div class="form-group">
           <label for="telephone"><span class="column-require">*</span>聯絡電話</label>
-          <input name="telephone" type="text" class="form-control" value=<%= loginUser.phone1 %>>
+          <input name="telephone" type="text" class="form-control" value=<%= loginUser.phone1 ? loginUser.phone1 : '' %>>
         </div>
 
       </div>
@@ -134,21 +134,83 @@
 <% LayoutUtils.addScriptBlock(`
   $(document).ready(function(){
 
-    $.fn.preventDoubleSubmission = function() {
-      $(this).on('submit',function(e){
-        var $form = $(this);
+    var submitData = function (form) {
+      var api = $(form).attr('action');
+      var method = $(form).attr('method');
 
-        if ($form.data('submitted') === true || !$(this).valid()) {
-          e.preventDefault();
+      var values = {};
+      $.each($(form).serializeArray(), function (i, field) {
+      	values[field.name] = field.value;
+      });;
+
+      var ajaxConfig = {
+    		url: api,
+    		method: method,
+    		dataType: 'json',
+    		//contentType: 'application/json',
+    		cache: false,
+    		data: {
+    			email: values['email'],
+    			firstname: values['firstname'],
+    			lastname: values['lastname'],
+          telephone: values['telephone'],
+          shippingLastname: values['shippingLastname'],
+          shippingFirstname: values['shippingFirstname'],
+          shippingEmail: values['shippingEmail'],
+          shippingTelephone: values['shippingTelephone'],
+          shippingAddress1: values['shippingAddress1'],
+          shippingMethod: values['shippingMethod'],
+          county: values['county'],
+          district: values['district'],
+          zipcode: values['zipcode'],
+          products: values['products'],
+          comment: values['comment']
+    		}
+    	};
+    	var catchDone = function (result) {
+        open('/orderinfo/' + result.data.item.orderNumber, '_self');
+    	};
+    	var catchFail = function (result) {
+    		swal('錯誤', '建立訂單時出現問題，請稍候再試。', 'error');
+    	};
+    	$.ajax(ajaxConfig).done(catchDone).fail(catchFail);
+    };
+
+    $('#order').on("submit", function(event){
+      event.preventDefault()
+
+      var $form = $(this);
+
+      if(!$('#order').valid()){
+        return false;
+      }
+
+      swal({
+        title: "確認",
+        text: "是否確定訂購？",
+        type: "info",
+        confirmButtonClass: "btn-info",
+        confirmButtonText: "是的",
+        cancelButtonText: "先不要",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        showLoaderOnConfirm: true
+      }, function (confirm) {
+        if(confirm){
+          if ( $form.data('submitted') === true) {
+            return false;
+          } else {
+            $form.data('submitted', true);
+            localStorage.cart = [];
+            submitData($form);
+
+            return true;
+          }
         } else {
-          $form.data('submitted', true);
-
-          localStorage.cart = [];
+          return false;
         }
       });
-
-      return this;
-    };
+    });
 
     $('#twzipcode').twzipcode({});
     $('#twzipcode input').addClass('form-control');
@@ -258,8 +320,6 @@
         },
       }
     });
-
-    $('form').preventDoubleSubmission();
 
     if( $('input[name=products]').val() === '[]' ){
 

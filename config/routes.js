@@ -193,7 +193,7 @@ var defaultConfig = {
 
   'get /api/product': 'api/ProductController.find',
 
-  'get /orderinfo/:id': 'api/OrderController.getOrderInfo',
+  'get /orderinfo/:orderNumber': 'api/OrderController.getOrderInfo',
   'post /order': 'api/OrderController.createOrder',
 
   //----- Event -----
