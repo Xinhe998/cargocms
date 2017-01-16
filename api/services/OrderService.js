@@ -107,6 +107,7 @@ module.exports = {
 
       await OrderHistory.create({
         OrderId: order.id,
+        notify: true,
         OrderStatusId: orderStatus.id,
         comment: `User ID: ${data.UserId} ,Create New Order ID: ${order.id}`,
       });

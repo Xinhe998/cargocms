@@ -40,6 +40,7 @@ describe('about Order controllers', () => {
 
   it('User shopping car Order some Products.', async (done) => {
     try{
+      const token = '8178e7c8e88a68321af84bc7b77e2e38';
       let product = [
         {
           id: product1.id,
@@ -71,11 +72,14 @@ describe('about Order controllers', () => {
         ip: '',
         forwardedIp: '',
         userAgent: '',
-        comment: '這是一個訂購測試'
+        comment: '這是一個訂購測試',
+        token: token
       };
+
 
       const res = await request(sails.hooks.http.app)
       .post(`/api/order`).set('Accept', 'application/json').send( orderData );
+
 
       res.status.should.be.eq(200);
 
@@ -107,20 +111,20 @@ describe('about Order controllers', () => {
       })
       orderHistory[0].OrderStatusId.should.be.equal(orderStatus.id);
 
-      // const orderPayment = await OrderPayment.findOne({
-      //   where: {
-      //     id: order.OrderPaymentId
-      //   },
-      //   include: OrderPaymentStatus
-      // });
-      // orderPayment.status.should.be.eq('NEW');
-      //
-      // const orderPaymentHistory = await OrderPaymentHistory.findAll({
-      //   where: {
-      //     OrderPaymentId: orderPayment.id,
-      //   },
-      // });
-      // orderPaymentHistory.length.should.be.eq(1);
+      const orderPayment = await OrderPayment.findOne({
+        where: {
+          id: order.OrderPaymentId
+        },
+        include: OrderPaymentStatus
+      });
+      orderPayment.status.should.be.eq('NEW');
+
+      const orderPaymentHistory = await OrderPaymentHistory.findAll({
+        where: {
+          OrderPaymentId: orderPayment.id,
+        },
+      });
+      orderPaymentHistory.length.should.be.eq(1);
 
       done();
     } catch (e) {
@@ -129,10 +133,74 @@ describe('about Order controllers', () => {
 
   });
 
+  it('Repeat Order ', async (done) => {
+    try{
+      let repeatOrder = [];
+
+      const token = '9487e7c8e88a68321af84bc7b77e2168';
+      let product = [
+        {
+          id: product1.id,
+          quantity: 3,
+        },{
+          id: product2.id,
+          quantity: 2,
+        },{
+          id: product3.id,
+          quantity: 5,
+        }];
+      product = JSON.stringify(product);
+
+      const orderData = {
+        lastname: '日',
+        firstname: '晶晶',
+        products: product,
+        telephone: '04-22019020',
+        fax: '',
+        email: 'buyer@gmail.com',
+        shippingFirstname: '拜爾',
+        shippingLastname: '劉',
+        shippingAddress1: '台灣大道二段2號16F-1',
+        county: '台中市',
+        zipcode: '403',
+        district: '西區',
+        shippingMethod: '低溫宅配',
+        shippingCode: 'ship654321',
+        ip: '',
+        forwardedIp: '',
+        userAgent: '',
+        comment: '這是一個訂購測試',
+        token: token
+      };
+
+      repeatOrder.push(
+        request(sails.hooks.http.app)
+        .post(`/api/order`).set('Accept', 'application/json')
+        .send( orderData )
+      );
+      repeatOrder.push(
+        request(sails.hooks.http.app)
+        .post(`/api/order`).set('Accept', 'application/json')
+        .send( orderData )
+      );
+
+      const result = await Promise.all(repetOrder);
+      console.log("====Promise result ===", result);
+
+      const check = await Order.findAll({ where: { token }});
+      check.length.should.be.eq(1);
+
+    } catch(e){
+      done(e);
+    }
+  });
+
   it('Order Controller get Order Info data', async(done) => {
     try{
+      const order = await Order.findById(1);
+
       const res = await request(sails.hooks.http.app)
-      .get(`/orderinfo/1`);
+      .get(`/orderinfo/${order.orderNumber}`);
 
       res.status.should.be.eq(200);
       // res.body.data.item.invoiceNo.should.be.eq('87654321');
