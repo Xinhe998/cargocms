@@ -132,19 +132,18 @@ export function fetchFindShipItem(value, status) {
         search: {
           custom: {
             where: getState().user.currentUser.Supplier.id,
-          }
-        }
+          },
+        },
       },
       {
         data: 'status',
         searchable: true,
         search: {
           custom: {
-            where: status ? status : { $not: ''}
-          }
-        }
-      }
-      ],
+            where: status ? status : { $not: '' }
+          },
+        },
+      }],
       order: [{ column: '0', dir: 'asc' }],
       start: 0,
       length: 999999,
@@ -169,7 +168,7 @@ export function fetchFindShipItem(value, status) {
 
 export function updateShipOrderStatus({ id, data, status }) {
   return async(dispatch, getState) => {
-    const api = '/api/admin/suppliershiporder/status/' + id;
+    const api = `/api/admin/suppliershiporder/status/${id}`;
 
     const fetchResult = await putData(api, data);
     let result = '';
