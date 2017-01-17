@@ -4,19 +4,19 @@ var mainUrl = 'http://beta.motorworld.com.tw';
 //----------------------------------------------------------------------------/
 //------------------------------- main part ----------------------------------//
 //----------------------------------------------------------------------------//
-javascript: (function(e, s) {
-    e.src = s;
-    e.onload = function() {
-        jQuery.noConflict();
-        console.log('jQuery injected');
-
-        $ = jQuery;
-        refuel();
-        console.log("[Merlin] : refuel!");
-    };
-    document.head.appendChild(e);
-})(document.createElement('script'), '//code.jquery.com/jquery-latest.min.js');
-
+// javascript: (function(e, s) {
+//     e.src = s;
+//     e.onload = function() {
+//         jQuery.noConflict();
+//         console.log('jQuery injected');
+//
+//         $ = jQuery;
+//         refuel();
+//         console.log("[Merlin] : refuel!");
+//     };
+//     document.head.appendChild(e);
+// })(document.createElement('script'), '//code.jquery.com/jquery-latest.min.js');
+refuel();
 //-------------------------------- refuel ------------------------------------//
 function refuel() {
 
