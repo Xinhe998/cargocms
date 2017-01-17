@@ -141,6 +141,11 @@ export default class ShipCard extends React.Component {
     this.setState({ open: !openState });
   }
 
+  stopPropagation = (event) => {
+    event.stopPropagation();
+    event.nativeEvent.stopImmediatePropagation();
+  }
+
   render() {
     const cardBody = {
       isExpend: this.state.open,
@@ -181,7 +186,11 @@ export default class ShipCard extends React.Component {
           status={cardBody.status}
         />
         <CardActions>{}</CardActions>
-        <CardText expandable={true}>
+        <CardText
+          onClick={this.stopPropagation}
+          className='card-detail-wrapper'
+          expandable={true}
+        >
           <ShipCardDetail
             // toast func
             toast={this.props.toast}

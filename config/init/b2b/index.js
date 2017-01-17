@@ -1,17 +1,19 @@
-import product from './product/index.js';
-import supplier from './supplier/index.js';
-import supplierShipOrder from './suppliershiporder/index.js';
-import order from './order/index.js';
-import orderProduct from './orderproduct/index.js';
-import orderPayment from './orderpayment/index.js';
-import orderStatus from './orderstatus/index.js';
+import product from './product';
+import supplier from './supplier';
+import supplierShipOrder from './suppliershiporder';
+import order from './order';
+import orderProduct from './orderproduct';
+import orderPayment from './orderpayment';
+import orderStatus from './orderstatus';
+import menuItem from './menuItem';
 
 module.exports.init = async function(){
+  console.log("=== init b2b data ===");
   await product.init();
   await supplier.init();
   await orderStatus.init();
   await order.init();
   await orderProduct.init();
   await supplierShipOrder.init();
-  await orderPayment.init();
+  await menuItem.init();
 }

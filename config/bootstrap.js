@@ -12,6 +12,7 @@
 import fs from 'fs';
 import shortid from 'shortid';
 import MailerService from 'sails-service-mailer';
+import rc from 'rc';
 module.exports.bootstrap = async (cb) => {
 
 
@@ -110,18 +111,20 @@ module.exports.bootstrap = async (cb) => {
 
     await adminUser.addRole(adminRole[0]);
 
-    console.log("=== bootstrap create admin 5===");
     /*
      * 是否要匯入的判斷必須交給 init 定義的程式負責
      */
 
     if (environment !== 'test') {
       // 自動掃描 init 底下的 module 資料夾後執行資料初始化
+      let rcConfig = rc('sails');
+      let {modules} = rcConfig.configLoader
+
       fs.readdir('./config/init/', async function(err, files) {
-        for (var i of files) {
-          let dirName = i;
+        for (var file of files) {
+          let dirName = file;
           let isDir = fs.statSync('./config/init/' + dirName).isDirectory();
-          if (isDir) {
+          if (isDir && modules.indexOf(dirName) >= 0) {
             let hasIndexFile = fs.statSync('./config/init/' + dirName + '/index.js').isFile();
 
             try {

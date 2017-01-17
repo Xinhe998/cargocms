@@ -147,12 +147,14 @@ const styles = {
     const autoCompleteTitle = [];
     if (!isNoData) {
       for (const item of dataSource) {
-        autoCompleteTitle.push(item.displayName);
-        autoCompleteTitle.push(item.invoicePrefix + item.invoiceNo);
-        autoCompleteTitle.push(item.email);
-        autoCompleteTitle.push(item.telephone);
-        autoCompleteTitle.push(item.paymentAddress1);
-        autoCompleteTitle.push(item.paymentCity);
+        if (item.displayName) { autoCompleteTitle.push(item.displayName); }
+        if (item.email) { autoCompleteTitle.push(item.email); }
+        if (item.telephone) { autoCompleteTitle.push(item.telephone); }
+        if (item.paymentAddress1) { autoCompleteTitle.push(item.paymentAddress1); }
+        if (item.paymentCity) { autoCompleteTitle.push(item.paymentCity); }
+        if (item.invoicePrefix && item.invoiceNo) {
+          autoCompleteTitle.push(item.invoicePrefix + item.invoiceNo);
+        }
       }
     }
     return (
