@@ -236,21 +236,6 @@ var defaultConfig = {
 module.exports.routes = {
 
 
-  '/': {
-    controller: 'b2b/ProductController',
-    action: 'index'
-  },
-
-  'get /product': 'b2b/ProductController.index',
-
-  '/order/form': {
-    view: 'b2b/order/form'
-  },
-
-  'get /ship/*': function(req, res, next) {
-    console.log("=== ship path ==="+sails.config.appPath + '/react-app-ship/dist/index.html');
-    res.sendfile(sails.config.appPath + '/react-app-ship/dist/index.html');
-  },
   ...customConfig,
   ...defaultConfig,
   "/admin/:controller/:action/:id?": {},

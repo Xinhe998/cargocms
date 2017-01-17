@@ -1,5 +1,9 @@
 module.exports = {
 
+  '/': {
+    view: 'index'
+  },
+  
   'get /api/labfnp/recipe/findForLab': 'api/labfnp/RecipeController.findForLab',
   // 'get /api/labfnp/recipe': 'api/labfnp/RecipeController.find',
   'post /api/labfnp/recipe': 'api/labfnp/RecipeController.create',
