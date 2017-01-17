@@ -204,6 +204,7 @@ var defaultConfig = {
   'get /logout': 'AuthController.logout',
   'get /register': 'AuthController.register',
   'get /forgot': 'AuthController.forgot',
+  'get /facebook/redirect': 'AuthController.facebookRedirect',
 
   'post /auth/local': 'AuthController.callback',
   'post /auth/local/:action': 'AuthController.callback',
@@ -229,9 +230,7 @@ var defaultConfig = {
 module.exports.routes = {
 
 
-  '/': {
-    view: 'index'
-  },
+  '/': 'MainController.index',
 
   'get /product': 'b2b/ProductController.index',
 

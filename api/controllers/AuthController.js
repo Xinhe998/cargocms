@@ -206,6 +206,21 @@ module.exports = {
     } catch (e) {
       res.serverError(e);
     }
+  },
+
+  facebookRedirect: function(req, res) {
+    try {
+      console.log("!!!!!!!!!!!!!!!!!!!!!");
+      let url = "/";
+      if(UtilsService.isMobile(req)) {
+        url = 'http://m.motorworld.com.tw/';
+      } else {
+        url = 'http://www.motorworld.com.tw/home?debug=true';
+      }
+      return res.redirect(url);
+    } catch (e) {
+      res.serverError(e);
+    }
   }
 
 };
