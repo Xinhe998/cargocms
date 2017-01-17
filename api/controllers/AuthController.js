@@ -24,7 +24,8 @@ module.exports = {
           user,
           authenticated,
           count,
-          url: sails.config.appUrl + '?debug=true',
+          // url: sails.config.appUrl + '?debug=true',
+          url: 'http://www.motorworld.com.tw/home?debug=true',
         }
       }
     )
