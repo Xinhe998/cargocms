@@ -24,6 +24,7 @@ module.exports = {
           user,
           authenticated,
           count,
+          url: sails.config.appUrl,
         }
       }
     )
