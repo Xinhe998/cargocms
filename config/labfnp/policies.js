@@ -40,5 +40,6 @@ module.exports = {
   },
   "api/admin/labfnp/ScentNoteController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
+    'find': ['passport', 'sessionAuth'],
   }
 }
