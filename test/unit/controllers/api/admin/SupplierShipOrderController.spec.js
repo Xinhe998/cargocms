@@ -80,7 +80,7 @@ describe('about admin Supplier Ship Order controllers', () => {
       done();
     });
 
-    it.only('admin get Supplier Ship Order shoubld success.', async(done) => {
+    it('admin get Supplier Ship Order shoubld success.', async(done) => {
       try {
         const query2 = {
         	"serverSidePaging": "true",
@@ -121,7 +121,6 @@ describe('about admin Supplier Ship Order controllers', () => {
         const res = await request(sails.hooks.http.app)
         .post(`/api/admin/suppliershiporder/all`)
         .send(query2);
-        console.log('res=>', res);
         res.status.should.be.eq(200);
         done()
       } catch (e) {

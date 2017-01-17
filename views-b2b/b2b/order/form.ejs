@@ -110,7 +110,8 @@
       </tbody>
     </table>
 
-    <input name="products" class="form-control hidden" v-bind:value=JSON.stringify(carts)>
+    <input name="products" type="hidden" v-bind:value=JSON.stringify(carts)>
+    <input name="token" type="hidden" value=<%= token %>>
 
     <hr style="border-top: 2px solid #aaa"/>
     <table class="b2b-bill-info pull-right">
@@ -163,7 +164,8 @@
           district: values['district'],
           zipcode: values['zipcode'],
           products: values['products'],
-          comment: values['comment']
+          comment: values['comment'],
+          token: values['token']
     		}
     	};
     	var catchDone = function (result) {
