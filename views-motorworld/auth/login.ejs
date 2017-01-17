@@ -22,12 +22,16 @@
         <div class="or-divider"></div>
 
         <form class="register-form" method="post" action="/auth/local?url=<%= data.url %>">
+          <% if (data.errors === 'Error.Passport.BadUserPassword') { %>
+            <div class="alert alert-danger" role="alert">帳號或密碼錯誤！</div>
+          <% } %>
           <div class="form-group" style="margin-bottom: 30px;">
             <input id="identifier" name="identifier" class="form-control" placeholder="* 帳號">
           </div>
           <div class="form-group" style="margin-bottom: 56px;">
             <input id="password" name="password" type="password" class="form-control" placeholder="* 密碼">
           </div>
+
           <div class="form-group">
             <button type="submit" class="btn btn-primary btn-lg btn-block">立即登入</button>
           </div>
