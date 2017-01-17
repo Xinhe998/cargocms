@@ -25,13 +25,11 @@ module.exports = {
       res.ok({
         message,
         data: {
-          item: order,
-          product: orderProduct
-        },
-      }, {
-        redirect: `/orderinfo/${order.id}`,
-      });
-      // return res.redirect(`/orderinfo/${order.id}`);
+          item: {
+            orderNumber: order.orderNumber
+          }
+        }
+      })
 
     } catch (e) {
       res.serverError(e);
@@ -40,8 +38,13 @@ module.exports = {
 
   getOrderInfo: async (req, res) => {
     try{
-      const orderId = req.params.id;
-      const order = await Order.findById(orderId,{ include: [ User , OrderStatus ]});
+      const orderNumber = req.params.orderNumber;
+      const order = await Order.findOne({
+        where: {
+          orderNumber
+        },
+        include: [ User , OrderStatus ]
+       });
       const loginUser = AuthService.getSessionUser(req);
       let message = '';
       if(!order){
