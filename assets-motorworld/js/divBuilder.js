@@ -1,4 +1,6 @@
-var mainUrl = 'http://beta.motorworld.com.tw';
+// var mainUrl = 'http://beta.motorworld.com.tw';
+var mainUrl = window.location.origin;
+
 var divId = '#member';
 var urlParams = '';
 var height = 30;
@@ -11,7 +13,8 @@ function getEntrance() {
   console.log('[Merlin] : should I magically show the entrance? =>', isDebug);
 
   if(isDebug) {
-    iFrameTarget = mainUrl + '/entrance';
+    var timeStamp = new Date();
+    iFrameTarget = mainUrl + '/entrance?t=' + timeStamp.getTime();
     iFrameDiv ='<iframe src=' + iFrameTarget + ' ' +
       'frameborder="0" scrolling="no" name="member" height=' + height + '></iframe>';
     try {
