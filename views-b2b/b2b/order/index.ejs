@@ -1,12 +1,15 @@
 
 <div class="b2b-breadcrumbs">
   <div class="container" style="max-width: 960px;">
-    <h1>確認訂購單</h1>
+    <h1>完成訂購</h1>
   </div>
 </div>
 <div class="container b2b-order-form">
 
   <div class="row">
+    <div class="row col-lg-12" style="margin: 1.5em 0 0 1em;">
+      <strong>訂單編號: </strong><%= data.item.orderNumber %>
+    </div>
 
     <div class="row col-lg-6" style="margin-top: 2em;">
       <div class="col-sm-3 col-lg-5">
@@ -16,19 +19,19 @@
         <table style="margin-top: 3.2em;">
           <tbody>
             <tr>
-              <td style="width: 6em;">客戶名稱：</td><td><%= data.item.User.lastName + data.item.User.firstName %></td>
+              <td style="width: 6em;">客戶名稱：</td><td><%= (data.item.User.lastName + data.item.User.firstName) ? (data.item.User.lastName + data.item.User.firstName) : '' %></td>
             </tr>
             <tr>
-              <td>購買人：</td><td><%= data.item.lastname + data.item.firstname %></td>
+              <td>購買人：</td><td><%= (data.item.lastname + data.item.firstname) ? (data.item.lastname + data.item.firstname): '' %></td>
             </tr>
             <tr>
-              <td>電子郵件：</td><td><%= data.item.email %></td>
+              <td>電子郵件：</td><td><%= data.item.email ? data.item.email : '' %></td>
             </tr>
             <tr>
-              <td>通訊地址：</td><td><%= data.item.User.address %></td>
+              <td>通訊地址：</td><td><%= data.item.User.address ? data.item.User.address : '' %></td>
             </tr>
             <tr>
-              <td>電話：</td><td><%= data.item.User.phone1 %></td>
+              <td>電話：</td><td><%= data.item.User.phone1 ? data.item.User.phone1: '' %></td>
             </tr>
           </tbody>
         </table>
@@ -43,19 +46,25 @@
         <table style="margin-top: 3.2em;">
           <tbody>
             <tr>
-              <td style="width: 6em;">運送方式：</td><td><%= data.item.shippingMethod %></td>
+              <td style="width: 6em;">運送方式：</td><td><%= data.item.shippingMethod ? data.item.shippingMethod : '' %></td>
             </tr>
             <tr>
               <td>運費：</td><td>免運費</td>
             </tr>
             <tr>
-              <td>收件地址：</td><td><%= data.item.shippingPostcode + ' ' + data.item.shippingAddress1 %></td>
+              <td>收件地址：</td>
+              <td>
+              <%= ( data.item.shippingPostcode ? data.item.shippingPostcode : '' ) + ' ' + (data.item.shippingAddress1 ? data.item.shippingAddress1 : '') %>
+              </td>
             </tr>
             <tr>
-              <td>收件人：</td><td><%= data.item.shippingLastname + ' ' + data.item.shippingFirstname %></td>
+              <td>收件人：</td>
+              <td>
+              <%= (data.item.shippingLastname ? data.item.shippingLastname : '') + ' ' + (data.item.shippingFirstname ? data.item.shippingFirstname : '') %>
+              </td>
             </tr>
             <tr>
-              <td>聯絡電話：</td><td><%= data.item.telephone %></td>
+              <td>聯絡電話：</td><td><%= data.item.telephone ? data.item.telephone : '' %></td>
             </tr>
           </tbody>
         </table>
@@ -94,12 +103,33 @@
     </tr>
   </table>
 
-  <a href="/" role="button" class="btn btn-default btn-lg pull-right paid" style="clear:right; display:inline-block; margin:1.6em 0 3em;">繼續選購</a>
+  <button class="btn btn-default btn-lg pull-right paid" style="clear:right; display:inline-block; margin:1.6em 0 3em;" onclick="goBackIndex();">繼續選購</button>
 
 </div>
 
 <% LayoutUtils.addScriptBlock(`
+  function goBackIndex(){
+    swal({
+      title: "確認",
+      text: "是否離開此頁面？",
+      type: "info",
+      confirmButtonClass: "btn-info",
+      confirmButtonText: "是的",
+      cancelButtonText: "先不要",
+      showCancelButton: true,
+      closeOnConfirm: true,
+      showLoaderOnConfirm: true
+    }, function (confirm) {
+      if(confirm){
+        window.location = "/";
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+  
   $(document).ready(function(){
-    
+
   })
 `); %>
