@@ -241,6 +241,11 @@ module.exports = {
       defaultValue: 'NEW'
 		},
 
+    token: {
+      type: Sequelize.STRING(32),
+      unique: true,
+    },
+
 		createdDateTime: {
 			type: Sequelize.VIRTUAL,
 			get: function() {
