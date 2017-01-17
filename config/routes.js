@@ -235,7 +235,6 @@ var defaultConfig = {
 
 module.exports.routes = {
 
-
   ...customConfig,
   ...defaultConfig,
   "/admin/:controller/:action/:id?": {},

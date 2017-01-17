@@ -18,18 +18,42 @@ module.exports = {
       // data.forwardedIp = req.headers["X-Forwarded-For"] || '';
       data.acceptLanguage = req.header["accept-language"] || '';
 
-      const { order , orderProduct } = await OrderService.createOrder(data);
+      const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
 
-      const message = 'Order create success';
-
-      res.ok({
-        message,
-        data: {
-          item: {
-            orderNumber: order.orderNumber
+      const success = (order) => {
+        const message = 'Order create success';
+        return res.ok({
+          message,
+          data: {
+            item: {
+              orderNumber: order.orderNumber
+            }
           }
-        }
+        })
+
+      };
+      const error = () => {
+        return res.redirect('/');
+      };
+
+      let transaction;
+      return sequelize.transaction({ isolationLevel })
+      .then(function (t) {
+        transaction = t;
+        return OrderService.createOrder(transaction, data);
       })
+      .then(function(order){
+        transaction.commit();
+        success(order);
+      })
+      .catch(sequelize.UniqueConstraintError, function(e) {
+        throw Error('此交易已失效，請重新下訂')
+      })
+      .catch(function(err) {
+        sails.log.error('訂單建立 Order 失敗', err.toString());
+        transaction.rollback();
+        error();
+      });
 
     } catch (e) {
       res.serverError(e);

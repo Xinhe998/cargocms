@@ -250,6 +250,11 @@ module.exports = {
       allowNull: false,
     },
 
+    token: {
+      type: Sequelize.STRING(32),
+      unique: true,
+    },
+
     // dateAdded: {
     //   type: Sequelize.DATE,
     //   allowNull: false,

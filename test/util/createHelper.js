@@ -58,8 +58,13 @@ module.exports = {
         }
       })
 
+      const order = await Order.findAll();
+
+      const orderNumber = `200102310000${order.length}AAA`;
+
       const data = {
         UserId: userId,
+        orderNumber: ``,
         invoiceNo: '12345678',
         invoicePrefix: 'GH',
         customField: '',
@@ -148,7 +153,8 @@ module.exports = {
         email: 'seafood@example.com',
         telephone: '(04)-2201-1688',
         fax: '(04)-2201-1168',
-        address: '台中市清水區北提路'
+        address: '台中市清水區北提路',
+        taxId: '54891351'
       };
 
       return await Supplier.create(data);
@@ -174,11 +180,13 @@ module.exports = {
     try {
       let order = await Order.findById(orderId);
       order = order.toJSON();
+      let shipOrder = await SupplierShipOrder.findAll();
       let data = {
         ...order,
         OrderId: orderId,
         SupplierId: supplierId,
         status: 'NEW',
+        shipOrderNumber: `201702310000${shipOrder.length}SSS`
       }
       console.log(data);
       delete data.id;
