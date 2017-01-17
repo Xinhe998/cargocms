@@ -37,5 +37,5 @@ function setStyle() {
   $(divId).css('top', '10px');
   $(divId).css('position', 'absolute');
   $(divId).css('z-index', '999999');
-
+  $('div.m-toolbar').css('padding-top', '50px');
 }

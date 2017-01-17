@@ -1,5 +1,5 @@
-// var mainUrl = 'http://beta.motorworld.com.tw';
-var mainUrl = window.location.origin;
+var mainUrl = 'http://beta.motorworld.com.tw';
+// var mainUrl = window.location.origin;
 
 var divId = '#member';
 var urlParams = '';

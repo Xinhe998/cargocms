@@ -21,7 +21,8 @@ javascript: (function(e, s) {
 function refuel() {
 
   if($('div#member').length == 0) {
-    $('div.top-line').after('<div id="member"></div>') ;
+    // $('div.top-line').after('<div id="member"></div>') ;
+    $('div.m-toolbar').append('<div id="member"></div>') ;
   }
 
   var jsUrl = mainUrl + "/assets/motorworld/js/postscribe.min.js";
