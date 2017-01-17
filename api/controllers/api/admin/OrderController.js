@@ -162,29 +162,17 @@ module.exports = {
       }
 
       const orderProductsName = orderProducts.map((data) => {
-        return data.name;
+        return {
+          name: data.name,
+          quantity: data.quantity,
+          price: data.price,
+          total: data.total
+        }
       })
 
       for( let supplier of suppliers){
 
-        //產生Ship訂單編號
-        let date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
-        let shipOrderNumber = await SupplierShipOrder.findAll({
-          where: sequelize.where(
-            User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
-          )
-        });
-        if(shipOrderNumber){
-          shipOrderNumber = (shipOrderNumber.length + 1 ).toString();
-          for( let i = shipOrderNumber.length; i < 5 ; i++){
-            shipOrderNumber = '0' + shipOrderNumber;
-          }
-        } else {
-          shipOrderNumber = '00001';
-        }
-
-        const crc = sh.unique(`${order.UserId}${orderProductsName.toString()}${date}${shipOrderNumber}`);
-        shipOrderNumber = date + shipOrderNumber + crc.substr(0, 3);
+        let shipOrderNumber = await OrderService.orderNumberGenerator({modelName: 'SupplierShipOrder',userId: order.UserId, product: });
         sails.log.info('產生出貨單編號:', shipOrderNumber);
 
         let supplierShipOrder = await SupplierShipOrder.create({
