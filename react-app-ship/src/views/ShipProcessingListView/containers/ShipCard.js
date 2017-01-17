@@ -170,7 +170,7 @@ export default class ShipCard extends React.Component {
       shippingAddress: `${this.props.shippingPostcode} ${this.props.shippingCity}${this.props.shippingAddress1}`,
       tracking: this.props.tracking,
       comment: this.props.comment,
-      orderNumber: props.Order.orderNumber,
+      orderNumber: this.props.Order.orderNumber,
     };
     return (
       <Card
@@ -201,6 +201,7 @@ export default class ShipCard extends React.Component {
             // toast func
             toast={this.props.toast}
             // same as cardBody
+            shipOrderNumber={this.props.shipOrderNumber}
             shipOrderId={this.props.id}
             isExpend={cardBody.isExpend}
             invoiceCode={cardBody.invoiceCode}

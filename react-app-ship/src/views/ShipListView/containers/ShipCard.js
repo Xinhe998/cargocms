@@ -173,7 +173,7 @@ export default class ShipCard extends React.Component {
       shippingAddress: `${props.shippingPostcode} ${props.shippingCity}${props.shippingAddress1}`,
       tracking: props.tracking,
       comment: props.comment,
-      orderNumber: props.Order.orderNumber,
+      orderNumber: this.props.Order.orderNumber,
     };
     return (
       <Card

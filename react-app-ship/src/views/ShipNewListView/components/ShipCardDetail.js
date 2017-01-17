@@ -46,6 +46,7 @@ const defaultProps = {
 const propTypes = {
   toast: PropTypes.func,
   isExpend: PropTypes.bool,
+  shipOrderNumber: PropTypes.string,
   invoiceCode: PropTypes.string,
   orderDetail: PropTypes.array,
   orderDate: PropTypes.object,
