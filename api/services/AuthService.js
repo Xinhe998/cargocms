@@ -21,7 +21,7 @@ module.exports = {
 
     let user = AuthService.getSessionUser(req);
     let isAdmin = false;
-    if (user) {
+    if (user && user.Roles) {
       user.Roles.forEach((role) => {
         if(role.authority == 'admin') isAdmin = true;
       });

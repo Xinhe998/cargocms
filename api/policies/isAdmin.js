@@ -13,6 +13,6 @@ module.exports = function(req, res, next) {
     return next();
   }
   req.flash('error', 'Error.NoPermitted');
-  
+
   return res.forbidden('You are not permitted to perform this action.');
 };

@@ -7,7 +7,9 @@ module.exports = {
         where: {
           username: 'admin',
         }
+        ,include: Role
       });
+
       sinon.stub(AuthService, 'getSessionUser', (req) => {
         return admin.toJSON();
       });
