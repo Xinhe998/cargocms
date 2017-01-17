@@ -8,6 +8,13 @@
   </section>
 
   <section>
+    <label class="label">出貨單編號</label>
+    <label class="input state-disabled">
+      <input type="text" name="shipOrderNumber" placeholder="" v-model="data.item.shipOrderNumber" disabled>
+      <b class="tooltip tooltip-bottom-right">出貨單編號</b></label>
+  </section>
+
+  <section>
     <label class="label">發票號碼</label>
     <label class="input state-disabled">
       <input type="text" name="invoiceNo" placeholder="" v-model="data.item.invoiceNo" disabled>

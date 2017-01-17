@@ -25,13 +25,11 @@ module.exports = {
       res.ok({
         message,
         data: {
-          item: order,
-          product: orderProduct
-        },
-      }, {
-        redirect: `/orderinfo/${order.id}`,
-      });
-      // return res.redirect(`/orderinfo/${order.id}`);
+          item: {
+            orderNumber: order.orderNumber
+          }
+        }
+      })
 
     } catch (e) {
       res.serverError(e);
@@ -40,11 +38,22 @@ module.exports = {
 
   getOrderInfo: async (req, res) => {
     try{
-      const orderId = req.params.id;
-      const order = await Order.findById(orderId,{ include: [ User , OrderStatus ]});
-
+      const orderNumber = req.params.orderNumber;
+      const order = await Order.findOne({
+        where: {
+          orderNumber
+        },
+        include: [ User , OrderStatus ]
+       });
+      const loginUser = AuthService.getSessionUser(req);
+      let message = '';
       if(!order){
         return res.notFound();
+      }
+
+      if(!loginUser || loginUser.id !== order.UserId){
+        message = '您沒有足夠權限瀏覽此網頁';
+        return res.forbidden(message);
       }
 
       const orderProduct = await OrderProduct.findAll({
@@ -52,7 +61,8 @@ module.exports = {
           OrderId: order.id
         }
       })
-      const message = 'get Order info success';
+
+      message = 'get Order info success';
 
       res.view('b2b/order/index',{
         message: message,

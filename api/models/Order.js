@@ -1,6 +1,10 @@
 
 module.exports = {
   attributes: {
+    orderNumber: {
+      type: Sequelize.STRING(48),
+      allowNull: false
+    },
     invoiceNo: {
       type: Sequelize.STRING(48),
       defaultValue: 0,

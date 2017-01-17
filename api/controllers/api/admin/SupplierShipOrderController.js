@@ -78,7 +78,7 @@ module.exports = {
   status: async (req, res) => {
     try {
       const { id } = req.params;
-      const { status } = req.body;
+      const { status, comment } = req.body;
 
       let findSupplierShipOrderProduct = await SupplierShipOrderProduct.findAll({
         where: {
@@ -93,6 +93,11 @@ module.exports = {
         }
       });
       if (checkSupplierShipOrderProductHasCOMPLETED.length > 0) {
+        await SupplierShipOrderHistory.create({
+          notify: true,
+          comment: `取消出貨單操作：失敗，已有商品揀貨完成，不能取消訂單。 SupplierShipOrder ID: ${id}`,
+          SupplierShipOrderId: id
+        });
         throw Error('已有商品揀貨完成，不能取消訂單');
       }
 
@@ -109,6 +114,18 @@ module.exports = {
           })
           .catch(function(err) {
             reject(err)
+          });
+
+          SupplierShipOrderHistory.create({
+            notify: true,
+            comment: `出貨單 SupplierShipOrder ID: ${id}，狀態變更:${status}，變更理由: ${comment}`,
+            SupplierShipOrderId: id
+          })
+          .then(function(supplierShipOrderHistory){
+            resolve(supplierShipOrderHistory);
+          })
+          .catch(function(err){
+            reject(err);
           });
         });
       }
@@ -140,6 +157,9 @@ module.exports = {
       })
       .then(function() {
         switch (status) {
+          case 'COMPLETED':
+            return updateSupplierShipOrderProductStatus('COMPLETED', transaction);
+            break;
           case 'PROCESSING':
             return updateSupplierShipOrderProductStatus('PROCESSING', transaction);
             break;

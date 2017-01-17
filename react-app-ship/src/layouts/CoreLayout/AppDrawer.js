@@ -132,7 +132,7 @@ const styles = {
 
     styles.drawerContainer.position = isMobile ? 'fixed' : 'relative';
     return (
-      <div className=''>
+      <div className='appBarWraaper'>
         <AppBar
           className='appBar'
           title={titleText}
@@ -153,7 +153,7 @@ const styles = {
           >
             <DrawerMenuItems />
           </Drawer>
-          <div className='' style={styles.content}>
+          <div className='pageContent' style={styles.content}>
             {this.props.content}
           </div>
           <Snackbar

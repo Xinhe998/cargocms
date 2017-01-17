@@ -23,7 +23,7 @@ function storeToCart(product) {
     cart.push(product);
   }
   cart = $(cart).filter(function (i, e) {
-    if(e.number == 0) return false;
+    if(e.quantity == 0) return false;
     else return true;
   }).toArray();
   localStorage.cart = JSON.stringify(cart);
@@ -45,6 +45,15 @@ function updateCartInput() {
     var productDom = $('.product[data-id="' + el.id + '"]');
     $('.form-group input', productDom).val(el.quantity);
   });
+  if (cart.length > 0) {
+    $('li#cart > a').css('color', 'red');
+    $('li#cart > a').css('font-size', '18px');
+    $('li#cart span.badge').css('background-color', '#000');
+  } else {
+    $('li#cart > a').css('color', '#777');
+    $('li#cart > a').css('font-size', '14px');
+    $('li#cart span.badge').css('background-color', '#777');
+  }
 }
 
 $(function () {

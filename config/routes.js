@@ -126,7 +126,7 @@ var defaultConfig = {
 
   'post /api/order': 'api/OrderController.createOrder',
 
-  'post /api/admin/order/confirm/:id': 'api/admin/OrderController.confirm',
+  'put /api/admin/order/confirm/:id': 'api/admin/OrderController.confirm',
 
   'post  /api/admin/suppliershiporder/all': 'api/admin/SupplierShipOrderController.find',
   'put /api/admin/suppliershiporder/status/:id': 'api/admin/SupplierShipOrderController.status',
@@ -137,6 +137,7 @@ var defaultConfig = {
   'get /api/admin/order': 'api/admin/OrderController.find',
   'get /api/admin/order/:id': 'api/admin/OrderController.findOne',
   'post /api/admin/order': 'api/admin/OrderController.create',
+  'put /api/admin/order/status/:id': 'api/admin/OrderController.updateStatus',
   'put /api/admin/order/:id': 'api/admin/OrderController.update',
   'delete /api/admin/order/:id': 'api/admin/OrderController.destroy',
 
@@ -179,13 +180,20 @@ var defaultConfig = {
 
   'get /api/admin/orderpaymenthistory': 'api/admin/OrderPaymentHistoryController.find',
   'get /api/admin/orderpaymenthistory/:id': 'api/admin/OrderPaymentHistoryController.findOne',
-  'post /api/admin/orderpaymenthistory': 'api/admin/OrderPaymentHistoryController.create',
-  'put /api/admin/orderpaymenthistory/:id': 'api/admin/OrderPaymentHistoryController.update',
-  'delete /api/admin/orderpaymenthistory/:id': 'api/admin/OrderPaymentHistoryController.destroy',
+  // 'post /api/admin/orderpaymenthistory': 'api/admin/OrderPaymentHistoryController.create',
+  // 'put /api/admin/orderpaymenthistory/:id': 'api/admin/OrderPaymentHistoryController.update',
+  // 'delete /api/admin/orderpaymenthistory/:id': 'api/admin/OrderPaymentHistoryController.destroy',
+
+  'get /api/admin/suppliershiporderhistory': 'api/admin/SupplierShipOrderHistoryController.find',
+  'get /api/admin/suppliershiporderhistory/:id': 'api/admin/SupplierShipOrderHistoryController.findOne',
+  // 'post /api/admin/suppliershiporderhistory': 'api/admin/SupplierShipOrderHistoryController.create',
+  // 'put /api/admin/suppliershiporderhistory/:id': 'api/admin/SupplierShipOrderHistoryController.update',
+  // 'delete /api/admin/suppliershiporderhistory/:id': 'api/admin/SupplierShipOrderHistoryController.destroy',
+
 
   'get /api/product': 'api/ProductController.find',
 
-  'get /orderinfo/:id': 'api/OrderController.getOrderInfo',
+  'get /orderinfo/:orderNumber': 'api/OrderController.getOrderInfo',
   'post /order': 'api/OrderController.createOrder',
 
   //----- Event -----

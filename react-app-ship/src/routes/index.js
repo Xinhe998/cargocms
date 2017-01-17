@@ -12,6 +12,10 @@ import HomeView from 'views/HomeView/HomeView';
 import Login from 'views/Login/Login';
 import MaterialUi from 'views/MaterialUi/MaterialUi';
 import ShipList from 'views/ShipListView';
+import ShipNewList from 'views/ShipNewListView';
+import ShipProcessingList from 'views/ShipProcessingListView';
+import ShippedList from 'views/ShippedListView';
+import ShipCompletedList from 'views/ShipCompletedListView';
 
 function redirectToLogin(props, replace) {
   // TODO: 有登入 api 之後需要啟用這隻 func 以便在進去後台前就先檢查是否已登入
@@ -31,6 +35,18 @@ export default (store) => (
       <IndexRoute component={ShipList} />
       <Route path='/ship/history' component={ShipList} />
       <Route path='/ship/user' component={ShipList} />
+    </Route>
+    <Route path='/shipnew' component={CoreLayout}>
+      <IndexRoute component={ShipNewList} />
+    </Route>
+    <Route path='/shipprocessing' component={CoreLayout}>
+      <IndexRoute component={ShipProcessingList} />
+    </Route>
+    <Route path='/shipped' component={CoreLayout}>
+      <IndexRoute component={ShippedList} />
+    </Route>
+    <Route path='/shipcompleted' component={CoreLayout}>
+      <IndexRoute component={ShipCompletedList} />
     </Route>
     <Route path='/contact' component={Login} />
     <Route path='/HomeView' component={CoreLayout}>

@@ -24,59 +24,7 @@ describe('about Order controllers', () => {
       product2 = await createHelper.product('Product B');
       product3 = await createHelper.product('Product C');
 
-      const orderStatusData = [
-        {
-          name:"NEW",
-          languageId:0
-        },{
-          name:"PAID",
-          languageId:0
-        },{
-          name:"PROCESSING",
-          languageId:0
-        },{
-          name:"SHIPPED",
-          languageId:0
-        },{
-          name:"CANCELLED",
-          languageId:0
-        },{
-          name:"COMPLETED",
-          languageId:0
-        },{
-          name:"DENIED",
-          languageId:0
-        },{
-          name:"CANCELED REVERSAL",
-          languageId:0
-        },{
-          name:"FAILED",
-          languageId:0
-        },{
-          name:"REFUNDED",
-          languageId:0
-        },{
-          name:"REVERSED",
-          languageId:0
-        },{
-          name:"CHARGEBACK",
-          languageId:0
-        },{
-          name:"PENDING",
-          languageId:0
-        },{
-          name:"VOIDED",
-          languageId:0
-        },{
-          name:"PROCESSED",
-          languageId:0
-        },{
-          name:"EXPIRED",
-          languageId:0
-        }
-      ]
-
-      await OrderStatus.bulkCreate(orderStatusData);
+      await createHelper.orderStatus();
 
       done();
     } catch (e) {
@@ -85,6 +33,7 @@ describe('about Order controllers', () => {
   });
 
   after(async (done) => {
+    await createHelper.deleteAllOrderStatus();
     await unMockAdmin();
     done();
   });
@@ -113,9 +62,10 @@ describe('about Order controllers', () => {
         email: 'buyer@gmail.com',
         shippingFirstname: '拜爾',
         shippingLastname: '劉',
-        shippingAddress1: '西區台灣大道二段2號16F-1',
-        shippingCity: '台中市',
-        shippingPostcode: '402',
+        shippingAddress1: '台灣大道二段2號16F-1',
+        county: '台中市',
+        zipcode: '403',
+        district: '西區',
         shippingMethod: '低溫宅配',
         shippingCode: 'ship123456',
         ip: '',
@@ -142,6 +92,20 @@ describe('about Order controllers', () => {
       });
 
       orderProduct.length.should.be.equal(3);
+
+      const orderHistory = await OrderHistory.findAll({
+        where: {
+          OrderId: order.id
+        }
+      });
+      orderHistory.length.should.be.equal(1);
+
+      const orderStatus = await OrderStatus.findOne({
+        where: {
+          name: 'NEW'
+        }
+      })
+      orderHistory[0].OrderStatusId.should.be.equal(orderStatus.id);
 
       // const orderPayment = await OrderPayment.findOne({
       //   where: {
