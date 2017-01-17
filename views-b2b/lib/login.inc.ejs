@@ -63,7 +63,7 @@ a.btn-facebook-inversed {
   <div id="login-page" >
     <form class="reg-page" method="post" action="/auth/local?url=/">
       <% console.log('sails.config.passport.facebook',sails.config.passport.facebook)  %>
-      <% if( sails.config.passport.facebook ) {%>
+      <% if( sails.config.passport.facebook.clientID ) {%>
       <div class="social-login">
         <ul class="list-unstyled">
           <li>
