@@ -121,9 +121,6 @@ var defaultConfig = {
   'put /api/admin/productdescription/:id':  'api/admin/ProductDescriptionController.update',
   'delete /api/admin/productdescription/:id':  'api/admin/ProductDescriptionController.destroy',
 
-  'get /api/admin/labfnp/scent':  'api/admin/labfnp/ScentController.find',
-  'get /api/admin/labfnp/scentnote':  'api/admin/labfnp/ScentNoteController.find',
-
   'post /api/order': 'api/OrderController.createOrder',
 
   'put /api/admin/order/confirm/:id': 'api/admin/OrderController.confirm',
@@ -235,24 +232,6 @@ var defaultConfig = {
 
 module.exports.routes = {
 
-
-  '/': {
-    controller: 'b2b/ProductController',
-    action: 'index'
-  },
-
-  'get /product': 'b2b/ProductController.index',
-
-  'get /order/form': {
-    // view: 'b2b/order/form'
-    controller: 'b2b/OrderController',
-    action: 'orderForm'
-  },
-
-  'get /ship/*': function(req, res, next) {
-    console.log("=== ship path ==="+sails.config.appPath + '/react-app-ship/dist/index.html');
-    res.sendfile(sails.config.appPath + '/react-app-ship/dist/index.html');
-  },
   ...customConfig,
   ...defaultConfig,
   "/admin/:controller/:action/:id?": {},

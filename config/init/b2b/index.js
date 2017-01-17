@@ -6,6 +6,8 @@ import orderProduct from './orderproduct';
 import orderPayment from './orderpayment';
 import orderStatus from './orderstatus';
 import menuItem from './menuItem';
+import fakeusers from './../default/fakeusers';
+import user from './../default/user';
 
 module.exports.init = async function(){
   console.log("=== init b2b data ===");
@@ -16,4 +18,6 @@ module.exports.init = async function(){
   await orderProduct.init();
   await supplierShipOrder.init();
   await menuItem.init();
+  await fakeusers.init();
+  await user.init();
 }

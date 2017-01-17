@@ -92,15 +92,7 @@ var defaultConfig = {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
 
-  "api/admin/labfnp/ScentFeedbackController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
-  "api/admin/labfnp/ScentController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
-  "api/admin/labfnp/ScentNoteController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
+
 
   "api/admin/ProductDescriptionController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
