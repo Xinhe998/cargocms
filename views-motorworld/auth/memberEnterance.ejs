@@ -1,25 +1,37 @@
-<!-- Web Fonts -->
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<!-- Layout Custom -->
-<link rel="stylesheet" href="/css/motorworld/importer.css">
-<body style="margin: 0px; background-color: #FFF;">
-  <header class="moto-header">
-    <div class="logo-block" style="padding: 0;">
-      <div class="header-tools">
-        <div class="moto-user">
-          <span>共有 <%= (16800 + parseInt(data.count)) %> 位會員</span>
-          <% if (!req.session.authenticated) { %>
-            <a target="_parent" href="/register">
-              <i class="fa fa-user" aria-hidden="true"></i> 註冊會員</a>
-            <a target="_parent" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> 登入</a>
-          <% } else { %>
-            <a target="_parent" class="logout-link" href="/logout">
-              <i class="fa fa-sign-in" aria-hidden="true"></i> 登出</a>
-          <% }%>
+<html>
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <style type="text/css">
+      a, a:link, a:visited, a:hover {
+        text-decoration: none;
+      }
+    </style>
+    <!-- Web Fonts -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Layout Custom -->
+    <link rel="stylesheet" href="/css/motorworld/importer.css">
+  </head>
+  <body style="margin: 0px; background-color: #FFF;">
+    <header class="moto-header">
+      <div class="logo-block" style="padding: 0;">
+        <div class="header-tools">
+          <div class="moto-user">
+            <span>共有 <%= (16800 + parseInt(data.count)) %> 位會員</span>
+            <% if (!req.session.authenticated) { %>
+              <a target="_parent" href="/register?url=<%= data.url %>">
+                <i class="fa fa-user" aria-hidden="true"></i> 註冊會員</a>
+              <a target="_parent" href="/login?url=<%= data.url %>">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> 登入</a>
+            <% } else { %>
+              <a target="_parent" class="logout-link" href="/logout?url=<%= data.url %>">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> 登出</a>
+            <% }%>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
-</body>
+    </header>
+  </body>
+</html>
