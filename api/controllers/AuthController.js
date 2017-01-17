@@ -41,6 +41,13 @@ module.exports = {
       if(form) user = form;
 
       let url = req.query.url || '/';
+
+      // TODO 判斷是否為手機 
+      if(UtilService.isMobile()) {
+        url = 'http://m.motorworld.com.tw/?debug=true';
+      } else {
+        url = 'http://www.motorworld.com.tw/home?debug=true';
+      }
       // res.ok({
       //   //layout: false,
       //   user,
