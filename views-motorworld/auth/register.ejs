@@ -1,49 +1,61 @@
-
+<style type="text/css">
+  body {
+    background-color: #fff;
+  }
+</style>
 <script src="https://www.google.com/recaptcha/api.js?hl=zh-TW" async defer></script>
-<div class="moto-content container">
+<div class="moto-content container moto-register">
   <div class="row">
+    <!--
     <div class="col-md-3">
       <div class="moto-ad">
 
       </div>
     </div>
-    <div class="col-md-9">
+    -->
+    <div class="col-md-offset-2 col-md-8">
       <div class="register-panel">
-        <h1 class="panel-header">註冊會員表單</h1>
-        <a style="margin-top: 36px;" class="btn btn-primary btn-lg btn-block facebook-btn"  href="/auth/facebook">
+
+        <a class="btn btn-primary btn-lg btn-block facebook-btn"  href="/auth/facebook">
           <i class="fa fa-facebook-official" aria-hidden="true"></i> 使用 FB 臉書帳號登入
         </a>
         <div class="or-divider"></div>
-        <form class="register-form" id="registerForm" method='post' action="/auth/local/register">
-          <div class="form-group">
-            <input type="text" name="lastName" class="form-control" placeholder="* 姓氏">
+        <form class="register-form" id="registerForm" method='post' action="/auth/local/register<%= data.url ? '?url=' + data.url : '' %>">
+          <div class="row">
+            <div class="form-group col-xs-6">
+              <input type="text" name="lastName" class="form-control" placeholder="<%= '* ' + __('register.label.last_name')%>">
+            </div>
+            <div class="form-group col-xs-6">
+              <input type="text" name="firstName" class="form-control" placeholder="<%= '* ' + __('register.label.first_name')%>">
+            </div>
           </div>
-          <div class="form-group">
-            <input type="text" name="firstName" class="form-control" placeholder="* 名字">
-          </div>
+
           <div class="form-group">
             <input type="email" name="email" class="form-control" placeholder="* Email">
           </div>
           <div class="form-group">
-            <input type="text" name="username" class="form-control" placeholder="* 帳號">
+            <input type="text" name="username" class="form-control" placeholder="<%= '* ' + __('register.label.username')%>">
           </div>
           <div class="form-group">
-            <input type="password" name="password" id="firstPassword" class="form-control" placeholder="* 密碼">
+            <input type="password" name="password" id="firstPassword" class="form-control" placeholder="<%= '* ' + __('register.label.password')%>">
           </div>
           <div class="form-group">
-            <input type="password" name="passwordAgain" class="form-control" placeholder="* 再次輸入密碼">
+            <input type="password" name="passwordAgain" class="form-control" placeholder="<%= '* ' + __('register.label.repeat_password')%>">
+          </div>
+
+          <div class="form-group">
+            <input type="number" name="phone1" class="form-control" placeholder="<%= '* ' + __('register.label.cell_phone')%>" data-toggle="tooltip" data-placement="top" title="國內會員請輸入0912345678，海外請輸入+886912345678">
+          </div>
+          <!--
+          <div class="form-group">
+            <input type="number" name="phone2" class="form-control" placeholder="<%= __('register.label.telephone')%>">
+          </div>
+          -->
+          <div class="form-group">
+            <input type="text"  name="birthday" class="form-control" placeholder="<%= '* ' + __('register.label.birthday') + __('register.placeholder.EX') + '1981-01-31'%>">
           </div>
           <div class="form-group">
-            <input type="text" name="subscriberId" class="form-control" placeholder="訂戶編號">
-          </div>
-          <div class="form-group">
-            <input type="number" name="phone1" class="form-control" placeholder="* 手機">
-          </div>
-          <div class="form-group">
-            <input type="number" name="phone2" class="form-control" placeholder="* 市話">
-          </div>
-          <div class="form-group">
-            <input type="text"  name="birthday" class="form-control" style="margin-bottom: 60px;" placeholder="* 生日 YYYY-MM-DD，例如 1981-01-31">
+            <input type="text" name="subscriberId" class="form-control" style="margin-bottom: 60px;" placeholder="<%= __('register.label.subscribe_no')%>">
           </div>
           <div class="form-group" style="margin-bottom: 29px;">
             <label style="
@@ -59,10 +71,14 @@
             </label>
           </div>
           <div class="margin-top-20 g-recaptcha" data-sitekey="<%= data.reCAPTCHAKey %>"></div>
-          <div class="checkbox" style="margin-bottom: 22px;">
-            <label>
-              <input type="checkbox"> 加入摩托雜誌會員代表您已閱讀，並同意遵守《摩托雜誌會員服務條款》。
-            </label>
+          <div class="row margin-top-20">
+            <div class="col-lg-6 checkbox form-group">
+              <label>
+                <input type="checkbox" name="agree">
+                <%- __('register.label.agree', `<a href="#" class="color-green" data-toggle="modal" data-target="#myModal">`, `</a>`) %>
+              </label>
+            </div>
+
           </div>
           <button type="submit" class="btn btn-danger btn-lg btn-block reg-btn">免費註冊</button>
         </form>
@@ -72,9 +88,35 @@
   </div>
 </div>
 
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">會員服務條款</h4>
+      </div>
+      <div class="modal-body">
+        <div style="max-height: 400px; overflow-y: scroll">
+          <% include agreement.inc.ejs %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <% LayoutUtils.addScripts('/assets/motorworld/lib/formSubmitHelper.js'); %>
 <% LayoutUtils.addScriptBlock(`
   $(document).ready(function(){
+
+    $('[data-toggle="tooltip"]').tooltip();
+
     $('input[name="birthday"]').datepicker({
       changeYear: true,
       yearRange: "-100:+0",
@@ -107,6 +149,12 @@
         username: {
           required: true
         },
+        phone1: {
+          required: true
+        },
+        birthday: {
+          required: true
+        },
         password: {
           required: true,
           minlength: 6
@@ -132,6 +180,12 @@
         },
         username:{
           required: "${__('register.invalid.username.empty')}"
+        },
+        phone1: {
+          required: "${__('register.invalid.cell_phone.empty')}"
+        },
+        birthday: {
+          required: "${__('register.invalid.birthday.empty')}"
         },
         password: {
           required: "${__('register.invalid.password.empty')}",

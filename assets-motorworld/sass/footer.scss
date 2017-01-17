@@ -6,12 +6,22 @@
     li {
       display: inline-block;
       &:first-child a {
+        @media (max-width: 479px) {
+          & {
+            padding: 0px 25px 10px 20px;
+          }
+        }
         padding: 0px 50px 10px 0px;
       }
       &:last-child a:after {
         display: none;
       }
       a {
+        @media (max-width: 479px) {
+          & {
+            padding: 0px 25px;
+          }
+        }
         cursor: pointer;
         display: block;
         padding: 0px 50px;

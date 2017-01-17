@@ -7,6 +7,27 @@
  */
 const url = require('url');
 module.exports = {
+  entrance: async function(req, res) {
+    console.log('authenticated=>', req.session.authenticated);
+    console.log('req.session=>', req.session);
+    const authenticated = req.session.authenticated ? true : false;
+    const user = {
+      name: 'user_name',
+    };
+    const count = await User.count();
+    console.log('userCount=>',count);
+    res.view(
+      'auth/memberEnterance',
+      {
+        layout: 'auth/memberEnterance',
+        data: {
+          user,
+          authenticated,
+          count,
+        }
+      }
+    )
+  },
   login: function(req, res) {
     try{
       if(req.session.authenticated) return res.redirect('/');
@@ -18,13 +39,24 @@ module.exports = {
       if(form) user = form;
 
       let url = req.query.url || '/';
+      // res.ok({
+      //   //layout: false,
+      //   user,
+      //   errors: req.flash('error')[0],
+      //   url
+      // });
 
-      res.ok({
-        //layout: false,
-        user,
-        errors: req.flash('error')[0],
-        url
-      });
+      res.view(
+        'auth/login',
+        {
+          layout: 'auth/layout',
+          data: {
+            user,
+            errors: req.flash('error')[0],
+            url
+          }
+        }
+      )
     } catch (e){
       sails.log.error(e);
       res.serverError(e);
@@ -59,12 +91,25 @@ module.exports = {
       }
       let form = req.flash('form')[0];
       if(form) user = form;
+      const url = req.query.url || '/';
+      // res.ok({
+      //   user,
+      //   errors: req.flash('error'),
+      //   reCAPTCHAKey: sails.config.reCAPTCHA.key
+      // });
 
-      res.ok({
-        user,
-        errors: req.flash('error'),
-        reCAPTCHAKey: sails.config.reCAPTCHA.key
-      });
+      res.view(
+        'auth/register',
+        {
+          layout: 'auth/layout',
+          data: {
+            user,
+            errors: req.flash('error'),
+            reCAPTCHAKey: sails.config.reCAPTCHA.key,
+            url
+          }
+        }
+      )
     } catch (e) {
       res.serverError(e);
     }

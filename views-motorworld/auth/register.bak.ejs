@@ -1,191 +1,85 @@
-<!-- CSS Page Style -->
-<link rel="stylesheet" href="/assets/unify/css/pages/page_log_reg_v1.css">
-<style type="text/css">
-.login-block .social-login {
-    margin-bottom: 70px;
-    border-bottom: 1px solid #eee;
-    position: relative;
-}
-.login-block .or {
-    position: relative;
-    border: 1px solid #eee;
-    width: 70px;
-    height: 70px;
-    top: 35px;
-    left: 50%;
-    margin-left: -35px;
-    text-transform: uppercase;
-    color: #333;
-    background: #fff;
-    line-height: 70px;
-    padding: 0 24px;
-    z-index: 1;
-}
-.rounded-x {
-    border-radius: 50% !important;
-}
-em.invalid{
-  color: #a94442;
-}
-
-@media screen and (max-width: 399px ){
-  #rc-imageselect, .g-recaptcha {
-    transform:scale(0.77);
-    -webkit-transform:scale(0.77);
-    transform-origin:0 0;
-    -webkit-transform-origin:0 0;
-  }
-}
-</style>
 
 <script src="https://www.google.com/recaptcha/api.js?hl=zh-TW" async defer></script>
-<!--=== Content Part ===-->
-<div class="container content">
+<div class="moto-content container">
   <div class="row">
-    <div class="login-block col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-      <form id="registerForm" class="reg-page" method='post' action="/auth/local/register">
+    <div class="col-md-3">
+      <div class="moto-ad">
 
-        <div class="social-login">
-          <ul class="list-unstyled">
-            <li>
-              <a class="btn rounded btn-block btn-lg btn-facebook-inversed margin-bottom-20" href="/auth/facebook">
-                <i class="fa fa-facebook"></i> <%= __('login.facebook') %>
-              </a>
-            </li>
-          </ul>
-          <div class="or rounded-x">Or</div>
-        </div>
-
-        <div class="reg-header">
-          <h2><%= __('register.title') %></h2>
-          <p><%- __('register.sec_title', `<a href="/login" class="color-green">${__('login')}</a>`) %></p>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-6">
-            <label><%= __('register.label.last_name') %> <span class="color-red">*</span></label>
-            <input type="text" name="lastName" value="<%= data.user.lastName %>" class="form-control margin-bottom-20">
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="register-panel">
+        <h1 class="panel-header">註冊會員表單</h1>
+        <a style="margin-top: 36px;" class="btn btn-primary btn-lg btn-block facebook-btn"  href="/auth/facebook">
+          <i class="fa fa-facebook-official" aria-hidden="true"></i> 使用 FB 臉書帳號登入
+        </a>
+        <div class="or-divider"></div>
+        <form class="register-form" id="registerForm" method='post' action="/auth/local/register">
+          <div class="form-group">
+            <input type="text" name="lastName" class="form-control" placeholder="* 姓氏">
           </div>
-          <div class="col-sm-6">
-            <label><%= __('register.label.first_name') %> <span class="color-red">*</span></label>
-            <input type="text" name="firstName" value="<%= data.user.firstName %>" class="form-control margin-bottom-20">
+          <div class="form-group">
+            <input type="text" name="firstName" class="form-control" placeholder="* 名字">
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-12">
-            <label>Email <span class="color-red">*</span></label>
-            <input type="text" name="email" value="<%= data.user.email %>" class="form-control margin-bottom-20">
+          <div class="form-group">
+            <input type="email" name="email" class="form-control" placeholder="* Email">
           </div>
-        </div>
-
-        <% var error = data.errors[0]; %>
-        <% if(error === 'email must be unique' ){ %>
-            <div class="alert alert-warning" role="alert">此 Email 已被註冊，請更換 Email</div>
-        <% }%>
-
-        <div class="row">
-          <div class="col-sm-12">
-            <label><%= __('register.label.username') %> <span class="color-red">*</span></label>
-            <input type="text" name="username" value="<%= data.user.username %>" class="form-control margin-bottom-20">
+          <div class="form-group">
+            <input type="text" name="username" class="form-control" placeholder="* 帳號">
           </div>
-        </div>
-
-        <% if(error === 'username must be unique' ){ %>
-            <div class="alert alert-warning" role="alert">此帳號已被使用，請更換帳號</div>
-        <% }%>
-
-        <div class="row">
-          <div class="col-sm-6">
-            <label><%= __('register.label.password') %> <span class="color-red">*</span></label>
-            <input id="firstPassword" type="password" name="password" class="form-control margin-bottom-20">
+          <div class="form-group">
+            <input type="password" name="password" id="firstPassword" class="form-control" placeholder="* 密碼">
           </div>
-          <div class="col-sm-6">
-            <label><%= __('register.label.repeat_password') %> <span class="color-red">*</span></label>
-            <input type="password" name="passwordAgain" class="form-control margin-bottom-20">
+          <div class="form-group">
+            <input type="password" name="passwordAgain" class="form-control" placeholder="* 再次輸入密碼">
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-12">
-            <label><%= __('register.label.birthday') %> </label>
-            <input type="text" name="birthday" value="<%= data.user.birthday %>" class="form-control margin-bottom-20" placeholder="<%= __('register.placeholder.EX') %>1970-01-01">
+          <div class="form-group">
+            <input type="text" name="subscriberId" class="form-control" placeholder="訂戶編號">
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-6">
-            <label><%= __('register.label.cell_phone') %> </label>
-            <input type="number" name="phone1" value="<%= data.user.phone1 %>" class="form-control margin-bottom-20">
+          <div class="form-group">
+            <input type="number" name="phone1" class="form-control" placeholder="* 手機">
           </div>
-          <div class="col-sm-6">
-            <label><%= __('register.label.telephone') %> </label>
-            <input type="number" name="phone2" value="<%= data.user.phone2 %>" class="form-control margin-bottom-20">
+          <div class="form-group">
+            <input type="number" name="phone2" class="form-control" placeholder="* 市話">
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <label><%= __('register.label.address') %> </label>
-            <input type="text" name="address" value="<%= data.user.address %>" class="form-control margin-bottom-20">
+          <div class="form-group">
+            <input type="text"  name="birthday" class="form-control" style="margin-bottom: 60px;" placeholder="* 生日 YYYY-MM-DD，例如 1981-01-31">
           </div>
-        </div>
-        <!-- <div class="row">
-          <div class="col-sm-12">
-            <label>住址2</label>
-            <input type="text" name="address2" value="<%= data.user.address2 %>" class="form-control margin-bottom-20">
-          </div>
-        </div> -->
-
-        <hr>
-
-        <div class="margin-top-20 g-recaptcha" data-sitekey="<%= data.reCAPTCHAKey %>"></div>
-
-        <div class="row margin-top-20">
-          <div class="col-lg-6 checkbox">
-            <label>
-              <input type="checkbox" name="agree">
-              <%- __('register.label.agree', `<a href="#" class="color-green" data-toggle="modal" data-target="#myModal">`, `</a>`) %>
+          <div class="form-group" style="margin-bottom: 29px;">
+            <label style="
+              font-size: 13px;
+              color: #4A4A4A;
+              font-weight: 500;
+              margin-right: 2em;">性別</label>
+            <label class="radio-inline">
+              <input type="radio" name="sex" value="male"> 男性
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="sex" value="female"> 女性
             </label>
           </div>
-          <div class="col-lg-6 text-right">
-            <button id="submit-button" class="btn-u" type="submit"><%= __('register') %></button>
+          <div class="margin-top-20 g-recaptcha" data-sitekey="<%= data.reCAPTCHAKey %>"></div>
+          <div class="checkbox" style="margin-bottom: 22px;">
+            <label>
+              <input type="checkbox"> 加入摩托雜誌會員代表您已閱讀，並同意遵守《摩托雜誌會員服務條款》。
+            </label>
           </div>
-        </div>
+          <button type="submit" class="btn btn-danger btn-lg btn-block reg-btn">免費註冊</button>
+        </form>
+      </div>
 
-        <% var error = req.flash('error')[0]; %>
-        <% if (error) { %>
-          <div class="alert alert-warning" role="alert"><%= error %></div>
-        <% } %>
-      </form>
     </div>
-  </div>
-</div><!--/container-->
-<!--=== End Content Part ===-->
-
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">會員服務條款</h4>
-      </div>
-      <div class="modal-body">
-        <div style="max-height: 400px; overflow-y: scroll">
-          <% include agreement.inc.ejs %>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
-      </div>
-    </div>
-
   </div>
 </div>
-<% LayoutUtils.addScripts('/assets/labfnp/lib/formSubmitHelper.js'); %>
+
+<% LayoutUtils.addScripts('/assets/motorworld/lib/formSubmitHelper.js'); %>
 <% LayoutUtils.addScriptBlock(`
   $(document).ready(function(){
+    $('input[name="birthday"]').datepicker({
+      changeYear: true,
+      yearRange: "-100:+0",
+      dateFormat: 'yy-mm-dd',
+    });
 
     $.fn.preventDoubleSubmission = function() {
       $(this).on("submit", function(event) {
@@ -197,19 +91,6 @@ em.invalid{
       });
       return this;
     }
-
-    $('input[name="birthday"]').datepicker({
-      changeYear: true,
-      yearRange: "-100:+0",
-      dateFormat: 'yy-mm-dd',
-      prevText: '<i class="fa fa-angle-left"></i>',
-      nextText: '<i class="fa fa-angle-right"></i>'
-    });
-
-    $('html, body').keydown(function(e){
-      // press Esc to close modal
-      if (e.keyCode === 27) $('.modal-footer button')[0].click();
-    })
 
     $("#registerForm").validate({
       rules: {
@@ -262,9 +143,25 @@ em.invalid{
           equalTo: "${__('register.invalid.password.not_equal')}"
         },
         agree: "${__('register.invalid.not_agree')}"
+      },
+      highlight: function(element) {
+          $(element).closest('.form-group').addClass('has-error');
+      },
+      unhighlight: function(element) {
+          $(element).closest('.form-group').removeClass('has-error');
+      },
+      errorElement: 'span',
+      errorClass: 'help-block',
+      errorPlacement: function(error, element) {
+          if(element.parent('.input-group').length) {
+              error.insertAfter(element.parent());
+          } else {
+              error.insertAfter(element);
+          }
       }
     });
 
     $("#registerForm").preventDoubleSubmission();
+
   });
 `); %>

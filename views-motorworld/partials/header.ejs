@@ -13,7 +13,8 @@
         </div>
         <button type="button">搜尋</button>
       </div>
-      <div class="moto-user">
+      <div id="member"></div>
+      <!-- <div class="moto-user">
         <span>共有 168,100 位會員</span>
         <a href="/register"><i class="fa fa-user" aria-hidden="true"></i> 註冊會員</a>
         <% if (!req.session.authenticated) { %>
@@ -21,15 +22,15 @@
         <% } else { %>
           <a class="logout-link" href="javascript: void(0)"><i class="fa fa-sign-in" aria-hidden="true"></i> 登出</a>
         <% }%>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="banner-wrapper">
     <img src="/assets/motorworld/img/banner.png" alt="motorworld banner" />
   </div>
+  <script src="/assets/motorworld/js/getEnterance.js"></script>
   <%- include navbar.inc.ejs %>
 </header>
-
 
 <% LayoutUtils.addScriptBlock(`
   $('.logout-link').click(function(){
