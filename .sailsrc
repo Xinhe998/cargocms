@@ -8,9 +8,9 @@
     "grunt": false
   },
   "paths": {
-    "views": "views-b2b"
+    "views": "views-labfnp"
   },
   "configLoader": {
-    "modules": ["b2b"]
+    "modules": ["labfnp"]
   }
 }
