@@ -12,8 +12,8 @@ module.exports.init = async function(){
       { icon: 'wrench', href: '#', title: '資料維護', sequence: 1},
 
       { href: '/admin/user', title: '會員資料', sequence: 20, ParentMenuItemId: 2},
-      { href: '/admin/message', title: '訊息', sequence: 140, ParentMenuItemId: 2},
-      { href: '/admin/contact', title: '聯繫訊息', sequence: 150, ParentMenuItemId: 2},
+      // { href: '/admin/message', title: '訊息', sequence: 140, ParentMenuItemId: 2},
+      // { href: '/admin/contact', title: '聯繫訊息', sequence: 150, ParentMenuItemId: 2},
 
     ]
 
