@@ -1,0 +1,19 @@
+<!-- Meta -->
+<meta charset="utf-8">
+<% var meta = MetaService.getMetaTag(); %>
+<% var og = MetaService.getOgTag(); %>
+<% var appId = MetaService.getFbAppId(); %>
+
+<% for( var key in meta) { %>
+  <meta name="<%= key %>" content="<%= meta[key] %>">
+<% } %>
+
+<!-- FB OG tags -->
+<% for( var key in og) { %>
+  <meta property="og:<%= key %>" content="<%= og[key] %>">
+<% } %>
+<!--  <meta name="fb:app_id" content="<%= sails.config.passport.facebook.options.clientID %>"> -->
+<meta name="fb:app_id" content="<%= appId %>">
+
+<!-- other Meta tags -->
+<% LayoutUtils.getMetas().forEach(function(meta) { %> <meta property="<%= meta.property %>" content="<%= meta.content %>" /> <% }); %>
