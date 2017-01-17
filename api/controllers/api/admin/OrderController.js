@@ -161,7 +161,7 @@ module.exports = {
         }
       }
 
-      const orderProductsName = orderProducts.map((data) => {
+      const orderProductsData = orderProducts.map((data) => {
         return {
           name: data.name,
           quantity: data.quantity,
@@ -172,7 +172,7 @@ module.exports = {
 
       for( let supplier of suppliers){
 
-        let shipOrderNumber = await OrderService.orderNumberGenerator({modelName: 'SupplierShipOrder',userId: order.UserId, product: });
+        let shipOrderNumber = await OrderService.orderNumberGenerator({modelName: 'SupplierShipOrder',userId: order.UserId, product: orderProductsData});
         sails.log.info('產生出貨單編號:', shipOrderNumber);
 
         let supplierShipOrder = await SupplierShipOrder.create({
