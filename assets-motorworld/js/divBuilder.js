@@ -14,7 +14,7 @@ function getEntrance() {
 
   if(isDebug) {
     var timeStamp = new Date();
-    iFrameTarget = mainUrl + '/entrance?=' + timeStamp.getTime();
+    iFrameTarget = mainUrl + '/entrance?t=' + timeStamp.getTime();
     iFrameDiv ='<iframe src=' + iFrameTarget + ' ' +
       'frameborder="0" scrolling="no" name="member" height=' + height + '></iframe>';
     try {

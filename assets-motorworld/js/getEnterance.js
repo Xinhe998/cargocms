@@ -39,7 +39,8 @@ function refuel() {
 //-------------------------------- launch ------------------------------------//
 function launch() {
 
-  var jsUrl = mainUrl + "/assets/motorworld/js/divBuilder.js";
+  var timeStamp = new Date();
+  var jsUrl = mainUrl + "/assets/motorworld/js/divBuilder.js?t=" + timeStamp;
   $.getScript(jsUrl)
     .done(function(script, textStatus) {
       getEntrance();
