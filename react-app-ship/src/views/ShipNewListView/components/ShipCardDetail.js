@@ -60,6 +60,8 @@ const propTypes = {
   shippingMethod: PropTypes.string,
   tracking: PropTypes.string,
   comment: PropTypes.string,
+  orderNumber: PropTypes.string,
+  orderNumber: '2001023188888SSS',
 };
 
 function ShipCardDetail(props) {
@@ -71,8 +73,16 @@ function ShipCardDetail(props) {
           <p />
           <h2 className='title text-center'>出貨明細</h2>
         </div>
-        <div className='col-xs-12'>
-          <hr />
+        <div className='row col-xs-12'>
+          <div className='col-xs-6'>
+            <h5>出貨單編號: {props.shipOrderNumber}</h5>
+          </div>
+          <div className='col-xs-6'>
+            <h5>訂單編號: {props.orderNumber}</h5>
+          </div>
+          <div className='col-xs-12'>
+            <hr style={{ marginTop: 0 + 'px' }} />
+          </div>
         </div>
 
         <div className='col-xs-12 row'>

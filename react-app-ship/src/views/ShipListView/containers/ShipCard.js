@@ -80,6 +80,10 @@ export default class ShipCard extends React.Component {
       fax: '(04)-2201-1168',
       address: '台中市清水區北提路',
     },
+    Order: {
+      id: 1,
+      orderNumber: '199901077777crc',
+    },
   };
 
   static propTypes = {
@@ -127,6 +131,7 @@ export default class ShipCard extends React.Component {
     status: PropTypes.string,
     OrderId: PropTypes.number,
     Supplier: PropTypes.object,
+    Order: PropTypes.object,
   };
 
   constructor(props, context) {
@@ -168,6 +173,7 @@ export default class ShipCard extends React.Component {
       shippingAddress: `${props.shippingPostcode} ${props.shippingCity}${props.shippingAddress1}`,
       tracking: props.tracking,
       comment: props.comment,
+      orderNumber: props.Order.orderNumber,
     };
     return (
       <Card
@@ -198,6 +204,7 @@ export default class ShipCard extends React.Component {
             // toast func
             toast={this.props.toast}
             // same as cardBody
+            shipOrderNumber={this.props.shipOrderNumber}
             shipOrderId={this.props.id}
             isExpend={cardBody.isExpend}
             invoiceCode={cardBody.invoiceCode}
@@ -214,6 +221,7 @@ export default class ShipCard extends React.Component {
             shippingMethod={cardDetail.shippingMethod}
             tracking={cardDetail.tracking}
             comment={cardDetail.comment}
+            orderNumber={cardDetail.orderNumber}
           />
         </CardText>
       </Card>
