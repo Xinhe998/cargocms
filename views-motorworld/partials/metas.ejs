@@ -13,7 +13,8 @@
   <meta property="og:<%= key %>" content="<%= og[key] %>">
 <% } %>
 <!--  <meta name="fb:app_id" content="<%= sails.config.passport.facebook.options.clientID %>"> -->
-<meta name="fb:app_id" content="<%= appId %>">
-
+<% if (appId) { %>
+  <meta name="fb:app_id" content="<%= appId %>">
+<% } %>
 <!-- other Meta tags -->
 <% LayoutUtils.getMetas().forEach(function(meta) { %> <meta property="<%= meta.property %>" content="<%= meta.content %>" /> <% }); %>
