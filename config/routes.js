@@ -69,6 +69,7 @@ var defaultConfig = {
   'put /api/admin/message/:id':    'api/admin/MessageController.update',
   'delete /api/admin/message/:id': 'api/admin/MessageController.destroy',
 
+  'get /api/user/current':  'api/UserController.getCurrentUser',
   'post /api/user/follow/:id':    'api/UserController.follow',
   'post /api/user/unfollow/:id':  'api/UserController.unfollow',
   'post /api/user/edit':      'api/UserController.update',
