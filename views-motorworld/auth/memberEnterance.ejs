@@ -9,7 +9,9 @@
     <div class="logo-block" style="padding: 0;">
       <div class="header-tools">
         <div class="moto-user">
-          <span>共有 <%= (16800 + parseInt(data.count)) %> 位會員</span>
+          <% var format = /(\d)(?=(\d{3})+(?!\d))/g;%>
+          <% var numbers = (16800 + parseInt(data.count)); numbers = numbers.toString().replace( format , "$1,"); %>
+          <span>共有 <%= numbers %> 位會員</span>
           <% if (!req.session.authenticated) { %>
             <a target="_parent" href="/register">
               <i class="fa fa-user" aria-hidden="true"></i> 註冊會員</a>
