@@ -16,7 +16,9 @@ var mainUrl = 'http://beta.motorworld.com.tw';
 //     };
 //     document.head.appendChild(e);
 // })(document.createElement('script'), '//code.jquery.com/jquery-latest.min.js');
-refuel();
+$(document).ready(function() {
+  refuel();
+});
 //-------------------------------- refuel ------------------------------------//
 function refuel() {
 
