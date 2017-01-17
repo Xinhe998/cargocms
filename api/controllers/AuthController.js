@@ -43,7 +43,7 @@ module.exports = {
       let url = req.query.url || '/';
 
       // TODO 判斷是否為手機
-      if(UtilsService.isMobile()) {
+      if(UtilsService.isMobile(req)) {
         url = 'http://m.motorworld.com.tw/?debug=true';
       } else {
         url = 'http://www.motorworld.com.tw/home?debug=true';
