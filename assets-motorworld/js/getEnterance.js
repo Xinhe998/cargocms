@@ -1,4 +1,4 @@
-var mainUrl = 'http://beta.motorworld.com.tw';
+var mainUrl = 'http://sso.motorworld.com.tw';
 // var mainUrl = window.location.origin;
 // var mainUrl = 'http://localhost:5001';
 //----------------------------------------------------------------------------/
