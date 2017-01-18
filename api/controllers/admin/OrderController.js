@@ -2,9 +2,9 @@ module.exports = {
   index: async (req, res) => {
     let orderStatus = await OrderStatus.findAll();
     orderStatus = orderStatus.map((data) => {
-      return data.name;
+      return { name: data.name, title: req.__(`${data.name}`)};
     })
-    
+
     res.ok({
       view: true,
       serverSidePaging: true,

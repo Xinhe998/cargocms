@@ -85,7 +85,8 @@
 
 <script type="text/javascript">
 
-  var statusList =  '<%= data.orderStatus %>'.split(',') ;
+  var statusList = <%- JSON.stringify(data.orderStatus) %>;
+  console.log("statusList ==>", statusList);
 
 	var pagefunction = function() {
 
@@ -152,7 +153,7 @@
 
           for( var i = 0 ; i < statusList.length; i++) {
             var option = statusList[i];
-            output = output + `'<option value="${statusList[i]}" ${ orderStatus == statusList[i] ? 'selected' : ''}>${statusList[i]}</option>'`
+            output = output + `'<option value="${statusList[i].name }" ${ orderStatus == statusList[i].name ? 'selected' : ''}>${statusList[i].title}</option>'`
           }
 
           output = output + '<select>';
