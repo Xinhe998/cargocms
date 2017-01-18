@@ -3,7 +3,8 @@
 	<div class="row">
 		<div id="admin-copyright" class="col-xs-12 col-sm-6">
 			<!--CargoCMS © 2016-->
-			© Laboratory of Fragrance & Perfume
+      <% var config = UtilsService.getProjectConfig(); %>
+			© <%= config.admin.footer.copyright %> 2016
 		</div>
 	</div>
 	<!-- end row -->

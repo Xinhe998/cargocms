@@ -3,7 +3,8 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
 <head>
-	<title>Login 2 | Unify - Responsive Website Template</title>
+  <% var config = UtilsService.getProjectConfig(); %>
+	<title>Login <%= config.admin.title %></title>
 
 	<!-- Meta -->
 	<meta charset="utf-8">
@@ -62,7 +63,7 @@
 
 			<div class="col-md-6 col-sm-6 form-block equal-height-column">
 				<a href="index.html">
-					<img src="/assets/labfnp/img/lfp-logo.png" alt="" style="max-width:100px">
+					<img src="<%= config.admin.logo %>" alt="" style="max-width:100px">
 				</a>
 				<h2 class="margin-bottom-50">網站管理系統</h2>
 				<form action="/auth/local?url=/admin/" method="post">
@@ -148,8 +149,11 @@
 	</script>
 	<script>
 		$(".image-block").backstretch([
-			"/assets/labfnp/img/admin-login-bg.jpg",
-			"/assets/labfnp/img/admin-login-bg-2.jpg",
+      <% for( key in config.admin.slider ) { %>
+        '<%= config.admin.slider[key] %>'
+      <% } %>
+			// "/assets/labfnp/img/admin-login-bg.jpg",
+			// "/assets/labfnp/img/admin-login-bg-2.jpg",
 			], {
 				fade: 1000,
 				duration: 3000
