@@ -13,9 +13,16 @@ export async function getData(api: String, params: Object = {}) {
     .catch(error => error);
 }
 
+export async function putData(api: string, data: Object = {}) {
+  return await axios.put(api, data)
+    .then(response => response)
+    .catch(error => error);
+}
+
 const fetchApi = {
   postData,
   getData,
+  putData,
 };
 
 export default fetchApi;

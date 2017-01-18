@@ -18,20 +18,42 @@ module.exports = {
       // data.forwardedIp = req.headers["X-Forwarded-For"] || '';
       data.acceptLanguage = req.header["accept-language"] || '';
 
-      const { order , orderProduct } = await OrderService.createOrder(data);
+      const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
 
-      const message = 'Order create success';
+      const success = (order) => {
+        const message = 'Order create success';
+        return res.ok({
+          message,
+          data: {
+            item: {
+              orderNumber: order.orderNumber
+            }
+          }
+        })
 
-      res.ok({
-        message,
-        data: {
-          item: order,
-          product: orderProduct
-        },
-      }, {
-        redirect: `/orderinfo/${order.id}`,
+      };
+      const error = () => {
+        return res.redirect('/');
+      };
+
+      let transaction;
+      return sequelize.transaction({ isolationLevel })
+      .then(function (t) {
+        transaction = t;
+        return OrderService.createOrder(transaction, data);
+      })
+      .then(function(order){
+        transaction.commit();
+        success(order);
+      })
+      .catch(sequelize.UniqueConstraintError, function(e) {
+        throw Error('此交易已失效，請重新下訂')
+      })
+      .catch(function(err) {
+        sails.log.error('訂單建立 Order 失敗', err.toString());
+        transaction.rollback();
+        error();
       });
-      // return res.redirect(`/orderinfo/${order.id}`);
 
     } catch (e) {
       res.serverError(e);
@@ -40,11 +62,22 @@ module.exports = {
 
   getOrderInfo: async (req, res) => {
     try{
-      const orderId = req.params.id;
-      const order = await Order.findById(orderId,{ include: [ User , OrderStatus ]});
-
+      const orderNumber = req.params.orderNumber;
+      const order = await Order.findOne({
+        where: {
+          orderNumber
+        },
+        include: [ User , OrderStatus ]
+       });
+      const loginUser = AuthService.getSessionUser(req);
+      let message = '';
       if(!order){
         return res.notFound();
+      }
+
+      if(!loginUser || loginUser.id !== order.UserId){
+        message = '您沒有足夠權限瀏覽此網頁';
+        return res.forbidden(message);
       }
 
       const orderProduct = await OrderProduct.findAll({
@@ -52,7 +85,8 @@ module.exports = {
           OrderId: order.id
         }
       })
-      const message = 'get Order info success';
+
+      message = 'get Order info success';
 
       res.view('b2b/order/index',{
         message: message,

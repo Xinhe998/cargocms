@@ -52,8 +52,19 @@ module.exports = {
 
   order: async (userId) => {
     try {
+      const orderStatus = await OrderStatus.findOne({
+        where:{
+          name: 'NEW'
+        }
+      })
+
+      const order = await Order.findAll();
+
+      const orderNumber = `200102310000${order.length}AAA`;
+
       const data = {
         UserId: userId,
+        orderNumber: ``,
         invoiceNo: '12345678',
         invoicePrefix: 'GH',
         customField: '',
@@ -100,7 +111,8 @@ module.exports = {
         shippingMethod:'',
         shippingCode:'',
         comment:'',
-        tracking: '客戶訂購'
+        tracking: '客戶訂購',
+        OrderStatusId: orderStatus.id,
       }
       return await Order.create(data);
     } catch (e) {
@@ -141,7 +153,8 @@ module.exports = {
         email: 'seafood@example.com',
         telephone: '(04)-2201-1688',
         fax: '(04)-2201-1168',
-        address: '台中市清水區北提路'
+        address: '台中市清水區北提路',
+        taxId: '54891351'
       };
 
       return await Supplier.create(data);
@@ -167,11 +180,13 @@ module.exports = {
     try {
       let order = await Order.findById(orderId);
       order = order.toJSON();
+      let shipOrder = await SupplierShipOrder.findAll();
       let data = {
         ...order,
         OrderId: orderId,
         SupplierId: supplierId,
         status: 'NEW',
+        shipOrderNumber: `201702310000${shipOrder.length}SSS`
       }
       console.log(data);
       delete data.id;
@@ -202,13 +217,71 @@ module.exports = {
     }
   },
 
-  orderStatus: async( status ) => {
+  orderStatus: async() => {
     try{
-      const orderStatus = await OrderStatus.create({
-        languageId: 0,
-        name: status
-      })
-      return orderStatus;
+      const orderStatusData = [
+        {
+          name:"NEW",
+          languageId:0
+        },{
+          name:"PAID",
+          languageId:0
+        },{
+          name:"PROCESSING",
+          languageId:0
+        },{
+          name:"SHIPPED",
+          languageId:0
+        },{
+          name:"CANCELLED",
+          languageId:0
+        },{
+          name:"COMPLETED",
+          languageId:0
+        },{
+          name:"DENIED",
+          languageId:0
+        },{
+          name:"CANCELED REVERSAL",
+          languageId:0
+        },{
+          name:"FAILED",
+          languageId:0
+        },{
+          name:"REFUNDED",
+          languageId:0
+        },{
+          name:"REVERSED",
+          languageId:0
+        },{
+          name:"CHARGEBACK",
+          languageId:0
+        },{
+          name:"PENDING",
+          languageId:0
+        },{
+          name:"VOIDED",
+          languageId:0
+        },{
+          name:"PROCESSED",
+          languageId:0
+        },{
+          name:"EXPIRED",
+          languageId:0
+        }
+      ];
+
+      return await OrderStatus.bulkCreate(orderStatusData);
+    } catch (e) {
+      throw e;
+    }
+  },
+
+  deleteAllOrderStatus: async() => {
+    try{
+      await OrderStatus.destroy({
+        where: {}
+      });
     } catch (e) {
       throw e;
     }

@@ -1,7 +1,7 @@
 
 <div class="b2b-breadcrumbs">
   <div class="container" style="max-width: 960px;">
-    <h1>填寫訂購單</h1>
+    <h1>確認訂購</h1>
   </div>
 </div>
 <form id="order" method='post' action='/order'>
@@ -13,22 +13,23 @@
       <div class="col-sm-8">
         <% var loginUser = AuthService.getSessionUser(req);%>
         <h3>訂購人資訊</h3>
+        <p><span class="column-require">*</span> 必填欄位</p>
         <hr />
         <div class="form-group">
-          <label for="">訂購人 姓氏</label>
-          <input name="lastname" type="text" class="form-control" value=<%= loginUser.lastName %>>
+          <label for=""><span class="column-require">*</span>訂購人 姓氏</label>
+          <input name="lastname" type="text" class="form-control" value=<%= loginUser.lastName ? loginUser.lastName : '' %>>
         </div>
         <div class="form-group">
-          <label for="">訂購人 名字</label>
-          <input name="firstname" type="text" class="form-control" value=<%= loginUser.firstName %>>
+          <label for=""><span class="column-require">*</span>訂購人 名字</label>
+          <input name="firstname" type="text" class="form-control" value=<%= loginUser.firstName ? loginUser.firstName : ''%>>
         </div>
         <div class="form-group">
-          <label for="">電子郵件</label>
-          <input name="email" type="email" class="form-control" value=<%= loginUser.email %>>
+          <label for=""><span class="column-require">*</span>電子郵件</label>
+          <input name="email" type="email" class="form-control" value=<%= loginUser.email ? loginUser.email : '' %>>
         </div>
         <div class="form-group">
-          <label for="telephone">聯絡電話</label>
-          <input name="telephone" type="text" class="form-control" value=<%= loginUser.phone1 %>>
+          <label for="telephone"><span class="column-require">*</span>聯絡電話</label>
+          <input name="telephone" type="text" class="form-control" value=<%= loginUser.phone1 ? loginUser.phone1 : '' %>>
         </div>
 
       </div>
@@ -42,21 +43,22 @@
 
           <h3>收件人資訊</h3>
           <hr />
+          <p><span class="column-require">*</span> 必填欄位</p>
           <div class="checkbox">
             <label>
               <input type="checkbox"> 與訂購人相同請打勾
             </label>
           </div>
           <div class="form-group">
-            <label for="">收件人 姓氏</label>
+            <label for=""><span class="column-require">*</span>收件人 姓氏</label>
             <input name="shippingLastname" type="text" class="form-control">
           </div>
           <div class="form-group">
-            <label for="">收件人 名字</label>
+            <label for=""><span class="column-require">*</span>收件人 名字</label>
             <input name="shippingFirstname" type="text" class="form-control">
           </div>
           <div class="form-group">
-            <label for="">電子郵件</label>
+            <label for=""><span class="column-require">*</span>電子郵件</label>
             <input name="shippingEmail" type="email" class="form-control">
           </div>
           <div class="form-group">
@@ -64,7 +66,8 @@
             <input name="shippingTelephone" type="text" class="form-control">
           </div>
 
-          <h3>收件地址</h3>
+
+          <h3><span class="column-require">*</span>收件地址</h3>
           <hr />
           <div class="row" id="twzipcode">
             <div class="col-xs-4 form-group" data-role="county" ></div>
@@ -73,13 +76,18 @@
           </div>
 
           <div class="form-group">
-            <label for="">地址</label>
+            <label for=""><span class="column-require">*</span>地址</label>
             <input name="shippingAddress1" type="text" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="">備註</label>
+            <input name="comment" type="text" class="form-control">
           </div>
 
           <hr />
           <div class="form-group">
-            <label for="">選擇運送方式</label>
+            <label for=""><span class="column-require">*</span>選擇運送方式</label>
             <select class="form-control" name="shippingMethod">
               <option value="低溫宅配">低溫宅配</option>
               <option value="集貨自取">集貨自取</option>
@@ -89,7 +97,7 @@
       </div>
     </div>
 
-    <table class="table" style="margin-top: 3.2em;">
+    <table class="table product-list" style="margin-top: 3.2em;">
       <thead>
         <tr>
           <th>品名</th><th>單價</th><th>數量</th><th>小計</th>
@@ -97,23 +105,24 @@
       </thead>
       <tbody>
         <tr v-for="cart in carts">
-          <td>{{cart.name}}</td><td>{{cart.price | moneyNum}}</td><td>{{cart.quantity}}</td><td>{{parseFloat(cart.price) * parseFloat(cart.quantity) | moneyNum }}</td>
+          <td>{{cart.name}}</td><td>$ {{cart.price | moneyNum}}</td><td>{{cart.quantity}}</td><td>$ {{parseFloat(cart.price) * parseFloat(cart.quantity) | moneyNum }}</td>
         </tr>
       </tbody>
     </table>
 
-    <input name="products" class="form-control hidden" v-bind:value=JSON.stringify(carts)>
+    <input name="products" type="hidden" v-bind:value=JSON.stringify(carts)>
+    <input name="token" type="hidden" value=<%= token %>>
 
-    <hr style="border-top: 2px solid #eee"/>
+    <hr style="border-top: 2px solid #aaa"/>
     <table class="b2b-bill-info pull-right">
       <tr>
-        <th>合計</th><td>{{priceSum | moneyNum}}</td>
+        <th>合計</th><td>$ {{priceSum | moneyNum}}</td>
       </tr>
       <tr>
-        <th>營業稅</th><td>{{ Math.round(priceSum * 0.05) | moneyNum }}</td>
+        <th>營業稅</th><td>$ {{ Math.round(priceSum * 0.05) | moneyNum }}</td>
       </tr>
       <tr>
-        <th>總計</th><td>{{priceSum | moneyNum}}</td>
+        <th>總計</th><td>$ {{priceSum | moneyNum}}</td>
       </tr>
     </table>
     <button class="btn btn-default btn-lg pull-right" type="submit" style="clear:right; display:inline-block; margin:1.6em 0 3em;">確認訂單</button>
@@ -125,21 +134,84 @@
 <% LayoutUtils.addScriptBlock(`
   $(document).ready(function(){
 
-    $.fn.preventDoubleSubmission = function() {
-      $(this).on('submit',function(e){
-        var $form = $(this);
+    var submitData = function (form) {
+      var api = $(form).attr('action');
+      var method = $(form).attr('method');
 
-        if ($form.data('submitted') === true || !$(this).valid()) {
-          e.preventDefault();
+      var values = {};
+      $.each($(form).serializeArray(), function (i, field) {
+      	values[field.name] = field.value;
+      });;
+
+      var ajaxConfig = {
+    		url: api,
+    		method: method,
+    		dataType: 'json',
+    		//contentType: 'application/json',
+    		cache: false,
+    		data: {
+    			email: values['email'],
+    			firstname: values['firstname'],
+    			lastname: values['lastname'],
+          telephone: values['telephone'],
+          shippingLastname: values['shippingLastname'],
+          shippingFirstname: values['shippingFirstname'],
+          shippingEmail: values['shippingEmail'],
+          shippingTelephone: values['shippingTelephone'],
+          shippingAddress1: values['shippingAddress1'],
+          shippingMethod: values['shippingMethod'],
+          county: values['county'],
+          district: values['district'],
+          zipcode: values['zipcode'],
+          products: values['products'],
+          comment: values['comment'],
+          token: values['token']
+    		}
+    	};
+    	var catchDone = function (result) {
+        open('/orderinfo/' + result.data.item.orderNumber, '_self');
+    	};
+    	var catchFail = function (result) {
+    		swal('錯誤', '建立訂單時出現問題，請稍候再試。', 'error');
+    	};
+    	$.ajax(ajaxConfig).done(catchDone).fail(catchFail);
+    };
+
+    $('#order').on("submit", function(event){
+      event.preventDefault()
+
+      var $form = $(this);
+
+      if(!$('#order').valid()){
+        return false;
+      }
+
+      swal({
+        title: "確認",
+        text: "是否確定訂購？",
+        type: "info",
+        confirmButtonClass: "btn-info",
+        confirmButtonText: "是的",
+        cancelButtonText: "先不要",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        showLoaderOnConfirm: true
+      }, function (confirm) {
+        if(confirm){
+          if ( $form.data('submitted') === true) {
+            return false;
+          } else {
+            $form.data('submitted', true);
+            localStorage.cart = [];
+            submitData($form);
+
+            return true;
+          }
         } else {
-          $form.data('submitted', true);
-
-          localStorage.cart = [];
+          return false;
         }
       });
-
-      return this;
-    };
+    });
 
     $('#twzipcode').twzipcode({});
     $('#twzipcode input').addClass('form-control');
@@ -250,6 +322,18 @@
       }
     });
 
-    $('form').preventDoubleSubmission();
+    if( $('input[name=products]').val() === '[]' ){
+
+      $('button[type=submit]').attr('disabled',true);
+
+      swal({
+        type: "error",
+        title: "注意",
+        text: '此訂單已失效，請重新訂購',
+        confirmButtonText: "確定"
+      }, function(){
+        window.location = "/";
+      });
+    }
   });
 `); %>

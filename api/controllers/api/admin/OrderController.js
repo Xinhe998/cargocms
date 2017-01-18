@@ -1,3 +1,6 @@
+import moment from 'moment';
+import sh from 'shorthash';
+
 module.exports = {
 
   find: async (req, res) => {
@@ -129,11 +132,22 @@ module.exports = {
   confirm: async (req, res) => {
     try{
       const { id } = req.params;
+      const { tracking, orderConfirmComment } = req.body;
+      const orderStatus = await OrderStatus.findOne({where:{name: 'PROCESSING'}})
       let order = await Order.findById(id);
-      order.tracking = "CONFIRM";
+      order.tracking = tracking;
+      order.OrderStatusId = orderStatus.id;
       await order.save();
 
-      const orderProducts = await OrderProduct.findAll({
+      await OrderHistory.create({
+        notify: true,
+        comment: `訂單 ID: ${id} 確認訂單，確認理由：${orderConfirmComment}.`,
+        OrderId: order.id
+      });
+
+      sails.log.info('Order CONFIRM', Order);
+
+      let orderProducts = await OrderProduct.findAll({
         where:{
           OrderId: id
         },
@@ -147,9 +161,34 @@ module.exports = {
         }
       }
 
+      const orderProductsName = orderProducts.map((data) => {
+        return data.name;
+      })
+
       for( let supplier of suppliers){
 
+        //產生Ship訂單編號
+        let date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
+        let shipOrderNumber = await SupplierShipOrder.findAll({
+          where: sequelize.where(
+            User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
+          )
+        });
+        if(shipOrderNumber){
+          shipOrderNumber = (shipOrderNumber.length + 1 ).toString();
+          for( let i = shipOrderNumber.length; i < 5 ; i++){
+            shipOrderNumber = '0' + shipOrderNumber;
+          }
+        } else {
+          shipOrderNumber = '00001';
+        }
+
+        const crc = sh.unique(`${order.UserId}${orderProductsName.toString()}${date}${shipOrderNumber}`);
+        shipOrderNumber = date + shipOrderNumber + crc.substr(0, 3);
+        sails.log.info('產生出貨單編號:', shipOrderNumber);
+
         let supplierShipOrder = await SupplierShipOrder.create({
+          shipOrderNumber: shipOrderNumber,
           OrderId: id,
           SupplierId: supplier,
           invoiceNo: order.invoiceNo,
@@ -201,6 +240,14 @@ module.exports = {
           status: 'NEW',
         });
 
+        const supplierName = await Supplier.findById(supplier);
+
+        await SupplierShipOrderHistory.create({
+          SupplierShipOrderId: supplierShipOrder.id,
+          notify: true,
+          comment: `訂單 ID: ${supplierShipOrder.OrderId} 已確認，建立 ${supplierName.name} 供應商出貨單 ID:${supplierShipOrder.id}.`
+        });
+
         for( let orderProduct of orderProducts ){
           if( orderProduct.Product.SupplierId === supplier ){
 
@@ -228,4 +275,38 @@ module.exports = {
       res.serverError(e);
     }
   },
+
+  updateStatus: async (req, res) => {
+    try{
+      const { id } = req.params;
+      const {status ,statusComment} = req.body;
+
+      const orderStatus = await OrderStatus.findOne({
+        where: {
+          name: status
+        }
+      });
+
+      const item = await Order.update({
+        OrderStatusId: orderStatus.id
+      },{
+        where: {
+          id
+        }
+      })
+
+      await OrderHistory.create({
+        notify: true,
+        comment: `訂單 ID:${id} 變更狀態:${status}，變更理由:${statusComment}.`,
+        OrderId: id,
+        OrderStatudId: orderStatus.id
+      });
+
+      const message = '訂單狀態變更成功.';
+      res.ok({ message, data: { item } });
+
+    } catch (e) {
+      res.serverError(e);
+    }
+  }
 }

@@ -24,59 +24,7 @@ describe('about Order controllers', () => {
       product2 = await createHelper.product('Product B');
       product3 = await createHelper.product('Product C');
 
-      const orderStatusData = [
-        {
-          name:"NEW",
-          languageId:0
-        },{
-          name:"PAID",
-          languageId:0
-        },{
-          name:"PROCESSING",
-          languageId:0
-        },{
-          name:"SHIPPED",
-          languageId:0
-        },{
-          name:"CANCELLED",
-          languageId:0
-        },{
-          name:"COMPLETED",
-          languageId:0
-        },{
-          name:"DENIED",
-          languageId:0
-        },{
-          name:"CANCELED REVERSAL",
-          languageId:0
-        },{
-          name:"FAILED",
-          languageId:0
-        },{
-          name:"REFUNDED",
-          languageId:0
-        },{
-          name:"REVERSED",
-          languageId:0
-        },{
-          name:"CHARGEBACK",
-          languageId:0
-        },{
-          name:"PENDING",
-          languageId:0
-        },{
-          name:"VOIDED",
-          languageId:0
-        },{
-          name:"PROCESSED",
-          languageId:0
-        },{
-          name:"EXPIRED",
-          languageId:0
-        }
-      ]
-
-      await OrderStatus.bulkCreate(orderStatusData);
+      await createHelper.orderStatus();
 
       done();
     } catch (e) {
@@ -85,12 +33,14 @@ describe('about Order controllers', () => {
   });
 
   after(async (done) => {
+    await createHelper.deleteAllOrderStatus();
     await unMockAdmin();
     done();
   });
 
   it('User shopping car Order some Products.', async (done) => {
     try{
+      const token = '8178e7c8e88a68321af84bc7b77e2e38';
       let product = [
         {
           id: product1.id,
@@ -113,35 +63,53 @@ describe('about Order controllers', () => {
         email: 'buyer@gmail.com',
         shippingFirstname: '拜爾',
         shippingLastname: '劉',
-        shippingAddress1: '西區台灣大道二段2號16F-1',
-        shippingCity: '台中市',
-        shippingPostcode: '402',
+        shippingAddress1: '台灣大道二段2號16F-1',
+        county: '台中市',
+        zipcode: '403',
+        district: '西區',
         shippingMethod: '低溫宅配',
         shippingCode: 'ship123456',
         ip: '',
         forwardedIp: '',
         userAgent: '',
-        comment: '這是一個訂購測試'
+        comment: '這是一個訂購測試',
+        token: token
       };
+
 
       const res = await request(sails.hooks.http.app)
       .post(`/api/order`).set('Accept', 'application/json').send( orderData );
+
 
       res.status.should.be.eq(200);
 
       const order = await Order.findOne({
         where: {
-          id: res.body.data.item.id
+          orderNumber: res.body.data.item.orderNumber
         }
       });
 
       const orderProduct = await OrderProduct.findAll({
         where: {
-          OrderId: res.body.data.item.id
+          OrderId: order.id
         }
       });
 
       orderProduct.length.should.be.equal(3);
+
+      const orderHistory = await OrderHistory.findAll({
+        where: {
+          OrderId: order.id
+        }
+      });
+      orderHistory.length.should.be.equal(1);
+
+      const orderStatus = await OrderStatus.findOne({
+        where: {
+          name: 'NEW'
+        }
+      })
+      orderHistory[0].OrderStatusId.should.be.equal(orderStatus.id);
 
       // const orderPayment = await OrderPayment.findOne({
       //   where: {
@@ -165,10 +133,74 @@ describe('about Order controllers', () => {
 
   });
 
+  it('Repeat Order ', async (done) => {
+    try{
+      let repeatOrder = [];
+
+      const token = '9487e7c8e88a68321af84bc7b77e2168';
+      let product = [
+        {
+          id: product1.id,
+          quantity: 3,
+        },{
+          id: product2.id,
+          quantity: 2,
+        },{
+          id: product3.id,
+          quantity: 5,
+        }];
+      product = JSON.stringify(product);
+
+      const orderData = {
+        lastname: '日',
+        firstname: '晶晶',
+        products: product,
+        telephone: '04-22019020',
+        fax: '',
+        email: 'buyer@gmail.com',
+        shippingFirstname: '拜爾',
+        shippingLastname: '劉',
+        shippingAddress1: '台灣大道二段2號16F-1',
+        county: '台中市',
+        zipcode: '403',
+        district: '西區',
+        shippingMethod: '低溫宅配',
+        shippingCode: 'ship654321',
+        ip: '',
+        forwardedIp: '',
+        userAgent: '',
+        comment: '這是一個訂購測試',
+        token: token
+      };
+
+      repeatOrder.push(
+        request(sails.hooks.http.app)
+        .post(`/api/order`).set('Accept', 'application/json')
+        .send( orderData )
+      );
+      repeatOrder.push(
+        request(sails.hooks.http.app)
+        .post(`/api/order`).set('Accept', 'application/json')
+        .send( orderData )
+      );
+
+      const result = await Promise.all(repeatOrder);
+      // console.log("====Promise result ===", result);
+
+      const check = await Order.findAll({ where: { token }});
+      check.length.should.be.eq(1);
+      done();
+    } catch(e){
+      done(e);
+    }
+  });
+
   it('Order Controller get Order Info data', async(done) => {
     try{
+      const order = await Order.findById(1);
+
       const res = await request(sails.hooks.http.app)
-      .get(`/orderinfo/1`);
+      .get(`/orderinfo/${order.orderNumber}`);
 
       res.status.should.be.eq(200);
       // res.body.data.item.invoiceNo.should.be.eq('87654321');

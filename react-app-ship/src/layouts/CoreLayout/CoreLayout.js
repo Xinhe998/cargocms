@@ -4,6 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { deepOrange500 } from 'material-ui/styles/colors';
 import AppDrawer from './AppDrawer';
 import '../../styles/core.scss';
+import '../../styles/print.scss';
 import './_style.scss';
 
 // Note: Stateless/function components *will not* hot reload!

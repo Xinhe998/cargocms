@@ -13,6 +13,7 @@ import express from 'express';
 import moment from 'moment';
 import fs from 'fs';
 import linkifyStr from 'linkifyjs/string';
+import rc from 'rc';
 
 module.exports.http = {
 
@@ -93,6 +94,9 @@ module.exports.http = {
   customMiddleware: function(app) {
     // app.use(express.logger());
     // app.use(express.compress());
+    let rcConfig = rc('sails');
+    let {modules} = rcConfig.configLoader
+
     var {environment} = sails.config;
     var maxAge = sails.config.http.cache;
     if(environment == 'production'){
@@ -111,10 +115,10 @@ module.exports.http = {
         app.use('/assets/', express.static(dirName, {maxAge}));
       }
     }
-    console.log("=== ship ===");
-    app.use('/ship', express.static('react-app-ship/dist', {maxAge}));
 
-
+    if (modules.indexOf("b2b") >= 0){
+      app.use('/ship', express.static('react-app-ship/dist', {maxAge}));
+    }
 
   },
   middleware: {

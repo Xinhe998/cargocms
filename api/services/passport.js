@@ -322,25 +322,32 @@ passport.loadStrategies = function() {
         self.use(new Strategy(self.protocols.bearer.authorize));
       }
     } else {
-      protocol = strategies[key].protocol;
-      callback = strategies[key].callback;
-      if (!callback) {
-        callback = 'auth/' + key + '/callback';
+      var isIdEmpty = options.clientId === '';
+      var isIdUndefined = options.clientId === undefined;
+      if (!isIdEmpty && !isIdUndefined) {
+        protocol = strategies[key].protocol;
+        callback = strategies[key].callback;
+        if (!callback) {
+          callback = 'auth/' + key + '/callback';
+        }
+        Strategy = strategies[key].strategy;
+        baseUrl = sails.getBaseurl();
+        switch (protocol) {
+          case 'oauth':
+            break;
+          case 'oauth2':
+            options.callbackURL = url.resolve(baseUrl, callback);
+            break;
+          case 'openid':
+            options.returnURL = url.resolve(baseUrl, callback);
+            options.realm = baseUrl;
+            options.profile = true;
+            break;
+        }
+        console.log('options=>', options);
+        _.extend(options, strategies[key].options);
+        self.use(new Strategy(options, self.protocols[protocol]));
       }
-      Strategy = strategies[key].strategy;
-      baseUrl = sails.getBaseurl();
-      switch (protocol) {
-        case 'oauth':
-        case 'oauth2':
-          options.callbackURL = url.resolve(baseUrl, callback);
-          break;
-        case 'openid':
-          options.returnURL = url.resolve(baseUrl, callback);
-          options.realm = baseUrl;
-          options.profile = true;
-      }
-      _.extend(options, strategies[key].options);
-      self.use(new Strategy(options, self.protocols[protocol]));
     }
   });
 };

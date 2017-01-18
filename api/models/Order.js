@@ -1,6 +1,10 @@
 
 module.exports = {
   attributes: {
+    orderNumber: {
+      type: Sequelize.STRING(48),
+      allowNull: false
+    },
     invoiceNo: {
       type: Sequelize.STRING(48),
       defaultValue: 0,
@@ -244,6 +248,11 @@ module.exports = {
     acceptLanguage: {
       type: Sequelize.STRING(255),
       allowNull: false,
+    },
+
+    token: {
+      type: Sequelize.STRING(32),
+      unique: true,
     },
 
     // dateAdded: {
