@@ -84,6 +84,20 @@
       <input type="text" name="address2" placeholder="請輸入收件地址2" v-model="data.item.address2" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入 收件地址2</b></label>
   </section>
+  <section>
+    <label class="label">訂戶編號</label>
+    <label class="input state-disabled"><i class="icon-append fa fa-map-marker"></i>
+      <input type="text" name="subscriberId" placeholder="請輸入訂戶編號" v-model="data.item.UserDetail.subscriberId" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入 訂戶編號</b></label>
+  </section>
+  <section>
+    <label class="label">性別</label>
+    <label class="select">
+      <select v-model="data.item.UserDetail.sexuality">
+        <option value="male" selected>男性</option>
+        <option value="female">女性</option>
+      </select> <i></i> </label>
+  </section>
   <!--
   <div class="row">
     <section class="col col-6">
