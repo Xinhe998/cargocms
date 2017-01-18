@@ -62,7 +62,7 @@ const propTypes = {
   tracking: PropTypes.string,
   comment: PropTypes.string,
   orderNumber: PropTypes.string,
-  orderNumber: '2001023188888SSS',
+  orderNumber: 'n/a',
 };
 
 function ShipCardDetail(props) {

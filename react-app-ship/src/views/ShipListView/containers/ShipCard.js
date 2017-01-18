@@ -82,7 +82,7 @@ export default class ShipCard extends React.Component {
     },
     Order: {
       id: 1,
-      orderNumber: '199901077777crc',
+      orderNumber: 'n/a',
     },
   };
 

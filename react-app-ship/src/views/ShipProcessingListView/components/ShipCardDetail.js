@@ -41,7 +41,7 @@ const defaultProps = {
   shippingMethod: '郵局遞送',
   tracking: '確認訂單',
   comment: 'no comment',
-  orderNumber: '2001023188888SSS',
+  orderNumber: 'n/a',
 };
 
 const propTypes = {
