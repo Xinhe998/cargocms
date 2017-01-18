@@ -53,6 +53,14 @@ module.exports = {
     } catch (e) {
       throw e;
     }
+  },
 
+  getProjectConfig: function() {
+    try{
+      const config = sails.config.projectInfo;
+      return config;
+    } catch (e) {
+      throw e;
+    }
   }
 }
