@@ -53,6 +53,15 @@ module.exports = {
     } catch (e) {
       throw e;
     }
+  },
 
+  isEnableFacebook: function() {
+    try{
+      const facebook = sails.config.passport.facebook.options.clientID ? true : false;
+
+      return facebook;
+    } catch (e) {
+      throw e;
+    }
   }
 }
