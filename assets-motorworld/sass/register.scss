@@ -39,7 +39,8 @@
     }
     input {
       box-shadow: none;
-      border: 1px solid #979797;
+      // border: 1px solid #979797;
+      border-width: 0px;
       border-radius: 3px;
       background-color: #eff0f0;
     }
@@ -50,6 +51,14 @@
       margin: auto;
       background: #B30C0C;
       border-radius: 3px;
+    }
+    .register-login {
+      background-color: #87ceeb;
+      border-color: #87ceeb;
+      color: #FFF;
+    }
+    a.register-login:hover {
+      background-color: #85d3f8;
     }
   }
   .register-panel {
