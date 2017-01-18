@@ -176,8 +176,8 @@ export default class ShipCard extends React.Component {
       tracking: props.tracking,
       comment: props.comment,
       formatTotal: props.formatTotal,
-      formatTax: props.formatTax
-      orderNumber: this.props.Order.orderNumber,
+      formatTax: props.formatTax,
+      orderNumber: this.props.Order.orderNumber
     };
     return (
       <Card
