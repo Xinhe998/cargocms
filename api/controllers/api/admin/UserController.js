@@ -39,6 +39,10 @@ module.exports = {
   create: async (req, res) => {
     const data = req.body;
     try {
+      data.sexuality = data.UserDetail.sexuality;
+      data.subscriberId = data.UserDetail.subscriberId || '';
+      delete data.UserDetail;
+      
       sails.log.info('create user controller=>', data);
       const user = await UserService.create(data);
 
