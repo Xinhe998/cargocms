@@ -167,8 +167,8 @@ export default class ShipCard extends React.Component {
       shippingAddress: `${this.props.shippingPostcode} ${this.props.shippingCity}${this.props.shippingAddress1}`,
       tracking: this.props.tracking,
       comment: this.props.comment,
-      formatTotal: props.formatTotal,
-      formatTax: props.formatTax
+      formatTotal: this.props.formatTotal,
+      formatTax: this.props.formatTax
     };
     return (
       <Card

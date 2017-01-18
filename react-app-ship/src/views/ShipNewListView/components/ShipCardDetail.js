@@ -17,6 +17,8 @@ const defaultProps = {
       status: 'NEW',
       OrderProductId: 1,
       SupplierShipOrderId: 3,
+      formatPrice: '1,234',
+      formatTotal: '1,234'
     },
   ],
   orderDate: {
