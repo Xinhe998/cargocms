@@ -5,7 +5,7 @@ module.exports = {
       const { query, method, body } = req;
       const { serverSidePaging } = query;
       const modelName = req.options.controller.split("/").reverse()[0];
-      const include = [ SupplierShipOrderProduct, Supplier ];
+      const include = [ SupplierShipOrderProduct, Supplier, Order ];
       const isPost = method === 'POST';
       let mServerSidePaging = isPost ? body.serverSidePaging : serverSidePaging;
       let mQuery = isPost ? body : query;

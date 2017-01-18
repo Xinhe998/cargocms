@@ -4,6 +4,7 @@ import ShipCardStepper from './ShipCardStepper';
 const defaultProps = {
   toast: null,
   isExpend: false,
+  shipOrderNumber: '2017010101111crc',
   invoiceCode: 'S1111222233334444',
   orderDetail: [
     {
@@ -45,11 +46,13 @@ const defaultProps = {
   comment: 'no comment',
   formatTotal: '12,345',
   formatTax: '234',
+  orderNumber: 'n/a',
 };
 
 const propTypes = {
   toast: PropTypes.func,
   isExpend: PropTypes.bool,
+  shipOrderNumber: PropTypes.string,
   invoiceCode: PropTypes.string,
   orderDetail: PropTypes.array,
   orderDate: PropTypes.object,
@@ -66,6 +69,7 @@ const propTypes = {
   comment: PropTypes.string,
   formatTotal: PropTypes.string,
   formatTax: PropTypes.string,
+  orderNumber: PropTypes.string,
 };
 
 function ShipCardDetail(props) {
@@ -74,11 +78,19 @@ function ShipCardDetail(props) {
       <div className='row'>
 
         <div className='col-xs-12'>
-          <p/>
+          <p />
           <h2 className='title text-center'>出貨明細</h2>
         </div>
-        <div className='col-xs-12'>
-          <hr />
+        <div className='row col-xs-12'>
+          <div className='col-xs-6'>
+            <h5>出貨單編號: {props.shipOrderNumber}</h5>
+          </div>
+          <div className='col-xs-6'>
+            <h5>訂單編號: {props.orderNumber}</h5>
+          </div>
+          <div className='col-xs-12'>
+            <hr style={{ marginTop: 0 + 'px' }} />
+          </div>
         </div>
 
         <div className='col-xs-12 row'>
