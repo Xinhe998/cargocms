@@ -30,7 +30,10 @@ module.exports = {
       }
     }
   },
-  associations: () => {},
+  associations: () => {
+    User.hasOne(UserDetail);
+    UserDetail.belongsTo(User);
+  },
   options: {
     classMethods: {},
     instanceMethods: {},
