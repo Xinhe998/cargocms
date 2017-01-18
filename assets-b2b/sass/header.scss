@@ -25,6 +25,13 @@
           background-color: #f4f4f4;
         }
       }
+      .btn-checkout {
+        background-color: black;
+        color: white;
+        &:hover {
+          background-color: rgb(101, 101, 101);
+        }
+      }
     }
   }
 }
