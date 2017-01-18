@@ -53,6 +53,14 @@ module.exports = {
     } catch (e) {
       throw e;
     }
+  },
 
+  facebookLoginRegister: function() {
+    try{
+      const facebook = sails.config.passport.facebook.options.clientID;
+      return facebook;
+    } catch (e) {
+      throw e;
+    }
   }
 }
