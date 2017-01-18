@@ -34,18 +34,18 @@ export default class DialogShip extends React.Component {
 
   constructor(props) {
     super();
-    this.state = {
-      value: '',
-      errorText: '',
-    };
+    // this.state = {
+    //   value: '',
+    //   errorText: '',
+    // };
   }
 
-  handleChange = (event) => {
-    this.setState({
-      value: event.target.value,
-      errorText: '',
-    });
-  };
+  // handleChange = (event) => {
+  //   this.setState({
+  //     value: event.target.value,
+  //     errorText: '',
+  //   });
+  // };
 
   render() {
 
@@ -60,14 +60,9 @@ export default class DialogShip extends React.Component {
         primary={true}
         keyboardFocused={true}
         onTouchTap={() => {
-          if (this.state.value) {
-            this.props.rightOnPress(
-              'PROCESSING',
-              this.state.value,
-            )
-          } else {
-            this.setState({ errorText: '請輸入事由' })
-          }
+          this.props.rightOnPress(
+            'PROCESSING',
+          );
         }}
       />,
     ];
@@ -82,14 +77,6 @@ export default class DialogShip extends React.Component {
           onRequestClose={this.props.leftOnPress}
         >
           {this.props.content}
-          <p />
-          {
-            this.props.input ? <TextField
-              hintText="請輸入變更訂單狀態的理由"
-              onChange={this.handleChange}
-              errorText={this.state.errorText}
-            /> : null
-          }
         </Dialog>
       </div>
     );
