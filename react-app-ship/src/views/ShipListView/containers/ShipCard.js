@@ -127,6 +127,8 @@ export default class ShipCard extends React.Component {
     status: PropTypes.string,
     OrderId: PropTypes.number,
     Supplier: PropTypes.object,
+    formatTotal: PropTypes.string,
+    formatTax: PropTypes.string,
   };
 
   constructor(props, context) {
@@ -168,6 +170,8 @@ export default class ShipCard extends React.Component {
       shippingAddress: `${props.shippingPostcode} ${props.shippingCity}${props.shippingAddress1}`,
       tracking: props.tracking,
       comment: props.comment,
+      formatTotal: props.formatTotal,
+      formatTax: props.formatTax
     };
     return (
       <Card
@@ -214,6 +218,8 @@ export default class ShipCard extends React.Component {
             shippingMethod={cardDetail.shippingMethod}
             tracking={cardDetail.tracking}
             comment={cardDetail.comment}
+            formatTotal={cardDetail.formatTotal}
+            formatTax={cardDetail.formatTax}
           />
         </CardText>
       </Card>

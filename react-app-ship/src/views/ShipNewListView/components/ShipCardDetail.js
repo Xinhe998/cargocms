@@ -41,6 +41,8 @@ const defaultProps = {
   shippingMethod: '郵局遞送',
   tracking: '確認訂單',
   comment: 'no comment',
+  formatTotal: '12,345',
+  formatTax: '234',
 };
 
 const propTypes = {
@@ -60,6 +62,8 @@ const propTypes = {
   shippingMethod: PropTypes.string,
   tracking: PropTypes.string,
   comment: PropTypes.string,
+  formatTotal: PropTypes.string,
+  formatTax: PropTypes.string,
 };
 
 function ShipCardDetail(props) {
@@ -157,7 +161,7 @@ function ShipCardDetail(props) {
                 <td>{}</td>
                 <td>{}</td>
                 <td>{}</td>
-                <td>總計：{props.total}</td>
+                <td>總計：$ {props.formatTotal}</td>
               </tr>
             </tfoot>
             <tbody>
@@ -166,8 +170,8 @@ function ShipCardDetail(props) {
                   <tr key={i}>
                     <td>{item.name}</td>
                     <td>{item.quantity} 盒</td>
-                    <td>{item.price}</td>
-                    <td>{item.price * item.quantity}</td>
+                    <td>$ {item.formatPrice}</td>
+                    <td>$ {item.formatTotal}</td>
                   </tr>
                 ))
               }
