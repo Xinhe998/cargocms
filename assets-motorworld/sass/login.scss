@@ -44,12 +44,23 @@
     }
   }
   .login-form {
-    width: 330px;
-    margin: auto;
+    // width: 330px;
+    // margin: auto;
+    margin: 1.5em;
     input {
       box-shadow: none;
-      border: 1px solid #979797;
+      border-width: 0px;
+      background-color: #eff0f0;
+      // border: 1px solid #979797;
       border-radius: 3px;
+    }
+    .register-login {
+      background-color: #c6e8f8;
+      border-color: #c6e8f8;
+      color: #FFF;
+    }
+    a.register-login:hover {
+      background-color: #85d3f8;
     }
   }
 }
