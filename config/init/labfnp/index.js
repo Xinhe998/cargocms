@@ -10,7 +10,7 @@ import fakeusers from './../default/fakeusers';
 import user from './../default/user';
 
 module.exports.init = async function(){
-  
+
   await allpay.init();
   await events.init();
   await facebook.init();

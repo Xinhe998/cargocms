@@ -132,6 +132,10 @@ var defaultConfig = {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
 
+  "api/admin/OrderHistoryController": {
+    '*': ['passport', 'sessionAuth', 'isAdmin'],
+  },
+
   /***************************************************************************
   *                                                                          *
   * Default policy for all controllers and actions (`true` allows public     *
