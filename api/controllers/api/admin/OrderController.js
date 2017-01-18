@@ -141,7 +141,8 @@ module.exports = {
 
       await OrderHistory.create({
         notify: true,
-        comment: `訂單 ID: ${id} 確認訂單，確認理由：${orderConfirmComment}.`,
+        // comment: `訂單 ID: ${id} 確認訂單，確認理由：${orderConfirmComment}.`,
+        comment: `訂單 ID: ${id} 確認訂單.`,
         OrderId: order.id
       });
 
