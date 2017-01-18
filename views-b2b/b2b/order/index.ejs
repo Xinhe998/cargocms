@@ -83,7 +83,7 @@
     <tbody>
       <% for(var i = 0, len = data.product.length; i < len; i++) { %>
         <tr>
-          <td><%= data.product[i].model %></td><td><%= data.product[i].formatPrice %></td><td><%= data.product[i].quantity %></td><td><%= data.product[i].formatTotal %></td>
+          <td><%= data.product[i].model %></td><td>$ <%= data.product[i].formatPrice %></td><td><%= data.product[i].quantity %></td><td>$ <%= data.product[i].formatTotal %></td>
         </tr>
       <% } %>
     </tbody>
@@ -93,13 +93,13 @@
 
   <table class="b2b-bill-info pull-right" style="margin-top: 1em;">
     <tr>
-      <th>合計</th><td><%= data.item.formatTotal %></td>
+      <th>合計</th><td>$ <%= data.item.formatTotal %></td>
     </tr>
     <tr>
-      <th>營業稅</th><td><%= data.item.formatTax %></td>
+      <th>營業稅</th><td>$ <%= data.item.formatTax %></td>
     </tr>
     <tr>
-      <th>總計</th><td><%= data.item.formatTotal %></td>
+      <th>總計</th><td>$ <%= data.item.formatTotal %></td>
     </tr>
   </table>
 
@@ -128,7 +128,7 @@
       }
     });
   }
-  
+
   $(document).ready(function(){
 
   })
