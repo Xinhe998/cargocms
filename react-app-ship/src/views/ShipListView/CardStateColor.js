@@ -11,6 +11,10 @@ const stateColor = {
     backgroundColor: '#F6A623',
     color: '#fff',
   },
+  completed: {
+    backgroundColor: '#87ceeb',
+    color: '#fff',
+  },
 };
 
 export default stateColor;
