@@ -2,7 +2,7 @@ module.exports = {
   index: async (req, res) => {
     res.ok({
       view: true,
-      serverSidePaging: ,
+      serverSidePaging: true,
       layout: 'admin/default/index'
     });
   },
@@ -17,7 +17,6 @@ module.exports = {
       view: true,
       layout: 'admin/default/edit'
     });
-
   },
   show: async (req, res) => {
     res.ok({
