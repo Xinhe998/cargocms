@@ -9,7 +9,7 @@
         </div>
         -->
 
-        <% if(sails.config.passport.facebook){%>
+        <% if( UtilsService.facebookLoginRegister() ) { %>
           <div class="social-login">
             <ul class="list-unstyled">
               <li>

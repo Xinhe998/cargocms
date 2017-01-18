@@ -45,7 +45,7 @@ em.invalid{
     <div class="login-block col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
       <form id="registerForm" class="reg-page" method='post' action="/auth/local/register?url=/">
 
-        <% if( sails.config.passport.facebook.options.clientID !== '0' ) {%>
+        <% if( UtilsService.facebookLoginRegister() ) {%>
         <div class="social-login">
           <ul class="list-unstyled">
             <li>
