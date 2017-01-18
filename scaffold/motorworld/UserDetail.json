@@ -1,0 +1,24 @@
+
+{
+    "controllerBasePath": "/api/controllers",
+    "dest": "export",
+    "models": [{
+        "name": "user_detail", // 駝峰的話要用_分格開來
+        "crud": true,
+        "fields": [{
+            "name": "subscriberId",
+            "type": "String",
+            "length": "32",
+            "layout": {
+              "label": "訂戶編號"
+            }
+        }, {
+            "name": "sexuality",
+            "type": "ENUM('male', 'female')",
+            "layout": {
+              "label": "性別"
+            }
+        }
+      ]
+    }]
+}
