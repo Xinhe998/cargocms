@@ -1,6 +1,4 @@
 <style>
-  th.center {text-align:center}
-
   .accordion-toggle td:first-child:after {
     content: "\f078"; /* fa-chevron-down */
     font-family: 'FontAwesome';
@@ -11,7 +9,9 @@
     font-family: 'FontAwesome';
     content: "\f077"; /* fa-chevron-up */
   }
-
+  table.order-list thead th, td {
+    text-align: center;
+  }
 </style>
 
 <div class="b2b-breadcrumbs">
@@ -20,13 +20,13 @@
   </div>
 </div>
 
-<div>
-  <table class="table">
+<div class="container orderHistory">
+  <table class="table order-list">
     <thead>
       <tr>
         <th></th>
         <th>訂單編號</th>
-        <th>收件人</th>
+        <th class="hidden-xs">收件人</th>
         <th>訂單金額</th>
         <th>訂單狀態</th>
       </tr>
@@ -34,16 +34,16 @@
     <tbody>
       <% for( key in data.items ) { %>
         <tr data-toggle="collapse" data-target="#<%= data.items[key].orderNumber %>" class="accordion-toggle" aria-expanded="false">
-          <td><i class=></i></td>
+          <td></td>
           <td><%= data.items[key].orderNumber %></td>
-          <td><%= data.items[key].shippingLastname + data.items[key].shippingFirstname%></td>
+          <td class="hidden-xs"><%= data.items[key].shippingLastname + data.items[key].shippingFirstname%></td>
           <td><%= data.items[key].formatTotal %></td>
-          <td><%= data.items[key].OrderStatus.name %></td>
+          <td><%= __(`${data.items[key].OrderStatus.name}`) %></td>
         </tr>
         <tr>
           <td colspan="5" class="">
             <div id="<%= data.items[key].orderNumber %>" class="collapse">
-              <table class="table" >
+              <table class="table order-products" >
                 <thead>
                   <tr>
                     <th>品名</th>
