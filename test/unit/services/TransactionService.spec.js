@@ -11,11 +11,12 @@ describe('about Transaction Service operation.', function() {
           firstName: '測試Transaction',
           lastName: ''
         }
-      }, {
-        model: 'menuitem',
-        action: 'create',
-        data: { icon: 'wrench', href: '#', title: 'Test'}
-      }]
+      }];
+      // }, {
+      //   model: 'menuitem',
+      //   action: 'create',
+      //   data: { icon: 'wrench', href: '#', title: 'Test'}
+      // }]
       // const model = array[0].model;
       // const action = array[0].action;
       // const data = array[0].data;
@@ -41,28 +42,39 @@ describe('about Transaction Service operation.', function() {
     }
   });
 
-  it.skip('test2.', async (done) => {
+  it('test2.', async (done) => {
     try {
-      const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
-      let transaction;
-      return sequelize.transaction({ isolationLevel })
-      .then(function (t) {
-        transaction = t
+      var createUser = (transaction) => {
+        return new Promise(function(resolve, reject) {
+          User.create({
+            username: 'asdaasd',
+            email: '123sdlf@gmil.com',
+            firstName: '測試Transaction',
+            lastName: ''
+          }, {transaction})
+          .then(function(order) {
+            resolve(order);
+          }).catch(function(err) {
+            reject(err)
+          });
+        });
+      }
+      var isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
+      var transaction;
+
+      console.log("start");
+      return sequelize.transaction(function(t){
+        console.log("1");
         return User.create({
           username: 'asdaasd',
           email: '123sdlf@gmil.com',
           firstName: '測試Transaction',
           lastName: ''
-        }, {transaction})
+        }, function(data) {
+          console.log(data);
+          return data
+        });
       })
-      .then(function(){
-        transaction.commit();
-        done()
-      })
-      .catch(function(err) {
-        sails.log.error('transaction error', err.toString());
-        transaction.rollback();
-      });
 
       // done();
     } catch (e) {
