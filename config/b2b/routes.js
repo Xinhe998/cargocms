@@ -14,7 +14,7 @@ module.exports = {
 
   'get /ship/*': function(req, res, next) {
     res.sendfile(sails.config.appPath + '/react-app-ship/dist/index.html');
-  }
+  },
 
   'get /api/admin/category': 'api/admin/CategoryController.find',
   'get /api/admin/category/:id': 'api/admin/CategoryController.findOne',
