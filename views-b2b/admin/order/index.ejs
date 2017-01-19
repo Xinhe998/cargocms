@@ -173,7 +173,7 @@
 						'<a name="editDataButton" class="btn btn-default btn-xs" role="button" data-id="'+row.id+'">'+
 							'<i class="fa-fw fa fa-pencil-square-o text-muted"/>'+
 						'</a>'+
-            '<a name="orderConfirm" class="btn btn-default btn-xs'+( (data.tracking === '訂單建立') ? "": " hidden ") +'" role="button" data-id="'+ row.id +'">'+
+            '<a name="orderConfirm" class="btn btn-default btn-xs'+( (data.tracking === '訂單建立') ? "": " hidden ") +'" role="button" data-id="'+ row.id +'" data-total="'+ row.formatTotal +'">'+
               '<i class="fa-fw fa fa-check text-muted"/>'+
             '</a>'+
 					'</div>';

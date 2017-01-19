@@ -124,10 +124,14 @@ appMain.DataTableInitComplete = function() {
   $("#main-table").delegate("[name='orderConfirm']","click", function(e) {
       var that = this;
       var orderId = $(that).attr("data-id");
+      var orderTotal = $(that).attr("data-total");
+      console.log('orderTotal ==>', orderTotal);
       $.SmartMessageBox({
         title : "提醒",
         content:
-        '是否確認訂單<br />',
+        '是否確認此訂單 ? ' +
+        '<p />'+
+        '訂單總金額 : <em style="font-size: 1.5em;">'+  orderTotal +'</em><br />',
         // "<input id='orderConfirmComment' type='text' class='form-control' value='訂單資訊與內容已確認'/>" +
         // "<br/>",
         buttons : "[確認][取消]"
