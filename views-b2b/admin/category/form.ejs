@@ -1,38 +1,86 @@
 <fieldset>
 
-  
-    <section row="">
-      <label class="label">TOP</label>
-      <label class="input state-disabled ">
-      <input type="text" name="top" placeholder="" v-model="data.item.top" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入TOP</b></label>
-    </section>
-  
-    <section row="">
-      <label class="label">欄位</label>
-      <label class="input state-disabled ">
-      <input type="text" name="column" placeholder="" v-model="data.item.column" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入欄位</b></label>
-    </section>
-  
-    <section row="">
-      <label class="label">排序</label>
-      <label class="input state-disabled ">
-      <input type="text" name="sortOrder" placeholder="" v-model="data.item.sortOrder" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入排序</b></label>
-    </section>
-  
-    <section row="">
-      <label class="label">狀態</label>
-      <label class="input state-disabled ">
-      <input type="text" name="status" placeholder="" v-model="data.item.status" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入狀態</b></label>
-    </section>
-  
+  <section row="">
+    <label class="label">名稱</label>
+    <label class="input state-disabled ">
+    <input type="text" name="name" placeholder="" v-model="data.item.CategoryDescription.name" disabled>
+    <b class="tooltip tooltip-bottom-right">請輸入名稱</b></label>
+  </section>
+
+  <section row="">
+    <label class="label">描述</label>
+    <label class="input state-disabled ">
+    <input type="text" name="description" placeholder="" v-model="data.item.CategoryDescription.description" disabled>
+    <b class="tooltip tooltip-bottom-right">請輸入描述</b></label>
+  </section>
+
+  <section row="">
+    <label class="label">Meta標題</label>
+    <label class="input state-disabled ">
+    <input type="text" name="metaTitle" placeholder="" v-model="data.item.CategoryDescription.metaTitle" disabled>
+    <b class="tooltip tooltip-bottom-right">請輸入Meta標題</b></label>
+  </section>
+
+  <section row="">
+    <label class="label">Meta描述</label>
+    <label class="input state-disabled ">
+    <input type="text" name="metaDescription" placeholder="" v-model="data.item.CategoryDescription.metaDescription" disabled>
+    <b class="tooltip tooltip-bottom-right">請輸入Meta描述</b></label>
+  </section>
+
+  <section row="">
+    <label class="label">Meta關鍵字</label>
+    <label class="input state-disabled ">
+    <input type="text" name="metaKeyword" placeholder="" v-model="data.item.CategoryDescription.metaKeyword" disabled>
+    <b class="tooltip tooltip-bottom-right">請輸入Meta關鍵字</b></label>
+  </section>
+
+  <section row="">
+    <label class="label">TOP</label>
+    <label class="input state-disabled ">
+    <input type="text" name="top" placeholder="" v-model="data.item.top" disabled>
+    <b class="tooltip tooltip-bottom-right">請輸入TOP</b></label>
+  </section>
+
+  <section row="">
+    <label class="label">欄位</label>
+    <label class="input state-disabled ">
+    <input type="text" name="column" placeholder="" v-model="data.item.column" disabled>
+    <b class="tooltip tooltip-bottom-right">請輸入欄位</b></label>
+  </section>
+
+  <section row="">
+    <label class="label">排序</label>
+    <label class="input state-disabled ">
+    <input type="text" name="sortOrder" placeholder="" v-model="data.item.sortOrder" disabled>
+    <b class="tooltip tooltip-bottom-right">請輸入排序</b></label>
+  </section>
+
+  <section row="">
+    <label class="label">狀態</label>
+    <label class="input state-disabled ">
+    <input type="text" name="status" placeholder="" v-model="data.item.status" disabled>
+    <b class="tooltip tooltip-bottom-right">請輸入狀態</b></label>
+  </section>
 
 </fieldset>
 <script>
   var formRules = {
+    name:{
+      required: true,
+    },
+    description:{
+      required: true,
+    },
+    metaTitle:{
+      required: true,
+    },
+    metaDescription:{
+      required: true,
+    },
+    metaKeyword:{
+      required: true,
+    },
     top:{
       required: true,
     },
@@ -48,6 +96,21 @@
   };
 
   var formMessages = {
+    name:{
+      required: "請給予 名稱",
+    },
+    description:{
+      required: "請給予 描述",
+    },
+    metaTitle:{
+      required: "請給予 Meta標題",
+    },
+    metaDescription:{
+      required: "請給予 Meta描述",
+    },
+    metaKeyword:{
+      required: "請給予 Meta關鍵字",
+    },
     top:{
       required: "請給予 TOP",
     },
