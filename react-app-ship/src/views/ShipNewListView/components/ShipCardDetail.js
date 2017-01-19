@@ -193,7 +193,9 @@ function ShipCardDetail(props) {
         </div>
 
       </div>
+      {/*
       <ShipCardStepper />
+      */}
     </div>
   );
 }
