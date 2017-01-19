@@ -122,6 +122,8 @@ export function fetchFindShipItem(value, status) {
           concat: ['lastname', 'firstname'],
         },
       },
+      { data: 'orderNumber', searchable: 'true' },
+      { data: 'shipOrderNumber', searchable: 'true' },
       { data: 'email', searchable: 'true' },
       { data: 'telephone', searchable: 'true' },
       { data: 'paymentAddress1', searchable: 'true' },

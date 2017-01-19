@@ -109,9 +109,9 @@ const styles = {
               </IconButton>
             }
           >
-            <Link to={'/ship'}>
+            {/* <Link to={'/ship'}>
               <MenuItem primaryText='個人資料' />
-            </Link>
+            </Link> */}
             <MenuItem primaryText='登  出' onTouchTap={this.props.requestLogout} />
           </IconMenu>
         </ToolbarGroup>
