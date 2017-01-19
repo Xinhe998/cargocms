@@ -10,13 +10,11 @@ module.exports = {
       const modelName = req.options.controller.split("/").reverse()[0];
       let result;
       if (serverSidePaging) {
-        const include = {
-          model: OrderStatus
-        };
+        const include = [OrderStatus, OrderProduct];
         result = await PagingService.process({query, modelName, include});
       } else {
         const items = await sails.models[modelName].findAll({
-          include: OrderStatus
+          include: [OrderStatus, OrderProduct]
         });
         result = { data: { items } };
       }
@@ -33,7 +31,7 @@ module.exports = {
         where: {
           id: id
         },
-        include: OrderStatus
+        include: [OrderStatus, OrderProduct]
       });
       res.ok({ data: { item } });
     } catch (e) {
@@ -141,7 +139,8 @@ module.exports = {
 
       await OrderHistory.create({
         notify: true,
-        comment: `訂單 ID: ${id} 確認訂單，確認理由：${orderConfirmComment}.`,
+        // comment: `訂單 ID: ${id} 確認訂單，確認理由：${orderConfirmComment}.`,
+        comment: `訂單 ID: ${id} 確認訂單.`,
         OrderId: order.id
       });
 

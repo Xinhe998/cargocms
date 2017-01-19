@@ -118,7 +118,7 @@ module.exports = {
 
           SupplierShipOrderHistory.create({
             notify: true,
-            comment: `出貨單 SupplierShipOrder ID: ${id}，狀態變更:${status}，變更理由: ${comment}`,
+            comment: `出貨單 SupplierShipOrder ID: ${id}，狀態變更:${status}`,
             SupplierShipOrderId: id
           })
           .then(function(supplierShipOrderHistory){

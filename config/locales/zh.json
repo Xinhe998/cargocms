@@ -84,5 +84,22 @@
   "TopUpUsed_AllPay": "儲值/餘額消費_歐付寶",
   "TopUpUsed_ESUN": "儲值/餘額消費_玉山銀行",
 
-  "HCT": "新竹貨運"
+  "HCT": "新竹貨運",
+
+  "NEW": "新訂單",
+  "PAID": "已付款",
+  "PROCESSING": "處理中",
+  "SHIPPED": "已出貨",
+  "CANCELLED": "取消",
+  "COMPLETED": "完成訂單",
+  "DENIED": "拒絕",
+  "CANCELED REVERSAL": "取消退貨",
+  "FAILED": "失敗",
+  "REFUNDED": "退款",
+  "REVERSED": "撤銷",
+  "CHARGEBACK": "交易糾紛",
+  "PENDING": "待處理",
+  "VOIDED": "反悔訂單",
+  "PROCESSED": "已處理",
+  "EXPIRED": "已過期"
 }

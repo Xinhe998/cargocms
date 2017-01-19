@@ -41,5 +41,22 @@
 	"login.need_login": "To subscribe to this site, please login or register",
 	"login.bad_user_password": "Account or password is incorrect!",
 	"login.invalid.username.empty": "Please fill username",
-	"login.invalid.password.empty": "Please fill password"
+	"login.invalid.password.empty": "Please fill password",
+
+  "NEW": "NEW",
+  "PAID": "PAID",
+  "PROCESSING": "PROCESSING",
+  "SHIPPED": "SHIPPED",
+  "CANCELLED": "CANCELLED",
+  "COMPLETED": "COMPLETED",
+  "DENIED": "DENIED",
+  "CANCELED REVERSAL": "CANCELED REVERSAL",
+  "FAILED": "FAILED",
+  "REFUNDED": "REFUNDED",
+  "REVERSED": "REVERSED",
+  "CHARGEBACK": "CHARGEBACK",
+  "PENDING": "PENDING",
+  "VOIDED": "VOIDED",
+  "PROCESSED": "PROCESSED",
+  "EXPIRED": "EXPIRED"
 }

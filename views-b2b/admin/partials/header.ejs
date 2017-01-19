@@ -1,10 +1,11 @@
+<% var config = UtilsService.getProjectConfig(); %>
 <!-- #HEADER -->
 <header id="header">
 	<div id="logo-group">
 
 		<!-- PLACE YOUR LOGO HERE -->
 		<span id="logo">
-			<img src="/assets/labfnp/img/logo-text-dark.png" alt="logo" />
+			<img src="<%= config.admin.header.logo %>" alt="logo" />
 		</span>
 		<!-- END LOGO PLACEHOLDER -->
 

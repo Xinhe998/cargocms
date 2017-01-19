@@ -55,10 +55,18 @@ module.exports = {
     }
   },
 
+  getProjectConfig: function() {
+    try{
+      const config = sails.config.projectInfo;
+      return config;
+    } catch (e) {
+      throw e;
+    }
+  },
+
   isEnableFacebook: function() {
     try{
       const facebook = sails.config.passport.facebook.options.clientID ? true : false;
-
       return facebook;
     } catch (e) {
       throw e;

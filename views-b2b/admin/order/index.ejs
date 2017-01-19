@@ -26,13 +26,14 @@
       <th width="" class="" data-hide="always"> 運送代碼</th>
       <th width="" class="" data-hide="phone"> 附註</th>
       <th width="" class="" data-hide="phone,tablet"> 總價</th>
+      <th width="" class="" data-hide="always"> 訂購產品</th>
       <th width="" class=""> 追蹤狀態</th>
       <th width="" class="" data-hide="always"> IP</th>
       <th width="" class="" data-hide="always"> ForwardedIP</th>
       <th width="" class="" data-hide="always"> userAgent</th>
       <th width="" class="" data-hide="always"> 建立時間</th>
       <th width="" class="" data-hide=""> 訂單狀態</th>
-			<th width="120px" class="" data-hide="phone,tablet"></th>
+			<th width="120px" class="" data-hide="phone,tablet">操作</th>
 		</tr>
 	</thead>
 	<!-- client only -->
@@ -85,7 +86,7 @@
 
 <script type="text/javascript">
 
-  var statusList =  '<%= data.orderStatus %>'.split(',') ;
+  var statusList = <%- JSON.stringify(data.orderStatus) %>;
 
 	var pagefunction = function() {
 
@@ -114,6 +115,7 @@
       { "data": "shippingCode" },
       { "data": "comment" },
       { "data": "total" },
+      { "data": null },
       { "data": "tracking" },
       { "data": "ip" },
       { "data": "forwardedIp" },
@@ -138,21 +140,41 @@
       },
       {
         "searchable": true,
-        "targets": 27,
+        "targets": 22,
         "render": function (data, type, row) {
-          return '<td>' + row.createdDateTime.dateTime + '</td>';
+          return '<td>' + row.formatTotal + '</td>';
+        }
+      },
+      {
+        "searchable": true,
+        "targets": 23,
+        "render": function (data, type, row) {
+          var orderProduct = row.OrderProducts;
+          // console.log('row.OrderProduct ==>', row);
+          var list = '';
+          for( key in orderProduct ) {
+            list = list + `<p> 名稱：${orderProduct[key].name}，數量：${orderProduct[key].quantity}，金額：${orderProduct[key].formatTotal} </p>`
+          }
+          return '<td>' + list + '</td>';
         }
       },
       {
         "searchable": true,
         "targets": 28,
         "render": function (data, type, row) {
+          return '<td>' + row.createdDateTime.dateTime + '</td>';
+        }
+      },
+      {
+        "searchable": true,
+        "targets": 29,
+        "render": function (data, type, row) {
           var orderStatus =  row.OrderStatus.name;
           var output = '<select class="form-control input-xs" data-oldValue ="'+ row.OrderStatus.name + '" data-orderId="'+ row.id + '" name="updateStatus">';
 
           for( var i = 0 ; i < statusList.length; i++) {
             var option = statusList[i];
-            output = output + `'<option value="${statusList[i]}" ${ orderStatus == statusList[i] ? 'selected' : ''}>${statusList[i]}</option>'`
+            output = output + `'<option value="${statusList[i].name }" ${ orderStatus == statusList[i].name ? 'selected' : ''}>${statusList[i].title}</option>'`
           }
 
           output = output + '<select>';
@@ -160,7 +182,7 @@
         }
       },
 			{
-				"targets"  : 29,
+				"targets"  : 30,
 				"orderable": false,
 				"searchable": false,
 				"render": function ( data, type, row ) {
@@ -172,7 +194,7 @@
 						'<a name="editDataButton" class="btn btn-default btn-xs" role="button" data-id="'+row.id+'">'+
 							'<i class="fa-fw fa fa-pencil-square-o text-muted"/>'+
 						'</a>'+
-            '<a name="orderConfirm" class="btn btn-default btn-xs'+( (data.tracking === '訂單建立') ? "": " hidden ") +'" role="button" data-id="'+ row.id +'">'+
+            '<a name="orderConfirm" class="btn btn-default btn-xs'+( (data.tracking === '訂單建立') ? "": " hidden ") +'" role="button" data-id="'+ row.id +'" data-total="'+ row.formatTotal +'">'+
               '<i class="fa-fw fa fa-check text-muted"/>'+
             '</a>'+
 					'</div>';

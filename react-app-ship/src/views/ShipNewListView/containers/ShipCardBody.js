@@ -86,14 +86,14 @@ import {
       <div className='cardbody-wrapper'>
         {cardBody}
         <DialogShip
-          content={'確認訂單資訊'}
+          content={'確認進行備貨'}
           modal={false}
           leftOnPress={this.handleDialogShipClose}
           rightOnPress={
-            (status, comment) => {
+            (status) => {
               this.props.updateShipOrderStatus({
                 id: this.props.shipOrderId,
-                data: { status, comment },
+                data: { status },
                 status: this.props.status,
               });
               this.setState({ dialogShipOpen: false });
