@@ -139,6 +139,13 @@
       },
       {
         "searchable": true,
+        "targets": 22,
+        "render": function (data, type, row) {
+          return '<td>' + row.formatTotal + '</td>';
+        }
+      },
+      {
+        "searchable": true,
         "targets": 27,
         "render": function (data, type, row) {
           return '<td>' + row.createdDateTime.dateTime + '</td>';
