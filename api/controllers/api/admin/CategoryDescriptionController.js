@@ -5,7 +5,7 @@ module.exports = {
       const { query, method, body } = req;
       const { serverSidePaging } = query;
       const modelName = req.options.controller.split("/").reverse()[0];
-      const include = [  ];
+      const include = [];
       const isPost = method === 'POST';
       let mServerSidePaging = isPost ? body.serverSidePaging : serverSidePaging;
       let mQuery = isPost ? body : query;
@@ -43,7 +43,7 @@ module.exports = {
     try {
       let data = req.body;
       const item = await CategoryDescription.create(data);
-      let message = 'Create success.';
+      const message = 'Create success.';
       res.ok({ message, data: { item } } );
     } catch (e) {
       res.serverError(e);
@@ -68,7 +68,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const item = await CategoryDescription.destroy({ where: { id } });
-      let message = 'Delete success';
+      const message = 'Delete success';
       res.ok({message, data: {item}});
     } catch (e) {
       res.serverError(e);
