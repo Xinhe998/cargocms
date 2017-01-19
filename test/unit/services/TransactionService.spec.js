@@ -41,37 +41,33 @@ describe('about Transaction Service operation.', function() {
     }
   });
 
-  // it('test2.', async (done) => {
-  //   try {
-  //     const array = [{
-  //       model: 'user',
-  //       action: 'create',
-  //       data: {
-  //         username: 'asdaasd',
-  //         email: '123sdlf@gmil.com',
-  //         firstName: '測試Transaction',
-  //         lastName: ''
-  //       }
-  //     }]
-  //     const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
-  //     let transaction;
-  //     return sequelize.transaction({ isolationLevel })
-  //     .then(function (t) {
-  //       transaction = t
-  //       return TransactionService.action({ transaction }, array, 0);
-  //     })
-  //     .then(function(){
-  //       transaction.commit();
-  //     })
-  //     .catch(function(err) {
-  //       sails.log.error('transaction error', err.toString());
-  //       transaction.rollback();
-  //     });
-  //
-  //     // done();
-  //   } catch (e) {
-  //     done(e)
-  //   }
-  // });
+  it.skip('test2.', async (done) => {
+    try {
+      const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
+      let transaction;
+      return sequelize.transaction({ isolationLevel })
+      .then(function (t) {
+        transaction = t
+        return User.create({
+          username: 'asdaasd',
+          email: '123sdlf@gmil.com',
+          firstName: '測試Transaction',
+          lastName: ''
+        }, {transaction})
+      })
+      .then(function(){
+        transaction.commit();
+        done()
+      })
+      .catch(function(err) {
+        sails.log.error('transaction error', err.toString());
+        transaction.rollback();
+      });
+
+      // done();
+    } catch (e) {
+      done(e)
+    }
+  });
 
 });
