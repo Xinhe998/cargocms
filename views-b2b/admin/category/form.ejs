@@ -1,0 +1,64 @@
+<fieldset>
+
+  
+    <section row="">
+      <label class="label">TOP</label>
+      <label class="input state-disabled ">
+      <input type="text" name="top" placeholder="" v-model="data.item.top" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入TOP</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">欄位</label>
+      <label class="input state-disabled ">
+      <input type="text" name="column" placeholder="" v-model="data.item.column" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入欄位</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">排序</label>
+      <label class="input state-disabled ">
+      <input type="text" name="sortOrder" placeholder="" v-model="data.item.sortOrder" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入排序</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">狀態</label>
+      <label class="input state-disabled ">
+      <input type="text" name="status" placeholder="" v-model="data.item.status" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入狀態</b></label>
+    </section>
+  
+
+</fieldset>
+<script>
+  var formRules = {
+    top:{
+      required: true,
+    },
+    column:{
+      required: true,
+    },
+    sortOrder:{
+      required: true,
+    },
+    status:{
+      required: true,
+    },
+  };
+
+  var formMessages = {
+    top:{
+      required: "請給予 TOP",
+    },
+    column:{
+      required: "請給予 欄位",
+    },
+    sortOrder:{
+      required: "請給予 排序",
+    },
+    status:{
+      required: "請給予 狀態",
+    },
+  };
+</script>
