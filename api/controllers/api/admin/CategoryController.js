@@ -43,6 +43,12 @@ module.exports = {
     try {
       let data = req.body;
       const item = await Category.create(data);
+
+      await CategoryDescription.create({
+        ...data,
+        CategoryId: item.id
+      });
+
       const message = 'Create success.';
       res.ok({ message, data: { item } } );
     } catch (e) {
@@ -54,10 +60,26 @@ module.exports = {
     try {
       const { id } = req.params;
       const data = req.body;
-      const message = 'Update success.';
+
+      data.ImageId = data.ImageId || null;
+      data.ParentId = data.ParentId || null;
+      delete data.deletedAt;
+
+      const categoryDescriptionData = data.CategoryDescription;
+      delete data.CategoryDescription;
+      delete categoryDescriptionData.deletedAt;
+
       const item = await Category.update(data ,{
         where: { id, },
       });
+
+      await CategoryDescription.update(categoryDescriptionData,{
+        where: {
+          CategoryId: id
+        }
+      });
+
+      const message = 'Update success.';
       res.ok({ message, data: { item } });
     } catch (e) {
       res.serverError(e);
