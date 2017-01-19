@@ -90,6 +90,11 @@ module.exports = {
     try {
       const { id } = req.params;
       const item = await Category.destroy({ where: { id } });
+      await CategoryDescription.destroy({
+        where: {
+          CategoryId: id
+        }
+      })
       const message = 'Delete success';
       res.ok({message, data: {item}});
     } catch (e) {
