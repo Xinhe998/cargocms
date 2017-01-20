@@ -186,7 +186,7 @@ module.exports = {
         OrderId: orderId,
         SupplierId: supplierId,
         status: 'NEW',
-        shipOrderNumber: `201702310000${shipOrder.length}SSS`
+        shipOrderNumber: `201702310000${shipOrder.length}SSS`,
       }
       console.log(data);
       delete data.id;
