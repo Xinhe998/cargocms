@@ -1,19 +1,3 @@
-<style>
-  .accordion-toggle td:first-child:after {
-    content: "\f078"; /* fa-chevron-down */
-    font-family: 'FontAwesome';
-    right: 0;
-  }
-
-  tr[aria-expanded="true"] > td:first-child:after{
-    font-family: 'FontAwesome';
-    content: "\f077"; /* fa-chevron-up */
-  }
-  table.order-list thead th, td {
-    text-align: center;
-  }
-</style>
-
 <div class="b2b-breadcrumbs">
   <div class="container" style="max-width: 960px;">
     <h1>訂單紀錄</h1>
@@ -37,7 +21,7 @@
           <td></td>
           <td><%= data.items[key].orderNumber %></td>
           <td class="hidden-xs"><%= data.items[key].shippingLastname + data.items[key].shippingFirstname%></td>
-          <td><%= data.items[key].formatTotal %></td>
+          <td>$ <%= data.items[key].formatTotal %></td>
           <td><%= __(`${data.items[key].OrderStatus.name}`) %></td>
         </tr>
         <tr>
@@ -56,9 +40,9 @@
                   <% for( p in data.items[key].OrderProducts ) { %>
                     <tr>
                       <td><%= data.items[key].OrderProducts[p].name %></td>
-                      <td><%= data.items[key].OrderProducts[p].formatPrice %></td>
+                      <td>$ <%= data.items[key].OrderProducts[p].formatPrice %></td>
                       <td><%= data.items[key].OrderProducts[p].quantity %></td>
-                      <td><%= data.items[key].OrderProducts[p].formatTotal %></td>
+                      <td>$ <%= data.items[key].OrderProducts[p].formatTotal %></td>
                     </tr>
                   <% } %>
                 </tbody>
