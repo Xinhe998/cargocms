@@ -32,7 +32,7 @@ export default (store) => (
     <IndexRoute component={Login} />
     <Route path='/ship/login' component={Login} />
     <Route path='/ship' component={CoreLayout} onEnter={redirectToLogin}>
-      <IndexRoute component={ShipList} />
+      <IndexRoute component={ShipNewList} />
       <Route path='/ship/history' component={ShipList} />
       <Route path='/ship/user' component={ShipList} />
     </Route>

@@ -118,6 +118,13 @@
       },
       {
         "searchable": false,
+        "targets": 12,
+        "render": function (data, type, row) {
+          return '<td> $' + row.formatPrice + '</td>';
+        }
+      },
+      {
+        "searchable": false,
         "targets": 24,
         "render": function (data, type, row) {
           return '<td>' + row.createdDateTime.dateTime + '</td>';

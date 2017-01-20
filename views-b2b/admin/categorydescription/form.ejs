@@ -1,0 +1,90 @@
+<fieldset>
+
+  
+    <section row="">
+      <label class="label">名稱</label>
+      <label class="input state-disabled ">
+      <input type="text" name="name" placeholder="" v-model="data.item.name" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入名稱</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">描述</label>
+      <label class="input state-disabled ">
+      <input type="text" name="description" placeholder="" v-model="data.item.description" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入描述</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">Meta標題</label>
+      <label class="input state-disabled ">
+      <input type="text" name="metaTitle" placeholder="" v-model="data.item.metaTitle" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入Meta標題</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">Meta描述</label>
+      <label class="input state-disabled ">
+      <input type="text" name="metaDescription" placeholder="" v-model="data.item.metaDescription" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入Meta描述</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">Meta關鍵字</label>
+      <label class="input state-disabled ">
+      <input type="text" name="metaKeyword" placeholder="" v-model="data.item.metaKeyword" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入Meta關鍵字</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">分類ID</label>
+      <label class="input state-disabled ">
+      <input type="text" name="CategoryId" placeholder="" v-model="data.item.CategoryId" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入分類ID</b></label>
+    </section>
+  
+
+</fieldset>
+<script>
+  var formRules = {
+    name:{
+      required: true,
+    },
+    description:{
+      required: true,
+    },
+    metaTitle:{
+      required: true,
+    },
+    metaDescription:{
+      required: true,
+    },
+    metaKeyword:{
+      required: true,
+    },
+    CategoryId:{
+      required: true,
+    },
+  };
+
+  var formMessages = {
+    name:{
+      required: "請給予 名稱",
+    },
+    description:{
+      required: "請給予 描述",
+    },
+    metaTitle:{
+      required: "請給予 Meta標題",
+    },
+    metaDescription:{
+      required: "請給予 Meta描述",
+    },
+    metaKeyword:{
+      required: "請給予 Meta關鍵字",
+    },
+    CategoryId:{
+      required: "請給予 分類ID",
+    },
+  };
+</script>
