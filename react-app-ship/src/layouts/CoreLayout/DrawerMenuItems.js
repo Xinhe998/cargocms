@@ -36,9 +36,14 @@ export default class DrawerMenuItems extends React.Component {
   render() {
     return (
       <div>
+        <h3>
+          出貨總管
+        </h3>
+        {/*
         <Link to={'/ship'}>
           <MenuItem >出貨總管</MenuItem>
         </Link>
+        */}
         <Link to={'/shipnew'}>
           <MenuItem>新訂單</MenuItem>
         </Link>
@@ -54,12 +59,15 @@ export default class DrawerMenuItems extends React.Component {
         <Link to={'/ship/history'}>
           <MenuItem>顯示所有紀錄</MenuItem>
         </Link>
+        {/*
         <Link to={'/ship/user'}>
           <MenuItem>我的帳號</MenuItem>
         </Link>
+
         <Link to={'/contact'}>
           <MenuItem>聯繫雲端漁場</MenuItem>
         </Link>
+                */}
       </div>
     );
   }

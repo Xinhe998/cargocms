@@ -89,7 +89,7 @@ const muiTheme = getMuiTheme({
               <Formsy.Form
                 ref={(c) => { this.form = c; }}
                 method='post'
-                action='/auth/local?url=/ship/'
+                action='/auth/local?url=/shipnew/'
                 onValidSubmit={this.submit}
                 onValid={this.enableButton}
                 onInvalid={this.disableButton}

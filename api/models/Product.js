@@ -162,6 +162,23 @@ module.exports = {
       defaultValue: 0,
     },
 
+    formatPrice: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          let price = this.getDataValue('price');
+          if(!price){
+            return '';
+          }
+
+          return UtilsService.moneyFormat(price);
+
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
+    },
+
     // stockStatusId: {
     //   type: Sequelize.INTEGER(11),
     //   allowNull: false,
