@@ -70,6 +70,7 @@ module.exports = {
 
       const message = 'Create success.';
       const item = await Order.create(data);
+
       res.ok({ message, data: { item } });
     } catch (e) {
       res.serverError(e);
@@ -249,7 +250,6 @@ module.exports = {
 
         for( let orderProduct of orderProducts ){
           if( orderProduct.Product.SupplierId === supplier ){
-
             await SupplierShipOrderProduct.create({
               SupplierShipOrderId: supplierShipOrder.id,
               ProductId: orderProduct.ProductId,
@@ -266,6 +266,13 @@ module.exports = {
         }
       }
 
+      const messageConfig = await MessageService.paymentConfirm({
+        email: order.email,
+        serialNumber: Order.orderNumber,
+        username: `${order.lastname}${order.firstname}`,
+      });
+      const mail = await Message.create(messageConfig);
+      await MessageService.sendMail(mail);
 
       const message = 'Success Confirm Order';
       const item = order;
@@ -278,7 +285,7 @@ module.exports = {
   updateStatus: async (req, res) => {
     try{
       const { id } = req.params;
-      const {status ,statusComment} = req.body;
+      const { status } = req.body;
 
       const orderStatus = await OrderStatus.findOne({
         where: {
@@ -286,23 +293,38 @@ module.exports = {
         }
       });
 
-      const item = await Order.update({
-        OrderStatusId: orderStatus.id
-      },{
+      const item = await Order.find({
         where: {
-          id
-        }
-      })
+          id,
+        },
+      });
+      item.OrderStatusId = orderStatus.id;
+      await item.save();
 
       await OrderHistory.create({
         notify: true,
-        comment: `訂單 ID:${id} 變更狀態:${status}，變更理由:${statusComment}.`,
+        comment: `訂單 ID:${id} 變更狀態為:${status}`,
         OrderId: id,
         OrderStatudId: orderStatus.id
       });
 
+      let messageConfig, mail;
+      switch (status) {
+        case 'PROCESSING':
+          console.log('mail@PROCESSING');
+          messageConfig = await MessageService.orderConfirm({
+            email: item.email,
+            serialNumber: item.orderNumber,
+            username: `${item.lastname}${item.firstname}`,
+          });
+          break;
+      }
+      mail = await Message.create(messageConfig);
+      await MessageService.sendMail(mail);
+
       const message = '訂單狀態變更成功.';
-      res.ok({ message, data: { item } });
+      const itemId = item.id;
+      res.ok({ message, data: { itemId } });
 
     } catch (e) {
       res.serverError(e);
