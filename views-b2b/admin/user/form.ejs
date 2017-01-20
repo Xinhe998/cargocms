@@ -13,7 +13,7 @@
   <section>
     <label class="label">供應商角色</label>
     <label class="select">
-      <select v-model="data.item.Supplier.id" >
+      <select v-model="data.item.Supplier.id" name="supplier">
         <option value=""></option>
         <option v-for="supplier in data.option.supplierList" v-bind:value="supplier.id">
           {{ supplier.name }}
