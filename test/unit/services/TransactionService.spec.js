@@ -1,6 +1,13 @@
 describe('about Transaction Service operation.', function() {
 
-  it.only('create MenuItem、User should success.', async (done) => {
+  before((done) => {
+    console.log("=== before ===");
+    done();
+    // setTimeout(done, 10000);
+
+  });
+
+  it('create MenuItem、User should success.', async (done) => {
     try {
       const array = [{
         model: 'user',
@@ -42,41 +49,45 @@ describe('about Transaction Service operation.', function() {
     }
   });
 
-  it('test2.', async (done) => {
+  it.only('test2.', async (done) => {
     try {
-      var createUser = (transaction) => {
-        return new Promise(function(resolve, reject) {
-          User.create({
-            username: 'asdaasd',
-            email: '123sdlf@gmil.com',
-            firstName: '測試Transaction',
-            lastName: ''
-          }, {transaction})
-          .then(function(order) {
-            resolve(order);
-          }).catch(function(err) {
-            reject(err)
-          });
-        });
-      }
+      // var createUser = (transaction) => {
+      //   return new Promise(function(resolve, reject) {
+      //     User.create({
+      //       username: 'asdaasd',
+      //       email: '123sdlf@gmil.com',
+      //       firstName: '測試Transaction',
+      //       lastName: ''
+      //     }, {transaction})
+      //     .then(function(order) {
+      //       resolve(order);
+      //     }).catch(function(err) {
+      //       reject(err)
+      //     });
+      //   });
+      // }
       var isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
-      var transaction;
-
-      console.log("start");
-      return sequelize.transaction(function(t){
-        console.log("1");
-        return User.create({
+      var transaction = await sequelize.transaction({isolationLevel});
+      await User.create({
           username: 'asdaasd',
           email: '123sdlf@gmil.com',
           firstName: '測試Transaction',
           lastName: ''
-        }, function(data) {
-          console.log(data);
-          return data
-        });
-      })
+        }, {transaction})
+      console.log("start");
+      // return sequelize.transaction(function(t){
+      //   console.log("1");
+      //   return User.create({
+      //     username: 'asdaasd',
+      //     email: '123sdlf@gmil.com',
+      //     firstName: '測試Transaction',
+      //     lastName: ''
+      //   }).then((data) => {
+      //     console.log("=== data ===", data);
+      //   })
+      // })
 
-      // done();
+      done();
     } catch (e) {
       done(e)
     }

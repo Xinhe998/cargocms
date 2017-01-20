@@ -16,62 +16,53 @@ module.exports.init = async () => {
     if (isDevMode || isStressMode && isDropMode) {
 
       const amount = isStressMode ? "800" : "100";
-      console.log("fake user amout" + amount);
-      fetch('http://api.randomuser.me/?results='+amount)
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(json) {
+      console.log("fake user amout " + amount);
+      let res = await fetch('http://api.randomuser.me/?results='+amount)
+      let json = await res.json();
 
-        sails.log.info('api.randomuser.me data retrived');
 
-        if (json.results) {
-          for (var randomuser of json.results) {
+      if (json.results) {
 
-            let userAgent = null;
-            let lastLogin = null;
-            let lastLoginIP = null;
-            let lastLoginLat = null;
-            let lastLoginLng = null;
+        let fakeUsers = [];
+        for (var randomuser of json.results) {
 
-            if (chance.bool({likelihood: 70})) {
-              userAgent = random_useragent.getRandom();
-              lastLogin = chance.date();
-              lastLoginIP = chance.ip();
-              lastLoginLat = chance.latitude();
-              lastLoginLng = chance.longitude();
-            }
+          let userAgent = null;
+          let lastLogin = null;
+          let lastLoginIP = null;
+          let lastLoginLat = null;
+          let lastLoginLng = null;
 
-            User.create({
-              username: randomuser.login.username,
-              email: randomuser.email,
-              firstName: randomuser.name.first,
-              lastName: randomuser.name.last,
-              avatar: randomuser.picture.large,
-              avatarThumb: randomuser.picture.thumbnail,
-              phone1: randomuser.cell,
-              phone2: randomuser.phone,
-              address: randomuser.location.street,
-              address2: randomuser.location.city + ', ' + randomuser.location.state,
-              birthday: randomuser.dob,
-              lastLogin,
-              lastLoginIP,
-              lastLoginLat,
-              lastLoginLng,
-              userAgent,
-            }).then(function(user) {
-              Passport.create({
-                provider: 'local',
-                password: randomuser.login.password,
-                UserId: user.id
-              });
-            });
+          if (chance.bool({likelihood: 70})) {
+            userAgent = random_useragent.getRandom();
+            lastLogin = chance.date();
+            lastLoginIP = chance.ip();
+            lastLoginLat = chance.latitude();
+            lastLoginLng = chance.longitude();
           }
+
+          fakeUsers.push({
+            username: randomuser.login.username,
+            email: randomuser.email,
+            firstName: randomuser.name.first,
+            lastName: randomuser.name.last,
+            avatar: randomuser.picture.large,
+            avatarThumb: randomuser.picture.thumbnail,
+            phone1: randomuser.cell,
+            phone2: randomuser.phone,
+            address: randomuser.location.street,
+            address2: randomuser.location.city + ', ' + randomuser.location.state,
+            birthday: randomuser.dob,
+            lastLogin,
+            lastLoginIP,
+            lastLoginLat,
+            lastLoginLng,
+            userAgent,
+          })
         }
-      })
-      .catch(function(e) {
-        throw e;
-      });
+        if(fakeUsers.length > 0)
+          await User.bulkCreate(fakeUsers);
+      }
+
     }
   } catch (e) {
     sails.log.error(e);

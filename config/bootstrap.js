@@ -119,6 +119,7 @@ module.exports.bootstrap = async (cb) => {
       // 自動掃描 init 底下的 module 資料夾後執行資料初始化
       let rcConfig = rc('sails');
       let {modules} = rcConfig.configLoader
+      console.log("=== modules ===", modules);
 
       fs.readdir('./config/init/', async function(err, files) {
         for (var file of files) {
@@ -154,7 +155,7 @@ module.exports.bootstrap = async (cb) => {
     if (sails.config.facebook === undefined || sails.config.facebook.pageId === '' || sails.config.facebook.appId === ''){
       sails.log.error('Facebook Page ID or App ID not exist!!');
     }
-
+    console.log("=== bootstrap success ===");
     cb();
   } catch (e) {
     sails.log.error(e.stack);
