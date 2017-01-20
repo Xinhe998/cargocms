@@ -22,6 +22,7 @@ module.exports = {
     phone2,
     address,
     address2,
+    rolesArray,
     Supplier,
   }) => {
     try {
@@ -37,9 +38,11 @@ module.exports = {
         phone2,
         address,
         address2,
+        rolesArray,
         Supplier
       });
-      const supplierId = Supplier.id || null;
+
+      const supplierId = Supplier ? Supplier.id : null;
 
       const findExistUser = await User.find({
         where: { $or: [ {username}, {email} ] }
@@ -48,7 +51,7 @@ module.exports = {
       if (findExistUser)
         throw new Error(`user ${findExistUser.username} exist!`);
 
-      const user = await User.create({
+      let user = await User.create({
         username,
         email,
         firstName,
@@ -66,6 +69,15 @@ module.exports = {
         password: Passports[0].password,
         UserId: user.id
       });
+
+      if (supplierId) {
+        const userRoles = await Role.findAll({
+          where: {
+            authority: 'supplier'
+          }
+        });
+        await user.addRoles(userRoles);
+      }
 
       return user;
     } catch (e) {
@@ -87,16 +99,21 @@ module.exports = {
     phone1,
     phone2,
     address,
-    address2
+    address2,
+    Supplier,
   }) => {
     try {
       sails.log.info('update user service=>', user);
+
+      const supplierId = user.Supplier ? user.Supplier.id : null;
+
       let updatedUser = await User.findOne({
         where: {
           id: parseInt(user.id, 10)
         },
         include: Passport,
       });
+
       if (updatedUser) {
         const passport = await Passport.findById(updatedUser.Passports[0].id);
         const isOldPassword = await passport.validatePassword(user.Passports[0].password);
@@ -113,14 +130,23 @@ module.exports = {
         updatedUser.phone2 = user.phone2;
         updatedUser.address = user.address;
         updatedUser.address2 = user.address2;
+        updatedUser.SupplierId = supplierId;
 
         if( user.birthday !== "" ){
           updatedUser.birthday = user.birthday;
         }
 
+
+        if (supplierId) {
+          user.rolesArray.push('supplier');
+        }
+        
+        const rolesArray = user.rolesArray.map( function(data) {
+          return { authority: data };
+        });
         const userRoles = await Role.findAll({
           where: {
-            authority: user.rolesArray
+            '$or': rolesArray
           }
         });
         await updatedUser.setRoles(userRoles);
