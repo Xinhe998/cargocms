@@ -1,0 +1,32 @@
+.accordion-toggle td:first-child:after {
+  content: "\f078"; /* fa-chevron-down */
+  font-family: 'FontAwesome';
+  right: 0;
+}
+
+tr[aria-expanded="true"] > td:first-child:after{
+  font-family: 'FontAwesome';
+  content: "\f077"; /* fa-chevron-up */
+}
+
+table.order-list {
+  thead {
+    th {
+      text-align: center;
+    }
+  }
+  tbody {
+    td {
+      text-align: center;
+    }
+    .order-products {
+      th {
+        text-align: center;
+      }
+      td {
+        text-align: center;
+      }
+    }
+  }
+
+}

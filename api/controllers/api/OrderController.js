@@ -99,5 +99,35 @@ module.exports = {
     } catch(e) {
       res.serverError(e);
     }
+  },
+  getOrderHistory: async (req, res) => {
+    try{
+      let user = AuthService.getSessionUser(req);
+
+      let message = ''
+      if(!user){
+        message = '您沒有權限瀏覽此網頁，請先登入。';
+        return res.forbidden(message);
+      }
+
+      const items = await Order.findAll({
+        where: {
+          UserId: user.id
+        },
+        include: [OrderStatus, OrderProduct],
+        order: [['createdAt', 'DESC']],
+      })
+
+      message = 'get order history success.';
+      res.view('b2b/order/orderhistory',{
+        message,
+        data:{
+          items
+        }
+      });
+
+    } catch (e) {
+      res.serverError(e);
+    }
   }
 }

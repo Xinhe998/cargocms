@@ -1,0 +1,71 @@
+<style type="text/css">
+tbody > tr.order-content:hover {
+  background-color: white;
+}
+</style>
+
+
+<div class="b2b-breadcrumbs">
+  <div class="container" style="max-width: 960px;">
+    <h1>訂單紀錄</h1>
+  </div>
+</div>
+
+
+<% if( data.items.length < 1) { %>
+  <div class="well">
+    <h3 class="text-center">還沒有任何訂單紀錄！</h3>
+  </div>
+<% } else { %>
+
+  <div class="container orderHistory">
+    <table class="table table-hover order-list ">
+      <thead>
+        <tr>
+          <th></th>
+          <th>訂單編號</th>
+          <th class="hidden-xs">收件人</th>
+          <th>訂單金額</th>
+          <th>訂單狀態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for( key in data.items ) { %>
+          <tr data-toggle="collapse" data-target="#<%= data.items[key].orderNumber %>" class="accordion-toggle" aria-expanded="false">
+            <td></td>
+            <td><%= data.items[key].orderNumber %></td>
+            <td class="hidden-xs"><%= data.items[key].shippingLastname + data.items[key].shippingFirstname%></td>
+            <td>$ <%= data.items[key].formatTotal %></td>
+            <td><%= __(`${data.items[key].OrderStatus.name}`) %></td>
+          </tr>
+          <tr class="order-content">
+            <td colspan="5">
+              <div id="<%= data.items[key].orderNumber %>" class="collapse">
+                <table class="table table-striped order-products" >
+                  <thead>
+                    <tr>
+                      <th>品名</th>
+                      <th>單價</th>
+                      <th>數量</th>
+                      <th>小計</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for( p in data.items[key].OrderProducts ) { %>
+                      <tr>
+                        <td><%= data.items[key].OrderProducts[p].name %></td>
+                        <td>$ <%= data.items[key].OrderProducts[p].formatPrice %></td>
+                        <td><%= data.items[key].OrderProducts[p].quantity %></td>
+                        <td>$ <%= data.items[key].OrderProducts[p].formatTotal %></td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
