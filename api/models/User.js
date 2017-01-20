@@ -192,6 +192,14 @@ module.exports = {
       }
     });
 
+    Role.belongsToMany(User, {
+      through: 'UserRole',
+      foreignKey: {
+        name: 'RoleId',
+        as: 'Users'
+      }
+    });
+
     User.belongsTo(Supplier);
 
 
