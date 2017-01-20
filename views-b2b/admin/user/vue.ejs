@@ -55,7 +55,6 @@ var appModel = {
 appMain.loadSupllier = function () {
   $.get('/api/admin/supplier', ajaxSuccess);
   function ajaxSuccess(result) {
-    console.log("loadItem result.data=>", result.data.items);
     if (result.success) {
       appModel.data.option.supplierList = result.data.items;
     }
