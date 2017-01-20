@@ -105,7 +105,7 @@ module.exports = {
     try {
       sails.log.info('update user service=>', user);
 
-      const supplierId = user.Supplier ? user.Supplier.id : null;
+      const supplierId = user.Supplier.id ? user.Supplier.id : null;
 
       let updatedUser = await User.findOne({
         where: {
@@ -139,8 +139,14 @@ module.exports = {
 
         if (supplierId) {
           user.rolesArray.push('supplier');
+        } else {
+          user.rolesArray = user.rolesArray.map( function(data) {
+            if(data !== 'supplier'){
+              return data;
+            }
+          });
         }
-        
+
         const rolesArray = user.rolesArray.map( function(data) {
           return { authority: data };
         });
