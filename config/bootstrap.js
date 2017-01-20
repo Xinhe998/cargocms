@@ -56,6 +56,11 @@ module.exports.bootstrap = async (cb) => {
       defaults: {authority: 'user'}
     });
 
+    let supplierRole = await Role.findOrCreate({
+      where: {authority: 'supplier'},
+      defaults: {authority: 'supplier'}
+    });
+
     let adminUser = await User.findOne({
       where: {
         username: 'admin'
