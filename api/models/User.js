@@ -213,7 +213,7 @@ module.exports = {
           where: {
             id
           },
-          include: [ Role, {
+          include: [ Supplier, Role, {
               model: Passport,
               where: { provider: 'local' },
               required: false
