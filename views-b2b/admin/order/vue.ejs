@@ -78,25 +78,25 @@ appMain.DataTableInitComplete = function() {
 
     var msgInfo = {
       title: '注意',
-      content: '確認更新訂單 ID: '+ orderId +' 訂單狀態為: '+ selectedDesc +
-      '<br/>請輸入變更狀態的事由：<br />'+
-      "<input id='statusComment' type='text' class='form-control'/>" +
-      "<br/>",
+      content: '確認更新訂單 ID: 『'+ orderId +'』<br/>訂單新狀態為: 『'+ selectedDesc +
+      // '<br/>請輸入變更狀態的事由：<br />'+
+      // "<input id='statusComment' type='text' class='form-control'/>" +
+      "』<br/>請確認變訂單狀態！<br/>",
       btnArray: ['確認', '取消'],
     };
     var action = function(ButtonPressed) {
       if (ButtonPressed === '確認') {
 
         $(that).val(newVal);
-        var statusComment = $('#statusComment').val();
-        if(statusComment === ''){
-          messageApp.show({
-            desc: '請輸入變更狀態的理由',
-            type: 'error'
-          });
-          $(that).val(oldVal);
-          return 0;
-        }
+        // var statusComment = $('#statusComment').val();
+        // if(statusComment === ''){
+        //   messageApp.show({
+        //     desc: '請輸入變更狀態的理由',
+        //     type: 'error'
+        //   });
+        //   $(that).val(oldVal);
+        //   return 0;
+        // }
 
         $.ajax({
           url: '/api/admin/order/status/' + orderId,
@@ -105,7 +105,7 @@ appMain.DataTableInitComplete = function() {
           cache: false,
           data:{
             status: newVal,
-            statusComment: statusComment
+            // statusComment: statusComment
           }
         }).done(function (result) {
           messageApp.show({
