@@ -63,7 +63,7 @@ appMain.supplierRole = function(){
     if ( $('input[name=supplier]').prop('checked') ) {
       $('select[name=supplier]').prop('disabled', false);
       $('select[name=supplier] option:first-child').prop('disabled', true);
-      $('select[name=supplier] option:nth-child(2)').prop('selected', true);
+      // $('select[name=supplier] option:nth-child(2)').prop('selected', true);
     } else {
       $('select[name=supplier]').prop('disabled', true);
       $('select[name=supplier]').val('');
