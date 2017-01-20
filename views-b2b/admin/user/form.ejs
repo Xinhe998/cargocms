@@ -10,6 +10,17 @@
       <i></i>使用者</label>
   </section>
 
+  <section>
+    <label class="select">
+      <select v-model="data.item.Supplier.id">
+        <option value=""></option>
+        <option v-for="supplier in data.option.supplierList" v-bind:value="supplier.id">
+          {{ supplier.name }}
+        </option>
+      </select> <i></i>
+    </label>
+  </section>
+
   <br>
   <hr>
   <br>

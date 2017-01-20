@@ -36,6 +36,7 @@ var appModel = {
     option: {
       passwordConfirm: '',
       defaultSort: [[ 10, 'desc' ]],
+      supplierList: [],
     }
   },
   view: {
@@ -50,6 +51,17 @@ var appModel = {
 <%- include ../default/vue.ejs %>
 // 需要新增函式可以對 appMain 進行定義，如：
 // appMain.log = function () {console.log("123")}
+appMain.loadSupllier = function (type) {
+  $.get('/api/admin/supplier', ajaxSuccess);
+
+  function ajaxSuccess(result) {
+    console.log("loadItem result.data=>", result.data.items);
+    if (result.success) {
+      postAppModel.data.option.supplierlist = result.data.items;
+    }
+  } // end ajaxSuccess
+},
+
 appMain.DateOfBirthday = function () {
   $('input[name="birthday"]').datepicker({
     changeYear: true,
