@@ -52,6 +52,27 @@ var appModel = {
 <%- include ../default/vue.ejs %>
 // 需要新增函式可以對 appMain 進行定義，如：
 // appMain.log = function () {console.log("123")}
+appMain.supplierRole = function(){
+  if ( $('input[name=supplier]').prop('checked') ) {
+    $('select[name=supplier]').prop('disabled', false);
+  } else {
+    $('select[name=supplier]').prop('disabled', true);
+  }
+
+  $("input[name=supplier]").on('change', function (event) {
+    if ( $('input[name=supplier]').prop('checked') ) {
+      $('select[name=supplier]').prop('disabled', false);
+      $('select[name=supplier] option:first-child').prop('disabled', true);
+      $('select[name=supplier] option:nth-child(2)').prop('selected', true);
+    } else {
+      $('select[name=supplier]').prop('disabled', true);
+      $('select[name=supplier]').val('');
+      $('select[name=supplier] option:first-child').prop('disabled', false);
+
+    }
+  });
+}
+
 appMain.loadSupllier = function () {
   $.get('/api/admin/supplier', ajaxSuccess);
   function ajaxSuccess(result) {
