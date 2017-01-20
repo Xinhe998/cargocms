@@ -6,10 +6,10 @@
 	var pagefunction = function() {
 
 		<%- include vue.ejs %>
+    appMain.loadSupllier();
 		appMain.$mount("#main-create");
 		appMain.setupForm("create");
 		appMain.onEnterPageEdit();
     appMain.DateOfBirthday();
-    appMain.loadSupllier();
 	};
 </script>

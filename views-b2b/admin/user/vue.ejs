@@ -30,7 +30,8 @@ var appModel = {
         {
           password: ""
         }
-      ]
+      ],
+      Supplier: {}
     },
     items: [],
     option: {
@@ -51,13 +52,12 @@ var appModel = {
 <%- include ../default/vue.ejs %>
 // 需要新增函式可以對 appMain 進行定義，如：
 // appMain.log = function () {console.log("123")}
-appMain.loadSupllier = function (type) {
+appMain.loadSupllier = function () {
   $.get('/api/admin/supplier', ajaxSuccess);
-
   function ajaxSuccess(result) {
     console.log("loadItem result.data=>", result.data.items);
     if (result.success) {
-      postAppModel.data.option.supplierlist = result.data.items;
+      appModel.data.option.supplierList = result.data.items;
     }
   } // end ajaxSuccess
 },
