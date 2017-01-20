@@ -58,6 +58,7 @@ module.exports = {
         let sortColumn = input.columns[columnIndex].data;
         return [sortColumn, data.dir];
       });
+      data.subQuery= false;
       return data;
     } catch (e) {
       sails.log.error(e);

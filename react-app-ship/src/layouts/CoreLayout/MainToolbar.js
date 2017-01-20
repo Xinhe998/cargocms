@@ -1,5 +1,7 @@
 /* @flow */
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   Toolbar,
   ToolbarGroup,
@@ -15,6 +17,9 @@ import {
 } from 'material-ui';
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import './_style.scss';
+import {
+  requestLogout,
+} from '../../redux/modules/user';
 
 const styles = {
   toolbar: {
@@ -35,13 +40,19 @@ const styles = {
   },
 };
 
-export default class MainToolbar extends React.Component {
-  static PropTypes = {
-
+@connect(
+  state => ({
+  }),
+  dispatch => bindActionCreators({
+    requestLogout,
+  }, dispatch),
+) export default class MainToolbar extends React.Component {
+  static propTypes = {
+    requestLogout: PropTypes.func,
   };
 
   static defaultProps = {
-
+    requestLogout: null,
   };
 
   constructor(props) {
@@ -98,12 +109,10 @@ export default class MainToolbar extends React.Component {
               </IconButton>
             }
           >
-            <Link to={'/ship'}>
+            {/* <Link to={'/ship'}>
               <MenuItem primaryText='個人資料' />
-            </Link>
-            <Link to={'/ship'}>
-              <MenuItem primaryText='登  出' />
-            </Link>
+            </Link> */}
+            <MenuItem primaryText='登  出' onTouchTap={this.props.requestLogout} />
           </IconMenu>
         </ToolbarGroup>
       </Toolbar>

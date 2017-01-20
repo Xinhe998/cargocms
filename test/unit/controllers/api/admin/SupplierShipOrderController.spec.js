@@ -79,6 +79,33 @@ describe('about admin Supplier Ship Order controllers', () => {
       await unMockAdmin();
       done();
     });
+    it('test model', async(done) => {
+      try {
+        const a = await SupplierShipOrder.findAndCountAll({
+          where: {
+            '$or': [ { id: { '$like': '%2017%' } },
+              { '$Order.orderNumber$': { '$like': '%2017%' } },
+              { shipOrderNumber: { '$like': '%2017%' } },
+              { email: { '$like': '%2017%' } },
+              { telephone: { '$like': '%2017%' } },
+              { paymentAddress1: { '$like': '%2017%' } },
+              { paymentCity: { '$like': '%2017%' } },
+              { SupplierId: { '$like': '%2017%' } },
+              { status: { '$like': '%2017%' } } ],
+            createdAt: { '$gte': '1900/01/01', '$lte': '3000/01/02' }
+          },
+          offset: 0,
+          limit: 1,
+          order: [ [ 'id', 'asc' ] ],
+          include: [ SupplierShipOrderProduct, Supplier, Order ],
+          subQuery: false,
+        })
+        console.log(a);
+        done()
+      } catch (e) {
+        done(e)
+      }
+    })
 
     it('admin get Supplier Ship Order shoubld success.', async(done) => {
       try {
