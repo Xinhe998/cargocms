@@ -107,23 +107,47 @@ export function fetchFindShipItem(value, status) {
         searchable: true,
       },
       {
-        data: 'invoiceNo',
-        searchable: 'true',
-        findInclude: 'true',
+        data: '$invoice',
+        searchable: true,
+        findInclude: true,
         search: {
-          concat: ['invoicePrefix', 'invoiceNo'],
+          model: 'SupplierShipOrder',
+          concat: ['SupplierShipOrder.invoicePrefix', 'SupplierShipOrder.invoiceNo'],
         },
       },
       {
-        data: 'lastname',
-        searchable: 'true',
-        findInclude: 'true',
+        data: '$name',
+        searchable: true,
+        findInclude: true,
         search: {
-          concat: ['lastname', 'firstname'],
+          model: 'SupplierShipOrder',
+          concat: ['SupplierShipOrder.lastname', 'SupplierShipOrder.firstname'],
         },
       },
-      { data: 'orderNumber', searchable: 'true' },
-      { data: 'shipOrderNumber', searchable: 'true' },
+      // TODO
+      {
+        data: '$orderNumber',
+        searchable: true,
+        findInclude: true,
+        search: {
+          model: 'Order',
+          column: 'orderNumber',
+        },
+      },
+      // TODO
+      // {
+      //   data: 'name',
+      //   searchable: true,
+      //   findInclude: true,
+      //   search: {
+      //     model: 'Supplier',
+      //     column: 'name',
+      //   },
+      // },
+      {
+        data: 'shipOrderNumber',
+        searchable: true,
+      },
       { data: 'email', searchable: 'true' },
       { data: 'telephone', searchable: 'true' },
       { data: 'paymentAddress1', searchable: 'true' },
