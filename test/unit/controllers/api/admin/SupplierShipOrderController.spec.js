@@ -23,7 +23,7 @@ describe('about admin Supplier Ship Order controllers', () => {
 
       order = await createHelper.order(user.id);
 
-      product1 = await createHelper.product('毒刺水母涼拌海蜇皮');
+      product1 = await createHelper.product({name: '毒刺水母涼拌海蜇皮'});
       supplier1 = await createHelper.supplier('火箭隊');
       await createHelper.supplierProduct(supplier1.id, product1.id);
       orderProduct1 = await createHelper.orderProduct(order.id, product1.id, 3);
