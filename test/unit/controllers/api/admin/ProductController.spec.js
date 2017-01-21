@@ -66,7 +66,7 @@ describe.only('about Backend Product Controller operations.', function() {
       res.status.should.be.eq(200);
       res.body.success.should.be.eq(true);
       res.body.data.item.model.should.be.eq('product1');
-      
+
       const newProduct = await Product.findOne({
         where: {
           id: res.body.data.item.id
@@ -84,7 +84,7 @@ describe.only('about Backend Product Controller operations.', function() {
   it('test for update a product.', async (done) => {
     try {
       const updatedProduct = {
-        model: '深海黑鮪魚',
+        model: '深海頂級黑鮪魚',
         sku: 1,
         upc: 1,
         ean: 1,
@@ -92,15 +92,23 @@ describe.only('about Backend Product Controller operations.', function() {
         isbn: 1,
         mpn: 1,
         location: 1,
-        ImageId: image.id
+        ImageId: image.id,
+        categoryId: [category1.id, category2.id, category3.id]
       };
       const res = await request(sails.hooks.http.app)
       .put(`/api/admin/product/${product1.id}`).send(updatedProduct);
       res.status.should.be.eq(200);
       res.body.success.should.be.eq(true);
 
-      const product = await Product.findById(product1.id);
-      product.model.should.be.equal('深海黑鮪魚');
+      const product = await Product.findOne({
+        where:{
+          id: product1.id
+        },
+        include:{ model: Category, include: CategoryDescription }
+      });
+
+      product.model.should.be.equal('深海頂級黑鮪魚');
+      product.Categories.length.should.be.equal(3);
 
       done();
     } catch (e) {
