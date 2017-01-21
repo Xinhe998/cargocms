@@ -34,5 +34,36 @@ module.exports = {
     } catch (e) {
       sails.log.error(e);
     }
+  },
+
+  create: async ({data}) => {
+    try{
+      const categories = data.categoryId.map( function (data) {
+        return { id: data };
+      });
+      const productCategory = await Category.findAll({
+        where: {
+          '$or': categories
+        }
+      })
+
+      const product = await Product.create(data);
+
+      await product.setCategories(productCategory);
+
+      return product;
+    } catch (e) {
+      sails.log.error(e);
+    }
+  },
+
+  update: async ({data}) => {
+    try{
+
+
+
+    } catch (e) {
+      sails.log.error(e);
+    }
   }
 }

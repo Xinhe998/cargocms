@@ -35,7 +35,8 @@ module.exports = {
   create: async (req, res) => {
     try {
       const data = req.body;
-      const item = await Product.create(data);
+      // const item = await Product.create(data);
+      const item = await ProductService.create({data});
       const message = 'Create success.';
       res.ok({ message, data: { item } });
     } catch (e) {
