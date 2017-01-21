@@ -57,11 +57,26 @@ module.exports = {
     }
   },
 
-  update: async ({data}) => {
+  update: async ({id, data}) => {
     try{
+      const categories = data.categoryId.map( function (data) {
+        return { id: data };
+      });
+      const productCategory = await Category.findAll({
+        where: {
+          '$or': categories
+        }
+      })
 
+      let product = await Product.update(data, {
+        where: {
+          id
+        }
+      });
+      product = await Product.findById(id);
 
-
+      await product.setCategories(productCategory);
+      return product;
     } catch (e) {
       sails.log.error(e);
     }

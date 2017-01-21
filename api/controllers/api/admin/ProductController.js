@@ -53,10 +53,8 @@ module.exports = {
         data.deletedAt = null;
       }
 
+      const item = await ProductService.update({id, data});
       const message = 'Update success.';
-      const item = await Product.update(data ,{
-        where: { id, },
-      });
       res.ok({ message, data: { item } });
     } catch (e) {
       res.serverError(e);
