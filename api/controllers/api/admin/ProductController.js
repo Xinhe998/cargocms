@@ -6,11 +6,11 @@ module.exports = {
       const modelName = req.options.controller.split("/").reverse()[0];
       let result;
       if (serverSidePaging) {
-        const include = [ Supplier, Category ];
+        const include = [ Supplier, { model: Category, include: CategoryDescription  }];
         result = await PagingService.process({query, modelName, include});
       } else {
         const items = await sails.models[modelName].findAll({
-          include: [ Supplier , Category]
+          include: [ Supplier, { model: Category, include: CategoryDescription  }]
         });
         result = { data: { items } };
       }
