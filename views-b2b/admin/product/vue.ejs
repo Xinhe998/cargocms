@@ -36,7 +36,9 @@ var appModel = {
       sortOrder:'',
       publish:'',
       viewed:'',
+      Categories:[],
       categoriesId: [],
+      categoriesNameArray:[],
     },
     items: [],
     option: {
@@ -56,6 +58,10 @@ var appModel = {
 <%- include ../default/vue.ejs %>
 // 需要新增函式可以對 appMain 進行定義，如：
 // appMain.log = function () {console.log("123")}
+appMain.showPageHidden = function(){
+  $('.fn-show-hidden').hide();
+}
+
 appMain.addCategory = function (event) {
   var category = $('select[name=categoriesId]').val();
   appMain.data.item.categoriesId = category;
