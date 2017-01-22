@@ -1,8 +1,12 @@
 module.exports = {
 	attributes: {
+    shipOrderNumber: {
+      type: Sequelize.STRING(48),
+			allowNull: false
+    },
 
 		invoiceNo: {
-			type: Sequelize.INTEGER(11),
+			type: Sequelize.STRING(48),
 			allowNull: false
 		},
 
@@ -232,8 +236,9 @@ module.exports = {
 		},
 
 		status: {
-			type: Sequelize.STRING,
-			allowNull: false
+      type: Sequelize.ENUM('NEW','PAID','PROCESSING','SHIPPED','DELIVERED','CANCELLED','COMPLETED', 'SUBMITTED','DENIED','CANCELED REVERSAL','FAILED','REFUNDED','REVERSED','CHARGEBACK','PENDING','VOIDED','PROCESSED','EXPIRED'),
+      allowNull: false,
+      defaultValue: 'NEW'
 		},
 
 		createdDateTime: {
@@ -271,9 +276,11 @@ module.exports = {
 
 	},
 	associations: () => {
-		SupplierShipOrder.hasMany(SupplierShipOrderDescription);
+		// SupplierShipOrder.hasMany(SupplierShipOrderDescription);
 		SupplierShipOrder.belongsTo(Supplier);
 		SupplierShipOrder.belongsTo(Order);
+    SupplierShipOrder.hasMany(SupplierShipOrderProduct);
+    SupplierShipOrder.hasMany(SupplierShipOrderHistory);
 	},
 	options: {
 		classMethods: {},

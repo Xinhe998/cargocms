@@ -1,5 +1,9 @@
 module.exports = {
 
+  '/': {
+    view: 'index'
+  },
+
   'get /api/labfnp/recipe/findForLab': 'api/labfnp/RecipeController.findForLab',
   // 'get /api/labfnp/recipe': 'api/labfnp/RecipeController.find',
   'post /api/labfnp/recipe': 'api/labfnp/RecipeController.create',
@@ -10,7 +14,9 @@ module.exports = {
 
   'get /api/labfnp/recipe/:id/feelings': 'api/labfnp/RecipeController.feelings',
 
+  'post /api/admin/labfnp/feeling/exportFeeling': 'api/admin/labfnp/FeelingController.exportFeeling',
   'get /api/labfnp/user/feeling': 'api/labfnp/FeelingController.findByUser',
+  'get /api/labfnp/feeling': 'api/admin/labfnp/FeelingController.find',
   'get /api/admin/labfnp/feeling': 'api/admin/labfnp/FeelingController.find',
   'get /api/admin/labfnp/feeling/:id': 'api/admin/labfnp/FeelingController.findOne',
   'post /api/admin/labfnp/feeling': 'api/admin/labfnp/FeelingController.create',
@@ -28,6 +34,7 @@ module.exports = {
   'get /api/labfnp/scent': 'api/labfnp/ScentController.find',
   'get /api/labfnp/scentnote': 'api/labfnp/ScentNoteController.find',
 
+  'post /api/admin/labfnp/scentfeedback/exportFeedback': 'api/admin/labfnp/ScentFeedbackController.exportFeedback',
   'get /api/admin/labfnp/scentfeedback': 'api/admin/labfnp/ScentFeedbackController.find',
   'get /api/admin/labfnp/scentfeedback/:id': 'api/admin/labfnp/ScentFeedbackController.findOne',
   'delete /api/admin/labfnp/scentfeedback/:id': 'api/admin/labfnp/ScentFeedbackController.destroy',
@@ -39,6 +46,9 @@ module.exports = {
   'post /api/admin/labfnp/recipe':    'api/admin/labfnp/RecipeController.create',
   'put /api/admin/labfnp/recipe/:id':     'api/admin/labfnp/RecipeController.update',
   'delete /api/admin/labfnp/recipe/:id':  'api/admin/labfnp/RecipeController.destroy',
+
+  'get /api/admin/labfnp/scent':  'api/admin/labfnp/ScentController.find',
+  'get /api/admin/labfnp/scentnote':  'api/admin/labfnp/ScentNoteController.find',
 
   // 這裡先相容舊版 api
   'post /api/allpay/paid':        'api/admin/labfnp/RecipeController.paid',

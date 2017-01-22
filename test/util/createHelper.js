@@ -52,8 +52,19 @@ module.exports = {
 
   order: async (userId) => {
     try {
+      const orderStatus = await OrderStatus.findOne({
+        where:{
+          name: 'NEW'
+        }
+      })
+
+      const order = await Order.findAll();
+
+      const orderNumber = `200102310000${order.length}AAA`;
+
       const data = {
         UserId: userId,
+        orderNumber: ``,
         invoiceNo: '12345678',
         invoicePrefix: 'GH',
         customField: '',
@@ -100,7 +111,8 @@ module.exports = {
         shippingMethod:'',
         shippingCode:'',
         comment:'',
-        tracking: '客戶訂購'
+        tracking: '客戶訂購',
+        OrderStatusId: orderStatus.id,
       }
       return await Order.create(data);
     } catch (e) {
@@ -141,7 +153,8 @@ module.exports = {
         email: 'seafood@example.com',
         telephone: '(04)-2201-1688',
         fax: '(04)-2201-1168',
-        address: '台中市清水區北提路'
+        address: '台中市清水區北提路',
+        taxId: '54891351'
       };
 
       return await Supplier.create(data);
@@ -167,11 +180,13 @@ module.exports = {
     try {
       let order = await Order.findById(orderId);
       order = order.toJSON();
+      let shipOrder = await SupplierShipOrder.findAll();
       let data = {
         ...order,
         OrderId: orderId,
         SupplierId: supplierId,
         status: 'NEW',
+        shipOrderNumber: `201702310000${shipOrder.length}SSS`
       }
       console.log(data);
       delete data.id;
@@ -183,24 +198,198 @@ module.exports = {
     }
   },
 
-  supplierShipOrderDescription: async(supplierShipOrderId, orderProductId, status) => {
+  supplierShipOrderProduct: async(supplierShipOrderId, orderProductId, status) => {
     try {
       let orderProduct = await OrderProduct.findById(orderProductId);
       orderProduct = orderProduct.toJSON();
       let data = {
         ...orderProduct,
         SupplierShipOrderId: supplierShipOrderId,
-        OrderProductId: orderProductId,
         status: status || 'NEW',
       }
       delete data.id;
       delete data.createdAt;
       delete data.updatedAt;
-      return await SupplierShipOrderDescription.create(data);
+      console.log(data);
+      return await SupplierShipOrderProduct.create(data);
     } catch (e) {
       throw e;
     }
   },
 
+  orderStatus: async() => {
+    try{
+      const orderStatusData = [
+        {
+          name:"NEW",
+          languageId:0
+        },{
+          name:"PAID",
+          languageId:0
+        },{
+          name:"PROCESSING",
+          languageId:0
+        },{
+          name:"SHIPPED",
+          languageId:0
+        },{
+          name:"CANCELLED",
+          languageId:0
+        },{
+          name:"COMPLETED",
+          languageId:0
+        },{
+          name:"DENIED",
+          languageId:0
+        },{
+          name:"CANCELED REVERSAL",
+          languageId:0
+        },{
+          name:"FAILED",
+          languageId:0
+        },{
+          name:"REFUNDED",
+          languageId:0
+        },{
+          name:"REVERSED",
+          languageId:0
+        },{
+          name:"CHARGEBACK",
+          languageId:0
+        },{
+          name:"PENDING",
+          languageId:0
+        },{
+          name:"VOIDED",
+          languageId:0
+        },{
+          name:"PROCESSED",
+          languageId:0
+        },{
+          name:"EXPIRED",
+          languageId:0
+        }
+      ];
 
+      return await OrderStatus.bulkCreate(orderStatusData);
+    } catch (e) {
+      throw e;
+    }
+  },
+
+  deleteAllOrderStatus: async() => {
+    try{
+      await OrderStatus.destroy({
+        where: {}
+      });
+    } catch (e) {
+      throw e;
+    }
+  },
+
+  supplierCategory: async( categoryName ) => {
+    try{
+      const category = await Category.create({
+        top: 1,
+        column: 1,
+        sortOrder: 1,
+        status: true,
+      });
+
+      const categoryDesc = await CategoryDescription.create({
+        CategoryId: category.id,
+        name: categoryName,
+        description: `${categoryName} Description`,
+        metaTitle: `${categoryName}`,
+        metaKeyword: `${categoryName}`,
+        metaDescription: `${categoryName}`
+      });
+
+      return category;
+    } catch (e) {
+      throw e;
+    }
+
+  },
+
+  supplierProductCategory: async ( categoryId ,productId ) => {
+    try{
+      const product = await Product.findById( productId );
+      const category = await Category.findById( categoryId );
+      await product.setCategories(category);
+    } catch (e) {
+      throw e;
+    }
+  },
+
+  multipleOrder: async( orderProduct, orderStatsId) => {
+    try{
+      const order = await Order.create({
+        invoiceNo: '99881234',
+        invoicePrefix: 'JK',
+        customField: '',
+        paymentCompany: '',
+        paymentAddress2: '',
+        paymentCountry: '',
+        paymentCountryId: 0,
+        paymentZone: '',
+        paymentZoneId: 0,
+        paymentAddressFormat: '',
+        paymentCustomField: '',
+        shippingCompany: '',
+        shippingAddress2: '',
+        shippingCountry: '',
+        shippingCountryId: 0,
+        shippingZone: '',
+        shippingZoneId: 0,
+        shippingAddressFormat: '',
+        shippingCustomField: '',
+        commission: 0.0,
+        marketingId: 0,
+        languageId: 0,
+        ip: '',
+        forwardedIp: '',
+        userAgent: '',
+        acceptLanguage: '',
+        firstname:'土豪',
+        lastname:'金',
+        email:'user@example.com',
+        telephone:'04 0000-0000',
+        fax:'04 0000-0001',
+        paymentFirstname:'',
+        paymentLastname:'',
+        paymentAddress1:'',
+        paymentCity:'',
+        paymentPostcode:'',
+        paymentMethod:'',
+        paymentCode:'',
+        shippingFirstname:'',
+        shippingLastname:'',
+        shippingAddress1:'',
+        shippingCity:'',
+        shippingPostcode:'',
+        shippingMethod:'',
+        shippingCode:'',
+        comment:'',
+        tracking: '客戶訂購'
+      });
+
+      for( let p of orderProduct ) {
+        let product = await Product.findById( p ,{ include:[ ProductDescription ]})
+        await OrderProduct.create({
+          name: product.ProductDescription.name,
+          model: product.model,
+          quantity: 8,
+          price: product.price,
+          total: product.price * 8,
+          tax: (product.price * 8 ) * 0.05,
+          OrderId: order.id,
+          ProductId: p
+        });
+      }
+
+    } catch (e) {
+      throw e;
+    }
+  }
 }

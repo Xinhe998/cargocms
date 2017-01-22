@@ -9,5 +9,8 @@
   },
   "paths": {
     "views": "views-labfnp"
+  },
+  "configLoader": {
+    "modules": ["labfnp"]
   }
 }

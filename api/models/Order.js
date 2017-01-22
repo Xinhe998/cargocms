@@ -1,8 +1,12 @@
 
 module.exports = {
   attributes: {
+    orderNumber: {
+      type: Sequelize.STRING(48),
+      allowNull: false
+    },
     invoiceNo: {
-      type: Sequelize.INTEGER(11),
+      type: Sequelize.STRING(48),
       defaultValue: 0,
       allowNull: false,
     },
@@ -246,6 +250,11 @@ module.exports = {
       allowNull: false,
     },
 
+    token: {
+      type: Sequelize.STRING(32),
+      unique: true,
+    },
+
     // dateAdded: {
     //   type: Sequelize.DATE,
     //   allowNull: false,
@@ -287,10 +296,72 @@ module.exports = {
           sails.log.error(e);
         }
       }
-    }
+    },
+
+    formatTotal: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          let total = this.getDataValue('total');
+          if(!total){
+            return '';
+          }
+          return UtilsService.moneyFormat(total);
+
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
+    },
+    formatTax: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          let total = this.getDataValue('total');
+          if(!total){
+            return '';
+          }
+          total = Math.round(total * 0.05);
+          return UtilsService.moneyFormat(total);
+
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
+    },
+
+    displayName: {
+      type: Sequelize.VIRTUAL,
+      get: function() {
+        const firstName = this.getDataValue('firstname');
+        const lastName = this.getDataValue('lastname');
+
+        let displayName = firstName + ' ' + lastName;
+        const user = this.getDataValue('User');
+        const isTw = user && user.locale === 'zh_TW';
+
+        var regExp = /^[\d|a-zA-Z| ]+$/;
+        var checkEng = regExp.test(displayName);
+
+        if (!checkEng) {
+          displayName = lastName + firstName;
+        } else if(isTw){
+          displayName = lastName + firstName;
+        }
+
+        if (displayName === '') {
+          displayName = this.getDataValue('email');
+        }
+
+        return displayName;
+      }
+    },
+
   },
   associations: () => {
-    Order.hasOne(OrderStatus);
+    // Order.hasOne(OrderStatus);
+    Order.belongsTo(OrderStatus);
+
     Order.hasOne(OrderOption);
     Order.hasMany(OrderProduct);
 
@@ -298,6 +369,8 @@ module.exports = {
 
     Order.belongsTo(Allpay);
     Order.belongsTo(User);
+
+    Order.belongsTo(OrderPayment);
   },
   options: {
     classMethods: {},

@@ -2,67 +2,101 @@ module.exports = {
   createOrder: async (req, res) => {
     try{
       let data = req.body;
-      const products = data.products;
+      const loginUser = AuthService.getSessionUser(req);
+      data.UserId = loginUser.id;
 
-      // data remove products
-      delete data.products;
-      //ignore columns
-      data.customField = '';
-      data.paymentCompany = '';
-      data.paymentAddress2 = '';
-      data.paymentCountry = '';
-      data.paymentCountryId = 0;
-      data.paymentZone = '';
-      data.paymentZoneId = 0;
-      data.paymentAddressFormat = '';
-      data.paymentCustomField = '';
-      data.shippingCompany = '';
-      data.shippingAddress2 = '';
-      data.shippingCountry = '';
-      data.shippingCountryId = 0;
-      data.shippingZone = '';
-      data.shippingZoneId = 0;
-      data.shippingAddressFormat = '';
-      data.shippingCustomField = '';
-      data.commission = 0.0000;
-      data.marketingId = 0;
-      data.languageId = 0;
-      data.acceptLanguage = '';
-
-      const user = await User.findById(data.UserId);
-      data.firstname = user.firstName;
-      data.lastname  = user.lastName;
-
-      const order = await Order.create(data);
-      sails.log.info("new Order Create", order);
-
-      for(let p of products){
-        let product = await Product.find({
-          where: {
-            id: p.id,
-          },
-          include: ProductDescription
-        });
-        await OrderProduct.create({
-          ProductId: product.id,
-          OrderId: order.id,
-          name: product.ProductDescription.name,
-          model: product.model,
-          quantity: p.quantity,
-          price: product.price,
-          total: (product.price * p.quantity),
-          tax: (product.price * p.quantity) * 0.05,
-          // reward: 0
-        });
+      if( data.firstname !== loginUser.firstName || data.lastname  !== loginUser.lastName){
+        data.firstname = loginUser.firstName;
+        data.lastname  = loginUser.lastName;
       }
-      const message = 'Order create success';
-      res.ok({
+
+      // some data can fetch from request
+      data.userAgent = req.header["user-agent"] || '';
+      data.ip = req.ip;
+      // not sure which should record
+      data.forwardedIp = req.headers["X-Real-IP"] || '';
+      // data.forwardedIp = req.headers["X-Forwarded-For"] || '';
+      data.acceptLanguage = req.header["accept-language"] || '';
+
+      const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
+
+      const success = (order) => {
+        const message = 'Order create success';
+        return res.ok({
+          message,
+          data: {
+            item: {
+              orderNumber: order.orderNumber
+            }
+          }
+        })
+
+      };
+      const error = () => {
+        return res.redirect('/');
+      };
+
+      let transaction;
+      return sequelize.transaction({ isolationLevel })
+      .then(function (t) {
+        transaction = t;
+        return OrderService.createOrder(transaction, data);
+      })
+      .then(function(order){
+        transaction.commit();
+        success(order);
+      })
+      .catch(sequelize.UniqueConstraintError, function(e) {
+        throw Error('此交易已失效，請重新下訂')
+      })
+      .catch(function(err) {
+        sails.log.error('訂單建立 Order 失敗', err.toString());
+        transaction.rollback();
+        error();
+      });
+
+    } catch (e) {
+      res.serverError(e);
+    }
+  },
+
+  getOrderInfo: async (req, res) => {
+    try{
+      const orderNumber = req.params.orderNumber;
+      const order = await Order.findOne({
+        where: {
+          orderNumber
+        },
+        include: [ User , OrderStatus ]
+       });
+      const loginUser = AuthService.getSessionUser(req);
+      let message = '';
+      if(!order){
+        return res.notFound();
+      }
+
+      if(!loginUser || loginUser.id !== order.UserId){
+        message = '您沒有足夠權限瀏覽此網頁';
+        return res.forbidden(message);
+      }
+
+      const orderProduct = await OrderProduct.findAll({
+        where: {
+          OrderId: order.id
+        }
+      })
+
+      message = 'get Order info success';
+
+      res.view('b2b/order/index',{
         message: message,
         data: {
-          item: order
+          item: order,
+          product: orderProduct,
         }
       });
-    } catch (e) {
+
+    } catch(e) {
       res.serverError(e);
     }
   }

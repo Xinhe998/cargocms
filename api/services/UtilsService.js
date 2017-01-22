@@ -1,4 +1,5 @@
 import moment from 'moment';
+import crypto from 'crypto';
 import axios from 'axios';
 
 module.exports = {
@@ -35,4 +36,23 @@ module.exports = {
       throw e
     }
   },
+
+  moneyFormat: function( number ) {
+    try{
+      const moneyFormat = /(\d)(?=(\d{3})+(?!\d))/g;
+      return (number).toString().replace( moneyFormat , "$1,");
+    } catch (e) {
+      throw e;
+    }
+  },
+
+  tokenGenerator: async function() {
+    try{
+      const token = crypto.randomBytes(32).toString('hex').substr(0, 32);
+      return token;
+    } catch (e) {
+      throw e;
+    }
+
+  }
 }

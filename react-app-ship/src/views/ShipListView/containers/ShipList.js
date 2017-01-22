@@ -13,7 +13,7 @@ import '../_style.scss';
 import {
   showToast,
   closeToast,
-} from '../../../redux/modules/toast';
+} from '../../../redux/utils/toast';
 import {
   fetchShipListData,
   fetchFindShipItem,
@@ -41,13 +41,11 @@ const styles = {
   },
 };
 
-const searchTextBuffer = '';
-const inputDelayer = null;
-
 @connect(
   state => ({
     shipOrder: state.shipOrder,
     toast: state.toast,
+    user: state.user,
   }),
   dispatch => bindActionCreators({
     showToast,
@@ -58,6 +56,7 @@ const inputDelayer = null;
 ) export default class ShipList extends React.Component {
   static defaultProps = {
     shipOrder: {},
+    user: {},
     showToast: null,
     closeToast: null,
     fetchShipListData: null,
@@ -66,6 +65,7 @@ const inputDelayer = null;
 
   static propTypes = {
     shipOrder: PropTypes.object,
+    user: PropTypes.object,
     showToast: PropTypes.func,
     closeToast: PropTypes.func,
     fetchShipListData: PropTypes.func,
@@ -77,12 +77,23 @@ const inputDelayer = null;
     this.state = {
       dataSource: props.shipOrder.list,
     };
-    this.inputDelayer = inputDelayer;
-    this.searchTextBuffer = searchTextBuffer;
+    this.inputDelayer = null;
+    this.getDataDelayer = null;
+    this.searchTextBuffer = '';
+    this.getDataDelayer = () => {
+      setTimeout(() => {
+        if (!Lang.isEmpty(this.props.user.currentUser.Supplier)) {
+          this.props.fetchShipListData();
+          clearTimeout(this.getDataDelayer);
+        } else {
+          this.getDataDelayer();
+        }
+      }, 1500);
+    };
   }
 
   componentWillMount() {
-    this.props.fetchShipListData();
+    this.getDataDelayer();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -135,13 +146,15 @@ const inputDelayer = null;
     const isNoData = Lang.isEmpty(dataSource);
     const autoCompleteTitle = [];
     if (!isNoData) {
-      for (const item of dataSource.items) {
-        autoCompleteTitle.push(item.displayName);
-        autoCompleteTitle.push(item.invoicePrefix + item.invoiceNo);
-        autoCompleteTitle.push(item.email);
-        autoCompleteTitle.push(item.telephone);
-        autoCompleteTitle.push(item.paymentAddress1);
-        autoCompleteTitle.push(item.paymentCity);
+      for (const item of dataSource) {
+        if (item.displayName) { autoCompleteTitle.push(item.displayName); }
+        if (item.email) { autoCompleteTitle.push(item.email); }
+        if (item.telephone) { autoCompleteTitle.push(item.telephone); }
+        if (item.paymentAddress1) { autoCompleteTitle.push(item.paymentAddress1); }
+        if (item.paymentCity) { autoCompleteTitle.push(item.paymentCity); }
+        if (item.invoicePrefix && item.invoiceNo) {
+          autoCompleteTitle.push(item.invoicePrefix + item.invoiceNo);
+        }
       }
     }
     return (
@@ -176,7 +189,7 @@ const inputDelayer = null;
           >
             {
               !isNoData ?
-                dataSource.items.map(item => (
+                dataSource.map(item => (
                   <ShipCard
                     toast={this.props.showToast}
                     key={item.id}

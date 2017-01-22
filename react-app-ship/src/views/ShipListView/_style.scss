@@ -86,7 +86,7 @@
       height: 70px;
       float: left;
       padding-left: 20px;
-      padding-top: 15px;
+      padding-top: 5px;
     }
 
     div.order-content {
@@ -115,7 +115,7 @@
     }
 
     div > .title {
-      font-size: 15px;
+      font-size: 18px;
       font-weight: bold;
     }
 
@@ -127,6 +127,11 @@
     div > .main-title {
       vertical-align: middle;
     }
+  }
+
+  .card-detail-wrapper {-webkit-box-shadow: 0px 17px 26px 0px rgba(0,0,0,0.38);
+-moz-box-shadow: 0px 17px 26px 0px rgba(0,0,0,0.38);
+box-shadow: 0px 17px 26px 0px rgba(0,0,0,0.38);
   }
 
   .card-deatil {
@@ -160,6 +165,18 @@
         color: rgb(110, 110, 110);
 
         .item {}
+      }
+      th {
+        text-align: center;
+      }
+      td {
+        text-align: center;
+      }
+      td:first-child {
+        text-align: left;
+      }
+      tfoot {
+        border-top: 2px solid #aaa;
       }
     }
 
@@ -215,6 +232,7 @@
     height: 0;
     overflow: hidden;
   }
+
   to {
     height: 400px;
     overflow: hidden;

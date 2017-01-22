@@ -10,6 +10,7 @@ import ShipCardDetail from '../components/ShipCardDetail';
 export default class ShipCard extends React.Component {
   static defaultProps = {
     toast: null,
+    shipOrderNumber: '2017010101111crc',
     invoiceNo: 1111222233334444,
     invoicePrefix: 'S',
     displayName: '潘仔',
@@ -23,7 +24,7 @@ export default class ShipCard extends React.Component {
       date: '2016/12/21',
       time: '11:43:00',
     },
-    SupplierShipOrderDescriptions: [
+    SupplierShipOrderProducts: [
       {
         id: 3,
         name: '鮮甜飽滿無毒益菌蝦',
@@ -69,7 +70,7 @@ export default class ShipCard extends React.Component {
     comment: 'no comment',
     total: 123456,
     tracking: '確認訂單',
-    status: '確定訂單',
+    status: 'NEW',
     OrderId: 1,
     Supplier: {
       id: 1,
@@ -83,12 +84,14 @@ export default class ShipCard extends React.Component {
 
   static propTypes = {
     toast: PropTypes.func,
-    invoiceNo: PropTypes.number,
+    id: PropTypes.number,
+    shipOrderNumber: PropTypes.string,
+    invoiceNo: PropTypes.string,
     invoicePrefix: PropTypes.string,
     displayName: PropTypes.string,
     createdDateTime: PropTypes.object,
     updatedDateTime: PropTypes.object,
-    SupplierShipOrderDescriptions: PropTypes.array,
+    SupplierShipOrderProducts: PropTypes.array,
     telephone: PropTypes.string,
     email: PropTypes.string,
     paymentCompany: PropTypes.string,
@@ -138,25 +141,33 @@ export default class ShipCard extends React.Component {
     this.setState({ open: !openState });
   }
 
+  stopPropagation = (event) => {
+    event.stopPropagation();
+    event.nativeEvent.stopImmediatePropagation();
+  }
+
   render() {
+    const props = this.props;
     const cardBody = {
       isExpend: this.state.open,
-      invoiceNum: this.props.invoicePrefix + this.props.invoiceNo,
-      orderDetail: this.props.SupplierShipOrderDescriptions,
-      orderSupplier: this.props.Supplier,
+      invoiceCode: props.invoicePrefix + props.invoiceNo,
+      orderDetail: props.SupplierShipOrderProducts,
+      orderSupplier: props.Supplier,
       ordrDate: {
-        createdAt: this.props.createdDateTime.date,
-        updatedAt: this.props.updatedDateTime.date,
+        createdAt: props.createdDateTime.date,
+        updatedAt: props.updatedDateTime.date,
       },
-      total: this.props.total,
-      status: this.props.status,
+      total: props.total,
+      status: props.status,
     };
     const cardDetail = {
-      telephone: this.props.telephone,
-      shippingName: this.props.shippingLastname + this.props.shippingFirstname,
-      shippingAddress: `${this.props.shippingPostcode} ${this.props.shippingCity}${this.props.shippingAddress1}`,
-      tracking: this.props.tracking,
-      comment: this.props.comment,
+      telephone: props.telephone,
+      paymentMethod: props.paymentMethod,
+      shippingName: props.shippingLastname + props.shippingFirstname,
+      shippingMethod: props.shippingMethod,
+      shippingAddress: `${props.shippingPostcode} ${props.shippingCity}${props.shippingAddress1}`,
+      tracking: props.tracking,
+      comment: props.comment,
     };
     return (
       <Card
@@ -167,23 +178,30 @@ export default class ShipCard extends React.Component {
         <ShipCardBody
           // toast func
           toast={this.props.toast}
+          shipOrderId={this.props.id}
+          shipOrderNumber={this.props.shipOrderNumber}
           isExpend={cardBody.isExpend}
-          invoiceNum={cardBody.invoiceNum}
-          orderDesc={cardBody.desc}
+          invoiceCode={cardBody.invoiceCode}
+          orderDetail={cardBody.orderDetail}
           orderDate={cardBody.ordrDate}
           total={cardBody.total}
           orderSupplier={cardBody.orderSupplier}
           status={cardBody.status}
         />
         <CardActions>{}</CardActions>
-        <CardText expandable={true}>
+        <CardText
+          onClick={this.stopPropagation}
+          className='card-detail-wrapper'
+          expandable={true}
+        >
           <ShipCardDetail
             // toast func
             toast={this.props.toast}
             // same as cardBody
+            shipOrderId={this.props.id}
             isExpend={cardBody.isExpend}
-            invoiceNum={cardBody.invoiceNum}
-            orderDesc={cardBody.desc}
+            invoiceCode={cardBody.invoiceCode}
+            orderDetail={cardBody.orderDetail}
             orderDate={cardBody.ordrDate}
             total={cardBody.total}
             orderSupplier={cardBody.orderSupplier}

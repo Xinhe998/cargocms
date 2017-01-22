@@ -39,11 +39,17 @@ export default class DrawerMenuItems extends React.Component {
         <Link to={'/ship'}>
           <MenuItem >出貨總管</MenuItem>
         </Link>
-        <Link to={'/HomeView'}>
+        <Link to={'/shipnew'}>
+          <MenuItem>待確認</MenuItem>
+        </Link>
+        <Link to={'/shipprocessing'}>
           <MenuItem>未出貨</MenuItem>
         </Link>
-        <Link to={'/ship'}>
+        <Link to={'/shipped'}>
           <MenuItem>已出貨</MenuItem>
+        </Link>
+        <Link to={'/shipcompleted'}>
+          <MenuItem>完成配送</MenuItem>
         </Link>
         <Link to={'/ship/history'}>
           <MenuItem>顯示所有紀錄</MenuItem>

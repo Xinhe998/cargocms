@@ -24,11 +24,16 @@ module.exports = {
 		address: {
 			type: Sequelize.STRING(255),
 			allowNull: false
-		}
+		},
+    taxId: {
+      type: Sequelize.STRING(32),
+      allowNull: false
+    }
 	},
 	associations: () => {
     Supplier.hasMany(SupplierShipOrder);
     Supplier.hasMany(Product);
+    Supplier.hasMany(User);
   },
 	options: {
 		classMethods: {},

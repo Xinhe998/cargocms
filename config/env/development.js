@@ -11,6 +11,7 @@
  */
 
 module.exports = {
+  storeName: '',
   appUrl: 'cargo-dev.trunksys.com',
   port: 5001,
   socials: ["facebook", "googleplus", "twitter"],
@@ -31,7 +32,7 @@ module.exports = {
       protocol: 'oauth2',
       strategy: require('passport-facebook').Strategy,
       options: {
-        clientID: '144219216008720',
+        clientID: '',
         clientSecret: '',
         callbackURL: "",
         scope: [ 'email', 'public_profile' ],

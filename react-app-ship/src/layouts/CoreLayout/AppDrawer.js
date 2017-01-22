@@ -13,7 +13,10 @@ import DrawerMenuItems from './DrawerMenuItems';
 import {
   showToast,
   closeToast,
-} from '../../redux/modules/toast';
+} from '../../redux/utils/toast';
+import {
+  fetchCurrentUserData,
+} from '../../redux/modules/user';
 
 const styles = {
   appBar: {
@@ -42,20 +45,24 @@ const styles = {
 @connect(
   state => ({
     toast: state.toast,
+    user: state.user,
   }),
   dispatch => bindActionCreators({
     showToast,
     closeToast,
+    fetchCurrentUserData,
   }, dispatch),
 ) export default class AppDrawer extends React.Component {
   static propTypes = {
-    content: PropTypes.object,
+    fetchCurrentUserData: PropTypes.func,
     showToast: PropTypes.func,
     closeToast: PropTypes.func,
     toast: PropTypes.object,
+    content: PropTypes.object,
   };
 
   static defaultProps = {
+    fetchCurrentUserData: null,
     showToast: null,
     closeToast: null,
     toast: {},
@@ -65,6 +72,7 @@ const styles = {
   constructor(props) {
     super(props);
     injectTapEventPlugin();
+    props.fetchCurrentUserData();
     this.state = {
       drawerOpen: true,
       drawerWidth: 150,
@@ -124,7 +132,7 @@ const styles = {
 
     styles.drawerContainer.position = isMobile ? 'fixed' : 'relative';
     return (
-      <div className=''>
+      <div className='appBarWraaper'>
         <AppBar
           className='appBar'
           title={titleText}
@@ -145,7 +153,7 @@ const styles = {
           >
             <DrawerMenuItems />
           </Drawer>
-          <div className='' style={styles.content}>
+          <div className='pageContent' style={styles.content}>
             {this.props.content}
           </div>
           <Snackbar

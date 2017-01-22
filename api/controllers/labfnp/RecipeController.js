@@ -262,25 +262,19 @@ module.exports = {
     const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
     let MerchantTradeNo = crypto.randomBytes(32).toString('hex').substr(0, 8);
 
-    const findRepeatOrder = (transaction) => {
-      return new Promise(function(resolve, reject) {
-        Allpay.find({
-          where: {
-            PaymentType: '到店購買',
-          },
-          include: {
-            model: RecipeOrder,
-            where: { token },
-            include: [Recipe, User],
-          },
-        }, { transaction })
-        .then(function(findOrder) {
-          resolve(findOrder);
-        })
-        .catch(function(err) {
-          reject(err)
-        });
-      });
+    let findOrder = await Allpay.find({
+      where: {
+        PaymentType: '到店購買',
+      },
+      include: {
+        model: RecipeOrder,
+        where: { token },
+        include: [Recipe, User],
+      },
+    });
+
+    if (findOrder && paymentMethod == 'gotoShop') {
+      return res.redirect(`/recipe/done?t=${findOrder.MerchantTradeNo}`);
     }
 
     const createOrder = (transaction) => {
@@ -305,7 +299,7 @@ module.exports = {
       });
     }
 
-    const createAndgetAllpayConfig = ({formatName, recipeOrder, transaction}) => {
+    const createAndgetAllpayConfig = ({formatName, recipeOrder, transaction, goshopInfo}) => {
       return new Promise(function(resolve, reject) {
         AllpayService.createAndgetAllpayConfig({
           relatedKeyValue: {
@@ -313,13 +307,14 @@ module.exports = {
           },
           MerchantTradeNo,
           tradeDesc: `配方名稱：${perfumeName} 100 ml, (備註：${message})`,
-          totalAmount: 1550,
+          totalAmount: 1560,
           paymentMethod: paymentMethod,
           itemArray: formatName,
           clientBackURL: '/recipe/done',
           returnURL: '/api/recipe/paid',
           paymentInfoURL: '/api/recipe/paymentinfo',
           transaction,
+          ...goshopInfo,
         }).then(function(allPayData) {
           MerchantTradeNo = allPayData.allpay.MerchantTradeNo;
           resolve(allPayData);
@@ -347,18 +342,19 @@ module.exports = {
     return sequelize.transaction({ isolationLevel })
     .then(function (t) {
       transaction = t;
-      return findRepeatOrder(transaction);
-    })
-    .then(function(findOrder){
-      if (findOrder && paymentMethod == 'gotoShop') {
-        transaction.rollback();
-        return res.redirect(`/recipe/done?t=${MerchantTradeNo}`);
-      }
       return createOrder(transaction);
     })
     .then(function(data){
       recipeOrder = data;
-      return createAndgetAllpayConfig({formatName, recipeOrder, transaction});
+      let goshopInfo = {};
+      if (paymentMethod == 'gotoShop') {
+        goshopInfo.RtnMsg = '到店購買';
+        goshopInfo.ShouldTradeAmt = 1560;
+        goshopInfo.TradeAmt = 1560;
+        goshopInfo.PaymentType = '到店購買';
+        goshopInfo.PaymentDate = moment(new Date()).format("YYYY/MM/DD");
+      }
+      return createAndgetAllpayConfig({formatName, recipeOrder, transaction, goshopInfo});
     })
     .then(function(data) {
       allPayData = data;
@@ -375,7 +371,7 @@ module.exports = {
       if (paymentMethod == 'gotoShop') {
         let messageConfig = {};
         messageConfig.serialNumber = MerchantTradeNo;
-        messageConfig.paymentTotalAmount = 1550;
+        messageConfig.paymentTotalAmount = 1560;
         messageConfig.productName = perfumeName + ' 100 ml';
         messageConfig.email = recipeOrder.email;
         messageConfig.username = user.displayName;
