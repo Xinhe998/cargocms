@@ -2,7 +2,7 @@ var sinon = require('sinon');
 import {mockAdmin, unMockAdmin} from "../../../../util/adminAuthHelper.js"
 import createHelper from "../../../../util/createHelper.js"
 
-describe.only('about Backend Product Controller operations.', function() {
+describe('about Backend Product Controller operations.', function() {
   let image, product1, product2, product3,
       category1, category2, category3, category4, category5, category6;
 
