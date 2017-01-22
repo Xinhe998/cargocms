@@ -6,10 +6,8 @@ import post from './post';
 import menuItem from './menuItem';
 import other from './other';
 import quote from './quote';
-// import fakeusers from './../default/fakeusers';
-// import user from './../default/user';
 
-module.exports.init = async function(){
+module.exports.init = async function(initDefault){
   console.log("=== hook labfnp bootstrap ===");
   await allpay.init();
   await events.init();
@@ -17,6 +15,6 @@ module.exports.init = async function(){
   await post.init();
   await menuItem.init();
   await other.init();
-  // await fakeusers.init();
-  // await user.init();
+  await initDefault.fakeusers.init();
+  await initDefault.user.init();
 }

@@ -13,6 +13,7 @@ import fs from 'fs';
 import shortid from 'shortid';
 import MailerService from 'sails-service-mailer';
 import rc from 'rc';
+import initDefault from './init/default';
 module.exports.bootstrap = async (cb) => {
 
 
@@ -117,7 +118,7 @@ module.exports.bootstrap = async (cb) => {
 
     if (environment !== 'test') {
       // 自動掃描 init 底下的 module 資料夾後執行資料初始化
-      HookService.bootstrap();
+      HookService.bootstrap(initDefault);
       let rcConfig = rc('sails');
       let {modules} = rcConfig.configLoader
 

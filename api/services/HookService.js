@@ -10,11 +10,11 @@ module.exports = {
       }
     }
   },
-  bootstrap: async () => {
+  bootstrap: async (initDefault) => {
     try {
       for (var name in sails.hooks) {
         if(sails.hooks[name].bootstrap){
-          await sails.hooks[name].bootstrap();
+          await sails.hooks[name].bootstrap(initDefault);
         }
       }
     } catch (e) {
