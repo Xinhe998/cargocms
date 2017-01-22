@@ -1,4 +1,4 @@
-module.exports = {
+module.exports.policies = {
   'api/labfnp/RecipeOrderController': {
     'find': ['passport', 'sessionAuth'],
   },

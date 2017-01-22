@@ -3,11 +3,11 @@
  */
 
 module.exports = function (sails) {
-    console.log("=== load hook sample ===");
+    console.log("=== load hook labfnp ===");
     var loader = require('sails-util-mvcsloader')(sails);
 
     loader.configure({
-        // policies: __dirname + '/api/policies', // Path to your hook's policies
+        policies: __dirname + '/api/policies', // Path to your hook's policies
         config: __dirname + '/config' // Path to your hook's config
     });
 
