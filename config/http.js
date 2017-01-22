@@ -116,14 +116,7 @@ module.exports.http = {
       }
     }
 
-    for (var name in sails.hooks) {
-      console.log("=== hook ===", name);
-      if(sails.hooks[name].assetsInit){
-        console.log("=== hook has assetsInit ===", name);
-        sails.hooks[name].assetsInit(express, app, maxAge);
-      }
-
-    }
+    HookService.initAssets(express, app, maxAge);
 
     if (modules.indexOf("b2b") >= 0){
       app.use('/ship', express.static('react-app-ship/dist', {maxAge}));
