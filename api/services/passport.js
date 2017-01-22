@@ -322,8 +322,10 @@ passport.loadStrategies = function() {
         self.use(new Strategy(self.protocols.bearer.authorize));
       }
     } else {
-      var isIdEmpty = options.clientId === '';
-      var isIdUndefined = options.clientId === undefined;
+
+      var isIdEmpty = strategies[key].options.clientID === '';
+      var isIdUndefined = strategies[key].options.clientID === undefined;
+
       if (!isIdEmpty && !isIdUndefined) {
         protocol = strategies[key].protocol;
         callback = strategies[key].callback;
@@ -344,7 +346,7 @@ passport.loadStrategies = function() {
             options.profile = true;
             break;
         }
-        console.log('options=>', options);
+
         _.extend(options, strategies[key].options);
         self.use(new Strategy(options, self.protocols[protocol]));
       }
