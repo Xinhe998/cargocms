@@ -192,10 +192,18 @@
   </div>
 
   <div class="row">
-    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+    <section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 notForCreate">
+      <label class="label">產品分類</label>
+      <label class="textarea state-disabled">
+        <textarea rows="2" v-model="data.item.categoriesNameArray" disabled>
+        </textarea>
+      </label>
+    </section>
+
+    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4 fn-show-hidden">
       <label class="label">產品分類</label>
       <label class="select state-disabled">
-        <select style="height: 60px;"class="form-control" multiple="multiple" name="categoriesId" title="選擇產品分類" v-model="data.categoriesId">
+        <select style="height: 60px;"class="form-control" multiple="multiple" name="categoriesId" title="選擇產品分類" v-model="data.item.categoriesId">
           <option v-for=" category in data.option.categoryList" v-bind:value="category.id" @click="addCategory">
             {{category.CategoryDescription.name}}
           </option>
