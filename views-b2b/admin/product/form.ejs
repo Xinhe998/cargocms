@@ -79,10 +79,10 @@
         <b class="tooltip tooltip-bottom-right">ImageId</b></label>
     </section>
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">dataAvailable</label>
+      <label class="label">dateAvailable</label>
       <label class="input state-disabled">
-        <input type="date" name="dataAvailable" placeholder="" v-model="data.item.dataAvailable" disabled>
-        <b class="tooltip tooltip-bottom-right">dataAvailable</b></label>
+        <input type="date" name="dataAvailable" placeholder="" v-model="data.item.dateAvailable" disabled>
+        <b class="tooltip tooltip-bottom-right">dateAvailable</b></label>
       </label>
     </section>
   </div>
@@ -190,6 +190,21 @@
       </label>
     </section>
   </div>
+
+  <div class="row">
+    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      <label class="label">產品分類</label>
+      <label class="select state-disabled">
+        <select style="height: 60px;"class="form-control" multiple="multiple" name="categoriesId" title="選擇產品分類" v-model="data.categoriesId">
+          <option v-for=" category in data.option.categoryList" v-bind:value="category.id" @click="addCategory">
+            {{category.CategoryDescription.name}}
+          </option>
+        </select>
+      </label>
+    </section>
+  </div>
+
+
 
   <div class="row notForCreate">
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
