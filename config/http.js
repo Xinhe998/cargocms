@@ -116,7 +116,7 @@ module.exports.http = {
       }
     }
 
-    HookService.initAssets(express, app, maxAge);
+    HookService.customMiddleware(express, app);
 
     if (modules.indexOf("b2b") >= 0){
       app.use('/ship', express.static('react-app-ship/dist', {maxAge}));

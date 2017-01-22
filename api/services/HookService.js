@@ -1,13 +1,15 @@
 
 
 module.exports = {
-  initAssets: (express, app, maxAge) => {
-    for (var name in sails.hooks) {
-      console.log("=== hook ===", name);
-      if(sails.hooks[name].assetsInit){
-        console.log("=== hook has assetsInit ===", name);
-        sails.hooks[name].assetsInit(express, app, maxAge);
+  customMiddleware: (express, app) => {
+    try {
+      for (var name in sails.hooks) {
+        if(sails.hooks[name].customMiddleware){
+          sails.hooks[name].customMiddleware(express, app, sails);
+        }
       }
+    } catch (e) {
+      throw e;
     }
   },
   bootstrap: async (initDefault) => {

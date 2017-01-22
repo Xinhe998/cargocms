@@ -28,14 +28,22 @@ module.exports = function (sails) {
                 });
 
         },
-        assetsInit: function (express, app, maxAge) {
-          console.log("=== run labfnp assetsInit ===");
-          app.use('/assets/labfnp', express.static(`${__dirname}/assets` , {maxAge}));
+        customMiddleware: function (express, app, sails) {
+          try {
+            console.log("=== run labfnp customMiddleware ===");
+            var maxAge = sails.config.http.cache;
+            app.use('/assets/labfnp', express.static(`${__dirname}/assets` , {maxAge}));
+
+          } catch (e) {
+            console.error("run hook customMiddleware error", e);
+            throw e;
+          }
         },
         bootstrap: async function (initDefault) {
           try {
             await bootstrap.init(initDefault);
           } catch (e) {
+            console.error("run hook bootstrap error", e);
             throw e;
           }
         }
