@@ -27,6 +27,10 @@ module.exports = function (sails) {
                     return next(err);
                 });
 
+        },
+        assetsInit: function (express, app, maxAge) {
+          console.log("=== run labfnp assetsInit ===");
+          app.use('/assets/labfnp', express.static(`${__dirname}/assets` , {maxAge}));
         }
     };
 };
