@@ -38,7 +38,10 @@ module.exports = {
 
   create: async ({data}) => {
     try{
-      const categories = data.categoryId.map( function (data) {
+      //ignore column
+      data.points = 0;
+
+      const categories = data.categoriesId.map( function (data) {
         return { id: data };
       });
       const productCategory = await Category.findAll({
@@ -59,7 +62,10 @@ module.exports = {
 
   update: async ({id, data}) => {
     try{
-      const categories = data.categoryId.map( function (data) {
+      //ignore column
+      data.points = 0;
+      
+      const categories = data.categoriesId.map( function (data) {
         return { id: data };
       });
       const productCategory = await Category.findAll({

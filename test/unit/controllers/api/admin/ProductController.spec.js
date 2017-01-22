@@ -59,7 +59,7 @@ describe.only('about Backend Product Controller operations.', function() {
         mpn: 1,
         location: 1,
         ImageId: image.id,
-        categoryId: [category1.id, category2.id]
+        categoriesId: [category1.id, category2.id]
       }
       const res = await request(sails.hooks.http.app)
       .post(`/api/admin/product`).send(productData);
@@ -93,7 +93,7 @@ describe.only('about Backend Product Controller operations.', function() {
         mpn: 1,
         location: 1,
         ImageId: image.id,
-        categoryId: [category1.id, category2.id, category3.id]
+        categoriesId: [category1.id, category2.id, category3.id]
       };
       const res = await request(sails.hooks.http.app)
       .put(`/api/admin/product/${product1.id}`).send(updatedProduct);
