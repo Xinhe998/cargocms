@@ -117,6 +117,7 @@ module.exports.bootstrap = async (cb) => {
 
     if (environment !== 'test') {
       // 自動掃描 init 底下的 module 資料夾後執行資料初始化
+      HookService.bootstrap();
       let rcConfig = rc('sails');
       let {modules} = rcConfig.configLoader
 

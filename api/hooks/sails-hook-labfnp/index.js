@@ -1,7 +1,7 @@
 /**
  * Created by jaumard on 28/03/2015.
  */
-
+import bootstrap from './config/bootstrap/'
 module.exports = function (sails) {
     console.log("=== load hook labfnp ===");
     var loader = require('sails-util-mvcsloader')(sails);
@@ -31,6 +31,13 @@ module.exports = function (sails) {
         assetsInit: function (express, app, maxAge) {
           console.log("=== run labfnp assetsInit ===");
           app.use('/assets/labfnp', express.static(`${__dirname}/assets` , {maxAge}));
+        },
+        bootstrap: async function () {
+          try {
+            await bootstrap.init();
+          } catch (e) {
+            throw e;
+          }
         }
     };
 };
