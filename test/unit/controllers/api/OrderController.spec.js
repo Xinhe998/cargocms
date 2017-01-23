@@ -294,12 +294,7 @@ describe('about Order controllers', () => {
         order.setUser(user);
         console.log('order1=>', order);
       }
-      const orderStatus = await OrderStatus.create({
-        name:"PROCESSING",
-        languageId:0
-      });
-      console.log('orderStatus=>', orderStatus);
-
+      
       const confirmArray = [];
       for (const j in [...Array(1).keys()]) {
         confirmArray.push(
