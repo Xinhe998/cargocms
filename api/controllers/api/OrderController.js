@@ -42,7 +42,21 @@ module.exports = {
         transaction = t;
         return OrderService.createOrder(transaction, data);
       })
-      .then(function(order){
+      .then(async function(order){
+        let mailMessage = {};
+        mailMessage.serialNumber = order.orderNumber;
+        mailMessage.paymentTotalAmount = order.total;
+        mailMessage.productName = '';
+        mailMessage.email = order.email;
+        mailMessage.username = `${order.lastname}${order.firstname}`;
+        mailMessage.shipmentUsername = `${order.lastname}${order.firstname}`;
+        mailMessage.shipmentAddress = order.shippingAddress1;
+        mailMessage.note = order.comment;
+        mailMessage.phone = order.telephone;
+        mailMessage.invoiceNo = `${order.invoicePrefix}${order.invoiceNo}`;
+        const messageConfig = await MessageService.orderToShopConfirm(mailMessage);
+        const mail = await Message.create(messageConfig);
+        await MessageService.sendMail(mail);
         transaction.commit();
         success(order);
       })

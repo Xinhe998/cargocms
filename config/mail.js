@@ -68,6 +68,18 @@ var defaultConfig = {
       From %(storeName)s
       `
     },
+    orderConfirm: {
+      sendBy: 'email',
+      subject: '訂單 %(orderSerialNumber)s 內容已確認完成',
+      text: `
+      Hi %(username)s:
+
+      您的訂單貨品已經與完成商品確認，
+      相關供應商已經開始準備出貨事宜，感謝您的耐心等待。
+
+      From %(storeName)s
+      `
+    },
     deliveryConfirm: {
       sendBy: 'email',
       subject: '訂單 %(orderSerialNumber)s 已完成出貨',
