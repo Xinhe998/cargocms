@@ -34,5 +34,27 @@ module.exports = {
     } catch (e) {
       sails.log.error(e);
     }
-  }
+  },
+
+  checkStock: async ({products}) => {
+    try{
+      let stock = true;
+      for(let p of products){
+        let product = await Product.findOne({
+          where: {
+            id: p.id,
+          },
+        });
+
+        if (product.quantity < p.quantity) {
+          stock = false;
+          break;
+        }
+      }
+
+      return stock;
+    } catch (e) {
+      sails.log.error(e);
+    }
+  },
 }
