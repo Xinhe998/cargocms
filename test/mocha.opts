@@ -1,5 +1,6 @@
 -t 500000
 --require chai
 --recursive test/bootstrap.test.js
+--recursive api/hooks/sails-hook-labfnp/test/unit
 --reporter spec
 --require babel-core/register
