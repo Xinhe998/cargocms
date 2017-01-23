@@ -15,10 +15,10 @@ module.exports = {
         ],
       };
       const currentUser = await User.find(where);
+      console.log('currentUser=>', currentUser);
+      const roles = ''
       const result = {
-        data: {
-          currentUser,
-        },
+        currentUser,
       };
       res.ok(result);
     } catch (e) {
