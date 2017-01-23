@@ -23,7 +23,22 @@ export function fetchCurrentUserData() {
     const fetchResult = await getData(API_GET_CURRENT_USER);
     // success
     if (fetchResult.status) {
-      dispatch(deliverCurrentUserData(fetchResult.data.data.currentUser));
+      const rolesArray = fetchResult.data.currentUser.rolesArray;
+      let isSupplier = false;
+      for (const role of rolesArray) {
+        if (role === 'supplier') {
+          isSupplier = true;
+        }
+      }
+      isSupplier = isSupplier && fetchResult.data.currentUser.SupplierId;
+      if (isSupplier) {
+        dispatch(deliverCurrentUserData(fetchResult.data.currentUser));
+      } else {
+        dispatch(handleResponse({
+          response: { status: 403 },
+          message: '只有供應商才能登入供應商後台！',
+        }));
+      }
     // error
     } else {
       dispatch(handleResponse(fetchResult));
