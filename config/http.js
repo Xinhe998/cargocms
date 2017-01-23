@@ -14,6 +14,8 @@ import moment from 'moment';
 import fs from 'fs';
 import linkifyStr from 'linkifyjs/string';
 import rc from 'rc';
+import multipleViews from 'express-multiple-views';
+
 
 module.exports.http = {
 
@@ -116,7 +118,7 @@ module.exports.http = {
       }
     }
 
-    HookService.customMiddleware(express, app);
+    HookService.customMiddleware(express, app, multipleViews);
 
     if (modules.indexOf("b2b") >= 0){
       app.use('/ship', express.static('react-app-ship/dist', {maxAge}));

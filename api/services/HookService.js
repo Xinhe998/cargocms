@@ -1,11 +1,11 @@
 
 
 module.exports = {
-  customMiddleware: (express, app) => {
+  customMiddleware: (express, app, multipleViews) => {
     try {
       for (var name in sails.hooks) {
         if(sails.hooks[name].customMiddleware){
-          sails.hooks[name].customMiddleware(express, app, sails);
+          sails.hooks[name].customMiddleware(express, app, multipleViews, sails);
         }
       }
     } catch (e) {

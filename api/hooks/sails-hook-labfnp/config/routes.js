@@ -1,8 +1,6 @@
 module.exports.routes = {
 
-  '/': {
-    view: 'index'
-  },
+  'get /': 'labfnp/MainController.index',
 
   'get /api/labfnp/recipe/findForLab': 'api/labfnp/RecipeController.findForLab',
   // 'get /api/labfnp/recipe': 'api/labfnp/RecipeController.find',

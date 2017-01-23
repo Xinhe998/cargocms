@@ -2,6 +2,8 @@
  * Created by jaumard on 28/03/2015.
  */
 import bootstrap from './config/bootstrap'
+import path from 'path'
+
 module.exports = function (sails) {
     console.log("=== load hook labfnp ===");
     var loader = require('sails-util-mvcsloader')(sails);
@@ -28,11 +30,13 @@ module.exports = function (sails) {
                 });
 
         },
-        customMiddleware: function (express, app, sails) {
+        customMiddleware: function (express, app, multipleViews, sails) {
           try {
-            console.log("=== run labfnp customMiddleware ===");
             var maxAge = sails.config.http.cache;
             app.use('/assets/labfnp', express.static(`${__dirname}/assets` , {maxAge}));
+
+            console.log("=== path ===", path.join(__dirname, 'views'));
+            multipleViews(app, path.join(__dirname, 'views'));
 
           } catch (e) {
             console.error("run hook customMiddleware error", e);
