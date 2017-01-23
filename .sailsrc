@@ -7,9 +7,6 @@
     "pubsub": false,
     "grunt": false
   },
-  "paths": {
-    "views": "views-labfnp"
-  },
   "configLoader": {
     "modules": ["labfnp"]
   }

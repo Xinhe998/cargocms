@@ -2,7 +2,15 @@ import jwt from 'jsonwebtoken';
 import moment from 'moment';
 
 module.exports = {
-
+  index: async function(req, res) {
+    try {
+      return res.view('index');
+      // return res.view('default/index',  {layout: 'default/layout'});
+    }
+    catch (e) {
+      res.serverError(e);
+    }
+  },
   explore: async function(req, res) {
     try {
       const { userId } = req.query;
