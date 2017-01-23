@@ -18,13 +18,20 @@ module.exports = {
   },
 
   isAdmin: function(req) {
-
     let user = AuthService.getSessionUser(req);
     let isAdmin = false;
     if (user) {
-      user.Roles.forEach((role) => {
-        if(role.authority == 'admin') isAdmin = true;
-      });
+      console.log('user=>', user);
+      if (user.Roles) {
+        user.Roles.forEach((role) => {
+          if(role.authority == 'admin') isAdmin = true;
+        });
+      }
+      if (user.rolesArray) {
+        user.rolesArray.forEach((role) => {
+          if(role == 'admin') isAdmin = true;
+        });
+      }
     }
 
     return isAdmin;
