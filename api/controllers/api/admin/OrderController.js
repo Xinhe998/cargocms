@@ -128,11 +128,27 @@ module.exports = {
   },
 
   confirm: async (req, res) => {
+    const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
+    const transaction = await sequelize.transaction({ isolationLevel });
     try{
       const { id } = req.params;
       const { tracking, orderConfirmComment } = req.body;
-      const orderStatus = await OrderStatus.findOne({where:{name: 'PROCESSING'}})
-      let order = await Order.findById(id);
+
+      let orderProducts = await OrderProduct.findAll({
+        where:{
+          OrderId: id
+        },
+        include:[ Order, Product]
+      });
+
+      const orderStatus = await OrderStatus.findOne({ where: { name: 'PROCESSING' } });
+      if (!orderStatus.id) {
+        throw new Error('status PROCESSING is not exist!');
+      }
+      const order = await Order.findById(id);
+      if (!order.id) {
+        throw new Error(`order id ${id} is not exist!`);
+      }
       order.tracking = tracking;
       order.OrderStatusId = orderStatus.id;
       await order.save();
@@ -142,51 +158,39 @@ module.exports = {
         // comment: `訂單 ID: ${id} 確認訂單，確認理由：${orderConfirmComment}.`,
         comment: `訂單 ID: ${id} 確認訂單.`,
         OrderId: order.id
-      });
+      }, { transaction });
 
       sails.log.info('Order CONFIRM', Order);
 
-      let orderProducts = await OrderProduct.findAll({
-        where:{
-          OrderId: id
-        },
-        include:[ Order, Product]
-      });
-
       let suppliers = [];
-      for( let order of orderProducts){
-        if(suppliers.indexOf(order.Product.SupplierId) === -1){
-          suppliers.push( order.Product.SupplierId );
+      for (const order of orderProducts) {
+        if (suppliers.indexOf(order.Product.SupplierId) === -1) {
+          suppliers.push(order.Product.SupplierId);
         }
       }
 
-      const orderProductsName = orderProducts.map((data) => {
-        return data.name;
-      })
-
-      for( let supplier of suppliers){
-
-        //產生Ship訂單編號
-        let date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
-        let shipOrderNumber = await SupplierShipOrder.findAll({
+      const orderProductsName = orderProducts.map(data => data.name);
+      for (const supplier of suppliers) {
+        // 產生Ship訂單編號
+        const date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
+        const _where = {
           where: sequelize.where(
             User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
-          )
-        });
-        if(shipOrderNumber){
+        )};
+        let shipOrderNumber = await SupplierShipOrder.findAll(_where);
+        if (shipOrderNumber) {
           shipOrderNumber = (shipOrderNumber.length + 1 ).toString();
-          for( let i = shipOrderNumber.length; i < 5 ; i++){
+          for (let i = shipOrderNumber.length; i < 5 ; i++) {
             shipOrderNumber = '0' + shipOrderNumber;
           }
         } else {
           shipOrderNumber = '00001';
         }
-
         const crc = sh.unique(`${order.UserId}${orderProductsName.toString()}${date}${shipOrderNumber}`);
         shipOrderNumber = date + shipOrderNumber + crc.substr(0, 3);
         sails.log.info('產生出貨單編號:', shipOrderNumber);
 
-        let supplierShipOrder = await SupplierShipOrder.create({
+        const supplierShipOrder = await SupplierShipOrder.create({
           shipOrderNumber: shipOrderNumber,
           OrderId: id,
           SupplierId: supplier,
@@ -237,7 +241,7 @@ module.exports = {
           userAgent: order.userAgent,
           acceptLanguage: order.acceptLanguage,
           status: 'NEW',
-        });
+        }, { transaction });
 
         const supplierName = await Supplier.findById(supplier);
 
@@ -245,11 +249,10 @@ module.exports = {
           SupplierShipOrderId: supplierShipOrder.id,
           notify: true,
           comment: `訂單 ID: ${supplierShipOrder.OrderId} 已確認，建立 ${supplierName.name} 供應商出貨單 ID:${supplierShipOrder.id}.`
-        });
+        }, { transaction });
 
-        for( let orderProduct of orderProducts ){
-          if( orderProduct.Product.SupplierId === supplier ){
-
+        for (const orderProduct of orderProducts) {
+          if (orderProduct.Product.SupplierId === supplier) {
             await SupplierShipOrderProduct.create({
               SupplierShipOrderId: supplierShipOrder.id,
               ProductId: orderProduct.ProductId,
@@ -260,18 +263,17 @@ module.exports = {
               total: orderProduct.total,
               tax: orderProduct.tax,
               status: 'NEW',
-            });
-
+            }, { transaction });
           }
         }
       }
-
-
+      transaction.commit();
       const message = 'Success Confirm Order';
       const item = order;
       res.ok({ message, data: { item } });
     } catch (e) {
       res.serverError(e);
+      transaction.rollback();
     }
   },
 
