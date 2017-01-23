@@ -6,8 +6,10 @@ module.exports = {
       let admin = await User.findOne({
         where: {
           username: 'admin',
-        }
+        },
+        include: Role,
       });
+      console.log('admin=>', admin);
       sinon.stub(AuthService, 'getSessionUser', (req) => {
         return admin.toJSON();
       });
