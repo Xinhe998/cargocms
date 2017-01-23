@@ -130,8 +130,51 @@ module.exports = {
   confirm: async (req, res) => {
     try{
       const { id } = req.params;
-      const { tracking, orderConfirmComment } = req.body;
+      let { tracking, orderConfirmComment } = req.body;
+      orderConfirmComment = orderConfirmComment || '';
       const orderStatus = await OrderStatus.findOne({where:{name: 'PROCESSING'}})
+
+      const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
+
+      const updateOrderStats = (transaction) => {
+        return new Promise(function(resolve, reject) {
+          Order.update({
+            tracking: tracking,
+            OrderStatusId: orderStatus.id
+          }, {transaction})
+          .then(function(order) {
+            resolve(order);
+          }).catch(function(err){
+            reject(err);
+          });
+        });
+      };
+
+      const createOrderHistory = (transaction) => {
+        return new Promise(function(resolve, reject) {
+
+        });
+      }
+
+      let transaction;
+      return sequelize.transaction({ isolationLevel })
+      .then(function (t) {
+        transaction = t;
+        return updateOrderStats(transaction);
+      })
+      .then(function(order){
+        transaction.commit();
+        success(order);
+      })
+      .catch(sequelize.UniqueConstraintError, function(e) {
+        throw Error('此交易已失效，請重新確認訂單')
+      })
+      .catch(function(err) {
+        sails.log.error('訂單確認失敗', err.toString());
+        transaction.rollback();
+        error();
+      });
+
       let order = await Order.findById(id);
       order.tracking = tracking;
       order.OrderStatusId = orderStatus.id;
@@ -160,30 +203,18 @@ module.exports = {
         }
       }
 
-      const orderProductsName = orderProducts.map((data) => {
-        return data.name;
+      const orderProductsData = orderProducts.map((data) => {
+        return {
+          name: data.name,
+          quantity: data.quantity,
+          price: data.price,
+          total: data.total
+        }
       })
 
       for( let supplier of suppliers){
 
-        //產生Ship訂單編號
-        let date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
-        let shipOrderNumber = await SupplierShipOrder.findAll({
-          where: sequelize.where(
-            User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
-          )
-        });
-        if(shipOrderNumber){
-          shipOrderNumber = (shipOrderNumber.length + 1 ).toString();
-          for( let i = shipOrderNumber.length; i < 5 ; i++){
-            shipOrderNumber = '0' + shipOrderNumber;
-          }
-        } else {
-          shipOrderNumber = '00001';
-        }
-
-        const crc = sh.unique(`${order.UserId}${orderProductsName.toString()}${date}${shipOrderNumber}`);
-        shipOrderNumber = date + shipOrderNumber + crc.substr(0, 3);
+        let shipOrderNumber = await OrderService.orderNumberGenerator({modelName: 'SupplierShipOrder',userId: order.UserId, product: orderProductsData});
         sails.log.info('產生出貨單編號:', shipOrderNumber);
 
         let supplierShipOrder = await SupplierShipOrder.create({
