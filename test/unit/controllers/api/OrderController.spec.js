@@ -291,15 +291,15 @@ describe('about Order controllers', () => {
       for (const i in [...Array(10).keys()]) {
         orderData.token = new Date().getTime();
         const order = await Order.create(orderData);
-        order.setUser(user);
+        await order.setUser(user);
         console.log('order1=>', order);
       }
-      
+
       const confirmArray = [];
-      for (const j in [...Array(1).keys()]) {
+      for (const j in [...Array(4).keys()]) {
         confirmArray.push(
           request(sails.hooks.http.app)
-          .put(`/api/admin/order/confirm/${j}`)
+          .put(`/api/admin/order/confirm/${Number(j) + 1}`)
           .send({ tracking: 'n/a', orderConfirmComment: 'no',})
         );
       }
