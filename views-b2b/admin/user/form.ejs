@@ -3,16 +3,31 @@
   <section>
     <label class="label">權限</label>
     <label class="checkbox state-disabled">
-      <input type="checkbox" id="admin" name="admin" value="admin" v-model="data.item.rolesArray">
+      <input type="checkbox" id="admin" name="admin" value="admin" v-model="data.item.rolesArray" @chick="addRoles">
       <i></i>管理員</label>
+    <label class="checkbox state-disabled">
+      <input type="checkbox" id="supplier" name="supplier" value="supplier" v-model="data.item.rolesArray" @chick="addRoles">
+      <i></i>供應商</label>
     <label class="user checkbox state-disabled">
-      <input type="checkbox" id="user" name="user" value="user" v-model="data.item.rolesArray" checked disabled>
+      <input type="checkbox" id="user" name="user" value="user" v-model="data.item.rolesArray" checked disabled @chick="addRoles">
       <i></i>使用者</label>
   </section>
 
   <br>
   <hr>
   <br>
+
+  <section>
+    <label class="label">供應商角色</label>
+    <label class="select">
+      <select v-model="data.item.Supplier.id" name="supplier">
+        <option value="" selected>無</option>
+        <option v-for="supplier in data.option.supplierList" v-bind:value="supplier.id">
+          {{ supplier.name }}
+        </option>
+      </select> <i></i>
+    </label>
+  </section>
 
   <section>
     <label class="label">使用者名稱</label>

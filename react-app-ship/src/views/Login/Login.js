@@ -67,7 +67,9 @@ const muiTheme = getMuiTheme({
     this.setState({
       canSubmit: false,
     });
-    this.props.showToast('尚有欄位未填寫');
+    if (!this.props.toast.open) {
+      this.props.showToast('尚有欄位未填寫');
+    }
   }
 
   submit = () => {
