@@ -24,6 +24,9 @@ module.exports = {
     try {
       const { id } = req.params;
       const item = await Product.findOne({
+        where: {
+          id
+        },
         include:[ Supplier, { model: Category, include: CategoryDescription  }]
       });
       res.ok({ data: { item } });
