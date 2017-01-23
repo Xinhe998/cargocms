@@ -296,7 +296,7 @@ describe('about Order controllers', () => {
       }
 
       const confirmArray = [];
-      for (const j in [...Array(4).keys()]) {
+      for (const j in [...Array(5).keys()]) {
         confirmArray.push(
           request(sails.hooks.http.app)
           .put(`/api/admin/order/confirm/${Number(j) + 1}`)
@@ -309,6 +309,100 @@ describe('about Order controllers', () => {
       // res.status.should.be.eq(200);
       // res.body.data.item.invoiceNo.should.be.eq('87654321');
       // res.body.data.product.length.should.be.eq(3);
+
+      done();
+    } catch (e) {
+      sails.log.error(e);
+      done(e);
+    }
+  });
+
+  it.skip('Order Controller confirm single order repeat', async(done) => {
+    try{
+      let product = [
+        {
+          id: product1.id,
+          quantity: 3,
+        },{
+          id: product2.id,
+          quantity: 2,
+        },{
+          id: product3.id,
+          quantity: 5,
+        }];
+      product = JSON.stringify(product);
+
+      const orderData = {
+        lastname: '狂',
+        firstname: '晶晶',
+        products: product,
+        telephone: '04-22019020',
+        fax: '',
+        email: 'buyer@gmail.com',
+        shippingFirstname: '拜爾',
+        shippingLastname: '劉',
+        shippingAddress1: '台灣大道二段2號16F-1',
+        county: '台中市',
+        zipcode: '403',
+        district: '西區',
+        shippingMethod: '低溫宅配',
+        shippingCode: 'ship654321',
+        ip: '',
+        forwardedIp: '',
+        userAgent: '',
+        comment: '這是一個訂購測試'
+      };
+      orderData.customField = '';
+      orderData.paymentCompany = '';
+      orderData.paymentAddress2 = '';
+      orderData.paymentCountry = '';
+      orderData.paymentCountryId = 0;
+      orderData.paymentZone = '';
+      orderData.paymentZoneId = 0;
+      orderData.paymentAddressFormat = '';
+      orderData.paymentCustomField = '';
+      orderData.shippingCompany = '';
+      orderData.shippingAddress2 = '';
+      orderData.shippingCountry = '';
+      orderData.shippingCountryId = 0;
+      orderData.shippingZone = '';
+      orderData.shippingZoneId = 0;
+      orderData.shippingAddressFormat = '';
+      orderData.shippingCustomField = '';
+      orderData.commission = 0.0;
+      orderData.marketingId = 0;
+      orderData.languageId = 0;
+      orderData.ip = '';
+      orderData.forwardedIp = '';
+      orderData.userAgent = '';
+      orderData.acceptLanguage = '';
+      orderData.orderNumber = '12345';
+      orderData.invoicePrefix = 'S';
+      orderData.paymentFirstname = 'ABC';
+      orderData.paymentLastname = 'DEF';
+      orderData.paymentAddress1 = ' ';
+      orderData.paymentCity = 'KHH';
+      orderData.paymentPostcode = '123';
+      orderData.paymentMethod = 'unknow';
+      orderData.paymentCode = '1234';
+      orderData.shippingCity = 'KHH';
+      orderData.shippingPostcode = '123';
+      orderData.tracking = 'no';
+
+      orderData.token = new Date().getTime();
+      const order = await Order.create(orderData);
+      await order.setUser(user);
+      console.log('create order=>', order);
+
+      const confirmArray = [];
+      for (const j in [...Array(10).keys()]) {
+        confirmArray.push(
+          request(sails.hooks.http.app)
+          .put(`/api/admin/order/confirm/${order.id}}`)
+          .send({ tracking: 'n/a', orderConfirmComment: 'no',})
+        );
+      }
+      const result = await Promise.all(confirmArray);
 
       done();
     } catch (e) {
