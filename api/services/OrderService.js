@@ -106,7 +106,6 @@ module.exports = {
           needUpdateProducts.push(productData);
         }
       }
-      console.log('#### needUpdateProducts ### =>', needUpdateProducts);
 
       //定義建立訂單相關的函式
       const createOrder = (transaction) => {
