@@ -1,5 +1,7 @@
 function getProductInfo(productDom) {
-  number = parseInt(productDom.find('input').val());
+  var max = parseInt(productDom.find('input').prop('max'));
+  var number = parseInt(productDom.find('input').val());
+  if (number > max ) number = max;
   if(!number) number = 0;
   var product = {
     id: productDom.data('id'),
