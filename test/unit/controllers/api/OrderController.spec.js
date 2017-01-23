@@ -1,9 +1,10 @@
 import createHelper from "../../../util/createHelper.js"
 import { mockAdmin, unMockAdmin } from "../../../util/adminAuthHelper.js"
+// import supplierShipOrder from './suppliershiporder';
 
 describe('about Order controllers', () => {
 
-  let product1, product2, product3 , user;
+  let product1, product2, product3 , user, roleAdmin;
   before(async function(done){
     try{
       user = await User.create({
@@ -17,6 +18,8 @@ describe('about Order controllers', () => {
         address: '西區台灣大道二段2號16F-1',
         address2: '台中市',
       });
+
+      console.log('user.roles=>', user);
 
       await mockAdmin();
 
@@ -203,6 +206,112 @@ describe('about Order controllers', () => {
       .get(`/orderinfo/${order.orderNumber}`);
 
       res.status.should.be.eq(200);
+      // res.body.data.item.invoiceNo.should.be.eq('87654321');
+      // res.body.data.product.length.should.be.eq(3);
+
+      done();
+    } catch (e) {
+      done(e);
+    }
+  });
+
+  it.only('Order Controller get confirm order', async(done) => {
+    try{
+
+      const token = '9487e7c8e88a68321af84bc7b77e2168';
+      let product = [
+        {
+          id: product1.id,
+          quantity: 3,
+        },{
+          id: product2.id,
+          quantity: 2,
+        },{
+          id: product3.id,
+          quantity: 5,
+        }];
+      product = JSON.stringify(product);
+
+      const orderData = {
+        lastname: '日',
+        firstname: '晶晶',
+        products: product,
+        telephone: '04-22019020',
+        fax: '',
+        email: 'buyer@gmail.com',
+        shippingFirstname: '拜爾',
+        shippingLastname: '劉',
+        shippingAddress1: '台灣大道二段2號16F-1',
+        county: '台中市',
+        zipcode: '403',
+        district: '西區',
+        shippingMethod: '低溫宅配',
+        shippingCode: 'ship654321',
+        ip: '',
+        forwardedIp: '',
+        userAgent: '',
+        comment: '這是一個訂購測試'
+      };
+      orderData.customField = '';
+      orderData.paymentCompany = '';
+      orderData.paymentAddress2 = '';
+      orderData.paymentCountry = '';
+      orderData.paymentCountryId = 0;
+      orderData.paymentZone = '';
+      orderData.paymentZoneId = 0;
+      orderData.paymentAddressFormat = '';
+      orderData.paymentCustomField = '';
+      orderData.shippingCompany = '';
+      orderData.shippingAddress2 = '';
+      orderData.shippingCountry = '';
+      orderData.shippingCountryId = 0;
+      orderData.shippingZone = '';
+      orderData.shippingZoneId = 0;
+      orderData.shippingAddressFormat = '';
+      orderData.shippingCustomField = '';
+      orderData.commission = 0.0;
+      orderData.marketingId = 0;
+      orderData.languageId = 0;
+      orderData.ip = '';
+      orderData.forwardedIp = '';
+      orderData.userAgent = '';
+      orderData.acceptLanguage = '';
+      orderData.orderNumber = '12345';
+      orderData.invoicePrefix = 'S';
+      orderData.paymentFirstname = 'ABC';
+      orderData.paymentLastname = 'DEF';
+      orderData.paymentAddress1 = ' ';
+      orderData.paymentCity = 'KHH';
+      orderData.paymentPostcode = '123';
+      orderData.paymentMethod = 'unknow';
+      orderData.paymentCode = '1234';
+      orderData.shippingCity = 'KHH';
+      orderData.shippingPostcode = '123';
+      orderData.tracking = 'no';
+      for (const i in [...Array(10).keys()]) {
+        orderData.token = new Date().getTime();
+        const order = await Order.create(orderData);
+        order.setUser(user);
+        console.log('order1=>', order);
+      }
+      const orderStatus = await OrderStatus.create({
+        name:"PROCESSING",
+        languageId:0
+      });
+      console.log('orderStatus=>', orderStatus);
+
+      const confirmArray = [];
+      for (const j in [...Array(1).keys()]) {
+        confirmArray.push(
+          request(sails.hooks.http.app)
+          .put(`/api/admin/order/confirm/${j}`)
+          .send({ tracking: 'n/a', orderConfirmComment: 'no',})
+        );
+      }
+      const result = await Promise.all(confirmArray);
+
+      console.log('result=>', result);
+      // res.status.should.be.eq(200);
       // res.body.data.item.invoiceNo.should.be.eq('87654321');
       // res.body.data.product.length.should.be.eq(3);
 
