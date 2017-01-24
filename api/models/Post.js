@@ -24,6 +24,9 @@ module.exports = {
     abstract: {
       type: Sequelize.STRING,
     },
+    shortContent: {
+      type: Sequelize.STRING,
+    },
     coverType: {
       type: Sequelize.ENUM('img', 'video'),
       defaultValue: 'img',
