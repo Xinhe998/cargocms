@@ -261,7 +261,7 @@ module.exports = {
           shippingMethod: order.shippingMethod,
           shippingCode: order.shippingCode,
           comment: order.comment,
-          total: order.total,
+          total: 0,
           commission: order.commission,
           tracking: order.tracking,
           ip: order.ip,
@@ -279,6 +279,7 @@ module.exports = {
           comment: `訂單 ID: ${supplierShipOrder.OrderId} 已確認，建立 ${supplierName.name} 供應商出貨單 ID:${supplierShipOrder.id}.`
         });
 
+        let orderProductTotal = 0;
         for( let orderProduct of orderProducts ){
           if( orderProduct.Product.SupplierId === supplier ){
             await SupplierShipOrderProduct.create({
@@ -293,8 +294,12 @@ module.exports = {
               status: 'NEW',
             });
 
+            orderProductTotal += orderProduct.total;
           }
         }
+
+        supplierShipOrder.total = orderProductTotal;
+        await supplierShipOrder.save();
       }
 
       const messageConfig = await MessageService.paymentConfirm({
