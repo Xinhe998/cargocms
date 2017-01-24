@@ -159,9 +159,6 @@ module.exports = {
         },
         transaction
       })
-      // order.tracking = tracking;
-      // order.OrderStatusId = orderStatus.id;
-      // await order.save();
 
       await OrderHistory.create({
         notify: true,
@@ -173,12 +170,14 @@ module.exports = {
       sails.log.info('Order CONFIRM', Order);
 
       let suppliers = [];
-      let supplierOrderProduts = {};
+      let supplierOrderProduts = {}; //將 orderProduct 利用 supplier ID 作索引分類 supplier 的 supplierOrderProduct
+      let supplierShipOrderTotalList = {}; // 利用 supplier Id 作索引，分類出供應商產品價格數量的加總
       for (const orderProduct of orderProducts) {
 
         if (suppliers.indexOf(orderProduct.Product.SupplierId) === -1) {
           suppliers.push(orderProduct.Product.SupplierId);
           supplierOrderProduts[orderProduct.Product.SupplierId] = [];
+          supplierShipOrderTotalList[orderProduct.Product.SupplierId] = 0;
         }
 
         supplierOrderProduts[orderProduct.Product.SupplierId].push(
@@ -195,10 +194,12 @@ module.exports = {
           }
         );
 
+        supplierShipOrderTotalList[orderProduct.Product.SupplierId] += Number(orderProduct.total);
       }
-      console.log("### supplierOrderProduts ==>", supplierOrderProduts );
 
       const orderProductsName = orderProducts.map(data => data.name);
+
+      let supplierShipOrderCreateList = [];
 
       for (const supplier of suppliers) {
         // 產生Ship訂單編號
@@ -220,83 +221,76 @@ module.exports = {
         shipOrderNumber = date + shipOrderNumber + crc.substr(0, 3);
         sails.log.info('產生出貨單編號:', shipOrderNumber);
 
-        const supplierShipOrder = await SupplierShipOrder.create({
-          shipOrderNumber: shipOrderNumber,
-          OrderId: id,
-          SupplierId: supplier,
-          invoiceNo: order.invoiceNo,
-          invoicePrefix: order.invoicePrefix,
-          firstname: order.firstname,
-          lastname: order.lastname,
-          email: order.email,
-          telephone: order.telephone,
-          fax: order.fax,
-          customField: order.customField,
-          paymentFirstname: order.paymentFirstname,
-          paymentLastname: order.paymentLastname,
-          paymentCompany: order.paymentCompany,
-          paymentAddress1: order.paymentAddress1,
-          paymentAddress2: order.paymentAddress2,
-          paymentCity: order.paymentCity,
-          paymentPostcode: order.paymentPostcode,
-          paymentCountry: order.paymentCountry,
-          paymentCountryId: order.paymentCountryId,
-          paymentZone: order.paymentZone,
-          paymentZoneId: order.paymentZoneId,
-          paymentAddressFormat: order.paymentAddressFormat,
-          paymentCustomField: order.paymentCustomField,
-          paymentMethod: order.paymentMethod,
-          paymentCode: order.paymentCode,
-          shippingFirstname: order.shippingFirstname,
-          shippingLastname: order.shippingLastname,
-          shippingCompany: order.shippingCompany,
-          shippingAddress1: order.shippingAddress1,
-          shippingAddress2: order.shippingAddress2,
-          shippingCity: order.shippingCity,
-          shippingPostcode: order.shippingPostcode,
-          shippingCountry: order.shippingCountry,
-          shippingCountryId: order.shippingCountryId,
-          shippingZone: order.shippingZone,
-          shippingZoneId: order.shippingZoneId,
-          shippingAddressFormat: order.shippingAddressFormat,
-          shippingCustomField: order.shippingCustomField,
-          shippingMethod: order.shippingMethod,
-          shippingCode: order.shippingCode,
-          comment: order.comment,
-          total: order.total,
-          commission: order.commission,
-          tracking: order.tracking,
-          ip: order.ip,
-          forwardedIp: order.forwardedIp,
-          userAgent: order.userAgent,
-          acceptLanguage: order.acceptLanguage,
-          status: 'NEW',
-        }, { transaction });
-
-        const supplierName = await Supplier.findById(supplier);
-
-        await SupplierShipOrderHistory.create({
-          SupplierShipOrderId: supplierShipOrder.id,
-          notify: true,
-          comment: `訂單 ID: ${supplierShipOrder.OrderId} 已確認，建立 ${supplierName.name} 供應商出貨單 ID:${supplierShipOrder.id}.`
-        }, { transaction });
-
-        for (const orderProduct of orderProducts) {
-          if (orderProduct.Product.SupplierId === supplier) {
-            await SupplierShipOrderProduct.create({
-              SupplierShipOrderId: supplierShipOrder.id,
-              ProductId: orderProduct.ProductId,
-              name: orderProduct.name,
-              model: orderProduct.model,
-              quantity: orderProduct.quantity,
-              price: orderProduct.price,
-              total: orderProduct.total,
-              tax: orderProduct.tax,
-              status: 'NEW',
-            }, { transaction });
+        supplierShipOrderCreateList.push(
+          {
+            shipOrderNumber: shipOrderNumber,
+            OrderId: id,
+            SupplierId: supplier,
+            invoiceNo: order.invoiceNo,
+            invoicePrefix: order.invoicePrefix,
+            firstname: order.firstname,
+            lastname: order.lastname,
+            email: order.email,
+            telephone: order.telephone,
+            fax: order.fax,
+            customField: order.customField,
+            paymentFirstname: order.paymentFirstname,
+            paymentLastname: order.paymentLastname,
+            paymentCompany: order.paymentCompany,
+            paymentAddress1: order.paymentAddress1,
+            paymentAddress2: order.paymentAddress2,
+            paymentCity: order.paymentCity,
+            paymentPostcode: order.paymentPostcode,
+            paymentCountry: order.paymentCountry,
+            paymentCountryId: order.paymentCountryId,
+            paymentZone: order.paymentZone,
+            paymentZoneId: order.paymentZoneId,
+            paymentAddressFormat: order.paymentAddressFormat,
+            paymentCustomField: order.paymentCustomField,
+            paymentMethod: order.paymentMethod,
+            paymentCode: order.paymentCode,
+            shippingFirstname: order.shippingFirstname,
+            shippingLastname: order.shippingLastname,
+            shippingCompany: order.shippingCompany,
+            shippingAddress1: order.shippingAddress1,
+            shippingAddress2: order.shippingAddress2,
+            shippingCity: order.shippingCity,
+            shippingPostcode: order.shippingPostcode,
+            shippingCountry: order.shippingCountry,
+            shippingCountryId: order.shippingCountryId,
+            shippingZone: order.shippingZone,
+            shippingZoneId: order.shippingZoneId,
+            shippingAddressFormat: order.shippingAddressFormat,
+            shippingCustomField: order.shippingCustomField,
+            shippingMethod: order.shippingMethod,
+            shippingCode: order.shippingCode,
+            comment: order.comment,
+            total: supplierShipOrderTotalList[supplier],
+            commission: order.commission,
+            tracking: order.tracking,
+            ip: order.ip,
+            forwardedIp: order.forwardedIp,
+            userAgent: order.userAgent,
+            acceptLanguage: order.acceptLanguage,
+            status: 'NEW',
           }
+        )
+      }
+      const supplierShipOrder = await SupplierShipOrder.bulkCreate(supplierShipOrderCreateList, { transaction });
+
+      let supplierOrderProdutsCreateList = [];
+      for (let i = 0; i < supplierShipOrder.length; i++) {
+        //修改 出貨單訂單產品 內的出貨單ＩＤ
+        for(let index = 0; index < supplierOrderProduts[ supplierShipOrder[i].SupplierId ].length; index++) {
+          supplierOrderProduts[ supplierShipOrder[i].SupplierId ][index].SupplierShipOrderId = supplierShipOrder[i].id;
+
+          supplierOrderProdutsCreateList.push( supplierOrderProduts[ supplierShipOrder[i].SupplierId ][index] )
         }
       }
+      await SupplierShipOrderProduct.bulkCreate(supplierOrderProdutsCreateList, {transaction});
+
+
+
       transaction.commit();
       const message = 'Success Confirm Order';
       const item = order;
