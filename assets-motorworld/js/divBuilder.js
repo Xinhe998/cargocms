@@ -13,7 +13,7 @@ function getEntrance() {
   var isDebug = hasDebug && urlParams.split('?')[1].split('=')[1] == 'true';
   console.log('[Merlin] : should I magically show the entrance? =>', isDebug);
 
-  if(isDebug) {
+  if(true) {
     var timeStamp = new Date();
     iFrameTarget = mainUrl + '/entrance?t=' + timeStamp.getTime();
     iFrameDiv ='<iframe src=' + iFrameTarget + ' ' +
