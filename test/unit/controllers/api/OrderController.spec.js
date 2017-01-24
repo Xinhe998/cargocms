@@ -215,10 +215,10 @@ describe('about Order controllers', () => {
     }
   });
 
-  it.only('Order Controller get confirm order', async(done) => {
+  it('Order Controller get confirm order', async(done) => {
     try{
 
-      const token = '9487e7c8e88a68321af84bc7b77e2168';
+      // const token = '9487e7c8e88a68321af84bc7b77e2168';
       let product = [
         {
           id: product1.id,
@@ -288,20 +288,26 @@ describe('about Order controllers', () => {
       orderData.shippingCity = 'KHH';
       orderData.shippingPostcode = '123';
       orderData.tracking = 'no';
-      for (const i in [...Array(1).keys()]) {
-        orderData.token = new Date().getTime();
-        const order = await Order.create(orderData);
-        await order.setUser(user);
-        console.log('order1=>', order);
+
+      let makeOrders = []
+      for (let i = 0; i < 4; i++) {
+        let copyOrderData = {...orderData};
+        copyOrderData.token = `makeOrderNo.${i}`;
+        makeOrders.push(
+          request(sails.hooks.http.app)
+          .post(`/api/order`).set('Accept', 'application/json')
+          .send( copyOrderData )
+        );
       }
+      await Promise.all(makeOrders);
 
       const confirmArray = [];
-      const confirmToken = `confirm-${new Date().getTime()}`
-      for (const j in [...Array(1).keys()]) {
+      const confirmToken = `confirm-${new Date().getTime()}`;
+      for (let i = 0; i < 4; i++) {
         confirmArray.push(
           request(sails.hooks.http.app)
-          .put(`/api/admin/order/confirm/${Number(j) + 1}`)
-          .send({ tracking: 'n/a', orderConfirmComment: 'no', token: confirmToken })
+          .put(`/api/admin/order/confirm/${Number(i) + 1}`)
+          .send({ tracking: 'n/a', orderConfirmComment: 'no' })
         );
       }
       const result = await Promise.all(confirmArray);
@@ -318,7 +324,7 @@ describe('about Order controllers', () => {
     }
   });
 
-  it.skip('Order Controller confirm single order repeat', async(done) => {
+  it.only('Order Controller repeat confirm order ', async(done) => {
     try{
       let product = [
         {
@@ -391,16 +397,25 @@ describe('about Order controllers', () => {
       orderData.tracking = 'no';
 
       orderData.token = new Date().getTime();
-      const order = await Order.create(orderData);
-      await order.setUser(user);
-      console.log('create order=>', order);
+      const res = await request(sails.hooks.http.app)
+      .post(`/api/order`).set('Accept', 'application/json')
+      .send( orderData )
+
+      res.status.should.be.eq(200);
+
+      const order = await Order.findOne({
+        where: {
+          orderNumber: res.body.data.item.orderNumber
+        }
+      });
 
       const confirmArray = [];
-      for (const j in [...Array(10).keys()]) {
+      const confirmToken = `confirm-${new Date().getTime()}`;
+      for (let i = 0; i < 3; i++) {
         confirmArray.push(
           request(sails.hooks.http.app)
-          .put(`/api/admin/order/confirm/${order.id}}`)
-          .send({ tracking: 'n/a', orderConfirmComment: 'no',})
+          .put(`/api/admin/order/confirm/${order.id}`)
+          .send({ tracking: 'n/a', orderConfirmComment: 'no', token: confirmToken })
         );
       }
       const result = await Promise.all(confirmArray);
