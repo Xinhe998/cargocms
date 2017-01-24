@@ -135,47 +135,6 @@ module.exports = {
       orderConfirmComment = orderConfirmComment || '';
       const orderStatus = await OrderStatus.findOne({where:{name: 'PROCESSING'}})
 
-      const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
-
-      const updateOrderStats = (transaction) => {
-        return new Promise(function(resolve, reject) {
-          Order.update({
-            tracking: tracking,
-            OrderStatusId: orderStatus.id
-          }, {transaction})
-          .then(function(order) {
-            resolve(order);
-          }).catch(function(err){
-            reject(err);
-          });
-        });
-      };
-
-      const createOrderHistory = (transaction) => {
-        return new Promise(function(resolve, reject) {
-
-        });
-      }
-
-      let transaction;
-      return sequelize.transaction({ isolationLevel })
-      .then(function (t) {
-        transaction = t;
-        return updateOrderStats(transaction);
-      })
-      .then(function(order){
-        transaction.commit();
-        success(order);
-      })
-      .catch(sequelize.UniqueConstraintError, function(e) {
-        throw Error('此交易已失效，請重新確認訂單')
-      })
-      .catch(function(err) {
-        sails.log.error('訂單確認失敗', err.toString());
-        transaction.rollback();
-        error();
-      });
-
       let order = await Order.findById(id);
       order.tracking = tracking;
       order.OrderStatusId = orderStatus.id;
@@ -215,7 +174,7 @@ module.exports = {
 
       for( let supplier of suppliers){
 
-        let shipOrderNumber = await OrderService.orderNumberGenerator({modelName: 'SupplierShipOrder',userId: order.UserId, product: orderProductsData});
+        let shipOrderNumber = await OrderService.orderNumberGenerator({modelName: 'suppliershiporder',userId: order.UserId, product: orderProductsData});
         sails.log.info('產生出貨單編號:', shipOrderNumber);
 
         let supplierShipOrder = await SupplierShipOrder.create({

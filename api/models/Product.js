@@ -84,7 +84,7 @@ module.exports = {
         try {
           let dateTime = this.getDataValue('dateAvailable');
           if(dateTime){
-            dateTime = UtilsService.DataTimeFormat();
+            dateTime = UtilsService.DataTimeFormat(dateTime);
             return dateTime.date;
           }
           return '';

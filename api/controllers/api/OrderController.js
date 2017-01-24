@@ -18,6 +18,12 @@ module.exports = {
       // data.forwardedIp = req.headers["X-Forwarded-For"] || '';
       data.acceptLanguage = req.header["accept-language"] || '';
 
+      // check Product Numbers
+      const products = JSON.parse(data.products);
+      const stock = await ProductService.checkStock({products});
+      if (!stock) throw Error('訂購的產品庫存量不足！');
+
+
       const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
 
       const success = (order) => {

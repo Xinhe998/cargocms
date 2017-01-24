@@ -36,6 +36,28 @@ module.exports = {
     }
   },
 
+  checkStock: async ({products}) => {
+    try{
+      let stock = true;
+      for(let p of products){
+        let product = await Product.findOne({
+          where: {
+            id: p.id,
+          },
+        });
+
+        if (product.quantity < p.quantity) {
+          stock = false;
+          break;
+        }
+      }
+
+      return stock;
+    } catch (e) {
+      sails.log.error(e);
+    }
+  },
+
   create: async ({data}) => {
     try{
       //ignore column
@@ -64,7 +86,7 @@ module.exports = {
     try{
       //ignore column
       data.points = 0;
-      
+
       const categories = data.categoriesId.map( function (data) {
         return { id: data };
       });
