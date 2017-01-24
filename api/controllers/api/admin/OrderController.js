@@ -215,7 +215,7 @@ module.exports = {
 
       for( let supplier of suppliers){
 
-        let shipOrderNumber = await OrderService.orderNumberGenerator({modelName: 'SupplierShipOrder',userId: order.UserId, product: orderProductsData});
+        let shipOrderNumber = await OrderService.orderNumberGenerator({modelName: 'suppliershiporder',userId: order.UserId, product: orderProductsData});
         sails.log.info('產生出貨單編號:', shipOrderNumber);
 
         let supplierShipOrder = await SupplierShipOrder.create({
