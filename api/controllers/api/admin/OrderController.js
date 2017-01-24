@@ -149,9 +149,19 @@ module.exports = {
       if (!order.id) {
         throw new Error(`order id ${id} is not exist!`);
       }
-      order.tracking = tracking;
-      order.OrderStatusId = orderStatus.id;
-      await order.save();
+
+      await Order.update({
+        tracking: tracking,
+        OrderStatusId: orderStatus.id
+      },{
+        where: {
+          id
+        },
+        transaction
+      })
+      // order.tracking = tracking;
+      // order.OrderStatusId = orderStatus.id;
+      // await order.save();
 
       await OrderHistory.create({
         notify: true,
@@ -170,6 +180,7 @@ module.exports = {
       }
 
       const orderProductsName = orderProducts.map(data => data.name);
+
       for (const supplier of suppliers) {
         // 產生Ship訂單編號
         const date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
