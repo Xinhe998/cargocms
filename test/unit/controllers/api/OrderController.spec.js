@@ -23,9 +23,9 @@ describe('about Order controllers', () => {
 
       await mockAdmin();
 
-      product1 = await createHelper.product('Product A');
-      product2 = await createHelper.product('Product B');
-      product3 = await createHelper.product('Product C');
+      product1 = await createHelper.product('波士頓龍蝦');
+      product2 = await createHelper.product('肥美黑鮪魚');
+      product3 = await createHelper.product('鮮甜大扇貝');
 
       await createHelper.orderStatus();
 
@@ -288,7 +288,7 @@ describe('about Order controllers', () => {
       orderData.shippingCity = 'KHH';
       orderData.shippingPostcode = '123';
       orderData.tracking = 'no';
-      for (const i in [...Array(10).keys()]) {
+      for (const i in [...Array(1).keys()]) {
         orderData.token = new Date().getTime();
         const order = await Order.create(orderData);
         await order.setUser(user);
@@ -297,7 +297,7 @@ describe('about Order controllers', () => {
 
       const confirmArray = [];
       const token = `confirm-${new Date().getTime();}`
-      for (const j in [...Array(4).keys()]) {
+      for (const j in [...Array(1).keys()]) {
         confirmArray.push(
           request(sails.hooks.http.app)
           .put(`/api/admin/order/confirm/${Number(j) + 1}`)
