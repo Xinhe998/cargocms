@@ -18,6 +18,8 @@ exports.register = async (req, res, next) => {
   let phone2    = req.param('phone2');
   let address   = req.param('address');
   let address2  = req.param('address2');
+  let sexuality  = req.param('sexuality');
+  let subscriberId  = req.param('subscriberId');
   const verificationEmailToken = crypto.randomBytes(32).toString('hex').substr(0, 32);
 
   try {
@@ -54,6 +56,12 @@ exports.register = async (req, res, next) => {
       provider: 'local',
       protocol: 'local',
       password: password,
+      UserId: user.id
+    });
+
+    let userDetail = await UserDetail.create({
+      sexuality,
+      subscriberId,
       UserId: user.id
     });
 

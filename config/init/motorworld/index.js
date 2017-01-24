@@ -1,4 +1,5 @@
 // import product from './product/index.js';
+import userDetail from './userdetail/index.js';
 
 module.exports.init = async function(){
   // await product.init();
@@ -31,6 +32,8 @@ module.exports.init = async function(){
 
 
     await MenuItem.bulkCreate(createMenuItems);
+
+    await userDetail.init();
 
   } catch (e) {
     console.error(e);
