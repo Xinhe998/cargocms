@@ -204,6 +204,8 @@ module.exports = {
       for (const supplier of suppliers) {
         // 產生Ship訂單編號
         const date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
+        let second = new Date().getTime().toString();
+        second = second.substr( second.length - 4 );
         const _where = {
           where: sequelize.where(
             User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
@@ -218,7 +220,7 @@ module.exports = {
           shipOrderNumber = '00001';
         }
         const crc = sh.unique(`${order.UserId}${orderProductsName.toString()}${date}${shipOrderNumber}`);
-        shipOrderNumber = date + shipOrderNumber + crc.substr(0, 3);
+        shipOrderNumber = date + second + shipOrderNumber + crc.substr(0, 3);
         sails.log.info('產生出貨單編號:', shipOrderNumber);
 
         supplierShipOrderCreateList.push(

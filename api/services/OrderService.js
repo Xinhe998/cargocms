@@ -220,6 +220,9 @@ module.exports = {
     try {
       //產生訂單編號
       let date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
+      let second = new Date().getTime().toString();
+      second = second.substr( second.length - 4 );
+
       let orderNumber = await Order.findAll({
         where: sequelize.where(
           User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
@@ -236,7 +239,7 @@ module.exports = {
       }
 
       const crc = sh.unique(`${userId}${product}${date}${orderNumber}`);
-      orderNumber = date + orderNumber + crc.substr(0, 3);
+      orderNumber = date + second + orderNumber + crc.substr(0, 3);
 
       return orderNumber;
     } catch (e) {
