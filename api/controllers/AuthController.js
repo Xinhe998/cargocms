@@ -24,6 +24,8 @@ module.exports = {
           user,
           authenticated,
           count,
+          // url: sails.config.appUrl + '?debug=true',
+          url: 'http://www.motorworld.com.tw/home?debug=true',
         }
       }
     )
@@ -39,6 +41,13 @@ module.exports = {
       if(form) user = form;
 
       let url = req.query.url || '/';
+
+      // TODO 判斷是否為手機
+      if(UtilsService.isMobile(req)) {
+        url = 'http://m.motorworld.com.tw/?debug=true';
+      } else {
+        url = 'http://www.motorworld.com.tw/home?debug=true';
+      }
       // res.ok({
       //   //layout: false,
       //   user,
@@ -194,6 +203,21 @@ module.exports = {
   forgot: function(req, res) {
     try {
       res.ok({ view: true, reCAPTCHAKey: sails.config.reCAPTCHA.key });
+    } catch (e) {
+      res.serverError(e);
+    }
+  },
+
+  facebookRedirect: function(req, res) {
+    try {
+      console.log("!!!!!!!!!!!!!!!!!!!!!");
+      let url = "/";
+      if(UtilsService.isMobile(req)) {
+        url = 'http://m.motorworld.com.tw/';
+      } else {
+        url = 'http://www.motorworld.com.tw/home?debug=true';
+      }
+      return res.redirect(url);
     } catch (e) {
       res.serverError(e);
     }

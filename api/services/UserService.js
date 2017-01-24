@@ -21,7 +21,9 @@ module.exports = {
     phone1,
     phone2,
     address,
-    address2
+    address2,
+    sexuality,
+    subscriberId
   }) => {
     try {
       sails.log.info({
@@ -35,7 +37,9 @@ module.exports = {
         phone1,
         phone2,
         address,
-        address2
+        address2,
+        sexuality,
+        subscriberId
       });
       const findExistUser = await User.find({
         where: { $or: [ {username}, {email} ] }
@@ -59,6 +63,12 @@ module.exports = {
       await Passport.create({
         provider: 'local',
         password: Passports[0].password,
+        UserId: user.id
+      });
+
+      await UserDetail.create({
+        sexuality,
+        subscriberId,
         UserId: user.id
       });
 

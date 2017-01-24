@@ -1,0 +1,38 @@
+<fieldset>
+
+  
+    <section row="">
+      <label class="label">訂戶編號</label>
+      <label class="input state-disabled ">
+      <input type="text" name="subscriberId" placeholder="" v-model="data.item.subscriberId" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入訂戶編號</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">性別</label>
+      <label class="input state-disabled ">
+      <input type="text" name="sexuality" placeholder="" v-model="data.item.sexuality" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入性別</b></label>
+    </section>
+  
+
+</fieldset>
+<script>
+  var formRules = {
+    subscriberId:{
+      required: true,
+    },
+    sexuality:{
+      required: true,
+    },
+  };
+
+  var formMessages = {
+    subscriberId:{
+      required: "請給予 訂戶編號",
+    },
+    sexuality:{
+      required: "請給予 性別",
+    },
+  };
+</script>

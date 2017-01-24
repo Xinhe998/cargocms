@@ -29,6 +29,9 @@
       <th class="" data-hide="always"> 市話</th>
       <th class="" data-hide="always"> 收件地址1</th>
       <th class="" data-hide="always"> 收件地址2</th>
+      <th class="" data-hide="always"> 性別</th>
+      <th class="" data-hide="always"> 訂戶編號</th>
+
       <th width="10%" data-hide="phone,tablet">
 				<i class="fa fa-fw fa-clock-o text-muted hidden-sm hidden-xs"></i>
 				最近登入時間
@@ -47,7 +50,7 @@
       <td>{{ item.phone1 }}</td>
       <td>{{ item.phone2 }}</td>
       <td>{{ item.address }}</td>
-			<td>{{ item.address2 }}</td>
+      <td>{{ item.address2 }}</td>
 			<td><small>{{ item.lastLogin }}</small></td>
 			<td align="center" style="cursor: pointer;">
 				<div class="row">
@@ -77,7 +80,9 @@
       { "data": "phone1" },
       { "data": "phone2" },
       { "data": "address" },
-			{ "data": "address2" },
+      { "data": "address2" },
+      { "data": null },
+			{ "data": null },
 			{ "data": "lastLogin" },
 			{ "data": null }
 		]
@@ -102,15 +107,38 @@
       },
 			{
 				"targets" : 10,
+        "searchable": false,
+        "orderable": false,
 				"render": function(data, type, row) {
-					if (!data) {
-						return '<span class="text-muted"><small>沒有記錄</small></span>';
+					if (!row.UserDetail) {
+						return '<span class="text-muted"></span>';
 					}
-					return '<span class="txt-color-blueDark"><small>' + data + '</small></span>';
+					return '<span class="txt-color-blueDark">' + row.UserDetail.sexuality + '</span>';
 				}
 			},
+      {
+        "targets" : 11,
+        "searchable": false,
+        "orderable": false,
+        "render": function(data, type, row) {
+          if (!row.UserDetail) {
+            return '<span class="text-muted"></span>';
+          }
+          return '<span class="txt-color-blueDark">' + row.UserDetail.subscriberId + '</span>';
+        }
+      },
+      {
+        "targets" : 12,
+        "searchable": false,
+        "render": function(data, type, row) {
+          if (!data) {
+            return '<span class="text-muted"><small></small></span>';
+          }
+          return '<span class="txt-color-blueDark"><small>' + data + '</small></span>';
+        }
+      },
 			{
-				"targets"  : 11,
+				"targets"  : 13,
 				"orderable": false,
 				"searchable": false,
 				"render": function ( data, type, row ) {

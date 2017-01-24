@@ -4,6 +4,32 @@ import moment from 'moment';
 import axios from 'axios';
 
 module.exports = {
+  getCurrentUser: async (req, res) => {
+    try {
+      if (!req.user.id)
+        throw Error('no login');
+
+      const where = {
+        where: {
+          id: req.user.id,
+        },
+        include: [
+          Role,
+          Supplier,
+        ],
+      };
+      const currentUser = await User.find(where);
+      const result = {
+        data: {
+          currentUser,
+        },
+      };
+      res.ok(result);
+    } catch (e) {
+      res.serverError(e);
+    }
+  },
+  
   follow: async (req, res) => {
     try {
       const { id } = req.params;

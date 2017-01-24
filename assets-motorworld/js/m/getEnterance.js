@@ -1,29 +1,28 @@
-var mainUrl = 'http://sso.motorworld.com.tw';
+// var mainUrl = 'http://beta.motorworld.com.tw';
 // var mainUrl = window.location.origin;
-// var mainUrl = 'http://localhost:5001';
+var mainUrl = 'http://localhost:5001';
 //----------------------------------------------------------------------------/
 //------------------------------- main part ----------------------------------//
 //----------------------------------------------------------------------------//
-// javascript: (function(e, s) {
-//     e.src = s;
-//     e.onload = function() {
-//         jQuery.noConflict();
-//         console.log('jQuery injected');
-//
-//         $ = jQuery;
-//         refuel();
-//         console.log("[Merlin] : refuel!");
-//     };
-//     document.head.appendChild(e);
-// })(document.createElement('script'), '//code.jquery.com/jquery-latest.min.js');
-$(document).ready(function() {
-  refuel();
-});
+javascript: (function(e, s) {
+    e.src = s;
+    e.onload = function() {
+        jQuery.noConflict();
+        console.log('jQuery injected');
+
+        $ = jQuery;
+        refuel();
+        console.log("[Merlin] : refuel!");
+    };
+    document.head.appendChild(e);
+})(document.createElement('script'), '//code.jquery.com/jquery-latest.min.js');
+
 //-------------------------------- refuel ------------------------------------//
 function refuel() {
 
   if($('div#member').length == 0) {
-    $('div#top-field1').append('<div id="member"></div>') ;
+    // $('div.top-line').after('<div id="member"></div>') ;
+    $('div.m-toolbar').append('<div id="member"></div>') ;
   }
 
   var jsUrl = mainUrl + "/assets/motorworld/js/postscribe.min.js";
@@ -43,7 +42,7 @@ function refuel() {
 function launch() {
 
   var timeStamp = new Date();
-  var jsUrl = mainUrl + "/assets/motorworld/js/divBuilder.js?t=" + timeStamp;
+  var jsUrl = mainUrl + "/assets/motorworld/js/m/divBuilder.js?t=" + timeStamp;
   $.getScript(jsUrl)
     .done(function(script, textStatus) {
       getEntrance();

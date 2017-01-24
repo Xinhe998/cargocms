@@ -1,6 +1,6 @@
-var mainUrl = 'http://sso.motorworld.com.tw';
+// var mainUrl = 'http://beta.motorworld.com.tw';
 // var mainUrl = window.location.origin;
-// var mainUrl = 'http://localhost:5001';
+var mainUrl = 'http://localhost:5001';
 
 var divId = '#member';
 var urlParams = '';
@@ -28,10 +28,14 @@ function getEntrance() {
 }
 
 function setStyle() {
-  $(divId).css('right', '120px');
-  $(divId).css('width', '200px');
-  $(divId).css('position', 'absolute');
-  $(divId).css('margin-top', '80px');
+  $(divId).css('text-align', 'center');
+  $(divId).css('background-color', 'white');
+  $(divId).css('width', '100%');
   $(divId).css('height', height + 'px');
-  $('div#top-field1').css('padding-bottom', '25px');
+  $(divId).css('padding-top', '10px');
+
+  $(divId).css('top', '10px');
+  $(divId).css('position', 'absolute');
+  $(divId).css('z-index', '999999');
+  $('div.m-toolbar').css('padding-top', '50px');
 }

@@ -5,11 +5,14 @@ module.exports = {
       let {query} = req
       let {serverSidePaging} = query
       let modelName = req.options.controller.split("/").reverse()[0]
+      const include = [ UserDetail ];
       let result;
       if(serverSidePaging){
-        result = await PagingService.process({query, modelName});
+        result = await PagingService.process({query, modelName, include});
       }else {
-        const items = await sails.models[modelName].findAll();
+        const items = await sails.models[modelName].findAll(
+          { include }
+        );
         result = {data: {items}}
       }
       res.ok(result);
@@ -36,6 +39,10 @@ module.exports = {
   create: async (req, res) => {
     const data = req.body;
     try {
+      data.sexuality = data.UserDetail.sexuality;
+      data.subscriberId = data.UserDetail.subscriberId || '';
+      delete data.UserDetail;
+      
       sails.log.info('create user controller=>', data);
       const user = await UserService.create(data);
 

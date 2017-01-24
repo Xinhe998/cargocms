@@ -69,6 +69,7 @@ var defaultConfig = {
   'put /api/admin/message/:id':    'api/admin/MessageController.update',
   'delete /api/admin/message/:id': 'api/admin/MessageController.destroy',
 
+  'get /api/user/current':  'api/UserController.getCurrentUser',
   'post /api/user/follow/:id':    'api/UserController.follow',
   'post /api/user/unfollow/:id':  'api/UserController.unfollow',
   'post /api/user/edit':      'api/UserController.update',
@@ -203,6 +204,7 @@ var defaultConfig = {
   'get /logout': 'AuthController.logout',
   'get /register': 'AuthController.register',
   'get /forgot': 'AuthController.forgot',
+  'get /facebook/redirect': 'AuthController.facebookRedirect',
 
   'post /auth/local': 'AuthController.callback',
   'post /auth/local/:action': 'AuthController.callback',
@@ -228,9 +230,7 @@ var defaultConfig = {
 module.exports.routes = {
 
 
-  '/': {
-    view: 'index'
-  },
+  '/': 'MainController.index',
 
   'get /product': 'b2b/ProductController.index',
 

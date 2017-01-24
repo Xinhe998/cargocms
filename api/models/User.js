@@ -205,7 +205,7 @@ module.exports = {
           where: {
             id
           },
-          include: [ Role, {
+          include: [ UserDetail, Role, {
               model: Passport,
               where: { provider: 'local' },
               required: false
