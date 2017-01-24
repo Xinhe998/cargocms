@@ -10,7 +10,7 @@ module.exports = {
       if(UtilsService.isMobile(req)) {
         url = 'http://m.motorworld.com.tw/';
       } else {
-        url = 'http://www.motorworld.com.tw/home?debug=true';
+        url = 'http://www.motorworld.com.tw/home';
       }
       return res.redirect(url);
     } catch (e) {
