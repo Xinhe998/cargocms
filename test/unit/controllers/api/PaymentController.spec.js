@@ -18,9 +18,9 @@ describe('about PaymentController controllers', () => {
         address2: '台中市',
       });
 
-      product1 = await createHelper.product('Product A');
-      product2 = await createHelper.product('Product B');
-      product3 = await createHelper.product('Product C');
+      product1 = await createHelper.product({name: 'Product A'});
+      product2 = await createHelper.product({name: 'Product B'});
+      product3 = await createHelper.product({name: 'Product C'});
 
       orderStatus = await createHelper.orderStatus('NEW');
       order = await createHelper.multipleOrder([product1.id, product2.id, product3.id], orderStatus.id);

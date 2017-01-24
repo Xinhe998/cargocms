@@ -20,9 +20,9 @@ describe('about Order controllers', () => {
 
       await mockAdmin();
 
-      product1 = await createHelper.product('Product A');
-      product2 = await createHelper.product('Product B');
-      product3 = await createHelper.product('Product C');
+      product1 = await createHelper.product({name: 'Product A'});
+      product2 = await createHelper.product({name: 'Product B'});
+      product3 = await createHelper.product({name: 'Product C'});
 
       await createHelper.orderStatus();
 

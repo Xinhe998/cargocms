@@ -34,5 +34,57 @@ module.exports = {
     } catch (e) {
       sails.log.error(e);
     }
+  },
+
+  create: async ({data}) => {
+    try{
+      //ignore column
+      data.points = 0;
+
+      const categories = data.categoriesId.map( function (data) {
+        return { id: data };
+      });
+      const productCategory = await Category.findAll({
+        where: {
+          '$or': categories
+        }
+      })
+
+      const product = await Product.create(data);
+
+      await product.setCategories(productCategory);
+
+      return product;
+    } catch (e) {
+      sails.log.error(e);
+    }
+  },
+
+  update: async ({id, data}) => {
+    try{
+      //ignore column
+      data.points = 0;
+      
+      const categories = data.categoriesId.map( function (data) {
+        return { id: data };
+      });
+      const productCategory = await Category.findAll({
+        where: {
+          '$or': categories
+        }
+      })
+
+      let product = await Product.update(data, {
+        where: {
+          id
+        }
+      });
+      product = await Product.findById(id);
+
+      await product.setCategories(productCategory);
+      return product;
+    } catch (e) {
+      sails.log.error(e);
+    }
   }
 }

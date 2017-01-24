@@ -36,10 +36,14 @@ var appModel = {
       sortOrder:'',
       publish:'',
       viewed:'',
+      Categories:[],
+      categoriesId: [],
+      categoriesNameArray:[],
     },
     items: [],
     option: {
       defaultSort: [[ 0, 'desc' ]],
+      categoryList: [],
     }
   },
   view: {
@@ -54,6 +58,26 @@ var appModel = {
 <%- include ../default/vue.ejs %>
 // 需要新增函式可以對 appMain 進行定義，如：
 // appMain.log = function () {console.log("123")}
+appMain.showPageHidden = function(){
+  $('.fn-show-hidden').hide();
+}
+
+appMain.addCategory = function (event) {
+  var category = $('select[name=categoriesId]').val();
+  appMain.data.item.categoriesId = category;
+};
+
+appMain.loadCategory = function () {
+
+  $.get('/api/admin/category', ajaxSuccess);
+
+  function ajaxSuccess(result) {
+    if (result.success) {
+      appModel.data.option.categoryList = result.data.items;
+    }
+  } // end ajaxSuccess
+}
+
 appMain.enableText = function () {
   $('textarea').attr('disabled', false);
 }
