@@ -45,7 +45,7 @@ module.exports = {
       const item = await Category.create(data);
 
       await CategoryDescription.create({
-        ...data,
+        ...data.CategoryDescription,
         CategoryId: item.id
       });
 

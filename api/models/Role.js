@@ -4,14 +4,7 @@ module.exports = {
   },
 
   associate: (models) => {
-    User.belongsToMany(Role, {
-
-      through: 'UserRole',
-      foreignKey: {
-        name: 'RoleId',
-        as: 'Users'
-      }
-    });
+    
   },
   options: {
   }

@@ -192,6 +192,14 @@ module.exports = {
       }
     });
 
+    Role.belongsToMany(User, {
+      through: 'UserRole',
+      foreignKey: {
+        name: 'RoleId',
+        as: 'Users'
+      }
+    });
+
     User.belongsTo(Supplier);
 
 
@@ -205,7 +213,7 @@ module.exports = {
           where: {
             id
           },
-          include: [ Role, {
+          include: [ Supplier, Role, {
               model: Passport,
               where: { provider: 'local' },
               required: false

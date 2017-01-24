@@ -143,9 +143,25 @@ module.exports = {
     } catch (e) {
       throw e;
     }
+  },
+  orderConfirm: (order = {
+    email, serialNumber, username
+  }) => {
+    try {
+      var orderConfirmTemplete = sails.config.mail.templete.orderConfirm;
+      var mailSendConfig = {...orderConfirmTemplete, to: order.email};
+      mailSendConfig.subject = sprintf(mailSendConfig.subject, {orderSerialNumber: order.serialNumber});
+      mailSendConfig.text = sprintf(mailSendConfig.text, {
+        storeName: sails.config.storeName,
+        username: order.username
+      });
 
+      mailSendConfig.type = 'orderConfirm';
 
-
+      return mailSendConfig;
+    } catch (e) {
+      throw e;
+    }
   },
   deliveryConfirm: (order) => {
 

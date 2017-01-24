@@ -14,21 +14,28 @@ module.exports.init = async () => {
 
       const supplier = await Supplier.findAll();
       // supplier 關聯 admin 使用者
-      await User.update({
-        SupplierId: supplier[0].id
-      },{
+      const user1 = await User.find({
         where: {
           username: 'admin'
-        }
+        },
       });
+      user1.SupplierId = supplier[0].id;
+      await user1.save();
 
-      await User.update({
-        SupplierId: supplier[1].id
-      },{
+      const user2 = await User.find({
         where: {
           username: 'admin2'
-        }
+        },
       });
+      user2.SupplierId = supplier[1].id;
+      await user2.save();
+
+      const supplierRole = await Role.findOrCreate({
+        where: {authority: 'supplier'},
+        defaults: {authority: 'supplier'}
+      });
+      await user1.addRole(supplierRole[0]);
+      await user2.addRole(supplierRole[0]);
     }
   } catch (e) {
     console.error(e);

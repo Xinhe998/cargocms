@@ -23,12 +23,13 @@
       <th width="" class="" data-hide="always">寬度</th>
       <th width="" class="" data-hide="always">高度</th>
       <th width="" class="" data-hide="always">賣出時減少</th>
-      <th width="" class="">最小數量</th>
+      <th width="" class="">最小存量</th>
       <th width="" class="" data-hide="phone">排序</th>
       <th width="" class="" data-hide="phone">公開狀態</th>
       <th width="" class="" data-hide="phone">瀏覽數</th>
       <th width="" class="" data-hide="always">建立時間</th>
       <th width="" class="" data-hide="always">更新時間</th>
+      <th width="" class="" data-hide="always">產品分類</th>
 			<th width="10%" data-hide="phone,tablet">操作</th>
 		</tr>
 	</thead>
@@ -61,6 +62,7 @@
       <td>{{ item.viewed }}</td>
       <td>{{ item.createdAt }}</td>
       <td>{{ item.updatedAt }}</td>
+      <td>{{ item.Categories[0].CategoryDescription.name }}</td>
 			<td align="center" style="cursor: pointer;">
 				<div class="row">
 					<a class="btn btn-default btn-xs" role="button" v-on:click="show(item.id)">
@@ -107,6 +109,7 @@
       { "data": "viewed"},
       { "data": "createdAt"},
       { "data": "updatedAt"},
+      { "data": null },
 			{ "data": null }
 		]
 
@@ -137,8 +140,19 @@
           return '<td>' + row.updatedDateTime.dateTime + '</td>';
         }
       },
+      {
+        "searchable": false,
+        "targets": 26,
+        "render": function (data, type, row) {
+          var output = '';
+          for( index in row.Categories ) {
+            output += `${row.Categories[index].CategoryDescription.name}, `
+          }
+          return '<td>' + output + '</td>';
+        }
+      },
 			{
-				"targets"  : 26,
+				"targets"  : 27,
 				"orderable": false,
 				"searchable": false,
 				"render": function ( data, type, row ) {

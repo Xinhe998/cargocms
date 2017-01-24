@@ -179,6 +179,31 @@ module.exports = {
       }
     },
 
+    categoriesId: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          const tihsCategoies = this.getDataValue('Categories');
+          const categories = tihsCategoies ? tihsCategoies.map((category) => category.id) : [];
+          return categories;
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
+    },
+    categoriesNameArray: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          const tihsCategoies = this.getDataValue('Categories');
+          const categories = tihsCategoies ? tihsCategoies.map((category) => category.CategoryDescription.name) : [];
+          return categories;
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
+    },
+
     // stockStatusId: {
     //   type: Sequelize.INTEGER(11),
     //   allowNull: false,

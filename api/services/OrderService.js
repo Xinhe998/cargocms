@@ -19,7 +19,7 @@ module.exports = {
       data.total = totalPrice;
 
 
-      data.orderNumber = await OrderService.orderNumberGenerator({userId: data.UserId, product: data.porducts})
+      data.orderNumber = await OrderService.orderNumberGenerator({modelName: 'Order', userId: data.UserId, product: data.porducts})
       sails.log.info('產生訂單編號:',data.orderNumber);
 
       data.tracking = '訂單建立';
@@ -242,11 +242,11 @@ module.exports = {
     }
   },
 
-  orderNumberGenerator: async ({userId, product}) => {
+  orderNumberGenerator: async ({modelName, userId, product}) => {
     try {
       //產生訂單編號
       let date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
-      let orderNumber = await Order.findAll({
+      let orderNumber = await sails.models[modelName].findAll({
         where: sequelize.where(
           User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
         )

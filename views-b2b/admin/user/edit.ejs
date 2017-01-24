@@ -7,8 +7,12 @@
 
 	var pagefunction = function() {
 		<%- include vue.ejs %>
+    appMain.loadSupllier();
 		appMain.$mount("#main-edit");
-		appMain.loadItem(appMain.onEnterPageEdit);
+		appMain.loadItem( function(){
+      appMain.onEnterPageEdit();
+      appMain.supplierRole();
+    });
 
 
 		$('label.user').removeClass('state-disabled');
@@ -17,6 +21,7 @@
 
 		appMain.setupForm("edit");
     appMain.DateOfBirthday();
+
 	};
 
 </script>
