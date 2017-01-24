@@ -1,7 +1,14 @@
 function getProductInfo(productDom) {
   var max = parseInt(productDom.find('input').prop('max'));
   var number = parseInt(productDom.find('input').val());
-  if (number > max ) number = max;
+  if (number > max ){
+    number = max;
+    swal({
+      title:'提示',
+      text: `<p>訂購數量超過庫存量。</p></br></p>可購買數量 ${max} 包</p>`, 
+      html: true
+    })
+  }
   if(!number) number = 0;
   var product = {
     id: productDom.data('id'),
