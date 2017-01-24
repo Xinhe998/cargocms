@@ -296,12 +296,12 @@ describe('about Order controllers', () => {
       }
 
       const confirmArray = [];
-      const token = `confirm-${new Date().getTime();}`
+      const confirmToken = `confirm-${new Date().getTime()}`
       for (const j in [...Array(1).keys()]) {
         confirmArray.push(
           request(sails.hooks.http.app)
           .put(`/api/admin/order/confirm/${Number(j) + 1}`)
-          .send({ tracking: 'n/a', orderConfirmComment: 'no', token })
+          .send({ tracking: 'n/a', orderConfirmComment: 'no', token: confirmToken })
         );
       }
       const result = await Promise.all(confirmArray);
