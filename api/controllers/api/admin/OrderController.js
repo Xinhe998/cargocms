@@ -173,11 +173,30 @@ module.exports = {
       sails.log.info('Order CONFIRM', Order);
 
       let suppliers = [];
-      for (const order of orderProducts) {
-        if (suppliers.indexOf(order.Product.SupplierId) === -1) {
-          suppliers.push(order.Product.SupplierId);
+      let supplierOrderProduts = {};
+      for (const orderProduct of orderProducts) {
+
+        if (suppliers.indexOf(orderProduct.Product.SupplierId) === -1) {
+          suppliers.push(orderProduct.Product.SupplierId);
+          supplierOrderProduts[orderProduct.Product.SupplierId] = [];
         }
+
+        supplierOrderProduts[orderProduct.Product.SupplierId].push(
+          {
+            SupplierShipOrderId: 0,
+            ProductId: orderProduct.ProductId,
+            name: orderProduct.name,
+            model: orderProduct.model,
+            quantity: orderProduct.quantity,
+            price: orderProduct.price,
+            total: orderProduct.total,
+            tax: orderProduct.tax,
+            status: 'NEW',
+          }
+        );
+
       }
+      console.log("### supplierOrderProduts ==>", supplierOrderProduts );
 
       const orderProductsName = orderProducts.map(data => data.name);
 
