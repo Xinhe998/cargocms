@@ -90,6 +90,24 @@
 .no-product {
   text-align: center;
   .no-product-img {
-    height: 200px;
+    display: block;
+    margin: 0 auto;
+    width: 204px;
+    margin-bottom: 3em;
+    transform: translateX(-5px);
+  }
+  span {
+    font-size: 2em;
+    color: #71787d;
+  }
+  @media (max-width: 1074px) {
+    .no-product-img {
+      width: 136px;
+      margin-bottom: 2.3em;
+    }
+    span {
+      font-size: 1.3em;
+      padding-left: 10px
+    }
   }
 }
