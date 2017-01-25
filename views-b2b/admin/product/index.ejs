@@ -5,6 +5,7 @@
 		<tr>
 			<th width="8%" class="" data-hide="phone"><i class="fa fa-fw text-muted fa-hashtag hidden-sm hidden-xs"/> ID</th>
       <th width="10%" class="" data-class="expand">名稱</th>
+      <!--
       <th width="" class="" data-hide="always">SKU</th>
       <th width="" class="" data-hide="always">UPC</th>
       <th width="" class="" data-hide="always">EAN</th>
@@ -12,9 +13,10 @@
       <th width="" class="" data-hide="always">ISBN</th>
       <th width="" class="" data-hide="always">MPN</th>
       <th width="" class="" data-hide="always">Location</th>
+      -->
       <th width="" class="">數量</th>
       <th width="" class="" data-hide="phone">圖片</th>
-      <th width="" class="" data-hide="always">是否可運送</th>
+      <th width="" class="shipping" data-hide="always">是否可運送</th>
       <th width="" class="" data-hide="">價格</th>
 			<th width="" class="" data-hide="always">點數</th>
       <th width="" class="" data-hide="always">釋出日期</th>
@@ -22,14 +24,15 @@
       <th width="" class="" data-hide="always">長度</th>
       <th width="" class="" data-hide="always">寬度</th>
       <th width="" class="" data-hide="always">高度</th>
-      <th width="" class="" data-hide="always">賣出時減少</th>
+      <th width="" class="subtract" data-hide="always">賣出時減少</th>
       <th width="" class="">最小存量</th>
       <th width="" class="" data-hide="phone">排序</th>
       <th width="" class="" data-hide="phone">公開狀態</th>
       <th width="" class="" data-hide="phone">瀏覽數</th>
       <th width="" class="" data-hide="always">建立時間</th>
       <th width="" class="" data-hide="always">更新時間</th>
-      <th width="" class="" data-hide="always">產品分類</th>
+      <th width="" class="supplier" data-hide="always">供應商</th>
+      <th width="" class="category" data-hide="always">產品分類</th>
 			<th width="10%" data-hide="phone,tablet">操作</th>
 		</tr>
 	</thead>
@@ -62,6 +65,7 @@
       <td>{{ item.viewed }}</td>
       <td>{{ item.createdAt }}</td>
       <td>{{ item.updatedAt }}</td>
+      <td>{{ item.Supplier.name }}</td>
       <td>{{ item.Categories[0].CategoryDescription.name }}</td>
 			<td align="center" style="cursor: pointer;">
 				<div class="row">
@@ -85,13 +89,13 @@
 		var columns = [
       { "data": "id" },
       { "data": "model"},
-      { "data": "sku"},
-      { "data": "upc"},
-      { "data": "ean"},
-      { "data": "jan"},
-      { "data": "isbn"},
-      { "data": "mpn"},
-      { "data": "location"},
+      // { "data": "sku"},
+      // { "data": "upc"},
+      // { "data": "ean"},
+      // { "data": "jan"},
+      // { "data": "isbn"},
+      // { "data": "mpn"},
+      // { "data": "location"},
       { "data": "quantity"},
       { "data": "image"},
       { "data": "shipping"},
@@ -110,6 +114,7 @@
       { "data": "createdAt"},
       { "data": "updatedAt"},
       { "data": null },
+      { "data": null },
 			{ "data": null }
 		]
 
@@ -121,28 +126,58 @@
       },
       {
         "searchable": false,
-        "targets": 12,
+        "targets": 5,
         "render": function (data, type, row) {
           return '<td> $' + row.formatPrice + '</td>';
         }
       },
       {
         "searchable": false,
-        "targets": 24,
+        "targets": 17,
         "render": function (data, type, row) {
           return '<td>' + row.createdDateTime.dateTime + '</td>';
         }
       },
       {
         "searchable": false,
-        "targets": 25,
+        "targets": 18,
         "render": function (data, type, row) {
           return '<td>' + row.updatedDateTime.dateTime + '</td>';
         }
       },
       {
         "searchable": false,
-        "targets": 26,
+        "targets": 'shipping',
+        "render": function (data, type, row) {
+          if(data){
+            return '<td>' + '是' + '</td>';
+          }
+          return '<td>'+ '否' +'</td>';
+        }
+      },
+      {
+        "searchable": false,
+        "targets": 'subtract',
+        "render": function (data, type, row) {
+          if(data){
+            return '<td>' + '是' + '</td>';
+          }
+          return '<td>'+ '否' +'</td>';
+        }
+      },
+      {
+        "searchable": false,
+        "targets": 'supplier',
+        "render": function (data, type, row) {
+          if(row.SupplierId){
+            return '<td>' + row.Supplier.name + '</td>';
+          }
+          return '<td></td>';
+        }
+      },
+      {
+        "searchable": false,
+        "targets": 'category',
         "render": function (data, type, row) {
           var output = '';
           for( index in row.Categories ) {
@@ -152,7 +187,7 @@
         }
       },
 			{
-				"targets"  : 27,
+				"targets"  : 20,
 				"orderable": false,
 				"searchable": false,
 				"render": function ( data, type, row ) {
