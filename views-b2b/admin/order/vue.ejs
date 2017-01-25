@@ -41,10 +41,12 @@ var appModel = {
       ip: '',
       forwardedIp: '',
       userAgent: '',
+      OrderProducts: {},
     },
     items: [],
     option: {
-      defaultSort: [[ 27, 'desc' ]]
+      defaultSort: [[ 27, 'desc' ]],
+      orderProductList: ''
     }
   },
   view: {
@@ -59,6 +61,12 @@ var appModel = {
 <%- include ../default/vue.ejs %>
 // 需要新增函式可以對 appMain 進行定義，如：
 // appMain.log = function () {console.log("123")}
+appMain.orderProductList = function(){
+  var orderProductList = appMain.data.item.OrderProducts.map(function(data) {
+    return `名稱：${data.name}, 數量：${data.quantity}, 金額：${data.formatTotal}\n`;
+  });
+  appMain.data.option.orderProductList = orderProductList.join('');
+}
 
 appMain.editDisabled = function(){
   $('label.fn-edit-disabled > input').attr('disabled', true);

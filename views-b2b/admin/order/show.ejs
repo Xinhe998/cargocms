@@ -8,7 +8,9 @@
 		<%- include vue.ejs %>
 
 		appMain.$mount("#main-edit");
-		appMain.loadItem();
+		appMain.loadItem(function(){
+      appMain.orderProductList();
+    });
 	};
 
 </script>
