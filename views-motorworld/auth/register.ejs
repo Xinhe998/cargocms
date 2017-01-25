@@ -20,7 +20,15 @@
           <i class="fa fa-facebook-official" aria-hidden="true"></i> 使用 FB 臉書帳號登入
         </a>
         <div class="or-divider"></div>
+
         <form class="register-form" id="registerForm" method='post' action="/auth/local/register<%= data.url ? '?url=' + data.url : '' %>">
+          <% var error = data.errors[0]; %>
+          <% if(error === 'email must be unique' ){ %>
+              <div class="alert alert-danger" role="alert">此 Email 已被註冊，請更換 Email</div>
+          <% }%>
+          <% if(error === 'username must be unique' ){ %>
+              <div class="alert alert-danger" role="alert">此帳號已被使用，請更換帳號</div>
+          <% }%>
           <div class="row">
             <div class="form-group col-xs-6">
               <input type="text" name="lastName" class="form-control" placeholder="<%= '* ' + __('register.label.last_name')%>">
@@ -42,7 +50,6 @@
           <div class="form-group">
             <input type="password" name="passwordAgain" class="form-control" placeholder="<%= '* ' + __('register.label.repeat_password')%>">
           </div>
-
           <div class="form-group">
             <input type="number" name="phone1" class="form-control" placeholder="<%= '* ' + __('register.label.cell_phone')%>" data-toggle="tooltip" data-placement="top" title="國內會員請輸入0912345678，海外請輸入+886912345678">
           </div>
@@ -81,7 +88,14 @@
 
           </div>
           <button type="submit" class="btn btn-danger btn-lg btn-block reg-btn">免費註冊</button>
+
+          <div style="max-width:300px; margin: 20px auto;">
+            <a class="btn btn-lg btn-block register-login" href="/login?url=/">
+              會員登入
+            </a>
+          </div>
         </form>
+
       </div>
 
     </div>
