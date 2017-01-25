@@ -1,12 +1,14 @@
 .accordion-toggle td:first-child:after {
-  content: "\f078"; /* fa-chevron-down */
+  content: "\f078";
+  /* fa-chevron-down */
   font-family: 'FontAwesome';
   right: 0;
 }
 
-tr[aria-expanded="true"] > td:first-child:after{
+tr[aria-expanded="true"] > td:first-child:after {
   font-family: 'FontAwesome';
-  content: "\f077"; /* fa-chevron-up */
+  content: "\f077";
+  /* fa-chevron-up */
 }
 
 table.order-list {
@@ -15,18 +17,27 @@ table.order-list {
       text-align: center;
     }
   }
+
+  tbody > tr.order-content:hover {
+    background-color: white;
+  }
+
   tbody {
     td {
       text-align: center;
     }
+    .order-content > td {
+      padding: 0;
+    }
+
     .order-products {
       th {
         text-align: center;
       }
+
       td {
         text-align: center;
       }
     }
   }
-
 }
