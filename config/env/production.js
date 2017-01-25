@@ -83,7 +83,7 @@ module.exports = {
   },
   google: {
     name: 'GoogleAPIKey',
-    key: undefined
+    key: 'AIzaSyBSPvypkv-HnFRsC0ZFDvinPMPlEC59Ous'
   }
 
 };
