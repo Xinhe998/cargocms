@@ -97,4 +97,8 @@
 
 <% LayoutUtils.addScripts('/assets/unify/js/app.js', '/assets/unify/js/plugins/owl-carousel.js'); %>
 <% LayoutUtils.addScriptBlock(`
+  var error = ${errors ? 'true' : 'false'};
+  if (error) {
+    swal("Oops", "帳號或密碼有誤！", "warning")
+  }
 `); %>

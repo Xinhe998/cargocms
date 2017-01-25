@@ -27,8 +27,9 @@ module.exports = {
         {
           data:{
             items: result,
-            categorys
-          }
+            categorys,
+          },
+          errors: req.flash('error')[0],
         }
       );
     } catch (e) {
