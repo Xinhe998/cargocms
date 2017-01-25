@@ -3,7 +3,8 @@
 }
 .moto-content {
   .facebook-btn{
-    width: 330px;
+    width: auto;
+    max-width: 360px;
     margin: auto;
     background: #39579A;
     border-radius: 3px;
@@ -13,11 +14,27 @@
     i {
       margin-right: 15px;
     }
+    @media (max-width: 580px) {
+      max-width: none;
+      margin: auto 1.5em;
+    }
+    @media (max-width: 408px) {
+      font-size: 1.2em;
+      width: auto;
+      margin: 0 1.5em;
+      padding: 13px 0;
+      i {
+        margin-right: 5px;
+      }
+    }
   }
   .or-divider {
     margin: 45px 5.6em;
     overflow: hidden;
     position: relative;
+    @media (max-width: 479px) {
+      margin: 25px 2em;
+    }
     &:before {
       content: '';
       display: block;

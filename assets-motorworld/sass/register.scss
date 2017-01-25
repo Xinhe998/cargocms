@@ -10,23 +10,6 @@
   @media (min-width: 480px) and (max-width: 767px) {
     margin: 0px;
   }
-  .facebook-btn{
-    @media (max-width: 479px) {
-      & {
-        width: 280px;
-      }
-    }
-    width: 330px;
-    margin: auto;
-    background: #39579A;
-    border-radius: 3px;
-    padding: 10px 28px;
-    font-size: 20px;
-    color: #FFFFFF;
-    i {
-      margin-right: 15px;
-    }
-  }
   .register-form {
     margin: 2em;
     @media (max-width: 479px) {
@@ -68,11 +51,17 @@
     @media (max-width: 479px) {
       & {
         margin: 10px;
+        .or-divider {
+          margin: 25px 10px !important;
+        }
       }
     }
     @media (min-width: 480px) and (max-width: 767px) {
       & {
         margin: 10px;
+        .or-divider {
+          margin: 45px 10px !important;
+        }
       }
     }
     .panel-header {
@@ -109,7 +98,7 @@
         border-radius: 50%;
         border: 1px solid #909090;
         position: relative;
-        background: #ededed;
+        background: #ffffff;
       }
     }
     @media screen and (min-width: 991px) and (max-width: 1199px) {
