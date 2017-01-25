@@ -16,6 +16,7 @@ module.exports = {
   },
 
   DataTimeFormat: function(dateTime) {
+    dateTime = dateTime || new Date();
     let dateAndTime = {};
     dateAndTime.dateTime = moment(new Date(dateTime)).format("YYYY/MM/DD HH:mm");
     dateAndTime.date = moment(new Date(dateTime)).format("YYYY/MM/DD");
