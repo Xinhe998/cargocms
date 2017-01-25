@@ -261,9 +261,11 @@ module.exports = {
         await supplierShipOrder.save();
       }
 
+      console.log('Order=>', order);
+      console.log('Order.orderNumber=>', order.orderNumber);
       const messageConfig = await MessageService.paymentConfirm({
         email: order.email,
-        serialNumber: Order.orderNumber,
+        serialNumber: order.orderNumber,
         username: `${order.lastname}${order.firstname}`,
       });
       const mail = await Message.create(messageConfig);
