@@ -215,10 +215,9 @@ describe('about Order controllers', () => {
     }
   });
 
-  it('Order Controller get confirm order', async(done) => {
+  it.only('Order Controller get confirm order', async(done) => {
     try{
 
-      // const token = '9487e7c8e88a68321af84bc7b77e2168';
       let product = [
         {
           id: product1.id,
@@ -252,42 +251,6 @@ describe('about Order controllers', () => {
         userAgent: '',
         comment: '這是一個訂購測試'
       };
-      orderData.customField = '';
-      orderData.paymentCompany = '';
-      orderData.paymentAddress2 = '';
-      orderData.paymentCountry = '';
-      orderData.paymentCountryId = 0;
-      orderData.paymentZone = '';
-      orderData.paymentZoneId = 0;
-      orderData.paymentAddressFormat = '';
-      orderData.paymentCustomField = '';
-      orderData.shippingCompany = '';
-      orderData.shippingAddress2 = '';
-      orderData.shippingCountry = '';
-      orderData.shippingCountryId = 0;
-      orderData.shippingZone = '';
-      orderData.shippingZoneId = 0;
-      orderData.shippingAddressFormat = '';
-      orderData.shippingCustomField = '';
-      orderData.commission = 0.0;
-      orderData.marketingId = 0;
-      orderData.languageId = 0;
-      orderData.ip = '';
-      orderData.forwardedIp = '';
-      orderData.userAgent = '';
-      orderData.acceptLanguage = '';
-      orderData.orderNumber = '12345';
-      orderData.invoicePrefix = 'S';
-      orderData.paymentFirstname = 'ABC';
-      orderData.paymentLastname = 'DEF';
-      orderData.paymentAddress1 = ' ';
-      orderData.paymentCity = 'KHH';
-      orderData.paymentPostcode = '123';
-      orderData.paymentMethod = 'unknow';
-      orderData.paymentCode = '1234';
-      orderData.shippingCity = 'KHH';
-      orderData.shippingPostcode = '123';
-      orderData.tracking = 'no';
 
       let makeOrders = []
       for (let i = 0; i < 4; i++) {
@@ -313,9 +276,6 @@ describe('about Order controllers', () => {
       const result = await Promise.all(confirmArray);
 
       console.log('result=>', result);
-      // res.status.should.be.eq(200);
-      // res.body.data.item.invoiceNo.should.be.eq('87654321');
-      // res.body.data.product.length.should.be.eq(3);
 
       done();
     } catch (e) {
@@ -324,7 +284,7 @@ describe('about Order controllers', () => {
     }
   });
 
-  it.only('Order Controller repeat confirm order ', async(done) => {
+  it('Order Controller repeat confirm order ', async(done) => {
     try{
       let product = [
         {
@@ -359,42 +319,6 @@ describe('about Order controllers', () => {
         userAgent: '',
         comment: '這是一個訂購測試'
       };
-      orderData.customField = '';
-      orderData.paymentCompany = '';
-      orderData.paymentAddress2 = '';
-      orderData.paymentCountry = '';
-      orderData.paymentCountryId = 0;
-      orderData.paymentZone = '';
-      orderData.paymentZoneId = 0;
-      orderData.paymentAddressFormat = '';
-      orderData.paymentCustomField = '';
-      orderData.shippingCompany = '';
-      orderData.shippingAddress2 = '';
-      orderData.shippingCountry = '';
-      orderData.shippingCountryId = 0;
-      orderData.shippingZone = '';
-      orderData.shippingZoneId = 0;
-      orderData.shippingAddressFormat = '';
-      orderData.shippingCustomField = '';
-      orderData.commission = 0.0;
-      orderData.marketingId = 0;
-      orderData.languageId = 0;
-      orderData.ip = '';
-      orderData.forwardedIp = '';
-      orderData.userAgent = '';
-      orderData.acceptLanguage = '';
-      orderData.orderNumber = '12345';
-      orderData.invoicePrefix = 'S';
-      orderData.paymentFirstname = 'ABC';
-      orderData.paymentLastname = 'DEF';
-      orderData.paymentAddress1 = ' ';
-      orderData.paymentCity = 'KHH';
-      orderData.paymentPostcode = '123';
-      orderData.paymentMethod = 'unknow';
-      orderData.paymentCode = '1234';
-      orderData.shippingCity = 'KHH';
-      orderData.shippingPostcode = '123';
-      orderData.tracking = 'no';
 
       orderData.token = new Date().getTime();
       const res = await request(sails.hooks.http.app)
