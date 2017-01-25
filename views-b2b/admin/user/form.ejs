@@ -3,13 +3,13 @@
   <section>
     <label class="label">權限</label>
     <label class="checkbox state-disabled">
-      <input type="checkbox" id="admin" name="admin" value="admin" v-model="data.item.rolesArray">
+      <input type="checkbox" id="admin" name="admin" value="admin" v-model="data.item.rolesArray" @chick="addRoles">
       <i></i>管理員</label>
     <label class="checkbox state-disabled">
-      <input type="checkbox" id="supplier" name="supplier" value="supplier" v-model="data.item.SupplierId">
+      <input type="checkbox" id="supplier" name="supplier" value="supplier" v-model="data.item.rolesArray" @chick="addRoles">
       <i></i>供應商</label>
     <label class="user checkbox state-disabled">
-      <input type="checkbox" id="user" name="user" value="user" v-model="data.item.rolesArray" checked disabled>
+      <input type="checkbox" id="user" name="user" value="user" v-model="data.item.rolesArray" checked disabled @chick="addRoles">
       <i></i>使用者</label>
   </section>
 

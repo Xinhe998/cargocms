@@ -4,7 +4,7 @@ import { mockAdmin, unMockAdmin } from "../../../util/adminAuthHelper.js"
 
 describe('about Order controllers', () => {
 
-  let product1, product2, product3 , user, roleAdmin;
+  let supplier, product1, product2, product3, category1, category2, category3, user, roleAdmin;
   before(async function(done){
     try{
       user = await User.create({
@@ -22,10 +22,19 @@ describe('about Order controllers', () => {
       console.log('user.roles=>', user);
 
       await mockAdmin();
+      supplier = await createHelper.supplier('一六八生猛海鮮');
 
-      product1 = await createHelper.product('波士頓龍蝦');
-      product2 = await createHelper.product('肥美黑鮪魚');
-      product3 = await createHelper.product('鮮甜大扇貝');
+      category1 = await createHelper.supplierCategory('魚類');
+      category2 = await createHelper.supplierCategory('海蝦蟹');
+      category3 = await createHelper.supplierCategory('貝類');
+
+      product1 = await createHelper.product({name: '波士頓龍蝦', category:[category2.id]});
+      product2 = await createHelper.product({name: '肥美黑鮪魚', category:[category1.id]});
+      product3 = await createHelper.product({name: '鮮甜大扇貝', category:[category3.id]});
+
+      await createHelper.supplierProduct(supplier.id, product1.id);
+      await createHelper.supplierProduct(supplier.id, product2.id);
+      await createHelper.supplierProduct(supplier.id, product3.id);
 
       await createHelper.orderStatus();
 

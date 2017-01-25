@@ -8,6 +8,9 @@ import { handleResponse } from '../utils/errorHandler';
 export const GET_CURRENT_USER = 'GET_CURRENT_USER';
 const API_GET_CURRENT_USER = '/api/admin/user/current';
 
+export const REQUEST_LOGOUT = 'REQUEST_LOGOUT';
+const API_REQUEST_LOGOUT = './logout';
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -44,6 +47,10 @@ export function fetchCurrentUserData() {
       dispatch(handleResponse(fetchResult));
     }
   };
+}
+
+export function requestLogout() {
+  window.location.replace(`${API_REQUEST_LOGOUT}?url=/ship`);
 }
 
 export const actions = {

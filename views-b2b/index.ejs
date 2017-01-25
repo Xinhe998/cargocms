@@ -60,10 +60,20 @@
           <div>
             <label class="control-label"><%= data.items[p].weight %> 公克/包</label>
           </div>
+          <% if( data.items[p].quantity > 0) { %>
+            <div>
+              <label class="control-label">目前庫存 <%= data.items[p].quantity %>包</label>
+            </div>
 
-          <label style="float: left;margin: 9px 8px 0 0;font-size: 1.2em;">訂購</label>
-          <label style="float: right;margin: 9px 0 0 8px;font-size: 1.2em;">包</label>
-          <input class="form-control" type="number" value="0" min="0" max="10" />
+            <label style="float: left;margin: 9px 8px 0 0;font-size: 1.2em;">訂購</label>
+            <label style="float: right;margin: 9px 0 0 8px;font-size: 1.2em;">包</label>
+            <input class="form-control" type="number" value="0" min="0" max="<%= data.items[p].quantity %>" />
+          <% } else { %>
+            <div>
+              <label class="control-label outOfStock">此商品已售完</label>
+              <input class="form-control" type="number" value="0" min="0" max="<%= data.items[p].quantity %>" disabled/>
+            </div>
+          <% } %>
   			</div>
       </div>
     <% } %>

@@ -1,5 +1,19 @@
 module.exports = {
-  product: async function(name){
+  product: async function({name, category}){
+
+    let productCategory;
+    if(category){
+      category = category.map( function(data) {
+        return {id: data};
+      });
+
+      productCategory = await Category.findAll({
+        where:{
+          '$or': category
+        }
+      })
+    }
+
     const image = await Image.create({
       filePath: `/uploads/product_${name}.jpg`,
       type: 'image/jpeg',
@@ -47,6 +61,8 @@ module.exports = {
     }
     await ProductDescription.create(productDescData);
 
+    if (productCategory) product.setCategories(productCategory);
+    
     return product;
   },
 
@@ -186,7 +202,7 @@ module.exports = {
         OrderId: orderId,
         SupplierId: supplierId,
         status: 'NEW',
-        shipOrderNumber: `201702310000${shipOrder.length}SSS`
+        shipOrderNumber: `201702310000${shipOrder.length}SSS`,
       }
       console.log(data);
       delete data.id;

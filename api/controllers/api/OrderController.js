@@ -18,6 +18,12 @@ module.exports = {
       // data.forwardedIp = req.headers["X-Forwarded-For"] || '';
       data.acceptLanguage = req.header["accept-language"] || '';
 
+      // check Product Numbers
+      const products = JSON.parse(data.products);
+      const stock = await ProductService.checkStock({products});
+      if (!stock) throw Error('訂購的產品庫存量不足！');
+
+
       const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
 
       const success = (order) => {
@@ -42,7 +48,21 @@ module.exports = {
         transaction = t;
         return OrderService.createOrder(transaction, data);
       })
-      .then(function(order){
+      .then(async function(order){
+        let mailMessage = {};
+        mailMessage.serialNumber = order.orderNumber;
+        mailMessage.paymentTotalAmount = order.total;
+        mailMessage.productName = '';
+        mailMessage.email = order.email;
+        mailMessage.username = `${order.lastname}${order.firstname}`;
+        mailMessage.shipmentUsername = `${order.lastname}${order.firstname}`;
+        mailMessage.shipmentAddress = order.shippingAddress1;
+        mailMessage.note = order.comment;
+        mailMessage.phone = order.telephone;
+        mailMessage.invoiceNo = `${order.invoicePrefix}${order.invoiceNo}`;
+        const messageConfig = await MessageService.orderToShopConfirm(mailMessage);
+        const mail = await Message.create(messageConfig);
+        await MessageService.sendMail(mail);
         transaction.commit();
         success(order);
       })
@@ -97,6 +117,36 @@ module.exports = {
       });
 
     } catch(e) {
+      res.serverError(e);
+    }
+  },
+  getOrderHistory: async (req, res) => {
+    try{
+      let user = AuthService.getSessionUser(req);
+
+      let message = ''
+      if(!user){
+        message = '您沒有權限瀏覽此網頁，請先登入。';
+        return res.forbidden(message);
+      }
+
+      const items = await Order.findAll({
+        where: {
+          UserId: user.id
+        },
+        include: [OrderStatus, OrderProduct],
+        order: [['createdAt', 'DESC']],
+      })
+
+      message = 'get order history success.';
+      res.view('b2b/order/orderhistory',{
+        message,
+        data:{
+          items
+        }
+      });
+
+    } catch (e) {
       res.serverError(e);
     }
   }

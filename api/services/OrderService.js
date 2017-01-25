@@ -19,7 +19,7 @@ module.exports = {
       data.total = totalPrice;
 
 
-      data.orderNumber = await OrderService.orderNumberGenerator({userId: data.UserId, product: data.porducts})
+      data.orderNumber = await OrderService.orderNumberGenerator({modelName: 'order', userId: data.UserId, product: data.porducts})
       sails.log.info('產生訂單編號:',data.orderNumber);
 
       data.tracking = '訂單建立';
@@ -82,6 +82,7 @@ module.exports = {
       data.OrderStatusId = orderStatus.id;
 
       let orderProducts = [];
+      let needUpdateProducts = [];
       for(const p of products){
         const product = await Product.find({
           where: {
@@ -98,8 +99,13 @@ module.exports = {
           total: (product.price * p.quantity),
           tax: (product.price * p.quantity) * 0.05,
         });
-      }
 
+        if (product.subtract) {
+          let productData = product.toJSON();
+          productData.quantity = Number(product.quantity) - Number(p.quantity);
+          needUpdateProducts.push(productData);
+        }
+      }
 
       //定義建立訂單相關的函式
       const createOrder = (transaction) => {
@@ -128,6 +134,22 @@ module.exports = {
             reject(err);
           })
 
+        });
+      }
+
+      const subtractProduct = (transaction, orderProduct) => {
+        return new Promise(function(resolve, reject) {
+          //updateOnDuplicate only MySQL
+          Product.bulkCreate(needUpdateProducts ,{
+            // fields: ['id','quantity'],
+            updateOnDuplicate: [],
+            transaction,
+          })
+          .then(function(updatedProducts) {
+            resolve(updatedProducts);
+          }).catch(function(err) {
+            reject(err);
+          });
         });
       }
 
@@ -167,7 +189,7 @@ module.exports = {
 
       console.log("=== create data =>",data);
       console.log("=== make order");
-      let orderData, orderProductData;
+      let orderData, orderProductData, historyData;
       return createOrder(transaction)
       .then(function(order) {
         orderData = order;
@@ -177,7 +199,11 @@ module.exports = {
         orderProductData = productData;
         return createHistory(transaction, orderData, orderProductData);
       })
-      .then( function(historyData) {
+      .then(function(orderHistory){
+        historyData = orderHistory;
+        return subtractProduct(transaction, orderProductData)
+      })
+      .then( function(subtractProductData) {
         let config = {};
         return sendEmail({ transaction, config });
       })
@@ -216,14 +242,15 @@ module.exports = {
     }
   },
 
-  orderNumberGenerator: async ({userId, product}) => {
+  orderNumberGenerator: async ({modelName, userId, product}) => {
     try {
       //產生訂單編號
       let date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
       let second = new Date().getTime().toString();
       second = second.substr( second.length - 4 );
 
-      let orderNumber = await Order.findAll({
+
+      let orderNumber = await sails.models[modelName].findAll({
         where: sequelize.where(
           User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
         )

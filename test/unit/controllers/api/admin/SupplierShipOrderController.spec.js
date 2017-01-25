@@ -23,7 +23,7 @@ describe('about admin Supplier Ship Order controllers', () => {
 
       order = await createHelper.order(user.id);
 
-      product1 = await createHelper.product('毒刺水母涼拌海蜇皮');
+      product1 = await createHelper.product({name: '毒刺水母涼拌海蜇皮'});
       supplier1 = await createHelper.supplier('火箭隊');
       await createHelper.supplierProduct(supplier1.id, product1.id);
       orderProduct1 = await createHelper.orderProduct(order.id, product1.id, 3);
@@ -79,6 +79,33 @@ describe('about admin Supplier Ship Order controllers', () => {
       await unMockAdmin();
       done();
     });
+    it('test model', async(done) => {
+      try {
+        const a = await SupplierShipOrder.findAndCountAll({
+          where: {
+            '$or': [ { id: { '$like': '%2017%' } },
+              { '$Order.orderNumber$': { '$like': '%2017%' } },
+              { shipOrderNumber: { '$like': '%2017%' } },
+              { email: { '$like': '%2017%' } },
+              { telephone: { '$like': '%2017%' } },
+              { paymentAddress1: { '$like': '%2017%' } },
+              { paymentCity: { '$like': '%2017%' } },
+              { SupplierId: { '$like': '%2017%' } },
+              { status: { '$like': '%2017%' } } ],
+            createdAt: { '$gte': '1900/01/01', '$lte': '3000/01/02' }
+          },
+          offset: 0,
+          limit: 1,
+          order: [ [ 'id', 'asc' ] ],
+          include: [ SupplierShipOrderProduct, Supplier, Order ],
+          subQuery: false,
+        })
+        console.log(a);
+        done()
+      } catch (e) {
+        done(e)
+      }
+    })
 
     it('admin get Supplier Ship Order shoubld success.', async(done) => {
       try {

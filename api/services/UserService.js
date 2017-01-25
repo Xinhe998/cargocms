@@ -70,14 +70,16 @@ module.exports = {
         UserId: user.id
       });
 
-      if (supplierId) {
-        const userRoles = await Role.findAll({
-          where: {
-            authority: 'supplier'
-          }
-        });
-        await user.addRoles(userRoles);
-      }
+
+      rolesArray = rolesArray.map(function(data) {
+        return { authority: data}
+      });
+      const userRoles = await Role.findAll({
+        where: {
+          '$or': rolesArray
+        }
+      });
+      await user.addRoles(userRoles);
 
       return user;
     } catch (e) {

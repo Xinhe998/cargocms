@@ -6,11 +6,11 @@ module.exports = {
       const modelName = req.options.controller.split("/").reverse()[0];
       let result;
       if (serverSidePaging) {
-        const include = [ Supplier, Category ];
+        const include = [ Supplier, { model: Category, include: CategoryDescription  }];
         result = await PagingService.process({query, modelName, include});
       } else {
         const items = await sails.models[modelName].findAll({
-          include: [ Supplier , Category]
+          include: [ Supplier, { model: Category, include: CategoryDescription  }]
         });
         result = { data: { items } };
       }
@@ -24,6 +24,9 @@ module.exports = {
     try {
       const { id } = req.params;
       const item = await Product.findOne({
+        where: {
+          id
+        },
         include:[ Supplier, { model: Category, include: CategoryDescription  }]
       });
       res.ok({ data: { item } });
@@ -35,7 +38,8 @@ module.exports = {
   create: async (req, res) => {
     try {
       const data = req.body;
-      const item = await Product.create(data);
+      // const item = await Product.create(data);
+      const item = await ProductService.create({data});
       const message = 'Create success.';
       res.ok({ message, data: { item } });
     } catch (e) {
@@ -52,10 +56,8 @@ module.exports = {
         data.deletedAt = null;
       }
 
+      const item = await ProductService.update({id, data});
       const message = 'Update success.';
-      const item = await Product.update(data ,{
-        where: { id, },
-      });
       res.ok({ message, data: { item } });
     } catch (e) {
       res.serverError(e);

@@ -84,7 +84,7 @@ module.exports = {
         try {
           let dateTime = this.getDataValue('dateAvailable');
           if(dateTime){
-            dateTime = UtilsService.DataTimeFormat();
+            dateTime = UtilsService.DataTimeFormat(dateTime);
             return dateTime.date;
           }
           return '';
@@ -173,6 +173,31 @@ module.exports = {
 
           return UtilsService.moneyFormat(price);
 
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
+    },
+
+    categoriesId: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          const tihsCategoies = this.getDataValue('Categories');
+          const categories = tihsCategoies ? tihsCategoies.map((category) => category.id) : [];
+          return categories;
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
+    },
+    categoriesNameArray: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          const tihsCategoies = this.getDataValue('Categories');
+          const categories = tihsCategoies ? tihsCategoies.map((category) => category.CategoryDescription.name) : [];
+          return categories;
         } catch(e){
           sails.log.error(e);
         }

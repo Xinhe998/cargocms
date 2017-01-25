@@ -26,6 +26,15 @@ export function deliverShipListData(data: Array = []) {
 
 export function fetchShipListData(status) {
   return async(dispatch, getState) => {
+
+    let isAdmin = false;
+    for (let i = 0; i < getState().user.currentUser.rolesArray.length; i++) {
+      if (getState().user.currentUser.rolesArray[i] === 'admin') {
+        isAdmin = true;
+        break;
+      }
+    }
+
     const query = {
       serverSidePaging: true,
       startDate: '1900/01/01',
@@ -40,7 +49,7 @@ export function fetchShipListData(status) {
           searchable: true,
           search: {
             custom: {
-              where: getState().user.currentUser.Supplier.id,
+              where: isAdmin ? { $not: null } : getState().user.currentUser.Supplier.id,
             },
           },
         },
@@ -66,6 +75,7 @@ export function fetchShipListData(status) {
       start: 0,
       _: new Date().getTime(),
     };
+
     const fetchResult = await postData(API_SHIP_LIST, query);
 
     // success
@@ -107,20 +117,46 @@ export function fetchFindShipItem(value, status) {
         searchable: true,
       },
       {
-        data: 'invoiceNo',
-        searchable: 'true',
-        findInclude: 'true',
+        data: '$invoice',
+        searchable: true,
+        findInclude: true,
         search: {
-          concat: ['invoicePrefix', 'invoiceNo'],
+          model: 'SupplierShipOrder',
+          concat: ['SupplierShipOrder.invoicePrefix', 'SupplierShipOrder.invoiceNo'],
         },
       },
       {
-        data: 'lastname',
-        searchable: 'true',
-        findInclude: 'true',
+        data: '$name',
+        searchable: true,
+        findInclude: true,
         search: {
-          concat: ['lastname', 'firstname'],
+          model: 'SupplierShipOrder',
+          concat: ['SupplierShipOrder.lastname', 'SupplierShipOrder.firstname'],
         },
+      },
+      // TODO
+      {
+        data: '$orderNumber',
+        searchable: true,
+        findInclude: true,
+        search: {
+          model: 'Order',
+          column: 'orderNumber',
+        },
+      },
+      // TODO
+      // {
+      //   data: 'name',
+      //   searchable: true,
+      //   findInclude: true,
+      //   search: {
+      //     model: 'Supplier',
+      //     column: 'name',
+      //   },
+      // },
+      {
+        data: 'shipOrderNumber',
+        searchable: true,
       },
       { data: 'email', searchable: 'true' },
       { data: 'telephone', searchable: 'true' },

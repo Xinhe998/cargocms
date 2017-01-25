@@ -70,6 +70,7 @@ module.exports = {
 
       const message = 'Create success.';
       const item = await Order.create(data);
+
       res.ok({ message, data: { item } });
     } catch (e) {
       res.serverError(e);
@@ -129,7 +130,7 @@ module.exports = {
 
   confirm: async (req, res) => {
     const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
-    const transaction = await sequelize.transaction({ isolationLevel });
+    let transaction = await sequelize.transaction({ isolationLevel });
     try{
       const { id } = req.params;
       const { tracking, orderConfirmComment } = req.body;
@@ -197,10 +198,17 @@ module.exports = {
         supplierShipOrderTotalList[orderProduct.Product.SupplierId] += Number(orderProduct.total);
       }
 
-      const orderProductsName = orderProducts.map(data => data.name);
+
+      let orderProductsName = orderProducts.map((data) => {
+        return {
+          name: data.name,
+          quantity: data.quantity,
+          price: data.price,
+          total: data.total
+        }
+      });
 
       let supplierShipOrderCreateList = [];
-
       for (const supplier of suppliers) {
         // 產生Ship訂單編號
         const date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
@@ -219,7 +227,7 @@ module.exports = {
         } else {
           shipOrderNumber = '00001';
         }
-        const crc = sh.unique(`${order.UserId}${orderProductsName.toString()}${date}${shipOrderNumber}`);
+        const crc = sh.unique(`${order.UserId}${JSON.stringify(orderProductsName)}${date}${shipOrderNumber}`);
         shipOrderNumber = date + second + shipOrderNumber + crc.substr(0, 3);
         sails.log.info('產生出貨單編號:', shipOrderNumber);
 
@@ -276,37 +284,45 @@ module.exports = {
             acceptLanguage: order.acceptLanguage,
             status: 'NEW',
           }
-        )
+        );
       }
       const supplierShipOrder = await SupplierShipOrder.bulkCreate(supplierShipOrderCreateList, { transaction });
 
       let supplierOrderProdutsCreateList = [];
       for (let i = 0; i < supplierShipOrder.length; i++) {
         //修改 出貨單訂單產品 內的出貨單ＩＤ
-        for(let index = 0; index < supplierOrderProduts[ supplierShipOrder[i].SupplierId ].length; index++) {
+        const supplierShipProductNumber = supplierOrderProduts[ supplierShipOrder[i].SupplierId ].length;
+        for(let index = 0; index < supplierShipProductNumber; index++) {
           supplierOrderProduts[ supplierShipOrder[i].SupplierId ][index].SupplierShipOrderId = supplierShipOrder[i].id;
-
-          supplierOrderProdutsCreateList.push( supplierOrderProduts[ supplierShipOrder[i].SupplierId ][index] )
+          supplierOrderProdutsCreateList.push( supplierOrderProduts[ supplierShipOrder[i].SupplierId ][index] );
         }
+
       }
       await SupplierShipOrderProduct.bulkCreate(supplierOrderProdutsCreateList, {transaction});
 
 
+      const messageConfig = await MessageService.paymentConfirm({
+        email: order.email,
+        serialNumber: Order.orderNumber,
+        username: `${order.lastname}${order.firstname}`,
+      });
+      const mail = await Message.create(messageConfig);
+      await MessageService.sendMail(mail);
 
       transaction.commit();
       const message = 'Success Confirm Order';
       const item = order;
       res.ok({ message, data: { item } });
     } catch (e) {
-      res.serverError(e);
       transaction.rollback();
+      res.serverError(e);
     }
   },
 
   updateStatus: async (req, res) => {
     try{
       const { id } = req.params;
-      const {status ,statusComment} = req.body;
+      const { status } = req.body;
 
       const orderStatus = await OrderStatus.findOne({
         where: {
@@ -314,23 +330,38 @@ module.exports = {
         }
       });
 
-      const item = await Order.update({
-        OrderStatusId: orderStatus.id
-      },{
+      const item = await Order.find({
         where: {
-          id
-        }
-      })
+          id,
+        },
+      });
+      item.OrderStatusId = orderStatus.id;
+      await item.save();
 
       await OrderHistory.create({
         notify: true,
-        comment: `訂單 ID:${id} 變更狀態:${status}，變更理由:${statusComment}.`,
+        comment: `訂單 ID:${id} 變更狀態為:${status}`,
         OrderId: id,
         OrderStatudId: orderStatus.id
       });
 
+      let messageConfig, mail;
+      switch (status) {
+        case 'PROCESSING':
+          console.log('mail@PROCESSING');
+          messageConfig = await MessageService.orderConfirm({
+            email: item.email,
+            serialNumber: item.orderNumber,
+            username: `${item.lastname}${item.firstname}`,
+          });
+          break;
+      }
+      mail = await Message.create(messageConfig);
+      await MessageService.sendMail(mail);
+
       const message = '訂單狀態變更成功.';
-      res.ok({ message, data: { item } });
+      const itemId = item.id;
+      res.ok({ message, data: { itemId } });
 
     } catch (e) {
       res.serverError(e);
