@@ -75,6 +75,16 @@ module.exports = {
 
       const product = await Product.create(data);
 
+      const productDescription = await ProductDescription.create({
+        name: product.model,
+        description: '',
+        tag: '',
+        metaTitle: '',
+        metaDescription: '',
+        metaKeyword: '',
+        ProductId: product.id
+      });
+
       await product.setCategories(productCategory);
 
       return product;
