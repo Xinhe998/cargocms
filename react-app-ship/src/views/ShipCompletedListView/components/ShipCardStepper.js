@@ -111,7 +111,7 @@ function ShipCardStepper(props) {
                 >pause_circle_outline
                 </FontIcon>}
             >
-              已出貨
+              出貨中
             </StepLabel>
           </Step>
 

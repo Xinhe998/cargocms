@@ -24,7 +24,7 @@ function CardBodyNormal(props) {
       break;
     case 'SHIPPED':
       stateColor = CardStateColor.shipped;
-      statusCht = '已出貨';
+      statusCht = '出貨中';
       break;
     case 'PROCESSING':
       stateColor = CardStateColor.preparing;
