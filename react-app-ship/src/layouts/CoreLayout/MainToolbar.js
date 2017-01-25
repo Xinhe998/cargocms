@@ -94,9 +94,12 @@ const styles = {
   render() {
     const isMobile = this.state.width < 768;
     styles.title.display = !isMobile ? 'block' : 'none';
-    const supplierName = this.props.user.currentUser.Supplier.name;
-    const userName = this.props.user.currentUser.username;
-    const displaySupplierName = `${supplierName}(${userName})`;
+    let displaySupplierName = '';
+    if (this.props.user.currentUser.Supplier) {
+      const supplierName = this.props.user.currentUser.Supplier.name;
+      const userName = this.props.user.currentUser.username;
+      displaySupplierName = `${supplierName}(${userName})`;
+    }
     return (
       <Toolbar style={styles.toolbar}>
         {/* <ToolbarSeparator style={styles.white} /> */}
