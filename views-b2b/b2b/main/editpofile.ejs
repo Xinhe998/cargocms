@@ -1,5 +1,4 @@
 <% LayoutUtils.addStylesheets('/assets/unify/css/pages/profile.css'); %>
-<% LayoutUtils.addStylesheets('/assets/unify/css/style.css'); %>
 
 <style>
   .cover-photo {
@@ -43,7 +42,7 @@
 
         <h2 class="">
           <i class="fa fa-user" aria-hidden="true"></i>修改個人資料
-          <a href="/" class="btn btn-u btn-u-dark pull-right">返回</a>
+          <a href="/" class="btn btn-default pull-right">返回</a>
         </h2>
       </div>
 
@@ -224,7 +223,7 @@
           </form>
         </div>
         <div class="text-center">
-          <button form="userProfileForm" id="submit" type="sumbit" class="btn-u btn-u-green" data-id="<%= user.id %>">
+          <button form="userProfileForm" id="submit" type="sumbit" class="btn btn-success" data-id="<%= user.id %>">
             <i class="fa fa-check" aria-hidden="true"></i>
             確認修改
           </button>
