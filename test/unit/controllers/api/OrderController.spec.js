@@ -224,7 +224,7 @@ describe('about Order controllers', () => {
     }
   });
 
-  it.only('Order Controller get confirm order', async(done) => {
+  it('Order Controller quicky create order and confirm order', async(done) => {
     try{
 
       let product = [
@@ -293,7 +293,7 @@ describe('about Order controllers', () => {
     }
   });
 
-  it('Order Controller repeat confirm order ', async(done) => {
+  it.skip('Order Controller repeat confirm order ', async(done) => {
     try{
       let product = [
         {
