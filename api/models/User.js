@@ -242,7 +242,7 @@ module.exports = {
         let {transaction} = options;
         // console.log("=== transaction ===", transaction);
         // transaction = null;
-        const userRole = await Role.findOne({where: {authority: 'user'}});
+        const userRole = await Role.findOne({where: {authority: 'user'}}, { transaction });
         await user.addRole(userRole, {transaction});
       }
     }

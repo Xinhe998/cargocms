@@ -28,6 +28,35 @@ describe('about User model operation.', function() {
         done(e)
       }
     });
+
+
+    it.only('test transaction.', async (done) => {
+      const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
+      let transaction = await sequelize.transaction({isolationLevel});
+      try {
+
+        for (const a of [...Array(50).keys()]) {
+          console.log(a);
+          const user = await User.create({
+            username: 'testtransaction!!!!' + a,
+            email: 'testtransaction@example.com' + a,
+            firstName: '李仁',
+            lastName: '管'
+          }, { transaction });
+          user.firstName = user.firstName + a;
+          await user.save({ transaction });
+          await Passport.create({provider: 'local', password: 'user', UserId: user.id}, { transaction });
+          // if(a === 10) {
+          //   throw Error('測試 rollback');
+          // }
+        }
+        transaction.commit();
+        done();
+      } catch (e) {
+        transaction.rollback();
+        done(e)
+      }
+    });
   });
 
   describe('test Delete User', function() {
