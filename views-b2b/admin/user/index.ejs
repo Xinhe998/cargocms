@@ -33,6 +33,7 @@
 				<i class="fa fa-fw fa-clock-o text-muted hidden-sm hidden-xs"></i>
 				最近登入時間
 			</th>
+      <th class="roles" data-hide="always"> 角色</th>
 			<th width="78px" data-hide="phone,tablet">操作</th>
 		</tr>
 	</thead>
@@ -48,7 +49,8 @@
       <td>{{ item.phone2 }}</td>
       <td>{{ item.address }}</td>
 			<td>{{ item.address2 }}</td>
-			<td><small>{{ item.lastLogin }}</small></td>
+      <td><small>{{ item.lastLogin }}</small></td>
+			<td>{{ item.rolesArray }}</td>
 			<td align="center" style="cursor: pointer;">
 				<div class="row">
 					<a class="btn btn-default btn-xs" role="button" v-on:click="show(item.id)">
@@ -78,7 +80,8 @@
       { "data": "phone2" },
       { "data": "address" },
 			{ "data": "address2" },
-			{ "data": "lastLogin" },
+      { "data": "lastLogin" },
+			{ "data": null },
 			{ "data": null }
 		]
 
@@ -118,8 +121,22 @@
 					return '<span class="txt-color-blueDark"><small>' + data + '</small></span>';
 				}
 			},
+      {
+        "targets" : 11,
+        "render": function(data, type, row) {
+          var roles = row.rolesArray;
+          console.log("roles ==>", row.rolesArray);
+          if (roles.indexOf('admin') !== -1) {
+            return '<td>管理者</td>'
+          } else if(roles.indexOf('supplier') !== -1) {
+            return '<td>供應商( ' + row.Supplier.name + ' )</td>'
+          } else {
+            return '<td>使用者</td>'
+          }
+        }
+      },
 			{
-				"targets"  : 11,
+				"targets"  : 12,
 				"orderable": false,
 				"searchable": false,
 				"render": function ( data, type, row ) {
