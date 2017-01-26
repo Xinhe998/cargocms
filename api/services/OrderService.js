@@ -74,7 +74,7 @@ module.exports = {
         data.email = data.shippingEmail;
       }
 
-      await OrderService.updateUserData({userId: data.UserId, email: data.email, phone1: data.telephone});
+      await OrderService.updateUserData({userId: data.UserId, email: data.email, phone1: data.telephone, transaction});
 
       const orderStatus = await OrderStatus.findOne({
         where: { name:'NEW' }
@@ -84,7 +84,7 @@ module.exports = {
       let orderProducts = [];
       let needUpdateProducts = [];
       for(const p of products){
-        const product = await Product.find({
+        const product = await Product.findOne({
           where: {
             id: p.id,
           },
@@ -101,9 +101,15 @@ module.exports = {
         });
 
         if (product.subtract) {
-          let productData = product.toJSON();
-          productData.quantity = Number(product.quantity) - Number(p.quantity);
-          needUpdateProducts.push(productData);
+          const quantity = Number(product.quantity) - Number(p.quantity);
+          needUpdateProducts.push(
+            Product.update({ quantity },{
+              where: {
+                id: p.id
+              },
+              transaction
+            })
+          );
         }
       }
 
@@ -138,18 +144,8 @@ module.exports = {
       }
 
       const subtractProduct = (transaction, orderProduct) => {
-        return new Promise(function(resolve, reject) {
-          //updateOnDuplicate only MySQL
-          Product.bulkCreate(needUpdateProducts ,{
-            // fields: ['id','quantity'],
-            updateOnDuplicate: [],
-            transaction,
-          })
-          .then(function(updatedProducts) {
-            resolve(updatedProducts);
-          }).catch(function(err) {
-            reject(err);
-          });
+        return sequelize.Promise.each(needUpdateProducts, function (updateProduct) {
+          return updateProduct;
         });
       }
 
@@ -217,9 +213,10 @@ module.exports = {
     }
   },
 
-  updateUserData: async ({ userId, email, phone1 }) => {
+  updateUserData: async ({ userId, email, phone1, transaction }) => {
     try {
       let updateUserData = await User.findById(userId);
+          updateUserData = updateUserData.toJSON();
       let userNeedUpdate = false;
       //update Phone
       if( !updateUserData.phone1 && !updateUserData.phone2 ) {
@@ -232,9 +229,15 @@ module.exports = {
         userNeedUpdate = true;
       }
       if(userNeedUpdate) {
-        updateUserData = await updateUserData.save().catch(sequelize.UniqueConstraintError, function(err) {
-          sails.log.error('Email 重複，不更新使用者帳號資訊');
+        await User.update(updateUserData, {
+          where: {
+            id: userId
+          },
+          transaction
         });
+        // updateUserData = await updateUserData.save().catch(sequelize.UniqueConstraintError, function(err) {
+        //   sails.log.error('Email 重複，不更新使用者帳號資訊');
+        // });
       };
     } catch (e) {
       sails.log.error('更新使用者失敗', e);
