@@ -30,4 +30,5 @@ module.exports = {
   'delete /api/admin/categorydescription/:id': 'api/admin/CategoryDescriptionController.destroy',
 
   '/validate/email':  'b2b/MainController.validateEmail',
+  '/edit/me':  'b2b/MainController.editPofile',
 };

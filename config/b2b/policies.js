@@ -9,4 +9,10 @@ module.exports = {
   "b2b/OrderController": {
     '*': ['passport', 'sessionAuth'],
   },
+
+  'b2b/MainController': {
+    // 'portfolio': ['nocache'],
+    'editPofile': ['nocache'],
+    'validateEmail': [],
+  },
 }
