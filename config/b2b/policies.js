@@ -10,6 +10,10 @@ module.exports = {
     '*': ['passport', 'sessionAuth'],
   },
 
+  "api/OrderController": {
+    '*': ['passport', 'sessionAuth'],
+  },
+
   'b2b/MainController': {
     // 'portfolio': ['nocache'],
     'editPofile': ['nocache'],
