@@ -2,13 +2,15 @@ module.exports = {
 
   create: async (req, res) => {
     try {
+      await UtilsService.checkRecaptcha(req.body);
       const { name, email, phone, content } = req.body;
       await Contact.create({ name, email, phone, content, success: true });
 
-      req.flash('form', 'success');
+      req.flash('info', 'success');
       res.redirect('/contact');
     } catch (e) {
-      res.serverError(e);
+      req.flash('info', 'fail');
+      res.redirect('/contact');
     }
   },
 }
