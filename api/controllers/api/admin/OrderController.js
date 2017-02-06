@@ -216,7 +216,7 @@ module.exports = {
         second = second.substr( second.length - 4 );
         const _where = {
           where: sequelize.where(
-            User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
+            SupplierShipOrder.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
         )};
         let shipOrderNumber = await SupplierShipOrder.findAll(_where);
         if (shipOrderNumber) {

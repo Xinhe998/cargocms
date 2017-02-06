@@ -74,7 +74,7 @@ module.exports = {
         data.email = data.shippingEmail;
       }
 
-      await OrderService.updateUserData({userId: data.UserId, email: data.email, phone1: data.telephone, transaction});
+      // await OrderService.updateUserData({userId: data.UserId, email: data.email, phone1: data.telephone, transaction});
 
       const orderStatus = await OrderStatus.findOne({
         where: { name:'NEW' }
@@ -255,7 +255,7 @@ module.exports = {
 
       let orderNumber = await sails.models[modelName].findAll({
         where: sequelize.where(
-          User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
+          sails.models[modelName].sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
         )
       });
 
