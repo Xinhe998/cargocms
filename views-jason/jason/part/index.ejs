@@ -95,9 +95,9 @@
               <small>Parts</small>
             </h3>
           </li>
-          <li><a href="/part/group/0/page/1" class="list-group-item <%= (0 == req.params.groupId)?'act':'' %>">全部配件</a></li>
+          <li><a href="/part/group/0" class="list-group-item <%= (0 == req.params.groupId)?'act':'' %>">全部配件</a></li>
           <% for(var group of partGroups) { %>
-            <li><a href="/part/group/<%= group.id %>/page/1" class="list-group-item <%= (group.id == req.params.groupId)?'act':'' %>"><%= group.title %></a></li>
+            <li><a href="/part/group/<%= group.id %>" class="list-group-item <%= (group.id == req.params.groupId)?'act':'' %>"><%= group.title %></a></li>
           <% } %>
         </ul>
       </div>

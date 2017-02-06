@@ -104,7 +104,7 @@
           </li>
           <% for(var group of performanceGroups) { %>
             <li>
-              <a href="/performance/group/<%= group.id %>/page/1" class="list-group-item <%= (group.id == req.params.groupId)?'act':'' %>"><%= group.title %></a>
+              <a href="/performance/group/<%= group.id %>" class="list-group-item <%= (group.id == req.params.groupId)?'act':'' %>"><%= group.title %></a>
             </li>
           <% } %>
         </ul>

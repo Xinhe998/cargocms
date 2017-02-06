@@ -97,11 +97,11 @@
             </h3>
           </li>
           <li>
-            <a href="/product/group/0/page/1" class="list-group-item <%= (0 == req.params.groupId)?'act':'' %>">全部產品</a>
+            <a href="/product/group/0" class="list-group-item <%= (0 == req.params.groupId)?'act':'' %>">全部產品</a>
           </li>
           <% for(var group of productGroups) { %>
             <li>
-              <a href="/product/group/<%= group.id %>/page/1" class="list-group-item <%= (group.id == req.params.groupId)?'act':'' %>"><%= group.title %></a>
+              <a href="/product/group/<%= group.id %>" class="list-group-item <%= (group.id == req.params.groupId)?'act':'' %>"><%= group.title %></a>
             </li>
           <% } %>
         </ul>

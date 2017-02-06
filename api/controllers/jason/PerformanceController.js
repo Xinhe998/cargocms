@@ -8,7 +8,7 @@ module.exports = {
         return res.redirect(`performance/group/${indexGroup.id}/page/1`);
       }
       const isShowWithTable = (groupId == indexGroup.id) ? false : true;
-      const page = ~~req.params.page;
+      const page = ~~req.params.page || 1;
       const performanceGroups = await Group.findWithType('performance');
       const pageData = await PostService.getPostsInPage({
         groupId,
