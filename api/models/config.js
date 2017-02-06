@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 module.exports = {
   attributes: {
     name: {
@@ -19,7 +17,7 @@ module.exports = {
       allowNull: false,
     },
     type: {
-      type: Sequelize.ENUM('text', 'editor', 'url', 'file', 'boolean'),
+      type: Sequelize.ENUM('text', 'editor', 'url', 'file', 'boolean', 'array'),
       defaultValue: 'text',
       allowNull: false,
     },
