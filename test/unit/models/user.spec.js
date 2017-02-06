@@ -1,4 +1,4 @@
-
+const exec = require('child_process').exec;
 
 describe('about User model operation.', function() {
   describe('test update userAgent', function() {
@@ -30,7 +30,7 @@ describe('about User model operation.', function() {
     });
 
 
-    it.only('test transaction.', async (done) => {
+    it('test transaction.', async (done) => {
       const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
       let transaction = await sequelize.transaction({isolationLevel});
       try {
@@ -57,6 +57,23 @@ describe('about User model operation.', function() {
         done(e)
       }
     });
+  });
+
+  it.only('test tranaction multiple', async (done) => {
+    try{
+      const command = "for i in {1..20}\ndo\ncurl http://localhost:1338/api/transaction/user\ndate +%s\ndone"
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+          return;
+        }
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+        done();
+      });
+    } catch (e) {
+      done(e);
+    }
   });
 
   describe('test Delete User', function() {

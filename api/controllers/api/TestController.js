@@ -7,7 +7,7 @@ module.exports = {
       const time = new Date().getTime().toString();
       const name = Math.random().toString(36).substring(3, 7) + time ;
       console.log("user new name ==>",name);
-      let user = await User.findById(4, { transaction });
+      let user = await User.findById(2, { transaction });
       user.username = name;
       await user.save({ transaction });
 
