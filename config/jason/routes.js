@@ -8,7 +8,7 @@ module.exports = {
   'get                 /part/show/:partId':    'jason/PartController.show',
   'get /performance/group/:groupId/page/:page':'jason/PerformanceController.index',
   'get   /performance/show/:performanceId':    'jason/PerformanceController.show',
-  'get                             /issue':      { view: 'jason/issue' },
+  'get                             /faq':      { view: 'jason/issue' },
   'get                           /contact':    'jason/ContactController.index',
 
   // api
