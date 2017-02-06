@@ -2,7 +2,7 @@ module.exports = {
 
   index: async function(req, res) {
     try {
-      const groupId = req.params.groupId;
+      const groupId = req.params.groupId || 0;
       const page = ~~req.params.page || 1;
       const partGroups = await Group.findWithType('part');
       const pageData = await PostService.getPostsInPage({
