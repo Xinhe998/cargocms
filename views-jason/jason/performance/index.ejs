@@ -66,7 +66,7 @@
         <nav aria-label="Page navigation">
           <ul class="product pagination">
             <li>
-              <a href="/performance/group/<%= req.params.groupId %>/page/<%= prevPage %>" aria-label="Previous">
+              <a href="/performance/group/<%= groupId %>/page/<%= prevPage %>" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
@@ -74,16 +74,16 @@
             <% for (var i = 1; i <= maxPage; i++){ %>
               <% if (i == page) { %>
                 <li class="active">
-                  <a href="/performance/group/<%= req.params.groupId %>/page/<%= i %>"><%= i %></a>
+                  <a href="/performance/group/<%= groupId %>/page/<%= i %>"><%= i %></a>
                 </li>
               <% } else { %>
                 <li>
-                  <a href="/performance/group/<%= req.params.groupId %>/page/<%= i %>"><%= i %></a>
+                  <a href="/performance/group/<%= groupId %>/page/<%= i %>"><%= i %></a>
                 </li>
               <% } %>
             <% } %>
             <li>
-              <a href="/performance/group/<%= req.params.groupId %>/page/<%= nextPage %>" aria-label="Next">
+              <a href="/performance/group/<%= groupId %>/page/<%= nextPage %>" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
@@ -105,7 +105,7 @@
           </li>
           <% for(var group of performanceGroups) { %>
             <li>
-              <a href="/performance/group/<%= group.id %>" class="list-group-item <%= (group.id == req.params.groupId)?'act':'' %>"><%= group.title %></a>
+              <a href="/performance/group/<%= group.id %>" class="list-group-item <%= (group.id == groupId)?'act':'' %>"><%= group.title %></a>
             </li>
           <% } %>
         </ul>

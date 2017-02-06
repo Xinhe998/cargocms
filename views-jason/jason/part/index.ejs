@@ -59,7 +59,7 @@
         <nav aria-label="Page navigation">
           <ul class="product pagination">
             <li>
-              <a href="/part/group/<%= req.params.groupId %>/page/<%= prevPage %>" aria-label="Previous">
+              <a href="/part/group/<%= groupId %>/page/<%= prevPage %>" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
@@ -67,16 +67,16 @@
             <% for (var i = 1; i <= maxPage; i++){ %>
               <% if (i == page) { %>
                 <li class="active">
-                  <a href="/part/group/<%= req.params.groupId %>/page/<%= i %>"><%= i %></a>
+                  <a href="/part/group/<%= groupId %>/page/<%= i %>"><%= i %></a>
                 </li>
               <% } else { %>
                 <li>
-                  <a href="/part/group/<%= req.params.groupId %>/page/<%= i %>"><%= i %></a>
+                  <a href="/part/group/<%= groupId %>/page/<%= i %>"><%= i %></a>
                 </li>
               <% } %>
             <% } %>
             <li>
-              <a href="/part/group/<%= req.params.groupId %>/page/<%= nextPage %>" aria-label="Next">
+              <a href="/part/group/<%= groupId %>/page/<%= nextPage %>" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
@@ -96,9 +96,9 @@
               <small>Parts</small>
             </h3>
           </li>
-          <li><a href="/part/group/0" class="list-group-item <%= (0 == req.params.groupId)?'act':'' %>">全部配件</a></li>
+          <li><a href="/part/group/0" class="list-group-item <%= (0 == groupId)?'act':'' %>">全部配件</a></li>
           <% for(var group of partGroups) { %>
-            <li><a href="/part/group/<%= group.id %>" class="list-group-item <%= (group.id == req.params.groupId)?'act':'' %>"><%= group.title %></a></li>
+            <li><a href="/part/group/<%= group.id %>" class="list-group-item <%= (group.id == groupId)?'act':'' %>"><%= group.title %></a></li>
           <% } %>
         </ul>
       </div>

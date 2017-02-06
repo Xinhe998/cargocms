@@ -60,7 +60,7 @@
         <nav aria-label="Page navigation">
           <ul class="product pagination">
             <li>
-              <a href="/product/group/<%= req.params.groupId %>/page/<%= prevPage %>" aria-label="Previous">
+              <a href="/product/group/<%= groupId %>/page/<%= prevPage %>" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
@@ -68,16 +68,16 @@
             <% for (var i = 1; i <= maxPage; i++){ %>
               <% if (i == page) { %>
                 <li class="active">
-                  <a href="/product/group/<%= req.params.groupId %>/page/<%= i %>"><%= i %></a>
+                  <a href="/product/group/<%= groupId %>/page/<%= i %>"><%= i %></a>
                 </li>
               <% } else { %>
                 <li>
-                  <a href="/product/group/<%= req.params.groupId %>/page/<%= i %>"><%= i %></a>
+                  <a href="/product/group/<%= groupId %>/page/<%= i %>"><%= i %></a>
                 </li>
               <% } %>
             <% } %>
             <li>
-              <a href="/product/group/<%= req.params.groupId %>/page/<%= nextPage %>" aria-label="Next">
+              <a href="/product/group/<%= groupId %>/page/<%= nextPage %>" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
@@ -98,11 +98,11 @@
             </h3>
           </li>
           <li>
-            <a href="/product/group/0" class="list-group-item <%= (0 == req.params.groupId)?'act':'' %>">全部產品</a>
+            <a href="/product/group/0" class="list-group-item <%= (0 == groupId)?'act':'' %>">全部產品</a>
           </li>
           <% for(var group of productGroups) { %>
             <li>
-              <a href="/product/group/<%= group.id %>" class="list-group-item <%= (group.id == req.params.groupId)?'act':'' %>"><%= group.title %></a>
+              <a href="/product/group/<%= group.id %>" class="list-group-item <%= (group.id == groupId)?'act':'' %>"><%= group.title %></a>
             </li>
           <% } %>
         </ul>

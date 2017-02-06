@@ -32,6 +32,7 @@ module.exports = {
         posts: pageData.posts,
         maxPage,
         page,
+        groupId,
         prevPage,
         nextPage,
       });
