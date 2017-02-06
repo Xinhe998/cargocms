@@ -2,20 +2,20 @@ module.exports = {
 
   // 'get /api/admin/labfnp/recipe/export': 'api/admin/labfnp/RecipeController.export',
 
-  'get /product':    'jason/ProductController.index',
+  'get                           /product':    'jason/ProductController.index',
   'get /product/group/:groupId/page/:page':    'jason/ProductController.index',
-  'get /product/group/:groupId':    'jason/ProductController.index',
+  'get            /product/group/:groupId':    'jason/ProductController.index',
   'get           /product/show/:productId':    'jason/ProductController.show',
 
-  'get    /part':    'jason/PartController.index',
+  'get                              /part':    'jason/PartController.index',
   'get    /part/group/:groupId/page/:page':    'jason/PartController.index',
-  'get    /part/group/:groupId':    'jason/PartController.index',
+  'get               /part/group/:groupId':    'jason/PartController.index',
   'get                 /part/show/:partId':    'jason/PartController.show',
 
-  'get /performance':'jason/PerformanceController.index',
+  'get                           /performance':'jason/PerformanceController.index',
   'get /performance/group/:groupId/page/:page':'jason/PerformanceController.index',
-  'get /performance/group/:groupId':'jason/PerformanceController.index',
-  'get   /performance/show/:performanceId':    'jason/PerformanceController.show',
+  'get            /performance/group/:groupId':'jason/PerformanceController.index',
+  'get       /performance/show/:performanceId':'jason/PerformanceController.show',
 
   'get                             /faq':      { view: 'jason/issue' },
   'get                           /contact':    'jason/ContactController.index',
