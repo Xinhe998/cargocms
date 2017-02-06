@@ -68,7 +68,7 @@ module.exports = {
         data.email = data.shippingEmail;
       }
 
-      // await OrderService.updateUserData({userId: data.UserId, email: data.email, phone1: data.telephone, transaction});
+      await OrderService.updateUserData({userId: data.UserId, email: data.email, phone1: data.telephone, transaction});
 
       const orderStatus = await OrderStatus.findOne({
         where: { name:'NEW'},
