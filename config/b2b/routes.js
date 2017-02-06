@@ -29,4 +29,5 @@ module.exports = {
   'put /api/admin/categorydescription/:id': 'api/admin/CategoryDescriptionController.update',
   'delete /api/admin/categorydescription/:id': 'api/admin/CategoryDescriptionController.destroy',
 
+  'get /api/transaction/user': 'api/TestController.test',
 };
