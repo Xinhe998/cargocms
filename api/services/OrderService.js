@@ -8,11 +8,7 @@ module.exports = {
 
       let totalPrice = 0;
       for(let p of products){
-        let product = await Product.find({
-          where: {
-            id: p.id,
-          },
-        });
+        let product = await Product.findById(p.id);
 
         totalPrice += Number(product.price) * Number( p.quantity );
       }
@@ -98,114 +94,143 @@ module.exports = {
           price: product.price,
           total: (product.price * p.quantity),
           tax: (product.price * p.quantity) * 0.05,
+          subtract: product.subtract,
+          stock: Number(product.quantity) - Number(p.quantity)
         });
 
-        if (product.subtract) {
-          const quantity = Number(product.quantity) - Number(p.quantity);
-          needUpdateProducts.push(
-            Product.update({ quantity },{
-              where: {
-                id: p.id
-              },
-              transaction
-            })
-          );
+        // if (product.subtract) {
+        //   const quantity = Number(product.quantity) - Number(p.quantity);
+        //   needUpdateProducts.push(
+        //     Product.update({ quantity },{
+        //       where: {
+        //         id: p.id
+        //       },
+        //       transaction
+        //     })
+        //   );
+        // }
+      }
+
+      const order = await Order.create(data, {transaction});
+
+      for (const orderProductData of orderProducts) {
+        await OrderProduct.create({
+          ...orderProductData,
+          OrderId: order.id
+        }, { transaction });
+
+        if (orderProductData.subtract) {
+          await Product.update({ quantity: orderProductData.stock },{
+            where: {
+              id: orderProductData.ProductId
+            },
+            transaction
+          })
         }
       }
 
+
+      const orderHistory = await OrderHistory.create({
+        OrderId: order.id,
+        notify: true,
+        OrderStatusId: orderStatus.id,
+        comment: `使用者 ID: ${order.UserId}，建立訂單 Order ID: ${order.id}，訂購產品: ${JSON.stringify(orderProducts)}`
+      }, {transaction});
+
+      return order;
       //定義建立訂單相關的函式
-      const createOrder = (transaction) => {
-        return new Promise(function(resolve, reject) {
-          Order.create(data, {transaction})
-          .then(function(order) {
-            resolve(order);
-          }).catch(function(err){
-            reject(err);
-          });
-        });
-      }
-
-      const createOrderProduct = (transaction, orderData) => {
-        return new Promise(function(resolve, reject) {
-
-          orderProducts = orderProducts.map(function( data ){
-            data.OrderId = orderData.id;
-            return data;
-          });
-
-          OrderProduct.bulkCreate(orderProducts, {transaction})
-          .then( function(orderProduct){
-            resolve(orderProduct);
-          }).catch( function(err){
-            reject(err);
-          })
-
-        });
-      }
-
-      const subtractProduct = (transaction, orderProduct) => {
-        return sequelize.Promise.each(needUpdateProducts, function (updateProduct) {
-          return updateProduct;
-        });
-      }
-
-      const createHistory = (transaction, orderData, orderProductData) => {
-        return new Promise(function(resolve, reject) {
-
-          const orderProducts = orderProductData.map(function(data) {
-            return {
-              name: data.name,
-              quantity: data.quantity,
-              price: data.price,
-              total: data.total
-            }
-          });
-
-          OrderHistory.create({
-            OrderId: orderData.id,
-            notify: true,
-            OrderStatusId: orderStatus.id,
-            comment: `使用者 ID: ${data.UserId}，建立訂單 Order ID: ${orderData.id}，訂購產品: ${JSON.stringify(orderProducts)}`,
-          }, { transaction })
-          .then(function(order) {
-            resolve(OrderHistory);
-          }).catch(function(err){
-            reject(err);
-          });
-
-        });
-      }
-
-      const sendEmail = (transaction, config) => {
-        return new Promise(function(resolve, reject) {
-          // TODO: 寄送 Email
-          resolve('Send Email OK');
-        });
-      }
-
-      console.log("=== create data =>",data);
-      console.log("=== make order");
-      let orderData, orderProductData, historyData;
-      return createOrder(transaction)
-      .then(function(order) {
-        orderData = order;
-        return createOrderProduct(transaction, orderData);
-      })
-      .then(function(productData) {
-        orderProductData = productData;
-        return createHistory(transaction, orderData, orderProductData);
-      })
-      .then(function(orderHistory){
-        historyData = orderHistory;
-        return subtractProduct(transaction, orderProductData)
-      })
-      .then( function(subtractProductData) {
-        let config = {};
-        return sendEmail({ transaction, config });
-      })
-      .then( function(email) {
-        return orderData;
-      });
+      // const createOrder = (transaction) => {
+      //   return new Promise(function(resolve, reject) {
+      //     Order.create(data, {transaction})
+      //     .then(function(order) {
+      //       resolve(order);
+      //     }).catch(function(err){
+      //       reject(err);
+      //     });
+      //   });
+      // }
+      //
+      // const createOrderProduct = (transaction, orderData) => {
+      //   return new Promise(function(resolve, reject) {
+      //
+      //     orderProducts = orderProducts.map(function( data ){
+      //       data.OrderId = orderData.id;
+      //       return data;
+      //     });
+      //
+      //     OrderProduct.bulkCreate(orderProducts, {transaction})
+      //     .then( function(orderProduct){
+      //       resolve(orderProduct);
+      //     }).catch( function(err){
+      //       reject(err);
+      //     })
+      //
+      //   });
+      // }
+      //
+      // const subtractProduct = (transaction, orderProduct) => {
+      //   return sequelize.Promise.each(needUpdateProducts, function (updateProduct) {
+      //     return updateProduct;
+      //   });
+      // }
+      //
+      // const createHistory = (transaction, orderData, orderProductData) => {
+      //   return new Promise(function(resolve, reject) {
+      //
+      //     const orderProducts = orderProductData.map(function(data) {
+      //       return {
+      //         name: data.name,
+      //         quantity: data.quantity,
+      //         price: data.price,
+      //         total: data.total
+      //       }
+      //     });
+      //
+      //     OrderHistory.create({
+      //       OrderId: orderData.id,
+      //       notify: true,
+      //       OrderStatusId: orderStatus.id,
+      //       comment: `使用者 ID: ${data.UserId}，建立訂單 Order ID: ${orderData.id}，訂購產品: ${JSON.stringify(orderProducts)}`,
+      //     }, { transaction })
+      //     .then(function(order) {
+      //       resolve(OrderHistory);
+      //     }).catch(function(err){
+      //       reject(err);
+      //     });
+      //
+      //   });
+      // }
+      //
+      // const sendEmail = (transaction, config) => {
+      //   return new Promise(function(resolve, reject) {
+      //     // TODO: 寄送 Email
+      //     resolve('Send Email OK');
+      //   });
+      // }
+      //
+      // console.log("=== create data =>",data);
+      // console.log("=== make order");
+      // let orderData, orderProductData, historyData;
+      // return createOrder(transaction)
+      // .then(function(order) {
+      //   orderData = order;
+      //   return createOrderProduct(transaction, orderData);
+      // })
+      // .then(function(productData) {
+      //   orderProductData = productData;
+      //   return createHistory(transaction, orderData, orderProductData);
+      // })
+      // .then(function(orderHistory){
+      //   historyData = orderHistory;
+      //   return subtractProduct(transaction, orderProductData)
+      // })
+      // .then( function(subtractProductData) {
+      //   let config = {};
+      //   return sendEmail({ transaction, config });
+      // })
+      // .then( function(email) {
+      //   return orderData;
+      // });
 
     } catch (e) {
       sails.log.error(e);
@@ -256,7 +281,7 @@ module.exports = {
       let orderNumber = await sails.models[modelName].findAll({
         where: sequelize.where(
           sails.models[modelName].sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
-        )
+        ),
       });
 
       if(orderNumber){
