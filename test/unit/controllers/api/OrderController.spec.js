@@ -1,6 +1,7 @@
 import createHelper from "../../../util/createHelper.js"
 import { mockAdmin, unMockAdmin } from "../../../util/adminAuthHelper.js"
 // import supplierShipOrder from './suppliershiporder';
+const exec = require('child_process').exec;
 
 describe('about Order controllers', () => {
 
@@ -224,69 +225,79 @@ describe('about Order controllers', () => {
     }
   });
 
-  it('Order Controller quicky create order and confirm order', async(done) => {
+  it.only('Order Controller quicky create order and confirm order', async(done) => {
     try{
+      const command = 'for i in {1..10}\n do\n curl -X POST -d "lastname=日&firstname=晶晶&products=[{\\"id\\":\\"1\\",\\"quantity\\":\\"3\\"},{\\"id\\":\\"1\\",\\"quantity\\":\\"2\\"},{\\"id\\":\\"1\\",\\"quantity\\":\\"5\\"}]&"telephone"="04-22019020"&"fax"=""&"email"="buyer@gmail.com"&"shippingFirstname"="拜爾"&"shippingLastname"="劉"&"shippingAddress1"="台灣大道二段2號16F-1"&"county"="台中市"&"zipcode"="403"&"district"="西區"&"shippingMethod"="低溫宅配"&"shippingCode"="ship654321"&"ip"=""&"forwardedIp"=""&"userAgent"=""&"comment"="這是一個訂購測試"&"token"=$i" http://localhost:1338/api/order \ndate +%s\ndone';
 
-      let product = [
-        {
-          id: product1.id,
-          quantity: 3,
-        },{
-          id: product2.id,
-          quantity: 2,
-        },{
-          id: product3.id,
-          quantity: 5,
-        }];
-      product = JSON.stringify(product);
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+          return;
+        }
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+        done();
+      });
+      // let product = [
+      //   {
+      //     id: product1.id,
+      //     quantity: 3,
+      //   },{
+      //     id: product2.id,
+      //     quantity: 2,
+      //   },{
+      //     id: product3.id,
+      //     quantity: 5,
+      //   }];
+      // product = JSON.stringify(product);
+      //
+      // const orderData = {
+      //   lastname: '日',
+      //   firstname: '晶晶',
+      //   products: product,
+      //   telephone: '04-22019020',
+      //   fax: '',
+      //   email: 'buyer@gmail.com',
+      //   shippingFirstname: '拜爾',
+      //   shippingLastname: '劉',
+      //   shippingAddress1: '台灣大道二段2號16F-1',
+      //   county: '台中市',
+      //   zipcode: '403',
+      //   district: '西區',
+      //   shippingMethod: '低溫宅配',
+      //   shippingCode: 'ship654321',
+      //   ip: '',
+      //   forwardedIp: '',
+      //   userAgent: '',
+      //   comment: '這是一個訂購測試'
+      // };
 
-      const orderData = {
-        lastname: '日',
-        firstname: '晶晶',
-        products: product,
-        telephone: '04-22019020',
-        fax: '',
-        email: 'buyer@gmail.com',
-        shippingFirstname: '拜爾',
-        shippingLastname: '劉',
-        shippingAddress1: '台灣大道二段2號16F-1',
-        county: '台中市',
-        zipcode: '403',
-        district: '西區',
-        shippingMethod: '低溫宅配',
-        shippingCode: 'ship654321',
-        ip: '',
-        forwardedIp: '',
-        userAgent: '',
-        comment: '這是一個訂購測試'
-      };
+      // let makeOrders = []
+      // for (let i = 0; i < 4; i++) {
+      //   let copyOrderData = {...orderData};
+      //   copyOrderData.token = `makeOrderNo.${i}`;
+      //   makeOrders.push(
+      //     request(sails.hooks.http.app)
+      //     .post(`/api/order`).set('Accept', 'application/json')
+      //     .send( copyOrderData )
+      //   );
+      // }
+      // await Promise.all(makeOrders);
 
-      let makeOrders = []
-      for (let i = 0; i < 4; i++) {
-        let copyOrderData = {...orderData};
-        copyOrderData.token = `makeOrderNo.${i}`;
-        makeOrders.push(
-          request(sails.hooks.http.app)
-          .post(`/api/order`).set('Accept', 'application/json')
-          .send( copyOrderData )
-        );
-      }
-      await Promise.all(makeOrders);
+      // const confirmArray = [];
+      // const confirmToken = `confirm-${new Date().getTime()}`;
+      // for (let i = 0; i < 4; i++) {
+      //   confirmArray.push(
+      //     request(sails.hooks.http.app)
+      //     .put(`/api/admin/order/confirm/${Number(i) + 1}`)
+      //     .send({ tracking: 'n/a', orderConfirmComment: 'no' })
+      //   );
+      // }
+      // const result = await Promise.all(confirmArray);
+      //
+      // console.log('result=>', result);
 
-      const confirmArray = [];
-      const confirmToken = `confirm-${new Date().getTime()}`;
-      for (let i = 0; i < 4; i++) {
-        confirmArray.push(
-          request(sails.hooks.http.app)
-          .put(`/api/admin/order/confirm/${Number(i) + 1}`)
-          .send({ tracking: 'n/a', orderConfirmComment: 'no' })
-        );
-      }
-      const result = await Promise.all(confirmArray);
-
-      console.log('result=>', result);
-
-      done();
+      // done();
     } catch (e) {
       sails.log.error(e);
       done(e);
