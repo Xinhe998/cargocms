@@ -297,7 +297,7 @@ describe('about Order controllers', () => {
       };
 
       let makeOrders = []
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 15; i++) {
         let copyOrderData = {...orderData};
         copyOrderData.token = `makeOrderNo.${i}`;
         makeOrders.push(
@@ -365,7 +365,7 @@ describe('about Order controllers', () => {
       };
 
       let makeOrders = []
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 15; i++) {
         let copyOrderData = {...orderData};
         copyOrderData.token = `makeOrderNo.${i}`;
 
