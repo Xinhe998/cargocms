@@ -308,19 +308,8 @@ describe('about Order controllers', () => {
       }
       await Promise.all(makeOrders);
 
-      // const confirmArray = [];
-      // const confirmToken = `confirm-${new Date().getTime()}`;
-      // for (let i = 0; i < 4; i++) {
-      //   confirmArray.push(
-      //     request(sails.hooks.http.app)
-      //     .put(`/api/admin/order/confirm/${Number(i) + 1}`)
-      //     .send({ tracking: 'n/a', orderConfirmComment: 'no' })
-      //   );
-      // }
-      // const result = await Promise.all(confirmArray);
-      //
-      // console.log('result=>', result);
 
+      //超過四筆以上無法運作
       done();
     } catch (e) {
       sails.log.error(e);
@@ -373,7 +362,7 @@ describe('about Order controllers', () => {
           .post(`/api/order`).set('Accept', 'application/json')
           .send( copyOrderData );
       }
-
+      //運作正常
       done();
     } catch (e) {
       sails.log.error(e);
@@ -442,7 +431,7 @@ describe('about Order controllers', () => {
       .post(`/api/order`).set('Accept', 'application/json')
       .send( orderData );
 
-
+      // 無法正常運作
       // done();
     } catch (e) {
       sails.log.error(e);
