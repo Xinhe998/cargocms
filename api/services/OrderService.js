@@ -162,7 +162,7 @@ module.exports = {
 
       let orderNumber = await sails.models[modelName].findAll({
         where: sequelize.where(
-          sails.models[modelName].sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
+          sails.models[modelName].sequelize.fn('DATE_FORMAT', sails.models[modelName].sequelize.col('createdAt'), '%Y%m%d'), date
         ),
         transaction
       });
