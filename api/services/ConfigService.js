@@ -53,23 +53,20 @@ module.exports = {
       data.forEach((info) => {
         const name = info.name;
         result[name] = result[name] || {};
-        console.log(info);
-        if(info.type === 'array') {
-          result[name] = JSON.parse(info.value);
-        } else {
-          if (info.path) {
-            let pathArray = info.path.split('.');
-            if (pathArray.length > 1) {
-              result[name] = ConfigService.arrayTOObject(result[name], pathArray, info.value);
-            } else {
-              result[name] = info.value;
-            }
+        if (info.path) {
+          let pathArray = info.path.split('.');
+          if (pathArray.length > 0) {
+            const value = info.type === 'array' ? JSON.parse(info.value) : info.value
+            result[name] = ConfigService.arrayTOObject(result[name], pathArray, value);
           } else {
             result[name] = info.value;
           }
+        } else {
+          result[name] = info.value;
         }
       })
-      sails.log.info("info!!!!!!!!", result);
+      sails.log.info(result);
+      return result;
     } catch (e) {
       throw e;
     }
@@ -110,19 +107,14 @@ module.exports = {
     }
   },
 
-  arrayTOObject: (target, array, value) => {
+  arrayTOObject: (obj, keys, value) => {
     try {
-      console.log("!!!!!!!", target, array, value);
-      // let result = {};
-      array.forEach((data, index) => {
-        if (index === array.length -1) {
-          target[data] = value;
-        } else {
-          target[data] = target[data] || {}
-        }
-      });
-      sails.log.debug(target);
-      return target
+      const lastKey = keys.pop();
+      const lastObj = keys.reduce((obj, key) =>
+          obj[key] = obj[key] || {},
+          obj);
+      lastObj[lastKey] = value;
+      return obj;
     } catch (e) {
       throw e;
     }
