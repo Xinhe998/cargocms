@@ -3,6 +3,7 @@ module.exports = {
 
   sync: async() => {
     try {
+      sails.log.info('sync model config & local config');
       const devConfig = require('../../config/env/development');
       const prodConfig = require('../../config/env/production');
       const localConfig = require('../../config/local');
@@ -15,7 +16,6 @@ module.exports = {
       );
       const pureJSONConfig = JSON.parse(JSON.stringify(allConfig));
       let formatConfig = ConfigService.jsonTOPath(pureJSONConfig);
-      sails.log.debug(formatConfig, pureJSONConfig);
       for(let data of formatConfig) {
         data = {
           ...data,
@@ -43,6 +43,7 @@ module.exports = {
 
   load: async() => {
     try {
+      sails.log.info('update sails config');
       let modelConfig = await ConfigService.getModelJSONConfig();
       sails.config = _.merge(
         sails.config,
