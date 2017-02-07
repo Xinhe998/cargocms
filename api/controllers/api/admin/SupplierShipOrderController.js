@@ -81,7 +81,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const { status, comment } = req.body;
-      
+
       let findSupplierShipOrderProduct = await SupplierShipOrderProduct.findAll({
         where: {
           SupplierShipOrderId: id
@@ -110,12 +110,10 @@ module.exports = {
         prod = prod.toJSON();
         return prod.id;
       })
-      const supplierShipOrder = await SupplierShipOrder.update({ status }, {
-        where: {
-          id
-        },
-        transaction
-       });
+      let supplierShipOrder = await SupplierShipOrder.findById(id,{ transaction });
+      supplierShipOrder.status = status;
+      await supplierShipOrder.save({ transaction });
+
       const supplierShipOrderHistory = await SupplierShipOrderHistory.create({
         notify: true,
         comment: `出貨單 SupplierShipOrder ID: ${id}，狀態變更:${status}`,
@@ -155,6 +153,11 @@ module.exports = {
           },
           transaction
         });
+        await OrderHistory.create({
+          notify: true,
+          comment: `訂單 ID: ${id} 的出貨單皆完成配送，修改狀態為 COMPLETED.`,
+          OrderId: supplierShipOrder.OrderId
+        },{ transaction });
       }
 
       transaction.commit();
