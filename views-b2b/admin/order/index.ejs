@@ -159,14 +159,14 @@
       },
       {
         "searchable": true,
-        "targets": 29,
+        "targets": 28,
         "render": function (data, type, row) {
           return '<td>' + row.createdDateTime.dateTime + '</td>';
         }
       },
       {
         "searchable": true,
-        "targets": 30,
+        "targets": 29,
         "render": function (data, type, row) {
           var orderStatus =  row.OrderStatus.name;
           var output = '<select class="form-control input-xs" data-oldValue ="'+ row.OrderStatus.name + '" data-orderId="'+ row.id + '" name="updateStatus">';
