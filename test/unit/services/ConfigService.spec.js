@@ -1,5 +1,23 @@
 describe('about Config Service operation.', function() {
 
+  before('測試用 config', async(done) => {
+    try {
+      await Config.create({
+        name: 'appUrl',
+        key: '',
+        value: 'http://localhost:1338',
+      });
+      await Config.create({
+        name: 'test',
+        key: 'key1',
+        value: 'value1',
+      });
+      done();
+    } catch (e) {
+      done(e);
+    }
+  })
+
   it('json 轉 model path', (done) => {
     try {
       const data = {
@@ -36,46 +54,45 @@ describe('about Config Service operation.', function() {
     }
   });
 
-
-  it.only('model path 轉 json', (done) => {
+  it('model path 轉 json', (done) => {
     try {
       const data = [ { name: 'bool', value: true, type: 'text' },
       { name: 'text', value: '123', type: 'text' },
       { name: 'array', value: '[1,2,3]', type: 'array' },
       { name: 'reCAPTCHA',
-        path: 'key',
+        key: 'key',
         value: 'keykeykeykeykeykeykey',
         type: 'text' },
       { name: 'reCAPTCHA',
-        path: 'secret',
+        key: 'secret',
         value: 'secretsecretsecretsecretsecret',
         type: 'text' },
       { name: 'passport',
-        path: 'facebook.name',
+        key: 'facebook.name',
         value: 'Facebook',
         type: 'text' },
       { name: 'passport',
-        path: 'facebook.protocol',
+        key: 'facebook.protocol',
         value: 'oauth2',
         type: 'text' },
       { name: 'passport',
-        path: 'facebook.options.clientID',
+        key: 'facebook.options.clientID',
         value: 'testtesttesttesttesttest',
         type: 'text' },
       { name: 'passport',
-        path: 'facebook.options.clientSecret',
+        key: 'facebook.options.clientSecret',
         value: 'testtesttesttesttesttest',
         type: 'text' },
       { name: 'passport',
-        path: 'facebook.options.callbackURL',
+        key: 'facebook.options.callbackURL',
         value: 'http://localhost:5001/auth/facebook/callback',
         type: 'text' },
       { name: 'passport',
-        path: 'facebook.options.scope',
+        key: 'facebook.options.scope',
         value: '["email","public_profile"]',
         type: 'array' },
       { name: 'passport',
-        path: 'facebook.options.profileFields',
+        key: 'facebook.options.profileFields',
         value: '["id","email","gender","link","locale","name","timezone","updated_time","verified","displayName","photos"]',
         type: 'array' } ]
       const result = ConfigService.pathTOJSON(data);
@@ -89,7 +106,7 @@ describe('about Config Service operation.', function() {
   it('將 sails.config 同步至 config model', async (done) => {
 
     try {
-      let result = ConfigService.sync();
+      let result = await ConfigService.sync();
       result.should.be.true;
       done();
     } catch (e) {
@@ -98,10 +115,10 @@ describe('about Config Service operation.', function() {
 
   });
 
-  it('config model 更新後或是 bootstrap 時，載入 sails.config', async (done) => {
+  it.only('config model 更新後或是 bootstrap 時，載入 sails.config', async (done) => {
 
     try {
-      let result = ConfigService.load();
+      let result = await ConfigService.load();
       result.should.be.true;
       done();
     } catch (e) {

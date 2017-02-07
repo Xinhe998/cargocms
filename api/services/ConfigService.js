@@ -1,12 +1,57 @@
 import _ from 'lodash';
 module.exports = {
 
-  sync: () => {
-
+  sync: async() => {
+    try {
+      const devConfig = require('../../config/env/development');
+      const prodConfig = require('../../config/env/production');
+      const localConfig = require('../../config/local');
+      let modelAllConfig = await ConfigService.getModelJSONConfig();
+      const allConfig = _.merge(
+        devConfig,
+        prodConfig,
+        localConfig,
+        modelAllConfig
+      );
+      const pureJSONConfig = JSON.parse(JSON.stringify(allConfig));
+      let formatConfig = ConfigService.jsonTOPath(pureJSONConfig);
+      sails.log.debug(formatConfig, pureJSONConfig);
+      for(let data of formatConfig) {
+        data = {
+          ...data,
+          key: data.key || '',
+        }
+        let modelConfig = await Config.findOne({
+          where: {
+            name: data.name,
+            key: data.key
+          }
+        });
+        if (modelConfig) {
+          modelConfig.value = data.value;
+          modelConfig.type = data.type;
+          await modelConfig.save();
+        } else {
+          await Config.create(data);
+        }
+      }
+      return true;
+    } catch (e) {
+      throw e;
+    }
   },
 
-  load: () => {
-
+  load: async() => {
+    try {
+      let modelConfig = await ConfigService.getModelJSONConfig();
+      sails.config = _.merge(
+        sails.config,
+        modelConfig,
+      )
+      return true;
+    } catch (e) {
+      throw e;
+    }
   },
 
   init: () => {
@@ -53,8 +98,8 @@ module.exports = {
       data.forEach((info) => {
         const name = info.name;
         result[name] = result[name] || {};
-        if (info.path) {
-          let pathArray = info.path.split('.');
+        if (info.key) {
+          let pathArray = info.key.split('.');
           if (pathArray.length > 0) {
             const value = info.type === 'array' ? JSON.parse(info.value) : info.value
             result[name] = ConfigService.arrayTOObject(result[name], pathArray, value);
@@ -82,7 +127,7 @@ module.exports = {
           if(_.isArray(data[key])){
             const value = data[key];
             result.push({
-              path: `${path}${path ? '.': ''}${key}`,
+              key: `${path}${path ? '.': ''}${key}`,
               value: JSON.stringify(value),
               type: 'array'
             });
@@ -93,7 +138,7 @@ module.exports = {
           } else {
             const value = data[key];
             result.push({
-              path: `${path}${path ? '.': ''}${key}`,
+              key: `${path}${path ? '.': ''}${key}`,
               value,
               type: 'text'
             });
@@ -115,6 +160,19 @@ module.exports = {
           obj);
       lastObj[lastKey] = value;
       return obj;
+    } catch (e) {
+      throw e;
+    }
+  },
+
+  getModelJSONConfig: async() => {
+    try {
+      let modelConfig = await Config.findAll();
+      modelConfig = modelConfig.map((data) => {
+        return data.toJSON();
+      })
+      modelConfig = ConfigService.pathTOJSON(modelConfig);
+      return modelConfig;
     } catch (e) {
       throw e;
     }
