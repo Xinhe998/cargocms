@@ -1,6 +1,12 @@
 <style type="text/css">
   body {
     background-color: #fff;
+    position: relative;
+  }
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
   }
 </style>
 <script src="https://www.google.com/recaptcha/api.js?hl=zh-TW" async defer></script>
@@ -82,14 +88,15 @@
             <div class="col-lg-6 checkbox form-group">
               <label>
                 <input type="checkbox" name="agree">
-                <%- __('register.label.agree', `<a href="#" class="color-green" data-toggle="modal" data-target="#myModal">`, `</a>`) %>
+                <a href="/terms.pdf" target="_blank">會員服務條款</a>
+                <a href="/privacy.pdf" target="_blank">隱私權政策</a>
               </label>
             </div>
 
           </div>
           <button type="submit" class="btn btn-danger btn-lg btn-block reg-btn">免費註冊</button>
 
-          <div style="max-width:300px; margin: 20px auto;">
+          <div style="max-width:300px; margin: 20px auto; margin-bottom:40px;">
             <a class="btn btn-lg btn-block register-login" href="/login?url=/">
               會員登入
             </a>
@@ -99,29 +106,6 @@
       </div>
 
     </div>
-  </div>
-</div>
-
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">會員服務條款</h4>
-      </div>
-      <div class="modal-body">
-        <div style="max-height: 400px; overflow-y: scroll">
-          <% include agreement.inc.ejs %>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
-      </div>
-    </div>
-
   </div>
 </div>
 
