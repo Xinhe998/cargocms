@@ -351,6 +351,16 @@ module.exports = {
       await message.save();
 
     }
+  },
+
+  orderProductShipped: async(result = {
+    orderNumber, productName, shippingName, phone, address, email
+  }) => {
+    try {
+      let productShipped = sails.config.mail.templete.event.productShipped;
+    } catch (e) {
+      throw e;
+    }
   }
 
 };
