@@ -142,7 +142,30 @@
 
 .fb-like {
   position: absolute !important;
-  right: 43px;
-  z-index: 1;
+  right: 99px;
+  z-index: 11;
   margin-top: -2px !important;
+}
+.fb-group {
+  float: right;
+  margin-top: -2px;
+  margin-right: 42px;
+  position: relative;
+  z-index: 11;
+}
+.fb-link {
+  padding: 3px 6px 3px 6px;
+  border: 1px solid #4267b2;
+  background: #4267b2;
+  color: #fff !important;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 900;
+  border-radius: 4px;
+  text-decoration: none !important;
+}
+.fb-link .fa {
+  margin-right: 3px;
 }
