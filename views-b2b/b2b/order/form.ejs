@@ -109,7 +109,7 @@
           <td>$ {{cart.price | moneyNum}}</td>
           <td>{{cart.quantity}}</td>
           <td>$ {{parseFloat(cart.price) * parseFloat(cart.quantity) | moneyNum }}</td>
-          <td><i v-on:click.stop="removeProduct(cart.id, $event)" class="fa fa-times" aria-hidden="true"></i></td>
+          <td><i v-on:click.stop="removeProduct(cart.id, $event)" class="fa fa-times btn" aria-hidden="true"></i></td>
         </tr>
       </tbody>
     </table>
