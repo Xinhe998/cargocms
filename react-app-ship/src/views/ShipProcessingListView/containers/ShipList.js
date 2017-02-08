@@ -83,7 +83,7 @@ const styles = {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      dataSource: props.shipOrder.list,
+      dataSource: {},
       status: 'PROCESSING',
       refreshStatus: 'loading',
       refreshSize: 80,
