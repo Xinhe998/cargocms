@@ -131,8 +131,7 @@ module.exports = {
       let checkShipOrderCompleted = await SupplierShipOrder.findAll({
         where: {
           OrderId: supplierShipOrder.OrderId
-        },
-        transaction
+        }
       });
       for (let i = 0; i < checkShipOrderCompleted.length; i++) {
         if (checkShipOrderCompleted[i].status !== 'COMPLETED') {
@@ -144,8 +143,7 @@ module.exports = {
         const orderstatus = await OrderStatus.findOne({
           where: {
             name: 'COMPLETED'
-          },
-          transaction
+          }
         });
         await Order.update({OrderStatusId: orderstatus.id}, {
           where: {
@@ -161,6 +159,25 @@ module.exports = {
       }
 
       transaction.commit();
+
+      // Product Shipped, inform custom by send email.
+      if (status === 'SHIPPED') {
+        const order = await Order.findById(supplierShipOrder.OrderId);
+        const productName = findSupplierShipOrderProduct.map((prod) => {
+          prod = prod.toJSON();
+          return prod.model;
+        })
+        const mailMessage = {};
+        mailMessage.orderNumber = order.orderNumber;
+        mailMessage.productName = productName.join(',');
+        mailMessage.shippingName = order.shipplingLastName + order.shippingFirstName;
+        mailMessage.phone = order.telephone;
+        mailMessage.address = order.shippingPostcode + order.shippingCity + order.shippingAddress1;
+        mailMessage.address = order.email;
+        const messageConfig = await MessageService.orderProductShipped(mailMessage);
+        const mail = await Message.create(messageConfig);
+        await MessageService.sendMail(mail);
+      }
 
       let message = 'update status success';
       return res.ok({ message });
