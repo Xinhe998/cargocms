@@ -2,6 +2,7 @@
   margin-bottom: 33px !important;
   padding-bottom: 10px;
   margin: auto;
+  position: relative;
 }
 .swiper .swiper-pagination {
   position: relative;
@@ -137,4 +138,10 @@
   .swiper-container .swiper-slide .slogan p{
     display: none;
   }
+}
+
+.fb-like {
+  position: absolute !important;
+  right: 43px;
+  margin-top: -2px !important;
 }
