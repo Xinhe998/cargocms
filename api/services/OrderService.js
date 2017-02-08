@@ -7,13 +7,13 @@ module.exports = {
       const products = JSON.parse(data.products);
       let totalPrice = 0;
       for(let p of products){
-        let product = await Product.findById(p.id,{ transaction });
+        let product = await Product.findById(p.id);
         totalPrice += Number(product.price) * Number( p.quantity );
       }
       data.total = totalPrice;
 
 
-      data.orderNumber = await OrderService.orderNumberGenerator({modelName: 'order', userId: data.UserId, product: data.porducts, transaction})
+      data.orderNumber = await OrderService.orderNumberGenerator({modelName: 'order', userId: data.UserId, product: data.porducts})
       sails.log.info('產生訂單編號:',data.orderNumber);
 
       data.tracking = '訂單建立';
@@ -71,20 +71,15 @@ module.exports = {
       await OrderService.updateUserData({userId: data.UserId, email: data.email, phone1: data.telephone, transaction});
 
       const orderStatus = await OrderStatus.findOne({
-        where: { name:'NEW'},
-        transaction
+        where: {
+          name:'NEW'
+        }
       });
       data.OrderStatusId = orderStatus.id;
       const order = await Order.create(data, {transaction});
 
       for(const p of products){
-        const product = await Product.findOne({
-          where: {
-            id: p.id,
-          },
-          include: ProductDescription,
-          transaction
-        });
+        const product = await Product.findById({ id: p.id });
 
         if (product.subtract) {
           let productUpdate = await Product.findById(product.id , { transaction });
@@ -152,7 +147,7 @@ module.exports = {
     }
   },
 
-  orderNumberGenerator: async ({modelName, userId, product, transaction}) => {
+  orderNumberGenerator: async ({modelName, userId, product}) => {
     try {
       //產生訂單編號
       let date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
@@ -163,8 +158,7 @@ module.exports = {
       let orderNumber = await sails.models[modelName].findAll({
         where: sequelize.where(
           sails.models[modelName].sequelize.fn('DATE_FORMAT', sails.models[modelName].sequelize.col('createdAt'), '%Y%m%d'), date
-        ),
-        transaction
+        )
       });
 
       if(orderNumber){
