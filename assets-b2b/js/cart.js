@@ -5,7 +5,7 @@ function getProductInfo(productDom) {
     number = max;
     swal({
       title:'提示',
-      text: `<p>訂購數量超過庫存量。</p></br></p>可購買數量 ${max} 包</p>`, 
+      text: `<p>訂購數量超過庫存量。</p></br></p>可購買數量 ${max} 包</p>`,
       html: true
     })
   }
@@ -107,6 +107,13 @@ var OrderForm = new Vue({
   el: '#orderForm',
   data: {
     carts: JSON.parse(localStorage.cart || '[]'),
+  },
+  methods: {
+    removeProduct: function (index, event) {
+      removeFromCart(index);
+      $(window).trigger('modifyCart');
+      this.carts = JSON.parse(localStorage.cart || '[]');
+    },
   },
   computed: {
     priceSum: function () {
