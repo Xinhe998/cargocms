@@ -79,11 +79,14 @@ module.exports = {
       const order = await Order.create(data, {transaction});
 
       for(const p of products){
-        const product = await Product.findById({ id: p.id });
+        const product = await Product.findById( p.id, {
+          include: ProductDescription
+        });
 
         if (product.subtract) {
-          let productUpdate = await Product.findById(product.id , { transaction });
+          let productUpdate = await Product.findById(product.id);
           productUpdate.quantity = Number(product.quantity) - Number(p.quantity);
+          if (productUpdate.quantity < 0) throw new Error(`產品ID:${productUpdate.id}，庫存量不足`);
           await productUpdate.save({ transaction });
         }
 
