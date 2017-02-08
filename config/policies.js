@@ -40,6 +40,7 @@ var defaultConfig = {
     '*': ['passport', 'sessionAuth'],
     'forgotPassword': [],
     'updatePassword': [],
+    'getCurrentUser': [],
   },
   'EventController': {
     'allpay': ['passport', 'sessionAuth'],

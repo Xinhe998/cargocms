@@ -6,8 +6,11 @@ import axios from 'axios';
 module.exports = {
   getCurrentUser: async (req, res) => {
     try {
-      if (!req.user.id)
-        throw Error('no login');
+      if (!req.user)
+        return res.ok({
+          success: false,
+          message: 'need login',
+        });
 
       const where = {
         where: {
@@ -29,7 +32,7 @@ module.exports = {
       res.serverError(e);
     }
   },
-  
+
   follow: async (req, res) => {
     try {
       const { id } = req.params;
