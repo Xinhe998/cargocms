@@ -1,7 +1,7 @@
 module.exports = {
   orderForm: async (req, res) => {
     if (!req.session.authenticated){
-      res.redirect('/login');
+      res.redirect('/');
     }
 
     const token = await UtilsService.tokenGenerator();
