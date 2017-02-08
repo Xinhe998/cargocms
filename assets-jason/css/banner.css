@@ -143,5 +143,6 @@
 .fb-like {
   position: absolute !important;
   right: 43px;
+  z-index: 1;
   margin-top: -2px !important;
 }
