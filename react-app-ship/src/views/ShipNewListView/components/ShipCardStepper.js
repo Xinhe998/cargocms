@@ -69,61 +69,55 @@ const propTypes = {
 };
 
 function ShipCardStepper(props) {
+  let stepIndex = 0;
+  switch (props.status) {
+    case 'NEW':
+      stepIndex = 0;
+      break;
+    case 'PROCESSING':
+      stepIndex = 1;
+      break;
+    case 'SHIPPED':
+      stepIndex = 2;
+      break;
+    case 'COMPLETED':
+      stepIndex = 4;
+      break;
+    default:
+      stepIndex = 0;
+      break;
+  }
   return (
     <div className='row stepper-wrapper'>
       <div className='col-xs-12 stepper-content'>
-        <Stepper linear={false}>
-          <Step completed={false}>
+        <Stepper linear={true} activeStep={stepIndex}>
+          <Step>
             <StepLabel
               className='step-dot step-new'
-              icon={
-                <FontIcon
-                  className='material-icons'
-                  style={{ color: blue400 }}
-                >check_circle
-                </FontIcon>}
             >
               新訂單
             </StepLabel>
           </Step>
 
-          <Step completed={false}>
+          <Step>
             <StepLabel
               className='step-dot step-preparing'
-              icon={
-                <FontIcon
-                  className='material-icons'
-                  style={{ color: orange400 }}
-                >pause_circle_outline
-                </FontIcon>}
             >
               備貨中
             </StepLabel>
           </Step>
 
-          <Step completed={false}>
+          <Step>
             <StepLabel
               className='step-dot step-shipped'
-              icon={
-                <FontIcon
-                  className='material-icons'
-                  style={{ color: grey300 }}
-                >pause_circle_outline
-                </FontIcon>}
             >
-              已出貨
+              出貨中
             </StepLabel>
           </Step>
 
-          <Step completed={false}>
+          <Step>
             <StepLabel
               className='step-dot step-finsih'
-              icon={
-                <FontIcon
-                  className='material-icons'
-                  style={{ color: grey900 }}
-                >pause_circle_outline
-                </FontIcon>}
             >
               完成配送
             </StepLabel>
