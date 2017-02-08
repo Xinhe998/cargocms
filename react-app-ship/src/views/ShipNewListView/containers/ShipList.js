@@ -2,6 +2,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 import {
   FontIcon,
   AutoComplete,
@@ -18,7 +19,6 @@ import {
   fetchShipListData,
   fetchFindShipItem,
 } from '../../../redux/modules/shipOrder';
-import RefreshIndicator from 'material-ui/RefreshIndicator';
 
 const styles = {
   iconSearch: {
@@ -213,7 +213,7 @@ const styles = {
                 )) : null
             }
           </ReactCSSTransitionGroup>
-          <div style={styles.container} className="col-xs-offset-5 col-xs-1">
+          <div style={styles.container} className='col-xs-offset-5 col-xs-1'>
             <RefreshIndicator
               size={this.state.refreshSize}
               left={0}
