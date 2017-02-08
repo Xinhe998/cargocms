@@ -147,11 +147,23 @@
   margin-top: -2px !important;
 }
 .fb-group {
-  float: right;
-  margin-top: -2px;
-  margin-right: 42px;
-  position: relative;
+  position: absolute;
+  right: 42px;
   z-index: 11;
+  margin-top: -2px;
+}
+@media (max-width: 913px) {
+  .fb-like {
+    margin-top: 65px !important;
+    right: 76px;
+  }
+  .fb-group {
+    margin-top: 65px;
+    right: 19px;
+  }
+  .swiper {
+    margin-bottom: 60px !important;
+  }
 }
 .fb-link {
   padding: 3px 6px 3px 6px;
