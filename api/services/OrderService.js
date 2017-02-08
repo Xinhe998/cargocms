@@ -7,13 +7,13 @@ module.exports = {
       const products = JSON.parse(data.products);
       let totalPrice = 0;
       for(let p of products){
-        let product = await Product.findById(p.id,{ transaction });
+        let product = await Product.findById(p.id);
         totalPrice += Number(product.price) * Number( p.quantity );
       }
       data.total = totalPrice;
 
 
-      data.orderNumber = await OrderService.orderNumberGenerator({modelName: 'order', userId: data.UserId, product: data.porducts, transaction})
+      data.orderNumber = await OrderService.orderNumberGenerator({modelName: 'order', userId: data.UserId, product: data.porducts})
       sails.log.info('產生訂單編號:',data.orderNumber);
 
       data.tracking = '訂單建立';
@@ -72,24 +72,28 @@ module.exports = {
 
       const orderStatus = await OrderStatus.findOne({
         where: { name:'NEW'},
-        transaction
       });
       data.OrderStatusId = orderStatus.id;
       const order = await Order.create(data, {transaction});
 
       for(const p of products){
-        const product = await Product.findOne({
-          where: {
-            id: p.id,
-          },
-          include: ProductDescription,
-          transaction
+        const product = await Product.findById( p.id, {
+          include: ProductDescription
         });
 
         if (product.subtract) {
-          let productUpdate = await Product.findById(product.id , { transaction });
+          let productUpdate = await Product.findById(product.id);
+
+          // if (Date.parse(product.updatedAt) === Date.parse(productUpdate.updatedAt)) {
+          //   productUpdate.quantity = Number(product.quantity) - Number(p.quantity);
+          //   await productUpdate.save({ transaction });
+          // } else {
+          //   throw new Error('更新產品庫存量失敗。');
+          // }
           productUpdate.quantity = Number(product.quantity) - Number(p.quantity);
+          if (productUpdate.quantity < 0) throw new Error (`產品ID: ${productUpdate.id}，庫存量不足`);
           await productUpdate.save({ transaction });
+          console.log("productUpdate.quantity =>", productUpdate.quantity);
         }
 
         await OrderProduct.create({
@@ -152,7 +156,7 @@ module.exports = {
     }
   },
 
-  orderNumberGenerator: async ({modelName, userId, product, transaction}) => {
+  orderNumberGenerator: async ({modelName, userId, product}) => {
     try {
       //產生訂單編號
       let date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
@@ -163,8 +167,7 @@ module.exports = {
       let orderNumber = await sails.models[modelName].findAll({
         where: sequelize.where(
           sails.models[modelName].sequelize.fn('DATE_FORMAT', sails.models[modelName].sequelize.col('createdAt'), '%Y%m%d'), date
-        ),
-        transaction
+        )
       });
 
       if(orderNumber){
