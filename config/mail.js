@@ -1,4 +1,5 @@
 import customConfigLoader from './util/customConfigLoader.js';
+import _ from 'lodash';
 var customConfig = customConfigLoader('mail.js');
 
 var defaultConfig = {
@@ -235,8 +236,8 @@ var defaultConfig = {
     }
   }
 }
+var result = _.merge(defaultConfig, customConfig);
 
 module.exports.mail = {
-  ...defaultConfig,
-  ...customConfig
+  ...result
 }
