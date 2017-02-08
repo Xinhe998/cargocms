@@ -6,7 +6,8 @@ import axios from 'axios';
 module.exports = {
   getCurrentUser: async (req, res) => {
     try {
-      if (!req.user)
+      const user = AuthService.getSessionUser(req);
+      if (!user)
         return res.ok({
           success: false,
           message: 'need login',
@@ -14,7 +15,7 @@ module.exports = {
 
       const where = {
         where: {
-          id: req.user.id,
+          id: user.id,
         },
         include: [
           Role,
