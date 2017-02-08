@@ -26,6 +26,7 @@ module.exports = {
       if (!stock) throw Error('訂購的產品庫存量不足！');
 
       const order = await OrderService.createOrder(transaction, data);
+      transaction.commit();
 
       let mailMessage = {};
       mailMessage.serialNumber = order.orderNumber;
@@ -41,8 +42,6 @@ module.exports = {
       const messageConfig = await MessageService.orderToShopConfirm(mailMessage);
       const mail = await Message.create(messageConfig);
       await MessageService.sendMail(mail);
-
-      transaction.commit();
 
       const message = 'Order create success';
       return res.ok({
