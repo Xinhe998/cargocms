@@ -178,6 +178,14 @@
   border-radius: 4px;
   text-decoration: none !important;
 }
+.fb-link:hover {
+  background: #365899;
+  border: 1px solid #365899;
+}
+.fb-link:active {
+  background: #577fbc;
+  border: 1px solid #577fbc;
+}
 .fb-link .fa {
   margin-right: 3px;
 }
