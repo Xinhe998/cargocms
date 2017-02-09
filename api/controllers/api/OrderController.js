@@ -27,7 +27,7 @@ module.exports = {
 
       console.log("=== OrderService.createOrder start ===");
       const order = await OrderService.createOrder(transaction, data);
-      console.log("=== OrderService.createOrder end ===", "=== order.id ===", order.id);
+      console.log("=== OrderService.createOrder end ===", order.aop);
 
 
       transaction.commit();
