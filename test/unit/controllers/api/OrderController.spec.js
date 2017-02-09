@@ -20,8 +20,6 @@ describe('about Order controllers', () => {
         address2: '台中市',
       });
 
-      console.log('user.roles=>', user);
-
       await mockAdmin();
       supplier = await createHelper.supplier('一六八生猛海鮮');
 
@@ -51,7 +49,7 @@ describe('about Order controllers', () => {
     done();
   });
 
-  it('User shopping car Order some Products.', async (done) => {
+  it.only('User shopping car Order some Products.', async (done) => {
     try{
       const token = '8178e7c8e88a68321af84bc7b77e2e38';
       let product = [
@@ -225,7 +223,7 @@ describe('about Order controllers', () => {
     }
   });
 
-  it.only('Order Controller quicky create order and confirm order', async(done) => {
+  it('Order Controller quicky create order and confirm order', async(done) => {
     try{
       const command = 'for i in {1..10}\n do\n curl -X POST -d "lastname=日&firstname=晶晶&products=[{\\"id\\":\\"1\\",\\"quantity\\":\\"3\\"},{\\"id\\":\\"2\\",\\"quantity\\":\\"2\\"},{\\"id\\":\\"3\\",\\"quantity\\":\\"5\\"}]&"telephone"="04-22019020"&"fax"=""&"email"="buyer@gmail.com"&"shippingFirstname"="拜爾"&"shippingLastname"="劉"&"shippingAddress1"="台灣大道二段2號16F-1"&"county"="台中市"&"zipcode"="403"&"district"="西區"&"shippingMethod"="低溫宅配"&"shippingCode"="ship654321"&"ip"=""&"forwardedIp"=""&"userAgent"=""&"comment"="這是一個訂購測試"&"token"=$i" http://localhost:1338/api/order \ndate +%s\ndone';
       const confirmCommand = 'for i in {1..10}\n do\n curl -X POST -d "tracking="na"&orderConfirmComment="no"" http://localhost:1338/api/admin/order/confirm/$i \ndate +%s\ndone';

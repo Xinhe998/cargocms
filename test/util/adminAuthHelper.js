@@ -9,7 +9,6 @@ module.exports = {
         },
         include: Role,
       });
-      console.log('admin=>', admin);
       sinon.stub(AuthService, 'getSessionUser', (req) => {
         return admin.toJSON();
       });

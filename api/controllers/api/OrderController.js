@@ -25,22 +25,10 @@ module.exports = {
       const stock = await ProductService.checkStock({transaction, products});
       if (!stock) throw Error('訂購的產品庫存量不足！');
 
+      console.log("=== OrderService.createOrder start ===");
       const order = await OrderService.createOrder(transaction, data);
+      console.log("=== OrderService.createOrder end ===", "=== order.id ===", order.id);
 
-      let mailMessage = {};
-      mailMessage.serialNumber = order.orderNumber;
-      mailMessage.paymentTotalAmount = order.total;
-      mailMessage.productName = '';
-      mailMessage.email = order.email;
-      mailMessage.username = `${order.lastname}${order.firstname}`;
-      mailMessage.shipmentUsername = `${order.lastname}${order.firstname}`;
-      mailMessage.shipmentAddress = order.shippingAddress1;
-      mailMessage.note = order.comment;
-      mailMessage.phone = order.telephone;
-      mailMessage.invoiceNo = `${order.invoicePrefix}${order.invoiceNo}`;
-      const messageConfig = await MessageService.orderToShopConfirm(mailMessage);
-      const mail = await Message.create(messageConfig);
-      await MessageService.sendMail(mail);
 
       transaction.commit();
 

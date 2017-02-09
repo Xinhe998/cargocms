@@ -13,8 +13,10 @@ import fs from 'fs';
 import shortid from 'shortid';
 import MailerService from 'sails-service-mailer';
 import rc from 'rc';
+
 module.exports.bootstrap = async (cb) => {
 
+  await sails.config.aop.init();
 
   try {
     if(!sails.config.appUrl) sails.config.appUrl = "localhost:"+ sails.config.port
