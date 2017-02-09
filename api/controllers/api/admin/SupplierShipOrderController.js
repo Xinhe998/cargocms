@@ -161,22 +161,30 @@ module.exports = {
       transaction.commit();
 
       // Product Shipped, inform custom by send email.
-      if (status === 'SHIPPED') {
-        const order = await Order.findById(supplierShipOrder.OrderId);
-        const productName = findSupplierShipOrderProduct.map((prod) => {
-          prod = prod.toJSON();
-          return prod.model;
-        })
-        const mailMessage = {};
-        mailMessage.orderNumber = order.orderNumber;
-        mailMessage.productName = productName.join(',');
-        mailMessage.shippingName = order.shipplingLastName + order.shippingFirstName;
-        mailMessage.phone = order.telephone;
-        mailMessage.address = order.shippingPostcode + order.shippingCity + order.shippingAddress1;
-        mailMessage.address = order.email;
-        const messageConfig = await MessageService.orderProductShipped(mailMessage);
-        const mail = await Message.create(messageConfig);
-        await MessageService.sendMail(mail);
+      try {
+        if (status === 'SHIPPED') {
+          const order = await Order.findById(supplierShipOrder.OrderId);
+          console.log("## the Order ==>", order);
+          const productName = findSupplierShipOrderProduct.map((prod) => {
+            prod = prod.toJSON();
+            return prod.model;
+          })
+          console.log("## product names =>",productName);
+          const mailMessage = {};
+          mailMessage.orderNumber = order.orderNumber;
+          mailMessage.productName = productName.join('<br />');
+          mailMessage.shippingName = order.shippingLastname + order.shippingFirstname;
+          mailMessage.username  = order.displayName;
+          mailMessage.telephone = order.telephone;
+          mailMessage.address = order.shippingPostcode + order.shippingCity + order.shippingAddress1;
+          mailMessage.email = order.email;
+          const messageConfig = await MessageService.orderProductShipped(mailMessage);
+          console.log("messageConfig ==>",messageConfig);
+          const mail = await Message.create(messageConfig);
+          await MessageService.sendMail(mail);
+        }
+      } catch (e) {
+        sails.log.error(e);
       }
 
       let message = 'update status success';
