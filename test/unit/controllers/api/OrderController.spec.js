@@ -261,6 +261,9 @@ describe('about Order controllers', () => {
   });
 
   it.only('Promise All, 同時快速建立多筆訂單', async(done) =>{
+    // 此測試須將 local.js 內的 mysql 的 option 內加上 pool: { maxConnections: 20, maxIdleTime: 30} 提高連線數
+    // 此測試只會 完成 11 筆訂單，剩餘 4 筆會因庫存不足而取消
+    // 產品庫存量 {id: 1, quantity: 135}, {id: 2, quantity: 146}, {id: 3, quantity: 3}
     try {
       let product = [
         {
@@ -307,19 +310,6 @@ describe('about Order controllers', () => {
         );
       }
       await Promise.all(makeOrders);
-
-      // const confirmArray = [];
-      // const confirmToken = `confirm-${new Date().getTime()}`;
-      // for (let i = 0; i < 4; i++) {
-      //   confirmArray.push(
-      //     request(sails.hooks.http.app)
-      //     .put(`/api/admin/order/confirm/${Number(i) + 1}`)
-      //     .send({ tracking: 'n/a', orderConfirmComment: 'no' })
-      //   );
-      // }
-      // const result = await Promise.all(confirmArray);
-      //
-      // console.log('result=>', result);
 
       done();
     } catch (e) {
