@@ -148,25 +148,39 @@
       {
         "targets": 'orderproducts',
         "render": function (data, type, row) {
-          var orderProduct = row.OrderProducts;
-          // console.log('row.OrderProduct ==>', row);
-          var list = '';
-          for( key in orderProduct ) {
-            list = list + `<p> 名稱：${orderProduct[key].name}，數量：${orderProduct[key].quantity}，金額：${orderProduct[key].formatTotal} </p>`
+          // var orderProduct = row.OrderProducts;
+          // // console.log('row.OrderProduct ==>', row);
+          // var list = '';
+          // for(var key in orderProduct ) {
+          //   list = list + `<p> 名稱：${orderProduct[key].name}，數量：${orderProduct[key].quantity}，金額：${orderProduct[key].formatTotal} </p>`
+          // }
+          // return '<td>' + list + '</td>';
+          var suppliers = {};
+          for (var index in row.OrderProducts) {
+            var supplierName = row.OrderProducts[index].Product.Supplier.name;
+            var product = row.OrderProducts[index];
+            if (!Array.isArray(suppliers[supplierName])) {
+              suppliers[supplierName] = [];
+            }
+            suppliers[supplierName].push(`${product.quantity} x ${product.name} - \$ ${product.formatTotal}`);
           }
-          return '<td>' + list + '</td>';
+          var orderProduct = ''
+          for (var key in suppliers) {
+            orderProduct = orderProduct + key + '<br />' + suppliers[key].join('<br />') + '<br /><br />';
+          }
+          return '<td><br/>' + orderProduct + '</td>';
         }
       },
       {
         "searchable": true,
-        "targets": 29,
+        "targets": 28,
         "render": function (data, type, row) {
           return '<td>' + row.createdDateTime.dateTime + '</td>';
         }
       },
       {
         "searchable": true,
-        "targets": 30,
+        "targets": 29,
         "render": function (data, type, row) {
           var orderStatus =  row.OrderStatus.name;
           var output = '<select class="form-control input-xs" data-oldValue ="'+ row.OrderStatus.name + '" data-orderId="'+ row.id + '" name="updateStatus">';
@@ -185,6 +199,24 @@
 				"orderable": false,
 				"searchable": false,
 				"render": function ( data, type, row ) {
+          var suppliers = {};
+          for (var index in row.OrderProducts) {
+            var supplierName = row.OrderProducts[index].Product.Supplier.name;
+            var product = row.OrderProducts[index];
+            if (!Array.isArray(suppliers[supplierName])) {
+              suppliers[supplierName] = [];
+            }
+            suppliers[supplierName].push(`${product.quantity} x ${product.name} - \$ ${product.formatTotal}`);
+          }
+          var orderProduct = ''
+          for (var key in suppliers) {
+            orderProduct = orderProduct + key + '<br />' + suppliers[key].join('<br />') + '<br /><br />';
+          }
+
+          // var orderProduct = row.OrderProducts.map(function (product) {
+          //   return '名稱：' + product.name + '(' + product.Product.Supplier.name + ')' + '，數量：' + product.quantity.toString() + '，金額：'+ product.formatTotal;
+          // });
+          // orderProduct = orderProduct.join('<br />');
 					var colBody =
 					'<div class="row-action-buttons hidden-xs hidden-sm">'+
 						'<a name="showDataButton" class="btn btn-default btn-xs" role="button" data-id="'+row.id+'">'+
@@ -193,7 +225,7 @@
 						'<a name="editDataButton" class="btn btn-default btn-xs" role="button" data-id="'+row.id+'">'+
 							'<i class="fa-fw fa fa-pencil-square-o text-muted"/>'+
 						'</a>'+
-            '<a name="orderConfirm" class="btn btn-default btn-xs'+( (data.tracking === '訂單建立') ? "": " hidden ") +'" role="button" data-id="'+ row.id +'" data-total="'+ row.formatTotal +'">'+
+            '<a name="orderConfirm" class="btn btn-default btn-xs'+( (data.tracking === '訂單建立') ? "": " hidden ") +'" role="button" data-id="'+ row.id +'" data-total="'+ row.formatTotal +'" data-order="'+ orderProduct +'">'+
               '<i class="fa-fw fa fa-check text-muted"/>'+
             '</a>'+
 					'</div>';
