@@ -238,6 +238,4 @@ var defaultConfig = {
 }
 var result = _.merge(defaultConfig, customConfig);
 
-module.exports.mail = {
-  ...result
-}
+module.exports.mail = result;
