@@ -145,11 +145,7 @@ module.exports = {
           },
           transaction
         });
-        await OrderHistory.create({
-          notify: true,
-          comment: `訂單 ID: ${id} 的出貨單皆完成配送，修改狀態為 COMPLETED.`,
-          OrderId: supplierShipOrder.OrderId
-        },{ transaction });
+
       }
 
       transaction.commit();
