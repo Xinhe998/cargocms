@@ -89,7 +89,7 @@ module.exports = {
         if (product.subtract) {
           let productUpdate = await Product.findById(product.id);
           productUpdate.quantity = Number(product.quantity) - Number(p.quantity);
-          if (productUpdate.quantity < 0) throw new Error(`產品ID:${productUpdate.id}，庫存量不足`);
+          if (productUpdate.quantity < 0) throw new Error(`產品ID: ${productUpdate.id}，庫存量不足`);
           await productUpdate.save({ transaction });
         }
 

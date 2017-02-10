@@ -225,7 +225,7 @@ describe('about Order controllers', () => {
     }
   });
 
-  it.skip('Order Controller quicky create order and confirm order', async(done) => {
+  it.skip('CURL 同時快速建立多筆訂單', async(done) => {
     try{
       const command = 'for i in {1..10}\n do\n curl -X POST -d "lastname=日&firstname=晶晶&products=[{\\"id\\":\\"1\\",\\"quantity\\":\\"3\\"},{\\"id\\":\\"2\\",\\"quantity\\":\\"2\\"},{\\"id\\":\\"3\\",\\"quantity\\":\\"5\\"}]&"telephone"="04-22019020"&"fax"=""&"email"="buyer@gmail.com"&"shippingFirstname"="拜爾"&"shippingLastname"="劉"&"shippingAddress1"="台灣大道二段2號16F-1"&"county"="台中市"&"zipcode"="403"&"district"="西區"&"shippingMethod"="低溫宅配"&"shippingCode"="ship654321"&"ip"=""&"forwardedIp"=""&"userAgent"=""&"comment"="這是一個訂購測試"&"token"=$i" http://localhost:1338/api/order \ndate +%s\ndone';
       const confirmCommand = 'for i in {1..10}\n do\n curl -X POST -d "tracking="na"&orderConfirmComment="no"" http://localhost:1338/api/admin/order/confirm/$i \ndate +%s\ndone';
@@ -318,6 +318,126 @@ describe('about Order controllers', () => {
     }
   });
 
+  it.skip('For 迴圈, 快速建立訂單', async(done) =>{
+    try {
+      let product = [
+        {
+          id: product1.id,
+          quantity: 3,
+        },{
+          id: product2.id,
+          quantity: 2,
+        },{
+          id: product3.id,
+          quantity: 5,
+        }];
+      product = JSON.stringify(product);
+
+      const orderData = {
+        lastname: '日',
+        firstname: '晶晶',
+        products: product,
+        telephone: '04-22019020',
+        fax: '',
+        email: 'buyer@gmail.com',
+        shippingFirstname: '拜爾',
+        shippingLastname: '劉',
+        shippingAddress1: '台灣大道二段2號16F-1',
+        county: '台中市',
+        zipcode: '403',
+        district: '西區',
+        shippingMethod: '低溫宅配',
+        shippingCode: 'ship654321',
+        ip: '',
+        forwardedIp: '',
+        userAgent: '',
+        comment: '這是一個訂購測試'
+      };
+
+      let makeOrders = []
+      for (let i = 0; i < 15; i++) {
+        let copyOrderData = {...orderData};
+        copyOrderData.token = `makeOrderNo.${i}`;
+
+        await request(sails.hooks.http.app)
+          .post(`/api/order`).set('Accept', 'application/json')
+          .send( copyOrderData );
+      }
+      //運作正常
+      done();
+    } catch (e) {
+      sails.log.error(e);
+      done(e);
+    }
+  });
+
+  it.skip('NO DONE 同時多筆 Request 併發', async(done) =>{
+    try {
+      let product = [
+        {
+          id: product1.id,
+          quantity: 3,
+        },{
+          id: product2.id,
+          quantity: 2,
+        },{
+          id: product3.id,
+          quantity: 5,
+        }];
+      product = JSON.stringify(product);
+
+      const orderData = {
+        lastname: '日',
+        firstname: '晶晶',
+        products: product,
+        telephone: '04-22019020',
+        fax: '',
+        email: 'buyer@gmail.com',
+        shippingFirstname: '拜爾',
+        shippingLastname: '劉',
+        shippingAddress1: '台灣大道二段2號16F-1',
+        county: '台中市',
+        zipcode: '403',
+        district: '西區',
+        shippingMethod: '低溫宅配',
+        shippingCode: 'ship654321',
+        ip: '',
+        forwardedIp: '',
+        userAgent: '',
+        comment: '這是一個訂購測試'
+      };
+
+      orderData.token = `makeOrderNo.1`;
+      request(sails.hooks.http.app)
+      .post(`/api/order`).set('Accept', 'application/json')
+      .send( orderData );
+
+      orderData.token = `makeOrderNo.2`;
+      request(sails.hooks.http.app)
+      .post(`/api/order`).set('Accept', 'application/json')
+      .send( orderData );
+
+      orderData.token = `makeOrderNo.3`;
+      request(sails.hooks.http.app)
+      .post(`/api/order`).set('Accept', 'application/json')
+      .send( orderData );
+
+      orderData.token = `makeOrderNo.4`;
+      request(sails.hooks.http.app)
+      .post(`/api/order`).set('Accept', 'application/json')
+      .send( orderData );
+
+      orderData.token = `makeOrderNo.5`;
+      request(sails.hooks.http.app)
+      .post(`/api/order`).set('Accept', 'application/json')
+      .send( orderData );
+
+      // done();
+    } catch (e) {
+      sails.log.error(e);
+      done(e);
+    }
+  });
 
   it.skip('Order Controller repeat confirm order ', async(done) => {
     try{
