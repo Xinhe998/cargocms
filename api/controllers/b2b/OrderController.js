@@ -1,6 +1,6 @@
 module.exports = {
   orderForm: async (req, res) => {
-    if (!req.session.authenticated){
+    if (!AuthService.isAuthenticated(req)){
       res.redirect('/');
     }
 
