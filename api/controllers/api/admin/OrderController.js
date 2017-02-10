@@ -134,6 +134,7 @@ module.exports = {
     try{
       const { id } = req.params;
       const { tracking, orderConfirmComment } = req.body;
+      const user = AuthService.getSessionUser(req);
 
       let orderProducts = await OrderProduct.findAll({
         where:{
@@ -142,13 +143,18 @@ module.exports = {
         include:[ Order, Product]
       });
 
-      const orderStatus = await OrderStatus.findOne({ where: { name: 'PROCESSING' } });
-      if (!orderStatus.id) {
-        throw new Error('status PROCESSING is not exist!');
-      }
-      const order = await Order.findById(id);
-      if (!order.id) {
-        throw new Error(`order id ${id} is not exist!`);
+      let orderStatus, order;
+      try {
+        orderStatus = await OrderStatus.findOne({ where: { name: 'PROCESSING' } });
+        if (!orderStatus.id) {
+          return res.ok({ success: false, message: 'status PROCESSING is not exist!' });
+        }
+        order = await Order.findById(id);
+        if (!order.id) {
+          return res.ok({ success: false, message: `order id ${id} is not exist!` });
+        }
+      } catch (e) {
+        sails.log.error(e);
       }
 
       await Order.update({
@@ -164,7 +170,7 @@ module.exports = {
       await OrderHistory.create({
         notify: true,
         // comment: `訂單 ID: ${id} 確認訂單，確認理由：${orderConfirmComment}.`,
-        comment: `訂單 ID: ${id} 確認訂單.`,
+        comment: `使用者 ID: ${user.id} 操作，訂單 ID: ${id} 確認訂單.`,
         OrderId: order.id
       }, { transaction });
 
@@ -173,15 +179,16 @@ module.exports = {
       let suppliers = [];
       let supplierOrderProduts = {}; //將 orderProduct 利用 supplier ID 作索引分類 supplier 的 supplierOrderProduct
       let supplierShipOrderTotalList = {}; // 利用 supplier Id 作索引，分類出供應商產品價格數量的加總
+      let orderProductsName = [];
       for (const orderProduct of orderProducts) {
-
-        if (suppliers.indexOf(orderProduct.Product.SupplierId) === -1) {
-          suppliers.push(orderProduct.Product.SupplierId);
-          supplierOrderProduts[orderProduct.Product.SupplierId] = [];
-          supplierShipOrderTotalList[orderProduct.Product.SupplierId] = 0;
+        const productSupplierId = orderProduct.Product.SupplierId;
+        if (suppliers.indexOf(productSupplierId) === -1) {
+          suppliers.push(productSupplierId);
+          supplierOrderProduts[productSupplierId] = [];
+          supplierShipOrderTotalList[productSupplierId] = 0;
         }
 
-        supplierOrderProduts[orderProduct.Product.SupplierId].push(
+        supplierOrderProduts[productSupplierId].push(
           {
             SupplierShipOrderId: 0,
             ProductId: orderProduct.ProductId,
@@ -195,18 +202,15 @@ module.exports = {
           }
         );
 
-        supplierShipOrderTotalList[orderProduct.Product.SupplierId] += Number(orderProduct.total);
+        supplierShipOrderTotalList[productSupplierId] += Number(orderProduct.total);
+
+        orderProductsName.push({
+          name: orderProduct.name,
+          quantity: orderProduct.quantity,
+          price: orderProduct.price,
+          total: orderProduct.total
+        });
       }
-
-
-      let orderProductsName = orderProducts.map((data) => {
-        return {
-          name: data.name,
-          quantity: data.quantity,
-          price: data.price,
-          total: data.total
-        }
-      });
 
       let supplierShipOrderCreateList = [];
       for (const supplier of suppliers) {
@@ -216,7 +220,7 @@ module.exports = {
         second = second.substr( second.length - 4 );
         const _where = {
           where: sequelize.where(
-            SupplierShipOrder.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
+            SupplierShipOrder.sequelize.fn('DATE_FORMAT', SupplierShipOrder.sequelize.col('createdAt'), '%Y%m%d'), date
         )};
         let shipOrderNumber = await SupplierShipOrder.findAll(_where);
         if (shipOrderNumber) {
