@@ -5,4 +5,8 @@ module.exports = {
   "api/admin/CategoryDescriptionController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
+
+  "b2b/OrderController": {
+    'orderForm': ['passport', 'sessionAuth'],
+  }
 }
