@@ -101,7 +101,7 @@ module.exports = {
             comment: `取消出貨單操作：失敗，已有商品揀貨完成，不能取消訂單。 SupplierShipOrder ID: ${id}`,
             SupplierShipOrderId: id
           });
-          throw Error('已有商品揀貨完成，不能取消訂單');
+          return res.ok({ success: false, message: '已有商品揀貨完成，不能取消訂單'});
         }
       }
 
