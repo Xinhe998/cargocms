@@ -79,7 +79,10 @@ module.exports = {
       const order = await Order.create(data, {transaction});
 
       for(const p of products){
-        const product = await Product.findById( p.id, {
+        const product = await Product.findOne({
+          where: {
+            id: p.id
+          },
           include: ProductDescription
         });
 
@@ -102,13 +105,6 @@ module.exports = {
         }, { transaction });
 
       }
-
-      const orderHistory = await OrderHistory.create({
-        OrderId: order.id,
-        notify: true,
-        OrderStatusId: data.OrderStatusId,
-        comment: `使用者 ID: ${order.UserId}，建立訂單 Order ID: ${order.id}，訂購產品: ${JSON.stringify(products)}`
-      }, {transaction});
 
       return order;
 

@@ -375,6 +375,27 @@ module.exports = {
   options: {
     classMethods: {},
     instanceMethods: {},
-    hooks: {}
+    hooks: {
+      afterCreate: async function(order, options) {
+        let {transaction} = options;
+
+        let products = await OrderProduct.findAll({
+          where: {
+            OrderId: order.id
+          }
+        });
+        products = products.map(function(product){
+          return `名稱:${product.name},數量:${product.quantity},總價:${product.formatTotal}`;
+        });
+
+        const orderHistory = await OrderHistory.create({
+          OrderId: order.id,
+          notify: true,
+          OrderStatusId: order.OrderStatusId,
+          comment: `使用者 ID: ${order.UserId}，建立訂單 Order ID: ${order.id}，訂購產品: ${product.join(',')}`
+        }, {transaction});
+
+      }
+    }
   }
 };
