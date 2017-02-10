@@ -106,6 +106,13 @@ module.exports = {
 
       }
 
+      const orderHistory = await OrderHistory.create({
+        OrderId: order.id,
+        notify: true,
+        OrderStatusId: order.OrderStatusId,
+        comment: `使用者 ID: ${order.UserId}，建立訂單 Order ID: ${order.id}，訂購產品: ${JSON.stringify(products)}`
+      }, {transaction});
+
       return order;
 
     } catch (e) {
