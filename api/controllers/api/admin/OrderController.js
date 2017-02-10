@@ -297,23 +297,28 @@ module.exports = {
         //修改 出貨單訂單產品 內的出貨單ＩＤ
         const supplierShipProductNumber = supplierOrderProduts[ supplierShipOrder[i].SupplierId ].length;
         for(let index = 0; index < supplierShipProductNumber; index++) {
-          supplierOrderProduts[ supplierShipOrder[i].SupplierId ][index].SupplierShipOrderId = supplierShipOrder[i].id;
-          supplierOrderProdutsCreateList.push( supplierOrderProduts[ supplierShipOrder[i].SupplierId ][index] );
+          let supplierOrderProdut = supplierOrderProduts[ supplierShipOrder[i].SupplierId ][index];
+          supplierOrderProdut.SupplierShipOrderId  = supplierShipOrder[i].id;
+          supplierOrderProdutsCreateList.push( supplierOrderProdut );
         }
 
       }
       await SupplierShipOrderProduct.bulkCreate(supplierOrderProdutsCreateList, {transaction});
 
-
-      const messageConfig = await MessageService.paymentConfirm({
-        email: order.email,
-        serialNumber: Order.orderNumber,
-        username: `${order.lastname}${order.firstname}`,
-      });
-      const mail = await Message.create(messageConfig);
-      await MessageService.sendMail(mail);
-
       transaction.commit();
+
+      try {
+        const messageConfig = await MessageService.paymentConfirm({
+          email: order.email,
+          serialNumber: Order.orderNumber,
+          username: `${order.lastname}${order.firstname}`,
+        });
+        const mail = await Message.create(messageConfig);
+        await MessageService.sendMail(mail);
+      } catch (e) {
+        sails.log.error(e);
+      }
+      
       const message = 'Success Confirm Order';
       const item = order;
       res.ok({ message, data: { item } });
