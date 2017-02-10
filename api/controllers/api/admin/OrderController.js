@@ -215,24 +215,11 @@ module.exports = {
       let supplierShipOrderCreateList = [];
       for (const supplier of suppliers) {
         // 產生Ship訂單編號
-        const date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
-        let second = new Date().getTime().toString();
-        second = second.substr( second.length - 4 );
-        const _where = {
-          where: sequelize.where(
-            SupplierShipOrder.sequelize.fn('DATE_FORMAT', SupplierShipOrder.sequelize.col('createdAt'), '%Y%m%d'), date
-        )};
-        let shipOrderNumber = await SupplierShipOrder.findAll(_where);
-        if (shipOrderNumber) {
-          shipOrderNumber = (shipOrderNumber.length + 1 ).toString();
-          for (let i = shipOrderNumber.length; i < 5 ; i++) {
-            shipOrderNumber = '0' + shipOrderNumber;
-          }
-        } else {
-          shipOrderNumber = '00001';
-        }
-        const crc = sh.unique(`${order.UserId}${JSON.stringify(orderProductsName)}${date}${shipOrderNumber}`);
-        shipOrderNumber = date + second + shipOrderNumber + crc.substr(0, 3);
+        let shipOrderNumber = await OrderService.orderNumberGenerator({
+          modelName: 'suppliershiporder',
+          userId: order.UserId,
+          product: JSON.stringify(orderProductsName)
+        });
         sails.log.info('產生出貨單編號:', shipOrderNumber);
 
         supplierShipOrderCreateList.push(
@@ -318,7 +305,7 @@ module.exports = {
       } catch (e) {
         sails.log.error(e);
       }
-      
+
       const message = 'Success Confirm Order';
       const item = order;
       res.ok({ message, data: { item } });
