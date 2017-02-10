@@ -114,12 +114,6 @@ module.exports = {
       supplierShipOrder.status = status;
       await supplierShipOrder.save({ transaction });
 
-      const supplierShipOrderHistory = await SupplierShipOrderHistory.create({
-        notify: true,
-        comment: `出貨單 SupplierShipOrder ID: ${id}，狀態變更:${status}`,
-        SupplierShipOrderId: id
-      }, { transaction });
-
       await SupplierShipOrderProduct.update({ status }, {
         where: {
           id: supplierShipOrderProductIdArray

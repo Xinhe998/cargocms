@@ -322,6 +322,20 @@ module.exports = {
 	options: {
 		classMethods: {},
 		instanceMethods: {},
-		hooks: {}
+		hooks: {
+      afterUpdate: async function(supplierShipOrder, options) {
+        let { transaction } = options;
+        let shipOrderChanged = supplierShipOrder.changed();
+        let logChanged = [];
+        for(const key of shipOrderChanged) {
+          logChanged.push(`${key}: ${supplierShipOrder[key]}`);
+        }
+        const supplierShipOrderHistory = await SupplierShipOrderHistory.create({
+          notify: true,
+          comment: `出貨單 SupplierShipOrder ID: ${supplierShipOrder.id}，變更:${logChanged.join(',')}`,
+          SupplierShipOrderId: supplierShipOrder.id
+        }, { transaction });
+      }
+    }
 	}
 };
