@@ -375,6 +375,20 @@ module.exports = {
   options: {
     classMethods: {},
     instanceMethods: {},
-    hooks: {}
+    hooks: {
+      afterUpdate: async function(order, options) {
+        let { transaction } = options;
+        let orderChanged = order.changed();
+        let logChanged = [];
+        for(const key of orderChanged) {
+          logChanged.push(`${key}: ${order[key]}`);
+        }
+        const OrderHistory = await OrderHistory.create({
+          notify: true,
+          comment: `訂單 Order ID: ${order.id}，變更:${logChanged.join(',')}`,
+          OrderId: order.id
+        }, { transaction });
+      }
+    }
   }
 };

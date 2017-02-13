@@ -1,5 +1,6 @@
 import fs from 'fs';
 import rc from 'rc';
+import _ from 'lodash';
 export default (configName) => {
   let rcConfig = rc('sails');
   let {modules} = rcConfig.configLoader
@@ -16,10 +17,11 @@ export default (configName) => {
         console.log("load module", dirName, configName);
         var customConfig = require(__dirname+"/../" + dirName + '/'+configName);
 
-        result = {
-          ...result,
-          ...customConfig
-        }
+        // result = {
+        //   ...result,
+        //   ...customConfig
+        // }
+        result = _.merge(result, customConfig);
       }
     }
   }

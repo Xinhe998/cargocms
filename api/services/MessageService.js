@@ -351,6 +351,32 @@ module.exports = {
       await message.save();
 
     }
+  },
+
+  orderProductShipped: async(result = {
+    orderNumber, productName, shippingName, username, telephone, address, email
+  }) => {
+    try {
+      let productShipped = sails.config.mail.templete.event.productShipped;
+      let mailSendConfig = {...productShipped, to: result.email}
+      mailSendConfig.subject = sprintf(mailSendConfig.subject, {
+        orderNumber: result.orderNumber
+      });
+      mailSendConfig.html = sprintf(mailSendConfig.html, {
+        username: result.username,
+        productName: result.productName,
+        orderNumber: result.orderNumber,
+        shippingName: result.shippingName,
+        phone: result.telephone,
+        address: result.address,
+        storeName: sails.config.storeName,
+      });
+      mailSendConfig.type = 'deliveryConfirm';
+      return mailSendConfig;
+
+    } catch (e) {
+      throw e;
+    }
   }
 
 };

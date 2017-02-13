@@ -8,5 +8,15 @@ module.exports = {
 
   "b2b/OrderController": {
     'orderForm': ['passport', 'sessionAuth'],
-  }
+  },
+
+  "api/OrderController": {
+    '*': ['passport', 'sessionAuth'],
+  },
+
+  'b2b/MainController': {
+    // 'portfolio': ['nocache'],
+    'editPofile': ['nocache'],
+    'validateEmail': [],
+  },
 }
