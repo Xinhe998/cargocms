@@ -30,10 +30,10 @@ module.exports = {
 
         return html;
       };
-
+      const layout = sails.config.projectInfo.termsPrivacy.layout || sails.config.views.layout;
       return res.view('terms',
       {
-        layout: 'auth/layout',
+        layout,
         data: {
           md
         }
@@ -53,10 +53,10 @@ module.exports = {
         return html;
       };
 
-
+      const layout = sails.config.projectInfo.termsPrivacy.layout || sails.config.views.layout;
       return res.view('privacy',
       {
-        layout: 'auth/layout',
+        layout,
         data: {
           md
         }
