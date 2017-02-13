@@ -4,13 +4,18 @@ module.exports = {
   sync: async() => {
     try {
       sails.log.info('sync model config & local config');
-      const devConfig = require('../../config/env/development');
-      const prodConfig = require('../../config/env/production');
+      let envCnfig = {};
+      if (sails.config.environment === 'production') {
+         envCnfig = require('../../config/env/production');
+      } else if (sails.config.environment === 'development') {
+        envCnfig = require('../../config/env/development');
+      } else {
+        envCnfig = require('../../config/env/test');
+      }
       const localConfig = require('../../config/local');
       let modelAllConfig = await ConfigService.getModelJSONConfig();
       const allConfig = _.merge(
-        devConfig,
-        prodConfig,
+        envCnfig,
         localConfig,
         modelAllConfig
       );

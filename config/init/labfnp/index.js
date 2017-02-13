@@ -49,6 +49,8 @@ module.exports.init = async () => {
       { href: '/admin/suppliershiporder', title: '供應商出貨訂單', sequence: 30, ParentMenuItemId: 6},
       { href: '/admin/suppliershiporderdescription', title: '供應商詳細出貨訂單', sequence: 40, ParentMenuItemId: 6},
 
+
+      { icon: 'sliders', href: '/admin/config', title: '設定', sequence: 160},
     ]
 
     let title = newMenuItems.map(item => item.title)

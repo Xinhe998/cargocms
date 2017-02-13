@@ -54,6 +54,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const data = req.body;
+      delete data.deletedAt;
       const message = 'Update success.';
       const item = await Config.update(data ,{
         where: { id, },
@@ -70,6 +71,17 @@ module.exports = {
       const item = await Config.destroy({ where: { id } });
       let message = 'Delete success';
       res.ok({message, data: {item}});
+    } catch (e) {
+      res.serverError(e);
+    }
+  },
+
+  reload: async (req, res) => {
+    try {
+      await ConfigService.sync();
+      await ConfigService.load();
+      const message = 'reload config success';
+      res.ok({message, data: {}});
     } catch (e) {
       res.serverError(e);
     }

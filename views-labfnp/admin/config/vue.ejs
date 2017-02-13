@@ -17,7 +17,7 @@ var appModel = {
       description: '',
       value: '',
       type: '',
-      
+
     },
     items: [],
     option: {}
@@ -42,4 +42,38 @@ appMain.editDisabled = function(){
 
 appMain.createHide = function () {
   $('.fn-create-hide').hide();
+};
+
+appMain.DataTableInitComplete = function()  {
+  var reloadConfigBtn = '<a class="DTTT_button DTTT_button_text" id="ToolTables_main-table_custom_1" title="重新載入 Config" tabindex="0" aria-controls="main-table"><span>重新載入 Config</span></a>'
+  $(reloadConfigBtn).prependTo('.DTTT_container');
+  $('#ToolTables_main-table_custom_1').on('click', function() {
+    $.SmartMessageBox({
+      title : "重新載入 Config",
+      buttons : "[取消][確定]"
+    }, function(ButtonPress) {
+      if(ButtonPress === '確定') {
+        $.ajax({
+          url: '/api/admin/config/reload',
+          type: 'POST',
+          success: function(result) {
+            console.log(result);
+            messageApp.show({
+              desc: '更新 Config 成功！',
+              type: 'success'
+            });
+            defaultTable.api().ajax.reload(null, false);
+          },
+          error: function(result) {
+            console.log('更新失敗', result);
+            messageApp.show({
+              desc: '更新 Config 失敗！'+ result.responseJSON.message,
+              type: 'error'
+            });
+          },
+        });
+      }
+    });
+  });
+  $('.loading-wrapper').removeClass('active');
 };
