@@ -7,7 +7,7 @@ module.exports = {
   },
 
   "b2b/OrderController": {
-    '*': ['passport', 'sessionAuth'],
+    'orderForm': ['passport', 'sessionAuth'],
   },
 
   "api/OrderController": {
