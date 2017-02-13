@@ -9,16 +9,7 @@ module.exports = {
       const { serverSidePaging } = query;
       const modelName = req.options.controller.split("/").reverse()[0];
       let result;
-      const include = [
-        OrderStatus,
-        {
-          model: OrderProduct,
-          include: {
-            model: Product,
-            include: Supplier
-          }
-        },
-      ];
+      const include = [OrderStatus];
       if (serverSidePaging) {
         result = await PagingService.process({query, modelName, include});
       } else {
