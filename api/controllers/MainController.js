@@ -1,5 +1,6 @@
 import marked from 'marked';
 import fs from 'fs';
+import path from 'path'
 
 module.exports = {
   index: function(req, res) {
@@ -24,9 +25,9 @@ module.exports = {
   terms: function(req, res) {
     try{
       let md = function (filename) {
-        const path = sails.config.paths.views + '/' + filename;
-        const include = fs.readFileSync (path, 'utf8');
-        let html = marked (include);
+        const filePath = path.join(sails.config.paths.views , filename);
+        const include = fs.readFileSync (filePath, 'utf8');
+        let html = marked(include);
 
         return html;
       };
@@ -46,9 +47,9 @@ module.exports = {
   privacy: function(req, res) {
     try{
       let md = function (filename) {
-        const path = sails.config.paths.views + '/' + filename;
-        const include = fs.readFileSync (path, 'utf8');
-        let html = marked (include);
+        const filePath = path.join(sails.config.paths.views , filename);
+        const include = fs.readFileSync (filePath, 'utf8');
+        let html = marked(include);
 
         return html;
       };
