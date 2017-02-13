@@ -1,4 +1,5 @@
 import marked from 'marked';
+import fs from 'fs';
 
 module.exports = {
   index: function(req, res) {
@@ -22,20 +23,19 @@ module.exports = {
 
   terms: function(req, res) {
     try{
-
       let md = function (filename) {
-        const path = __dirname +"/views/docs/" + filename;
+        const path = sails.config.paths.views + '/' + filename;
         const include = fs.readFileSync (path, 'utf8');
         let html = marked (include);
 
         return html;
       };
 
-
       return res.view('terms',
       {
+        layout: 'auth/layout',
         data: {
-          path: __dirname
+          md
         }
       });
     } catch (e) {
@@ -45,7 +45,22 @@ module.exports = {
 
   privacy: function(req, res) {
     try{
+      let md = function (filename) {
+        const path = sails.config.paths.views + '/' + filename;
+        const include = fs.readFileSync (path, 'utf8');
+        let html = marked (include);
 
+        return html;
+      };
+
+
+      return res.view('privacy',
+      {
+        layout: 'auth/layout',
+        data: {
+          md
+        }
+      });
     } catch (e) {
       res.serverError(e);
     }
