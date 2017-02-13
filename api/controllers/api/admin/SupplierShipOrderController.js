@@ -110,7 +110,7 @@ module.exports = {
         prod = prod.toJSON();
         return prod.id;
       })
-      let supplierShipOrder = await SupplierShipOrder.findById(id,{ transaction });
+      let supplierShipOrder = await SupplierShipOrder.findById(id);
       supplierShipOrder.status = status;
       await supplierShipOrder.save({ transaction });
 
@@ -121,11 +121,13 @@ module.exports = {
         transaction
       });
 
+
       let shipOrderCompleted = true;
       let checkShipOrderCompleted = await SupplierShipOrder.findAll({
         where: {
           OrderId: supplierShipOrder.OrderId
-        }
+        },
+        transaction
       });
       for (let i = 0; i < checkShipOrderCompleted.length; i++) {
         if (checkShipOrderCompleted[i].status !== 'COMPLETED') {
