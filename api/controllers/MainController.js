@@ -1,3 +1,5 @@
+import marked from 'marked';
+
 module.exports = {
   index: function(req, res) {
     // let user = AuthService.getSessionUser(req);
@@ -16,5 +18,36 @@ module.exports = {
     } catch (e) {
       res.serverError(e);
     }
-  }
+  },
+
+  terms: function(req, res) {
+    try{
+
+      let md = function (filename) {
+        const path = __dirname +"/views/docs/" + filename;
+        const include = fs.readFileSync (path, 'utf8');
+        let html = marked (include);
+
+        return html;
+      };
+
+
+      return res.view('terms',
+      {
+        data: {
+          path: __dirname
+        }
+      });
+    } catch (e) {
+      res.serverError(e);
+    }
+  },
+
+  privacy: function(req, res) {
+    try{
+
+    } catch (e) {
+      res.serverError(e);
+    }
+  },
 }
