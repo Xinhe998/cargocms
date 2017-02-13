@@ -63,6 +63,7 @@ module.exports = {
             signToken: verificationEmailToken,
             type: '更新',
           })
+          req.session.passport.user.verificationEmailToken = verificationEmailToken;
           req.flash('info', '修改 Email 後，請至信箱收驗證信');
         }
         const user = await UserService.updateByUser({

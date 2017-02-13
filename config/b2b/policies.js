@@ -5,4 +5,18 @@ module.exports = {
   "api/admin/CategoryDescriptionController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
+
+  "b2b/OrderController": {
+    '*': ['passport', 'sessionAuth'],
+  },
+
+  "api/OrderController": {
+    '*': ['passport', 'sessionAuth'],
+  },
+
+  'b2b/MainController': {
+    // 'portfolio': ['nocache'],
+    'editPofile': ['nocache'],
+    'validateEmail': [],
+  },
 }
