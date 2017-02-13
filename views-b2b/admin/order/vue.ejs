@@ -63,9 +63,15 @@ var appModel = {
 // appMain.log = function () {console.log("123")}
 appMain.orderProductList = function(){
   var orderProductList = appMain.data.item.OrderProducts.map(function(data) {
-    return `名稱：${data.name}, 數量：${data.quantity}, 金額：${data.formatTotal}\n`;
+    // return `名稱：${data.name}, 數量：${data.quantity}, 金額：${data.formatTotal}\n`;
+    return {
+      name: data.name,
+      quantity: data.quantity,
+      formatTotal: data.formatTotal,
+      formatPrice: data.formatPrice
+    }
   });
-  appMain.data.option.orderProductList = orderProductList.join('');
+  appMain.data.option.orderProductList = orderProductList;
 }
 
 appMain.editDisabled = function(){
