@@ -383,7 +383,7 @@ module.exports = {
         for(const key of orderChanged) {
           logChanged.push(`${key}: ${order[key]}`);
         }
-        const OrderHistory = await OrderHistory.create({
+        const orderHistory = await OrderHistory.create({
           notify: true,
           comment: `訂單 Order ID: ${order.id}，變更:${logChanged.join(',')}`,
           OrderId: order.id
