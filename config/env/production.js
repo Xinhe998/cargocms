@@ -84,6 +84,22 @@ module.exports = {
   google: {
     name: 'GoogleAPIKey',
     key: undefined
+  },
+  projectInfo: {
+    admin: {
+      title: '',
+      logo: '',
+      slider: [],
+      header: {
+        logo: '',
+      },
+      footer: {
+        copyright: '',
+      },
+    },
+    termsPrivacy: {
+      layout: ''
+    }
   }
 
 };
