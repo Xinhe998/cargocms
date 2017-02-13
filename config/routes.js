@@ -43,6 +43,11 @@ var defaultConfig = {
   'put /api/admin/post/:id': 'api/admin/PostController.update',
   'delete /api/admin/post/:id': 'api/admin/PostController.destroy',
 
+  'get /api/admin/config': 'api/admin/ConfigController.find',
+  'get /api/admin/config/:id': 'api/admin/ConfigController.findOne',
+  'post /api/admin/config': 'api/admin/ConfigController.create',
+  'put /api/admin/config/:id': 'api/admin/ConfigController.update',
+  'delete /api/admin/config/:id': 'api/admin/ConfigController.destroy',
 
   'get /api/admin/quote': 'api/admin/QuoteController.find',
   'get /api/admin/quote/:id': 'api/admin/QuoteController.findOne',
