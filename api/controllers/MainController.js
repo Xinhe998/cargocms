@@ -1,6 +1,6 @@
 import marked from 'marked';
 import fs from 'fs';
-import path from 'path'
+import path from 'path';
 
 module.exports = {
   index: function(req, res) {
