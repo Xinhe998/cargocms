@@ -79,6 +79,59 @@ appMain.editDisabled = function(){
   $('label.fn-edit-disabled').addClass('state-disabled');
 }
 
+appMain.checkedOrder = function(){
+  var orderId = appMain.data.item.id;
+  if(appMain.data.item.tracking === '訂單建立'){
+    var checkBtn = '<button type="button" class="btn btn-success pull-left">確認訂單</button>';
+    $(checkBtn).prependTo('footer');
+
+    $('.btn-success').on('click', function(){
+      $.SmartMessageBox({
+        title : "提醒",
+        content:'是否確認此訂單 ? ',
+        buttons : "[確認][取消]"
+      },function(ButtonPress) {
+          if(ButtonPress === "取消"){
+            return 0;
+          }
+
+          var ajaxSuccess = function (result) {
+            location.href = '/admin/#/admin/' + modelName;
+            messageApp.show({
+            desc: '確認訂單成功！',
+            type: 'success'
+            });
+          }; // end ajaxSuccess
+
+         var ajaxError = function (result) {
+           messageApp.show({
+             desc: '確認訂單失敗！errorMessage: ' + result.responseJSON.message,
+             type: 'error'
+           });
+         };
+
+         $.ajax({
+           url: '/api/' + prefix + 'order/confirm' + '/' + orderId,
+           type: 'PUT',
+           dataType: 'json',
+           data: {
+             tracking:'確認訂單',
+             // orderConfirmComment: orderConfirmComment
+           },
+           xhrFields: {
+           withCredentials: true,
+           },
+           success: ajaxSuccess,
+           error: ajaxError,
+         }).done(function(result){
+           defaultTable.api().ajax.reload(null, false);
+         });
+        }
+      );
+    });
+  }
+}
+
 appMain.DataTableInitComplete = function() {
   $('.loading-wrapper').removeClass('active');
 
