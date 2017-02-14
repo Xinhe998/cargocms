@@ -2,6 +2,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 import {
   FontIcon,
   AutoComplete,
@@ -39,6 +40,13 @@ const styles = {
     width: '90%',
     margin: '0 auto',
   },
+  container: {
+    position: 'relative',
+  },
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 };
 
 @connect(
@@ -75,8 +83,10 @@ const styles = {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      dataSource: props.shipOrder.list,
+      dataSource: {},
       status: 'COMPLETED',
+      refreshStatus: 'loading',
+      refreshSize: 80,
     };
     this.inputDelayer = null;
     this.getDataDelayer = null;
@@ -86,6 +96,10 @@ const styles = {
         if (!Lang.isEmpty(this.props.user.currentUser.Supplier)) {
           this.props.fetchShipListData(this.state.status);
           clearTimeout(this.getDataDelayer);
+          this.setState({
+            refreshStatus: 'hide',
+            refreshSize: 0,
+          });
         } else {
           this.getDataDelayer();
         }
@@ -199,6 +213,16 @@ const styles = {
                 )) : null
             }
           </ReactCSSTransitionGroup>
+          <div style={styles.container} className='col-xs-offset-5 col-xs-1'>
+            <RefreshIndicator
+              size={this.state.refreshSize}
+              left={0}
+              top={0}
+              loadingColor='#6c6c6c'
+              status={this.state.refreshStatus}
+              style={styles.refresh}
+            />
+          </div>
         </div>
       </div>
     );

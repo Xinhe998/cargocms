@@ -10,7 +10,7 @@ module.exports = {
       'orderConfirm',
       'paymentConfirm',
       'deliveryConfirm',
-      'orderSync',
+      // 'orderSync',
       'forgotPassword',
       'contact',
       'newEmail'
