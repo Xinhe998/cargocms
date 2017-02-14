@@ -9,12 +9,12 @@ module.exports = {
       const { serverSidePaging } = query;
       const modelName = req.options.controller.split("/").reverse()[0];
       let result;
+      const include = [OrderStatus];
       if (serverSidePaging) {
-        const include = [OrderStatus, OrderProduct];
         result = await PagingService.process({query, modelName, include});
       } else {
         const items = await sails.models[modelName].findAll({
-          include: [OrderStatus, OrderProduct]
+          include
         });
         result = { data: { items } };
       }
@@ -31,7 +31,16 @@ module.exports = {
         where: {
           id: id
         },
-        include: [OrderStatus, OrderProduct]
+        include: [
+          OrderStatus,
+          {
+            model: OrderProduct,
+            include: {
+              model: Product,
+              include: Supplier
+            }
+          },
+        ]
       });
       res.ok({ data: { item } });
     } catch (e) {
