@@ -107,13 +107,15 @@ module.exports = {
         if (info.key) {
           let pathArray = info.key.split('.');
           if (pathArray.length > 0) {
-            const value = info.type === 'array' ? JSON.parse(info.value) : info.value
+            const value = info.type === 'array' ? JSON.parse(info.value) : info.value;
             result[name] = ConfigService.arrayTOObject(result[name], pathArray, value);
           } else {
-            result[name] = info.value;
+            const value = info.type === 'boolean' ? !!info.value : info.value;
+            result[name] = value;
           }
         } else {
-          result[name] = info.value;
+          const value = info.type === 'boolean' ? !!info.value : info.value
+          result[name] = value;
         }
       })
       sails.log.info(result);

@@ -7,10 +7,11 @@ describe('about Config Service operation.', function() {
         key: '',
         value: 'http://localhost:1338',
       });
-      await Config.create({
+      let a = await Config.create({
         name: 'test',
         key: 'key1',
-        value: 'value1',
+        value: true,
+        type: 'boolean',
       });
       done();
     } catch (e) {
@@ -56,7 +57,7 @@ describe('about Config Service operation.', function() {
 
   it('model path 轉 json', (done) => {
     try {
-      const data = [ { name: 'bool', value: true, type: 'text' },
+      const data = [ { name: 'bool', value: true, type: 'boolean' },
       { name: 'text', value: '123', type: 'text' },
       { name: 'array', value: '[1,2,3]', type: 'array' },
       { name: 'reCAPTCHA',
@@ -115,7 +116,7 @@ describe('about Config Service operation.', function() {
 
   });
 
-  it.only('config model 更新後或是 bootstrap 時，載入 sails.config', async (done) => {
+  it('config model 更新後或是 bootstrap 時，載入 sails.config', async (done) => {
 
     try {
       let result = await ConfigService.load();

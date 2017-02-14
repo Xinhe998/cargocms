@@ -8,11 +8,12 @@
  *
  */
 module.exports = async function(req, res, next) {
+  try {
 
   // User is allowed, proceed to the next policy,
   // or if this is the last policy, the controller
   const user = AuthService.getSessionUser(req);
-  console.log("req.session", user);
+  console.log("req.session", user, sails.config.offAuth);
   if (sails.config.offAuth || user) {
     // const noEmail = !user.email;
     // if (noEmail || user.email === '') {
@@ -21,7 +22,7 @@ module.exports = async function(req, res, next) {
     //   return res.redirect('/edit/me');
     // }
 
-    if (sails.config.verificationEmail && user.verificationEmailToken) {
+    if (sails.config.verificationEmail && user && user.verificationEmailToken) {
       const modelUser = await User.findById(user.id);
       if (modelUser.verificationEmailToken) {
         req.flash('info', '請先驗證完您的 Email 才能使用此功能');
@@ -35,4 +36,7 @@ module.exports = async function(req, res, next) {
   // User is not allowed
   // (default res.forbidden() behavior can be overridden in `config/403.js`)
   return res.forbidden('You are not permitted to perform this action.');
+  } catch (e) {
+    sails.log.error(e);
+  }
 };
