@@ -79,6 +79,10 @@ appMain.editDisabled = function(){
   $('label.fn-edit-disabled').addClass('state-disabled');
 }
 
+appMain.createHide = function () {
+  $('.fn-create-hide').hide();
+};
+
 appMain.checkedOrder = function(){
   var orderId = appMain.data.item.id;
   if(appMain.data.item.tracking === '訂單建立'){
