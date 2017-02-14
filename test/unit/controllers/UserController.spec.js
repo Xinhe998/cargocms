@@ -1,6 +1,6 @@
 import {mockAdmin, unMockAdmin} from "../../util/adminAuthHelper.js"
 
-describe.only('about User Controller operation.', function() {
+describe('about User Controller operation.', function() {
 
   before(async (done) => {
     try {
