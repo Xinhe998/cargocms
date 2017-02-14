@@ -33,7 +33,7 @@
                 </a>
               </li>
               <li v-show="carts.length > 0" role="separator" class="divider"></li>
-              <li v-show="carts.length > 0"><a class="btn btn-sm btn-checkout login-btn">結帳</a></li>
+              <li v-show="carts.length > 0"><a class="btn btn-sm btn-checkout non-login">結帳</a></li>
 
               <li v-show="carts.length === 0" style="text-align:center"><span>購物車是空的</span><li>
             </ul>
@@ -90,6 +90,25 @@
       if(isConform){
         open('/logout', '_self');
       }else{
+        swal.close();
+      }
+    });
+  });
+
+  $('.non-login').click(function(){
+    swal({
+      title: '提示',
+      text: '訂購商品請先登入！',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: "登入",
+      cancelButtonText: "取消",
+      closeOnConfirm: true,
+      closeOnCancel: true,
+    }, function(isConform){
+      if(isConform){
+        $('.login-btn').trigger('click');
+      } else {
         swal.close();
       }
     });
