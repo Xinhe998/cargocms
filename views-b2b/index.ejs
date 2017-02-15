@@ -98,7 +98,15 @@
 <% LayoutUtils.addScripts('/assets/unify/js/app.js', '/assets/unify/js/plugins/owl-carousel.js'); %>
 <% LayoutUtils.addScriptBlock(`
   var error = ${errors ? 'true' : 'false'};
+  var infoMsg  = '${req.flash('info')[0]}';
   if (error) {
-    swal("Oops", "帳號或密碼有誤！", "warning")
+    var errorMsg = '${errors}';
+    if (errorMsg === 'Error.Passport.BadUserPassword') {
+      errorMsg = '帳號或密碼有誤';
+    }
+    swal("Oops", errorMsg , "warning");
+  }
+  if (infoMsg !== 'undefined') {
+    swal("提醒", infoMsg , "info");
   }
 `); %>
