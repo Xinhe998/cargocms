@@ -2,11 +2,8 @@ module.exports = {
 
   index: async function(req, res) {
     try {
-      const groupId = req.params.groupId || 0;
       const indexGroup = await Group.findOne({ where: {title: '實例照片'} });
-      if (groupId == 0) {
-        return res.redirect(`performance/group/${indexGroup.id}/page/1`);
-      }
+      const groupId = req.params.groupId || indexGroup.id;
       const isShowWithTable = (groupId == indexGroup.id) ? false : true;
       const page = ~~req.params.page || 1;
       const performanceGroups = await Group.findWithType('performance');
