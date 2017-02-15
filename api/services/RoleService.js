@@ -1,9 +1,24 @@
 module.exports = {
 
-  getAllRole: function(user) {
-  },
-
-  getAllRoleDetail: function(user) {
+  getUserAllRole: async({ user }) => {
+    try {
+      const findUser = await User.findOne({
+        where: {
+          id: user.id
+        },
+        include: Role,
+      })
+      const rolesId = findUser.Roles.map((data) => data.id);
+      let roleGroup = await RoleDetail.findAll({
+        where: {
+          RoleId: rolesId,
+        },
+        include: MenuItem
+      });
+      return roleGroup;
+    } catch (e) {
+      throw e;
+    }
   },
 
   hasRole: function(user, roleName) {

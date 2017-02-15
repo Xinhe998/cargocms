@@ -1,6 +1,6 @@
 
 
-describe.skip('about RoleDetail model operation.', function() {
+describe('about RoleDetail model operation.', function() {
   describe('新增 RoleDetail', function() {
     let testRole, testRoleUser, testMenuItem;
     before(async (done) => {
@@ -9,7 +9,7 @@ describe.skip('about RoleDetail model operation.', function() {
           where: {authority: 'test'},
           defaults: {authority: 'test'}
         });
-
+        testRole = testRole[0].dataValues;
         testRoleUser = await User.findOne({
           where: {username: 'testRoleUser'}
         });
@@ -37,7 +37,7 @@ describe.skip('about RoleDetail model operation.', function() {
     it('建立允許全部操作之權限', async (done) => {
       try {
 
-        RoleDetail.create({
+        await RoleDetail.create({
           name: "READ_WRITE",
           MenuItemId: testMenuItem.id,
           RoleId: testRole.id
@@ -52,25 +52,25 @@ describe.skip('about RoleDetail model operation.', function() {
     it('建立允許部分操作之權限', async (done) => {
       try {
 
-        RoleDetail.create({
+        await RoleDetail.create({
           name: "READ",
           MenuItemId: testMenuItem.id,
           RoleId: testRole.id
         });
 
-        RoleDetail.create({
+        await RoleDetail.create({
           name: "UPDATE",
           MenuItemId: testMenuItem.id,
           RoleId: testRole.id
         });
 
-        RoleDetail.create({
+        await RoleDetail.create({
           name: "DELETE",
           MenuItemId: testMenuItem.id,
           RoleId: testRole.id
         });
 
-        RoleDetail.create({
+        await RoleDetail.create({
           name: "CREATE",
           MenuItemId: testMenuItem.id,
           RoleId: testRole.id
