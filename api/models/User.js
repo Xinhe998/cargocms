@@ -46,6 +46,15 @@ module.exports = {
     address2:{
       type: Sequelize.STRING
     },
+    postCode: {
+      type: Sequelize.STRING(10)
+    },
+    city: {
+      type: Sequelize.STRING(128)
+    },
+    district: {
+      type: Sequelize.STRING(128)
+    },
     locale: {
       type: Sequelize.STRING,
       defaultValues: 'zh_TW'
