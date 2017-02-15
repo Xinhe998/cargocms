@@ -5,7 +5,7 @@ import {
   postData,
   putData,
 } from '../utils/fetchApi';
-import { showToast } from '../utils/toast';
+import { handleShowToast } from '../utils/toast';
 import { handleResponse } from '../utils/errorHandler';
 // ------------------------------------
 // Constants
@@ -83,9 +83,9 @@ export function fetchShipListData(status) {
     if (fetchResult.status) {
       dispatch(deliverShipListData(fetchResult.data.data));
       if (!Lang.isEmpty(fetchResult.data.data)) {
-        dispatch(showToast('載入完成'));
+        dispatch(handleShowToast('載入完成'));
       } else {
-        dispatch(showToast('沒有資料'));
+        dispatch(handleShowToast('沒有資料'));
       }
     // error
     } else {
@@ -191,9 +191,9 @@ export function fetchFindShipItem(value, status) {
     if (fetchResult.status) {
       dispatch(deliverFindShipItem(value, fetchResult.data.data));
       if (fetchResult.data.data.length > 0) {
-        dispatch(showToast('載入完成'));
+        dispatch(handleShowToast('載入完成'));
       } else {
-        dispatch(showToast('沒有資料'));
+        dispatch(handleShowToast('沒有資料'));
       }
     // error
     } else {
@@ -210,7 +210,7 @@ export function updateShipOrderStatus({ id, data, status }) {
     let result = '';
     // success
     if (fetchResult) {
-      dispatch(showToast('更新完成'));
+      dispatch(handleShowToast('更新完成'));
       dispatch(fetchShipListData(status));
     } else {
     // error
@@ -219,7 +219,7 @@ export function updateShipOrderStatus({ id, data, status }) {
       } else {
         result = fetchResult.message;
       }
-      dispatch(showToast(result));
+      dispatch(handleShowToast(result));
     }
   };
 }
