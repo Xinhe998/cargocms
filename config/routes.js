@@ -225,6 +225,10 @@ var defaultConfig = {
   //---- mobile ----
   'get /m': '/',
   'get /mobile': '/',
+
+  //---- terms, privacy ----
+  'get /terms': 'MainController.terms',
+  'get /privacy': 'MainController.privacy',
 };
 
 module.exports.routes = {

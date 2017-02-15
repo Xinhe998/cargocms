@@ -42,12 +42,13 @@ module.exports = {
 
       let url = req.query.url || '/';
 
+      if( url === '/') url = 'http://www.motorworld.com.tw/home';
+
       // TODO 判斷是否為手機
       if(UtilsService.isMobile(req)) {
         url = 'http://m.motorworld.com.tw/';
-      } else {
-        url = 'http://www.motorworld.com.tw/home';
       }
+
       // res.ok({
       //   //layout: false,
       //   user,

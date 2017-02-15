@@ -12,8 +12,8 @@
   ],
   "license": "MIT",
   "keywords": [],
-  "engines" : {
-    "node" : "^6.9.1"
+  "engines": {
+    "node": "^6.9.1"
   },
   "dependencies": {
     "axios": "^0.14.0",
@@ -52,6 +52,7 @@
     "jsonwebtoken": "^7.1.9",
     "linkifyjs": "^2.1.1",
     "lodash": "^4.15.0",
+    "marked": "^0.3.6",
     "mockup-data": "^0.0.2",
     "moment": "^2.14.1",
     "mysql": "^2.9.0",
