@@ -2,7 +2,8 @@ module.exports = {
 
   index: async function(req, res) {
     try {
-      const indexGroup = await Group.findOne({ where: {title: '實例照片'} });
+      // query 實例照片
+      const indexGroup = await Group.findOne({ where: {id: 14} });
       const groupId = req.params.groupId || indexGroup.id;
       const isShowWithTable = (groupId == indexGroup.id) ? false : true;
       const page = ~~req.params.page || 1;
@@ -75,7 +76,8 @@ module.exports = {
           include: [{
             model: Group,
             where: {
-              title: '實例照片'
+              id: 14,
+              // query 實例照片
             }
           }]
         }],
@@ -93,7 +95,8 @@ module.exports = {
           include: [{
             model: Group,
             where: {
-              title: '實例照片'
+              id: 14,
+              // query 實例照片
             }
           }]
         }],
