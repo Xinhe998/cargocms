@@ -24,6 +24,7 @@ module.exports = {
       };
       const currentUser = await User.find(where);
       const result = {
+        success: true,
         data: {
           currentUser,
         },
