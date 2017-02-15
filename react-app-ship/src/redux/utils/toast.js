@@ -4,13 +4,19 @@
 // ------------------------------------
 export const SHOW_TOAST = 'SHOW_TOAST';
 export const CLOSE_TOAST = 'CLOSE_TOAST';
+export const TOAST_DURATION = 4000;
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function showToast(
-  msg = '',
-) {
+export function closeToast() {
+  return {
+    type: CLOSE_TOAST,
+    open: false,
+    msg: '',
+  };
+}
+export function showToast(msg) {
   return {
     type: SHOW_TOAST,
     open: true,
@@ -18,11 +24,15 @@ export function showToast(
   };
 }
 
-export function closeToast() {
-  return {
-    type: CLOSE_TOAST,
-    open: false,
-    msg: '',
+export function handleShowToast(
+  msg = '',
+) {
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch(closeToast());
+    }, TOAST_DURATION);
+
+    dispatch(showToast(msg));
   };
 }
 
