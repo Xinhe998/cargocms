@@ -24,6 +24,7 @@ module.exports = {
 
   terms: function(req, res) {
     try{
+      const { url } = req.query;
       let md = function (filename) {
         const filePath = path.join(sails.config.paths.views , filename);
         const include = fs.readFileSync (filePath, 'utf8');
@@ -36,7 +37,8 @@ module.exports = {
       {
         layout,
         data: {
-          md
+          md,
+          url
         }
       });
     } catch (e) {
@@ -46,6 +48,7 @@ module.exports = {
 
   privacy: function(req, res) {
     try{
+      const { url } = req.query;
       let md = function (filename) {
         const filePath = path.join(sails.config.paths.views , filename);
         const include = fs.readFileSync (filePath, 'utf8');
@@ -59,7 +62,8 @@ module.exports = {
       {
         layout,
         data: {
-          md
+          md,
+          url
         }
       });
     } catch (e) {
