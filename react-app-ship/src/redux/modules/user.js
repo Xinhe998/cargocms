@@ -6,7 +6,7 @@ import { handleResponse } from '../utils/errorHandler';
 // Constants
 // ------------------------------------
 export const GET_CURRENT_USER = 'GET_CURRENT_USER';
-const API_GET_CURRENT_USER = '/api/admin/user/current';
+const API_GET_CURRENT_USER = '/api/user/current';
 
 export const REQUEST_LOGOUT = 'REQUEST_LOGOUT';
 const API_REQUEST_LOGOUT = '/logout';
