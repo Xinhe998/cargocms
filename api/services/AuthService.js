@@ -37,6 +37,19 @@ module.exports = {
     return isAdmin;
   },
 
+  isSupplier: function(req) {
+
+    let user = AuthService.getSessionUser(req);
+    let isSupplier = false;
+    if (user) {
+      user.Roles.forEach((role) => {
+        if(role.authority == 'supplier') isSupplier = true;
+      });
+    }
+
+    return isSupplier;
+  },
+
   getSessionEncodeToJWT: function(req) {
     const session = AuthService.getSessionUser(req);
     const isWebView = AuthService.isWebView(req.headers['user-agent']);

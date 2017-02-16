@@ -6,10 +6,10 @@ import { handleResponse } from '../utils/errorHandler';
 // Constants
 // ------------------------------------
 export const GET_CURRENT_USER = 'GET_CURRENT_USER';
-const API_GET_CURRENT_USER = '/api/admin/user/current';
+const API_GET_CURRENT_USER = '/api/user/current';
 
 export const REQUEST_LOGOUT = 'REQUEST_LOGOUT';
-const API_REQUEST_LOGOUT = './logout';
+const API_REQUEST_LOGOUT = '/logout';
 
 // ------------------------------------
 // Actions
@@ -26,20 +26,27 @@ export function fetchCurrentUserData() {
     const fetchResult = await getData(API_GET_CURRENT_USER);
     // success
     if (fetchResult.status) {
-      const rolesArray = fetchResult.data.currentUser.rolesArray;
-      let isSupplier = false;
-      for (const role of rolesArray) {
-        if (role === 'supplier') {
-          isSupplier = true;
+      if (fetchResult.data.success) {
+        const rolesArray = fetchResult.data.data.currentUser.rolesArray;
+        let isSupplier = false;
+        for (const role of rolesArray) {
+          if (role === 'supplier' || role === 'admin') {
+            isSupplier = true;
+          }
         }
-      }
-      isSupplier = isSupplier && fetchResult.data.currentUser.SupplierId;
-      if (isSupplier) {
-        dispatch(deliverCurrentUserData(fetchResult.data.currentUser));
+        isSupplier = isSupplier && fetchResult.data.data.currentUser.SupplierId;
+        if (isSupplier) {
+          dispatch(deliverCurrentUserData(fetchResult.data.data.currentUser));
+        } else {
+          dispatch(handleResponse({
+            response: { status: 401 },
+            message: '只有供應商才能登入供應商後台！',
+          }));
+        }
       } else {
         dispatch(handleResponse({
-          response: { status: 403 },
-          message: '只有供應商才能登入供應商後台！',
+          response: { status: 401 },
+          message: '請先登入帳號！',
         }));
       }
     // error

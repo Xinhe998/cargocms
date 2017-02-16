@@ -4,6 +4,37 @@ import moment from 'moment';
 import axios from 'axios';
 
 module.exports = {
+  getCurrentUser: async (req, res) => {
+    try {
+      const user = AuthService.getSessionUser(req);
+      if (!user)
+        return res.ok({
+          success: false,
+          message: 'need login',
+        });
+
+      const where = {
+        where: {
+          id: user.id,
+        },
+        include: [
+          Role,
+          Supplier,
+        ],
+      };
+      const currentUser = await User.find(where);
+      const result = {
+        success: true,
+        data: {
+          currentUser,
+        },
+      };
+      res.ok(result);
+    } catch (e) {
+      res.serverError(e);
+    }
+  },
+
   follow: async (req, res) => {
     try {
       const { id } = req.params;
@@ -128,7 +159,7 @@ module.exports = {
         message: `forgot success. send email`,
         data: {},
       }, {
-        redirect: '/login'
+        redirect: '/'
       });
     } catch (e) {
       req.flash('error', e.message);
@@ -169,7 +200,7 @@ module.exports = {
         message:`update password success. send email`,
         data: {},
       }, {
-        redirect: '/login',
+        redirect: '/',
       });
     } catch (e) {
       req.flash('error', e.message);

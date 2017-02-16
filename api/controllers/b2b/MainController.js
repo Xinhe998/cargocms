@@ -9,7 +9,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const loginUser = AuthService.getSessionUser(req);
-      if (!loginUser) return res.redirect('/login');
+      if (!loginUser) return res.redirect('/');
 
       const user = await User.findOneWithPassport({ id: loginUser.id });
       if (user.verificationEmailToken) {
