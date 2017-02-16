@@ -19,19 +19,19 @@
         <table style="margin-top: 3.2em;">
           <tbody>
             <tr>
-              <th style="width: 6em;" colspan="2">訂購人資訊</th>
+              <th colspan="2">訂購人資訊</th>
             </tr>
             <tr>
-              <td>姓名：</td><td><%= (data.item.lastname + data.item.firstname) ? (data.item.lastname + data.item.firstname): '' %></td>
+              <th style="width: 6em;" >姓名：</th><td><%= (data.item.lastname + data.item.firstname) ? (data.item.lastname + data.item.firstname): '' %></td>
             </tr>
             <tr>
-              <td>電子郵件：</td><td><%= data.item.User.email ? data.item.User.email : '' %></td>
+              <th>電子郵件：</th><td><%= data.item.User.email ? data.item.User.email : '' %></td>
             </tr>
             <tr>
-              <td>通訊地址：</td><td><%= data.item.User.address ? data.item.User.address : '' %></td>
+              <th>通訊地址：</th><td><%= data.item.User.address ? data.item.User.address : '' %></td>
             </tr>
             <tr>
-              <td>電話：</td><td><%= data.item.User.phone1 ? data.item.User.phone1: '' %></td>
+              <th>電話：</th><td><%= data.item.User.phone1 ? data.item.User.phone1: '' %></td>
             </tr>
           </tbody>
         </table>
@@ -46,31 +46,31 @@
         <table style="margin-top: 3.2em;">
           <tbody>
             <tr>
-              <th style="width: 6em;" colspan="2" >收件人資訊</th>
+              <th colspan="2" >收件人資訊</th>
             </tr>
             <tr>
-              <td>姓名：</td>
+              <th style="width: 6em;">姓名：</th>
               <td>
               <%= (data.item.shippingLastname ? data.item.shippingLastname : '') + ' ' + (data.item.shippingFirstname ? data.item.shippingFirstname : '') %>
               </td>
             </tr>
             <tr>
-              <td>電子郵件：</td><td><%= data.item.email ? data.item.email : '' %></td>
+              <th>電子郵件：</th><td><%= data.item.email ? data.item.email : '' %></td>
             </tr>
             <tr>
-              <td>收件地址：</td>
+              <th>收件地址：</th>
               <td>
               <%= ( data.item.shippingPostcode ? data.item.shippingPostcode : '' ) + ' ' + (data.item.shippingAddress1 ? data.item.shippingAddress1 : '') %>
               </td>
             </tr>
             <tr>
-              <td>聯絡電話：</td><td><%= data.item.telephone ? data.item.telephone : '' %></td>
+              <th>聯絡電話：</th><td><%= data.item.telephone ? data.item.telephone : '' %></td>
             </tr>
             <tr>
-              <td style="width: 6em;">運送方式：</td><td><%= data.item.shippingMethod ? data.item.shippingMethod : '' %></td>
+              <th>運送方式：</th><td><%= data.item.shippingMethod ? data.item.shippingMethod : '' %></td>
             </tr>
             <tr>
-              <td>運費：</td><td>免運費</td>
+              <th>運費：</th><td>免運費</td>
             </tr>
           </tbody>
         </table>
