@@ -29,4 +29,7 @@ module.exports = {
   'put /api/admin/categorydescription/:id': 'api/admin/CategoryDescriptionController.update',
   'delete /api/admin/categorydescription/:id': 'api/admin/CategoryDescriptionController.destroy',
 
+  '/validate/email':  'b2b/MainController.validateEmail',
+  '/edit/me':  'b2b/MainController.editPofile',
+  '/update/password': 'b2b/MainController.updatePassword',
 };

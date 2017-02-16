@@ -35,7 +35,10 @@ var appModel = {
       minimum:'',
       sortOrder:'',
       publish:'',
-      viewed:'',
+      viewed: 0,
+      SupplierId:'',
+      ProductDescription: {},
+      Supplier: {},
       Categories:[],
       categoriesId: [],
       categoriesNameArray:[],
@@ -44,6 +47,7 @@ var appModel = {
     option: {
       defaultSort: [[ 0, 'desc' ]],
       categoryList: [],
+      supplierList: [],
     }
   },
   view: {
@@ -74,6 +78,17 @@ appMain.loadCategory = function () {
   function ajaxSuccess(result) {
     if (result.success) {
       appModel.data.option.categoryList = result.data.items;
+    }
+  } // end ajaxSuccess
+}
+
+appMain.loadSupplier = function () {
+
+  $.get('/api/admin/supplier', ajaxSuccess);
+
+  function ajaxSuccess(result) {
+    if (result.success) {
+      appModel.data.option.supplierList = result.data.items;
     }
   } // end ajaxSuccess
 }

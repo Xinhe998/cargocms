@@ -100,12 +100,16 @@
     <table class="table product-list" style="margin-top: 3.2em;">
       <thead>
         <tr>
-          <th>品名</th><th>單價</th><th>數量</th><th>小計</th>
+          <th></th><th>品名</th><th>單價</th><th>數量</th><th>小計</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="cart in carts">
-          <td>{{cart.name}}</td><td>$ {{cart.price | moneyNum}}</td><td>{{cart.quantity}}</td><td>$ {{parseFloat(cart.price) * parseFloat(cart.quantity) | moneyNum }}</td>
+          <td><i v-on:click.stop="removeProduct(cart.id, $event)" class="fa fa-times btn" aria-hidden="true"></i></td>
+          <td>{{cart.name}}</td>
+          <td>$ {{cart.price | moneyNum}}</td>
+          <td>{{cart.quantity}}</td>
+          <td>$ {{parseFloat(cart.price) * parseFloat(cart.quantity) | moneyNum }}</td>
         </tr>
       </tbody>
     </table>
@@ -125,7 +129,11 @@
         <th>總計</th><td>$ {{priceSum | moneyNum}}</td>
       </tr>
     </table>
-    <button class="btn btn-default btn-lg pull-right" type="submit" style="clear:right; display:inline-block; margin:1.6em 0 3em;">確認訂單</button>
+    <div class="col-xs-12">
+      <button class="btn btn-default btn-lg pull-right" type="submit" style="display:inline-block; margin:1.6em 0 3em;">確認訂單</button>
+      <a href="/" class="btn btn-lg btn-info pull-right" style="display:inline-block; margin:1.6em 1em 3em;">繼續選購</a>
+    </div>
+
   </div>
 
 </form>

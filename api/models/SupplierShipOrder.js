@@ -333,7 +333,19 @@ module.exports = {
           notify: true,
           comment: `訂單 ID: ${supplierShipOrder.OrderId} 已確認，建立 ${supplierName.name} 供應商出貨單 ID:${supplierShipOrder.id}.`
         }, { transaction });
-
+      },
+      afterUpdate: async function(supplierShipOrder, options) {
+        let { transaction } = options;
+        let shipOrderChanged = supplierShipOrder.changed();
+        let logChanged = [];
+        for(const key of shipOrderChanged) {
+          logChanged.push(`${key}: ${supplierShipOrder[key]}`);
+        }
+        const supplierShipOrderHistory = await SupplierShipOrderHistory.create({
+          notify: true,
+          comment: `出貨單 SupplierShipOrder ID: ${supplierShipOrder.id}，變更:${logChanged.join(',')}`,
+          SupplierShipOrderId: supplierShipOrder.id
+        }, { transaction });
       }
     }
 	}

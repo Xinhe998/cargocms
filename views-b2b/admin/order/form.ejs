@@ -225,6 +225,32 @@
     </section>
   </div>
 
+  <div class="row fn-create-hide">
+    <section class="col col-lg-12 col-xs-12">
+      <label class="label">訂購產品</label>
+      <label class="table state-disabled fn-edit-disabled">
+        <table class="table table-striped" id="orderProductTable">
+          <thead>
+            <tr>
+              <th>名稱</th>
+              <th>數量</th>
+              <th>價格</th>
+              <th>金額</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="orderProduct in data.option.orderProductList">
+              <td>{{ orderProduct.name }}</td>
+              <td>{{ orderProduct.quantity }}</td>
+              <td>{{ orderProduct.formatPrice }}</td>
+              <td>{{ orderProduct.formatTotal }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <b class="tooltip tooltip-bottom-right">訂購產品</b></label>
+    </section>
+  </div>
+
   <br/>
   <hr style="border-width: 2px;"/>
   <br/>

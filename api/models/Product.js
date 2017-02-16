@@ -10,36 +10,43 @@ module.exports = {
     sku: {
       type: Sequelize.STRING(64),
       allowNull: false,
+      defaultValue: '0',
     },
     //universal product codes
     upc: {
       type: Sequelize.STRING(12),
       allowNull: false,
+      defaultValue: '0',
     },
     //European article number
     ean: {
       type: Sequelize.STRING(14),
       allowNull: false,
+      defaultValue: '0',
     },
     //Japanese Article Numbering
     jan: {
       type: Sequelize.STRING(13),
       allowNull: false,
+      defaultValue: '0',
     },
     // International Standard Book Number
     isbn: {
       type: Sequelize.STRING(17),
       allowNull: false,
+      defaultValue: '0',
     },
     // Manufacturer Part Number
     mpn: {
       type: Sequelize.STRING(64),
       allowNull: false,
+      defaultValue: '0',
     },
 
     location: {
       type: Sequelize.STRING(128),
       allowNull: false,
+      defaultValue: 'tw',
     },
 
     quantity: {

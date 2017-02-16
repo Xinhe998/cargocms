@@ -34,23 +34,15 @@ export default (store) => (
     <Route path='/ship' component={CoreLayout} onEnter={redirectToLogin}>
       <IndexRoute component={ShipNewList} />
       <Route path='/ship/history' component={ShipList} />
-      <Route path='/ship/user' component={ShipList} />
+      <Route path='/ship/new' component={ShipNewList} />
+      <Route path='/ship/processing' component={ShipProcessingList} />
+      <Route path='/ship/shipped' component={ShippedList} />
+      <Route path='/ship/completed' component={ShipCompletedList} />
+      {/* <Route path='/ship/user' component={ShipList} /> */}
+      {/* <Route path='/contact' component={Login} /> */}
     </Route>
-    <Route path='/shipnew' component={CoreLayout}>
-      <IndexRoute component={ShipNewList} />
-    </Route>
-    <Route path='/shipprocessing' component={CoreLayout}>
-      <IndexRoute component={ShipProcessingList} />
-    </Route>
-    <Route path='/shipped' component={CoreLayout}>
-      <IndexRoute component={ShippedList} />
-    </Route>
-    <Route path='/shipcompleted' component={CoreLayout}>
-      <IndexRoute component={ShipCompletedList} />
-    </Route>
-    <Route path='/contact' component={Login} />
-    <Route path='/HomeView' component={CoreLayout}>
+    {/* <Route path='/HomeView' component={CoreLayout}>
       <IndexRoute component={HomeView} />
-    </Route>
+    </Route> */}
   </Route>
 );

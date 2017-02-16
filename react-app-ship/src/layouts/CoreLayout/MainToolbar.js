@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import {
   Toolbar,
   ToolbarGroup,
-  ToolbarSeparator,
+  // ToolbarSeparator,
   ToolbarTitle,
 } from 'material-ui/Toolbar';
 import { Link } from 'react-router';
@@ -42,6 +42,7 @@ const styles = {
 
 @connect(
   state => ({
+    user: state.user,
   }),
   dispatch => bindActionCreators({
     requestLogout,
@@ -49,10 +50,12 @@ const styles = {
 ) export default class MainToolbar extends React.Component {
   static propTypes = {
     requestLogout: PropTypes.func,
+    user: PropTypes.object,
   };
 
   static defaultProps = {
     requestLogout: null,
+    user: {},
   };
 
   constructor(props) {
@@ -91,6 +94,12 @@ const styles = {
   render() {
     const isMobile = this.state.width < 768;
     styles.title.display = !isMobile ? 'block' : 'none';
+    let displaySupplierName = '';
+    if (this.props.user.currentUser.Supplier) {
+      const supplierName = this.props.user.currentUser.Supplier.name;
+      const userName = this.props.user.currentUser.username;
+      displaySupplierName = `${supplierName}(${userName})`;
+    }
     return (
       <Toolbar style={styles.toolbar}>
         {/* <ToolbarSeparator style={styles.white} /> */}
@@ -100,7 +109,7 @@ const styles = {
               account_circle
             </FontIcon>
           </Link>
-          <ToolbarTitle text='一尾鮮魚活海產' style={styles.title} />
+          <ToolbarTitle text={displaySupplierName} style={styles.title} />
           <IconMenu
             style={styles.iconMenu}
             iconButtonElement={

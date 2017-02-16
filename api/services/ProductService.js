@@ -58,6 +58,7 @@ module.exports = {
     try{
       //ignore column
       data.points = 0;
+      data.dateAvailable = UtilsService.DataTimeFormat().date;
 
       const categories = data.categoriesId.map( function (data) {
         return { id: data };
@@ -69,6 +70,16 @@ module.exports = {
       })
 
       const product = await Product.create(data);
+
+      const productDescription = await ProductDescription.create({
+        name: product.model,
+        description: '',
+        tag: '',
+        metaTitle: '',
+        metaDescription: '',
+        metaKeyword: '',
+        ProductId: product.id
+      });
 
       await product.setCategories(productCategory);
 

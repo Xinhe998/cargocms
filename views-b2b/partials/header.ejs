@@ -22,7 +22,28 @@
           <% } else { %>
           <%   loginBackUrl = '?url=' + loginBackUrl %>
           <% } %>
-          <li class="<%= (req.path=='/login')?'active':'' %>"><a id="login" class="login-btn">登入</a></li>
+
+          <% if(req.path === '/forgot' || req.path === '/login' || req.path === '/update/password') { %>
+            <li class="<%= (req.path=='/login')?'active':'' %>"><a id="login" href="/login" class="login-btn">登入</a></li>
+          <% } else { %>
+            <li class="<%= (req.path=='/login')?'active':'' %>"><a id="login" class="login-btn">登入</a></li>
+
+            <li class="dropdown" id="cart">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span v-text="carts.length" v-show="carts.length > 0" class="badge"></span><span class="caret"></span></a>
+              <ul class="dropdown-menu b2b-cart">
+                <li v-for="cart in carts">
+                  <a href="#">
+                    <i v-on:click.stop="removeProduct(cart.id, $event)" class="fa fa-times" aria-hidden="true"></i>
+                    <span>{{cart.name}} * {{cart.quantity}}</span>
+                  </a>
+                </li>
+                <li v-show="carts.length > 0" role="separator" class="divider"></li>
+                <li v-show="carts.length > 0"><a class="btn btn-sm btn-checkout non-login">結帳</a></li>
+
+                <li v-show="carts.length === 0" style="text-align:center"><span>購物車是空的</span><li>
+              </ul>
+            </li>
+          <% } %>
         <% } else { %>
           <% //req.session.passport.user.displayName %>
           <li><a href="/">線上購物</a></li>
@@ -31,9 +52,7 @@
             <ul class="dropdown-menu">
 
               <li><a href="/orderhistory">訂單紀錄</a></li>
-              <!--
-              <li><a href="#">修改資料</a></li>
-              -->
+              <li><a href="/edit/me">修改資料</a></li>
               <li role="separator" class="divider"></li>
 
               <li><a id="logout-link" class="logout-link" href="javascript: void(0)" >登出</a></li>
@@ -77,6 +96,25 @@
       if(isConform){
         open('/logout', '_self');
       }else{
+        swal.close();
+      }
+    });
+  });
+
+  $('.non-login').click(function(){
+    swal({
+      title: '提示',
+      text: '訂購商品請先登入！',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: "登入",
+      cancelButtonText: "取消",
+      closeOnConfirm: true,
+      closeOnCancel: true,
+    }, function(isConform){
+      if(isConform){
+        $('.login-btn').trigger('click');
+      } else {
         swal.close();
       }
     });

@@ -91,7 +91,7 @@ const muiTheme = getMuiTheme({
               <Formsy.Form
                 ref={(c) => { this.form = c; }}
                 method='post'
-                action='/auth/local?url=/shipnew/'
+                action='/auth/local?url=/ship/'
                 onValidSubmit={this.submit}
                 onValid={this.enableButton}
                 onInvalid={this.disableButton}
@@ -113,7 +113,7 @@ const muiTheme = getMuiTheme({
                   className='form-control'
                   required={true}
                 />
-                <a className='forget-password' href='#!'>忘記密碼？</a>
+              <a className='forget-password' href='/forgot'>忘記密碼？</a>
                 <button
                   type='submit'
                   disabled={!this.state.canSubmit}

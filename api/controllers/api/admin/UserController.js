@@ -32,10 +32,11 @@ module.exports = {
       let {serverSidePaging} = query
       let modelName = req.options.controller.split("/").reverse()[0]
       let result;
+      const include = [Role, Supplier];
       if(serverSidePaging){
-        result = await PagingService.process({query, modelName});
+        result = await PagingService.process({query, modelName, include});
       } else {
-        const items = await sails.models[modelName].findAll();
+        const items = await sails.models[modelName].findAll({include});
         result = {data: {items}}
       }
       res.ok(result);
