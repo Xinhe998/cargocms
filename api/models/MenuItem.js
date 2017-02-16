@@ -3,6 +3,9 @@ module.exports = {
     icon: {
       type: Sequelize.STRING,
     },
+    model: {
+      type: Sequelize.STRING,
+    },
     href: {
       type: Sequelize.STRING,
     },

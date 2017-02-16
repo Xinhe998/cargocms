@@ -1,3 +1,4 @@
+import _ from 'lodash';
 module.exports = {
 
   getUserAllRole: async({ user }) => {
@@ -9,13 +10,14 @@ module.exports = {
         include: Role,
       })
       const rolesId = findUser.Roles.map((data) => data.id);
-      let roleGroup = await RoleDetail.findAll({
+      let roleDetail = await RoleDetail.findAll({
         where: {
           RoleId: rolesId,
         },
         include: MenuItem
       });
-      return roleGroup;
+      roleDetail = roleDetail.map((data) => data.dataValues);
+      return roleDetail;
     } catch (e) {
       throw e;
     }
@@ -27,10 +29,27 @@ module.exports = {
   hasRoleDetail: function(user, roleName) {
   },
 
-  getAccessibleMenuItems: function(user) {
+  getAccessibleMenuItems: function({ roles }) {
   },
 
-  hasRoleDetailOfMenuItem: function(user, menuItem, roleDetailName) {
+  hasRoleDetailOfMenuItem: function({ roles, model, roleDetailName }) {
+    try {
+      sails.log.info(roles, model, roleDetailName);
+      const menuItem = roles.filter((data) => {
+        return _.isMatch(data, {
+          name: roleDetailName,
+          MenuItem: {
+            dataValues: {
+              model: model
+            }
+          }
+        })
+      });
+      console.log(menuItem);
+      return menuItem.length > 0;
+    } catch (e) {
+      throw e;
+    }
   },
 
   canAccessApi: function(user, menuItem, httpMethod, apiPath) {
