@@ -11,6 +11,10 @@ const API_GET_CURRENT_USER = '/api/user/current';
 export const REQUEST_LOGOUT = 'REQUEST_LOGOUT';
 const API_REQUEST_LOGOUT = '/logout';
 
+export const USER_ROLE_ADMIN = 'admin';
+export const USER_ROLE_SUPPLIER = 'supplier';
+export const SET_IS_AUTHORIZED = 'SET_IS_AUTHORIZED';
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -21,21 +25,35 @@ export function deliverCurrentUserData(data) {
   };
 }
 
+export function deliverIsAuthorized(data) {
+  return {
+    type: SET_IS_AUTHORIZED,
+    data,
+  };
+}
+
+export function checkIsAuthorized(data) {
+  const rolesArray = data.currentUser.rolesArray;
+  let isAuthorized = false;
+  const hasSupplierId = data.currentUser.SupplierId;
+  for (const role of rolesArray) {
+    const isSupplier = role === USER_ROLE_SUPPLIER;
+    const isAdmin = role === USER_ROLE_ADMIN;
+    if (isSupplier || isAdmin) {
+      isAuthorized = true;
+    }
+  }
+  return isAuthorized && hasSupplierId;
+}
+
 export function fetchCurrentUserData() {
   return async(dispatch) => {
     const fetchResult = await getData(API_GET_CURRENT_USER);
     // success
     if (fetchResult.status) {
       if (fetchResult.data.success) {
-        const rolesArray = fetchResult.data.data.currentUser.rolesArray;
-        let isSupplier = false;
-        for (const role of rolesArray) {
-          if (role === 'supplier' || role === 'admin') {
-            isSupplier = true;
-          }
-        }
-        isSupplier = isSupplier && fetchResult.data.data.currentUser.SupplierId;
-        if (isSupplier) {
+        const isAuthorized = checkIsAuthorized(fetchResult.data.data);
+        if (isAuthorized) {
           dispatch(deliverCurrentUserData(fetchResult.data.data.currentUser));
         } else {
           dispatch(handleResponse({
@@ -43,6 +61,7 @@ export function fetchCurrentUserData() {
             message: '只有供應商才能登入供應商後台！',
           }));
         }
+        dispatch(deliverIsAuthorized(isAuthorized));
       } else {
         dispatch(handleResponse({
           response: { status: 401 },
@@ -73,6 +92,10 @@ export const ACTION_HANDLERS = {
     ...state,
     currentUser: action.data,
   }),
+  [SET_IS_AUTHORIZED]: (state = {}, action) => ({
+    ...state,
+    isAuthorized: action.data,
+  }),
 };
 
 // ------------------------------------
@@ -80,6 +103,7 @@ export const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   currentUser: {},
+  isAuthorized: false,
 };
 
 export default function shipOrderReducer(state = initialState, action) {

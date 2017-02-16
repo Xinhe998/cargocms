@@ -26,15 +26,19 @@ export function handleResponse(
     message: '',
   },
 ) {
+  const con = console;
   const response = result.response;
-  const message = result.message;
+  let message = result.message;
   return (dispatch) => {
+    con.error('[errorHandler] origin error message: ', message);
     switch (response.status) {
       case 401:
         dispatch(replace('/ship/login'));
+        message = '請先登入您的供應商身份帳號，您目前沒有權限查看此頁面！';
         break;
       case 403:
         dispatch(replace('/ship/login'));
+        message = '請登入後使用！';
         break;
       case 404:
         break;
@@ -43,7 +47,6 @@ export function handleResponse(
       default:
         break;
     }
-    console.error(message);
     dispatch(deliverErrorStatus(response, message));
     dispatch(handleShowToast(message));
   };
