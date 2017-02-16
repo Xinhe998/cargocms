@@ -4,7 +4,7 @@
 // ------------------------------------
 export const SHOW_TOAST = 'SHOW_TOAST';
 export const CLOSE_TOAST = 'CLOSE_TOAST';
-export const TOAST_DURATION = 4000;
+export const TOAST_DURATION = 7000;
 
 // ------------------------------------
 // Actions
