@@ -310,6 +310,22 @@ module.exports = {
         }
       }
     },
+    formatTotalWithTax: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          let total = this.getDataValue('total');
+          if(!total){
+            return '';
+          }
+          total = Math.round(total * 1.05);
+          return UtilsService.moneyFormat(total);
+
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
+    },
 
 	},
 	associations: () => {
