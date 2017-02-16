@@ -108,7 +108,7 @@ const muiTheme = getMuiTheme({
                 <label htmlFor={this.username}>帳號</label>
                 <FormsyInput
                   ref={(c) => { this.username = c; }}
-                  name='username'
+                  name='identifier'
                   placeholder='Username'
                   className='form-control margin-bottom-20'
                   required={true}
