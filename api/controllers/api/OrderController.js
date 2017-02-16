@@ -40,9 +40,16 @@ module.exports = {
         mailMessage.note = order.comment;
         mailMessage.phone = order.telephone;
         mailMessage.invoiceNo = `${order.invoicePrefix}${order.invoiceNo}`;
-        const messageConfig = await MessageService.orderToShopConfirm(mailMessage);
-        const mail = await Message.create(messageConfig);
+        let messageConfig = await MessageService.orderToShopConfirm(mailMessage);
+        let mail = await Message.create(messageConfig);
         await MessageService.sendMail(mail);
+
+        if(order.email !== loginUser.email){
+          mailMessage.email = loginUser.email;
+          messageConfig = await MessageService.orderToShopConfirm(mailMessage);
+          let mail = await Message.create(messageConfig);
+          await MessageService.sendMail(mail);
+        }
       } catch (e) {
         sails.log.error(e);
       }
