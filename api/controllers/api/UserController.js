@@ -159,7 +159,7 @@ module.exports = {
         message: `forgot success. send email`,
         data: {},
       }, {
-        redirect: '/login'
+        redirect: '/'
       });
     } catch (e) {
       req.flash('error', e.message);
@@ -200,7 +200,7 @@ module.exports = {
         message:`update password success. send email`,
         data: {},
       }, {
-        redirect: '/login',
+        redirect: '/',
       });
     } catch (e) {
       req.flash('error', e.message);
