@@ -34,7 +34,7 @@ export function handleResponse(
     switch (response.status) {
       case 401:
         dispatch(replace('/ship/login'));
-        message = '請先登入您的供應商身份帳號，您目前沒有權限查看此頁面！';
+        message = '您嘗試登入的帳號沒有權限查看此頁面！';
         break;
       case 403:
         dispatch(replace('/ship/login'));

@@ -43,10 +43,10 @@ const muiTheme = getMuiTheme({
   };
 
   static propTypes = {
+    fetchCurrentUserData: PropTypes.func,
     handleShowToast: PropTypes.func,
     closeToast: PropTypes.func,
     toast: PropTypes.object,
-    fetchCurrentUserData: PropTypes.func,
   };
 
   constructor(props) {
@@ -68,7 +68,7 @@ const muiTheme = getMuiTheme({
   disableButton = () => {
     this.setState({
       canSubmit: false,
-      notice: '請完整輸入帳號/密碼',
+      notice: '請檢查帳號 / 密碼',
     });
   }
 
