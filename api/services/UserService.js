@@ -172,6 +172,12 @@ module.exports = {
     email,
     firstName,
     lastName,
+    birthday,
+    phone1,
+    phone2,
+    city,
+    district,
+    postCode,
     locale,
     Passports,
     password,
@@ -214,6 +220,9 @@ module.exports = {
         updatedUser.phone1 = user.phone1;
         updatedUser.phone2 = user.phone2;
         updatedUser.address = user.address;
+        updatedUser.city = user.city;
+        updatedUser.district = user.district;
+        updatedUser.postCode = user.postCode;
         updatedUser.address2 = user.address2;
         updatedUser.verificationEmailToken = user.verificationEmailToken;
         updatedUser.avatar = user.avatar;
