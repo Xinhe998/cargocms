@@ -126,3 +126,10 @@ $('#resendCheckEmail').on('click', function() {
 		});
 	});
 })
+
+$('#twzipcode').twzipcode({
+  'countyName': 'city',
+  'zipcodeName': 'postCode',
+});
+$('#twzipcode input').addClass('form-control');
+$('#twzipcode select').addClass('form-control');
