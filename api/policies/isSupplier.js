@@ -8,7 +8,6 @@
  *
  */
 module.exports = function(req, res, next) {
-  sails.log.error("## check user account Role is supplier ##")
   if (sails.config.offAuth || AuthService.isSupplier(req) || AuthService.isAdmin(req)) {
     return next();
   }
