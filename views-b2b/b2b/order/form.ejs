@@ -126,7 +126,7 @@
         <th>營業稅</th><td>$ {{ Math.round(priceSum * 0.05) | moneyNum }}</td>
       </tr>
       <tr>
-        <th>總計</th><td>$ {{priceSum | moneyNum}}</td>
+        <th>總計</th><td>$ {{priceSum + Math.round(priceSum * 0.05) | moneyNum}}</td>
       </tr>
     </table>
     <div class="col-xs-12">
