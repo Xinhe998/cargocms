@@ -59,6 +59,7 @@ const styles = {
     closeToast: PropTypes.func,
     toast: PropTypes.object,
     content: PropTypes.object,
+    user: PropTypes.object,
   };
 
   static defaultProps = {
@@ -67,6 +68,7 @@ const styles = {
     closeToast: null,
     toast: {},
     content: '',
+    user: {},
   };
 
   constructor(props) {
@@ -78,6 +80,7 @@ const styles = {
       drawerWidth: 150,
       width: 0,
       height: 0,
+      isShow: false,
     };
   }
 
@@ -132,7 +135,10 @@ const styles = {
 
     styles.drawerContainer.position = isMobile ? 'fixed' : 'relative';
     return (
-      <div className='appBarWraaper'>
+      <div
+        className='appBarWraaper'
+        style={{ display: this.props.user.isAuthorized ? 'block' : 'none' }}
+      >
         <AppBar
           className='appBar'
           title={titleText}
