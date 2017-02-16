@@ -221,7 +221,7 @@ module.exports = {
         });
       }
 
-      let supplierShipOrderCreateList = [];
+
       for (const supplier of suppliers) {
         // 產生Ship訂單編號
         let shipOrderNumber = await OrderService.orderNumberGenerator({
@@ -231,75 +231,64 @@ module.exports = {
         });
         sails.log.info('產生出貨單編號:', shipOrderNumber);
 
-        supplierShipOrderCreateList.push(
-          {
-            shipOrderNumber: shipOrderNumber,
-            OrderId: id,
-            SupplierId: supplier,
-            invoiceNo: order.invoiceNo,
-            invoicePrefix: order.invoicePrefix,
-            firstname: order.firstname,
-            lastname: order.lastname,
-            email: order.email,
-            telephone: order.telephone,
-            fax: order.fax,
-            customField: order.customField,
-            paymentFirstname: order.paymentFirstname,
-            paymentLastname: order.paymentLastname,
-            paymentCompany: order.paymentCompany,
-            paymentAddress1: order.paymentAddress1,
-            paymentAddress2: order.paymentAddress2,
-            paymentCity: order.paymentCity,
-            paymentPostcode: order.paymentPostcode,
-            paymentCountry: order.paymentCountry,
-            paymentCountryId: order.paymentCountryId,
-            paymentZone: order.paymentZone,
-            paymentZoneId: order.paymentZoneId,
-            paymentAddressFormat: order.paymentAddressFormat,
-            paymentCustomField: order.paymentCustomField,
-            paymentMethod: order.paymentMethod,
-            paymentCode: order.paymentCode,
-            shippingFirstname: order.shippingFirstname,
-            shippingLastname: order.shippingLastname,
-            shippingCompany: order.shippingCompany,
-            shippingAddress1: order.shippingAddress1,
-            shippingAddress2: order.shippingAddress2,
-            shippingCity: order.shippingCity,
-            shippingPostcode: order.shippingPostcode,
-            shippingCountry: order.shippingCountry,
-            shippingCountryId: order.shippingCountryId,
-            shippingZone: order.shippingZone,
-            shippingZoneId: order.shippingZoneId,
-            shippingAddressFormat: order.shippingAddressFormat,
-            shippingCustomField: order.shippingCustomField,
-            shippingMethod: order.shippingMethod,
-            shippingCode: order.shippingCode,
-            comment: order.comment,
-            total: supplierShipOrderTotalList[supplier],
-            commission: order.commission,
-            tracking: order.tracking,
-            ip: order.ip,
-            forwardedIp: order.forwardedIp,
-            userAgent: order.userAgent,
-            acceptLanguage: order.acceptLanguage,
-            status: 'NEW',
-          }
-        );
-      }
-      const supplierShipOrder = await SupplierShipOrder.bulkCreate(supplierShipOrderCreateList, { transaction });
+        const newSupplierShipOrder = await SupplierShipOrder.create({
+          shipOrderNumber: shipOrderNumber,
+          OrderId: id,
+          SupplierId: supplier,
+          invoiceNo: order.invoiceNo,
+          invoicePrefix: order.invoicePrefix,
+          firstname: order.firstname,
+          lastname: order.lastname,
+          email: order.email,
+          telephone: order.telephone,
+          fax: order.fax,
+          customField: order.customField,
+          paymentFirstname: order.paymentFirstname,
+          paymentLastname: order.paymentLastname,
+          paymentCompany: order.paymentCompany,
+          paymentAddress1: order.paymentAddress1,
+          paymentAddress2: order.paymentAddress2,
+          paymentCity: order.paymentCity,
+          paymentPostcode: order.paymentPostcode,
+          paymentCountry: order.paymentCountry,
+          paymentCountryId: order.paymentCountryId,
+          paymentZone: order.paymentZone,
+          paymentZoneId: order.paymentZoneId,
+          paymentAddressFormat: order.paymentAddressFormat,
+          paymentCustomField: order.paymentCustomField,
+          paymentMethod: order.paymentMethod,
+          paymentCode: order.paymentCode,
+          shippingFirstname: order.shippingFirstname,
+          shippingLastname: order.shippingLastname,
+          shippingCompany: order.shippingCompany,
+          shippingAddress1: order.shippingAddress1,
+          shippingAddress2: order.shippingAddress2,
+          shippingCity: order.shippingCity,
+          shippingPostcode: order.shippingPostcode,
+          shippingCountry: order.shippingCountry,
+          shippingCountryId: order.shippingCountryId,
+          shippingZone: order.shippingZone,
+          shippingZoneId: order.shippingZoneId,
+          shippingAddressFormat: order.shippingAddressFormat,
+          shippingCustomField: order.shippingCustomField,
+          shippingMethod: order.shippingMethod,
+          shippingCode: order.shippingCode,
+          comment: order.comment,
+          total: supplierShipOrderTotalList[supplier],
+          commission: order.commission,
+          tracking: order.tracking,
+          ip: order.ip,
+          forwardedIp: order.forwardedIp,
+          userAgent: order.userAgent,
+          acceptLanguage: order.acceptLanguage,
+          status: 'NEW',
+        }, { transaction });
 
-      let supplierOrderProdutsCreateList = [];
-      for (let i = 0; i < supplierShipOrder.length; i++) {
-        //修改 出貨單訂單產品 內的出貨單ＩＤ
-        const supplierShipProductNumber = supplierOrderProduts[ supplierShipOrder[i].SupplierId ].length;
-        for(let index = 0; index < supplierShipProductNumber; index++) {
-          let supplierOrderProdut = supplierOrderProduts[ supplierShipOrder[i].SupplierId ][index];
-          supplierOrderProdut.SupplierShipOrderId  = supplierShipOrder[i].id;
-          supplierOrderProdutsCreateList.push( supplierOrderProdut );
+        for (let shipOrderProduct of supplierOrderProduts[supplier]) {
+          shipOrderProduct.SupplierShipOrderId = newSupplierShipOrder.id;
+          await SupplierShipOrderProduct.create(shipOrderProduct, {transaction});
         }
-
       }
-      await SupplierShipOrderProduct.bulkCreate(supplierOrderProdutsCreateList, {transaction});
 
       transaction.commit();
 
