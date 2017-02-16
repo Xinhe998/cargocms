@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Formsy from 'formsy-react';
+import Lang from 'lodash';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { deepOrange500 } from 'material-ui/styles/colors';
@@ -10,7 +11,6 @@ import { Snackbar } from 'material-ui';
 import Crab from './crab.png';
 import FishLogo from './fish logo.png';
 import FormsyInput from '../../components/FormsyInput';
-import Lang from 'lodash';
 import {
   handleShowToast,
   closeToast,
@@ -108,7 +108,7 @@ const muiTheme = getMuiTheme({
                 <label htmlFor={this.username}>帳號</label>
                 <FormsyInput
                   ref={(c) => { this.username = c; }}
-                  name='username'
+                  name='identifier'
                   placeholder='Username'
                   className='form-control margin-bottom-20'
                   required={true}
