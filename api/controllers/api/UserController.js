@@ -8,7 +8,7 @@ module.exports = {
     try {
       const user = AuthService.getSessionUser(req);
       if (!user)
-        return res.ok({
+        return res.forbidden({
           success: false,
           message: 'need login',
         });
