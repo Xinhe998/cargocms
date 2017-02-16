@@ -11,7 +11,7 @@ import Crab from './crab.png';
 import FishLogo from './fish logo.png';
 import FormsyInput from '../../components/FormsyInput';
 import {
-  showToast,
+  handleShowToast,
   closeToast,
 } from '../../redux/utils/toast';
 import {
@@ -30,20 +30,20 @@ const muiTheme = getMuiTheme({
     toast: state.toast,
   }),
   dispatch => bindActionCreators({
-    showToast,
+    handleShowToast,
     closeToast,
     fetchCurrentUserData,
   }, dispatch),
 ) export default class Login extends React.Component {
   static defaultProps = {
-    showToast: null,
+    handleShowToast: null,
     closeToast: null,
     toast: {},
     fetchCurrentUserData: null,
   };
 
   static propTypes = {
-    showToast: PropTypes.func,
+    handleShowToast: PropTypes.func,
     closeToast: PropTypes.func,
     toast: PropTypes.object,
     fetchCurrentUserData: PropTypes.func,
@@ -68,7 +68,7 @@ const muiTheme = getMuiTheme({
       canSubmit: false,
     });
     if (!this.props.toast.open) {
-      this.props.showToast('尚有欄位未填寫');
+      this.props.handleShowToast('尚有欄位未填寫');
     }
   }
 
@@ -81,6 +81,7 @@ const muiTheme = getMuiTheme({
   }
 
   render() {
+    console.log('this.state.toast', this.props.toast);
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className='login-container'>

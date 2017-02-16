@@ -11,7 +11,7 @@ import {
 import MainToolbar from './MainToolbar';
 import DrawerMenuItems from './DrawerMenuItems';
 import {
-  showToast,
+  handleShowToast,
   closeToast,
 } from '../../redux/utils/toast';
 import {
@@ -48,14 +48,14 @@ const styles = {
     user: state.user,
   }),
   dispatch => bindActionCreators({
-    showToast,
+    handleShowToast,
     closeToast,
     fetchCurrentUserData,
   }, dispatch),
 ) export default class AppDrawer extends React.Component {
   static propTypes = {
     fetchCurrentUserData: PropTypes.func,
-    showToast: PropTypes.func,
+    handleShowToast: PropTypes.func,
     closeToast: PropTypes.func,
     toast: PropTypes.object,
     content: PropTypes.object,
@@ -63,7 +63,7 @@ const styles = {
 
   static defaultProps = {
     fetchCurrentUserData: null,
-    showToast: null,
+    handleShowToast: null,
     closeToast: null,
     toast: {},
     content: '',
@@ -106,7 +106,7 @@ const styles = {
   }
 
   handleToggle = () => {
-    this.props.showToast('你切換了 Drawer');
+    this.props.handleShowToast('你切換了 Drawer');
     this.setState({
       drawerOpen: !this.state.drawerOpen,
     });

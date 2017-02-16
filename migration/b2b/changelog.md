@@ -5,6 +5,9 @@
 ### Order 欄位變動
 * Order 新增 token 欄位，避免訂單重複。
 
+### SupplierSHipOrder 欄位變動
+* SupplierSHipOrder 新增 token 欄位。
+
 ## v2
 
 ### User 欄位新增

@@ -29,7 +29,6 @@ var defaultConfig = {
   'post /api/admin/upload': 'api/admin/ImageController.upload',
   'delete /api/admin/upload/:id': 'api/admin/ImageController.destroy',
 
-  'get /api/admin/user/current': 'api/admin/UserController.getCurrentUser',
   'post /api/admin/user/exportBirthday': 'api/user/UserController.exportBirthday',
   'get /api/admin/user': 'api/admin/UserController.find',
   'get /api/admin/user/:id': 'api/admin/UserController.findOne',
@@ -70,6 +69,7 @@ var defaultConfig = {
   'put /api/admin/message/:id':    'api/admin/MessageController.update',
   'delete /api/admin/message/:id': 'api/admin/MessageController.destroy',
 
+  'get /api/user/current': 'api/UserController.getCurrentUser',
   'post /api/user/follow/:id':    'api/UserController.follow',
   'post /api/user/unfollow/:id':  'api/UserController.unfollow',
   'post /api/user/edit':      'api/UserController.update',

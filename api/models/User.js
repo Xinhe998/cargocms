@@ -248,8 +248,11 @@ module.exports = {
     },
     hooks: {
       afterCreate: async function(user, options) {
+        let {transaction} = options;
+        // console.log("=== transaction ===", transaction);
+        // transaction = null;
         const userRole = await Role.findOne({where: {authority: 'user'}});
-        await user.addRole(userRole);
+        await user.addRole(userRole, {transaction});
       }
     }
   }

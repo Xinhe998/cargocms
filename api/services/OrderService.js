@@ -5,15 +5,9 @@ module.exports = {
   createOrder: async ( transaction ,data ) => {
     try{
       const products = JSON.parse(data.products);
-
       let totalPrice = 0;
       for(let p of products){
-        let product = await Product.find({
-          where: {
-            id: p.id,
-          },
-        });
-
+        let product = await Product.findById(p.id);
         totalPrice += Number(product.price) * Number( p.quantity );
       }
       data.total = totalPrice;
@@ -74,23 +68,32 @@ module.exports = {
         data.email = data.shippingEmail;
       }
 
-      await OrderService.updateUserData({userId: data.UserId, email: data.email, phone1: data.telephone});
+      await OrderService.updateUserData({userId: data.UserId, email: data.email, phone1: data.telephone, transaction});
 
       const orderStatus = await OrderStatus.findOne({
-        where: { name:'NEW' }
+        where: {
+          name:'NEW'
+        }
       });
       data.OrderStatusId = orderStatus.id;
+      const order = await Order.create(data, {transaction});
 
-      let orderProducts = [];
-      let needUpdateProducts = [];
       for(const p of products){
-        const product = await Product.find({
+        const product = await Product.findOne({
           where: {
-            id: p.id,
+            id: p.id
           },
           include: ProductDescription
         });
-        orderProducts.push({
+
+        if (product.subtract) {
+          let productUpdate = await Product.findById(product.id);
+          productUpdate.quantity = Number(product.quantity) - Number(p.quantity);
+          if (productUpdate.quantity < 0) throw new Error(`產品ID: ${productUpdate.id}，庫存量不足`);
+          await productUpdate.save({ transaction });
+        }
+
+        await OrderProduct.create({
           ProductId: product.id,
           name: product.ProductDescription.name,
           model: product.model,
@@ -98,118 +101,19 @@ module.exports = {
           price: product.price,
           total: (product.price * p.quantity),
           tax: (product.price * p.quantity) * 0.05,
-        });
+          OrderId: order.id,
+        }, { transaction });
 
-        if (product.subtract) {
-          let productData = product.toJSON();
-          productData.quantity = Number(product.quantity) - Number(p.quantity);
-          needUpdateProducts.push(productData);
-        }
       }
 
-      //定義建立訂單相關的函式
-      const createOrder = (transaction) => {
-        return new Promise(function(resolve, reject) {
-          Order.create(data, {transaction})
-          .then(function(order) {
-            resolve(order);
-          }).catch(function(err){
-            reject(err);
-          });
-        });
-      }
+      const orderHistory = await OrderHistory.create({
+        OrderId: order.id,
+        notify: true,
+        OrderStatusId: order.OrderStatusId,
+        comment: `使用者 ID: ${order.UserId}，建立訂單 Order ID: ${order.id}，訂購產品: ${JSON.stringify(products)}`
+      }, {transaction});
 
-      const createOrderProduct = (transaction, orderData) => {
-        return new Promise(function(resolve, reject) {
-
-          orderProducts = orderProducts.map(function( data ){
-            data.OrderId = orderData.id;
-            return data;
-          });
-
-          OrderProduct.bulkCreate(orderProducts, {transaction})
-          .then( function(orderProduct){
-            resolve(orderProduct);
-          }).catch( function(err){
-            reject(err);
-          })
-
-        });
-      }
-
-      const subtractProduct = (transaction, orderProduct) => {
-        return new Promise(function(resolve, reject) {
-          //updateOnDuplicate only MySQL
-          Product.bulkCreate(needUpdateProducts ,{
-            // fields: ['id','quantity'],
-            updateOnDuplicate: [],
-            transaction,
-          })
-          .then(function(updatedProducts) {
-            resolve(updatedProducts);
-          }).catch(function(err) {
-            reject(err);
-          });
-        });
-      }
-
-      const createHistory = (transaction, orderData, orderProductData) => {
-        return new Promise(function(resolve, reject) {
-
-          const orderProducts = orderProductData.map(function(data) {
-            return {
-              name: data.name,
-              quantity: data.quantity,
-              price: data.price,
-              total: data.total
-            }
-          });
-
-          OrderHistory.create({
-            OrderId: orderData.id,
-            notify: true,
-            OrderStatusId: orderStatus.id,
-            comment: `使用者 ID: ${data.UserId}，建立訂單 Order ID: ${orderData.id}，訂購產品: ${JSON.stringify(orderProducts)}`,
-          }, { transaction })
-          .then(function(order) {
-            resolve(OrderHistory);
-          }).catch(function(err){
-            reject(err);
-          });
-
-        });
-      }
-
-      const sendEmail = (transaction, config) => {
-        return new Promise(function(resolve, reject) {
-          // TODO: 寄送 Email
-          resolve('Send Email OK');
-        });
-      }
-
-      console.log("=== create data =>",data);
-      console.log("=== make order");
-      let orderData, orderProductData, historyData;
-      return createOrder(transaction)
-      .then(function(order) {
-        orderData = order;
-        return createOrderProduct(transaction, orderData);
-      })
-      .then(function(productData) {
-        orderProductData = productData;
-        return createHistory(transaction, orderData, orderProductData);
-      })
-      .then(function(orderHistory){
-        historyData = orderHistory;
-        return subtractProduct(transaction, orderProductData)
-      })
-      .then( function(subtractProductData) {
-        let config = {};
-        return sendEmail({ transaction, config });
-      })
-      .then( function(email) {
-        return orderData;
-      });
+      return order;
 
     } catch (e) {
       sails.log.error(e);
@@ -217,9 +121,10 @@ module.exports = {
     }
   },
 
-  updateUserData: async ({ userId, email, phone1 }) => {
+  updateUserData: async ({ userId, email, phone1, transaction }) => {
     try {
       let updateUserData = await User.findById(userId);
+          updateUserData = updateUserData.toJSON();
       let userNeedUpdate = false;
       //update Phone
       if( !updateUserData.phone1 && !updateUserData.phone2 ) {
@@ -232,9 +137,15 @@ module.exports = {
         userNeedUpdate = true;
       }
       if(userNeedUpdate) {
-        updateUserData = await updateUserData.save().catch(sequelize.UniqueConstraintError, function(err) {
-          sails.log.error('Email 重複，不更新使用者帳號資訊');
+        await User.update(updateUserData, {
+          where: {
+            id: userId
+          },
+          transaction
         });
+        // updateUserData = await updateUserData.save().catch(sequelize.UniqueConstraintError, function(err) {
+        //   sails.log.error('Email 重複，不更新使用者帳號資訊');
+        // });
       };
     } catch (e) {
       sails.log.error('更新使用者失敗', e);
@@ -246,9 +157,13 @@ module.exports = {
     try {
       //產生訂單編號
       let date = moment(new Date(), moment.ISO_8601).format("YYYYMMDD");
+      let second = new Date().getTime().toString();
+      second = second.substr( second.length - 4 );
+
+
       let orderNumber = await sails.models[modelName].findAll({
         where: sequelize.where(
-          User.sequelize.fn('DATE_FORMAT', User.sequelize.col('createdAt'), '%Y%m%d'), date
+          sails.models[modelName].sequelize.fn('DATE_FORMAT', sails.models[modelName].sequelize.col('createdAt'), '%Y%m%d'), date
         )
       });
 
@@ -262,7 +177,7 @@ module.exports = {
       }
 
       const crc = sh.unique(`${userId}${product}${date}${orderNumber}`);
-      orderNumber = date + orderNumber + crc.substr(0, 3);
+      orderNumber = date + second + orderNumber + crc.substr(0, 3);
 
       return orderNumber;
     } catch (e) {

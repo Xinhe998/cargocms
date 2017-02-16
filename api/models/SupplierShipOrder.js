@@ -323,6 +323,17 @@ module.exports = {
 		classMethods: {},
 		instanceMethods: {},
 		hooks: {
+      afterCreate: async function(supplierShipOrder, options) {
+        let {transaction} = options;
+
+        const supplierName = await Supplier.findById(supplierShipOrder.SupplierId);
+
+        await SupplierShipOrderHistory.create({
+          SupplierShipOrderId: supplierShipOrder.id,
+          notify: true,
+          comment: `訂單 ID: ${supplierShipOrder.OrderId} 已確認，建立 ${supplierName.name} 供應商出貨單 ID:${supplierShipOrder.id}.`
+        }, { transaction });
+      },
       afterUpdate: async function(supplierShipOrder, options) {
         let { transaction } = options;
         let shipOrderChanged = supplierShipOrder.changed();

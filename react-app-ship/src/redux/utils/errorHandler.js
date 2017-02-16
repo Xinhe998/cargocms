@@ -1,6 +1,6 @@
 /* @flow */
 import { replace } from 'react-router-redux';
-import { showToast } from './toast';
+import { handleShowToast } from './toast';
 
 // ------------------------------------
 // Constants
@@ -30,6 +30,9 @@ export function handleResponse(
   const message = result.message;
   return (dispatch) => {
     switch (response.status) {
+      case 401:
+        dispatch(replace('/ship/login'));
+        break;
       case 403:
         dispatch(replace('/ship/login'));
         break;
@@ -42,7 +45,7 @@ export function handleResponse(
     }
     console.error(message);
     dispatch(deliverErrorStatus(response, message));
-    dispatch(showToast(message));
+    dispatch(handleShowToast(message));
   };
 }
 

@@ -138,25 +138,12 @@ module.exports = {
   },
 
   confirm: async (req, res) => {
+    const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
+    let transaction = await sequelize.transaction({ isolationLevel });
     try{
       const { id } = req.params;
-      let { tracking, orderConfirmComment } = req.body;
-      orderConfirmComment = orderConfirmComment || '';
-      const orderStatus = await OrderStatus.findOne({where:{name: 'PROCESSING'}})
-
-      let order = await Order.findById(id);
-      order.tracking = tracking;
-      order.OrderStatusId = orderStatus.id;
-      await order.save();
-
-      await OrderHistory.create({
-        notify: true,
-        // comment: `訂單 ID: ${id} 確認訂單，確認理由：${orderConfirmComment}.`,
-        comment: `訂單 ID: ${id} 確認訂單.`,
-        OrderId: order.id
-      });
-
-      sails.log.info('Order CONFIRM', Order);
+      const { tracking, orderConfirmComment } = req.body;
+      const user = AuthService.getSessionUser(req);
 
       let orderProducts = await OrderProduct.findAll({
         where:{
@@ -165,28 +152,87 @@ module.exports = {
         include:[ Order, Product]
       });
 
-      let suppliers = [];
-      for( let order of orderProducts){
-        if(suppliers.indexOf(order.Product.SupplierId) === -1){
-          suppliers.push( order.Product.SupplierId );
+      let orderStatus, order;
+      try {
+        orderStatus = await OrderStatus.findOne({ where: { name: 'PROCESSING' } });
+        if (!orderStatus.id) {
+          return res.ok({ success: false, message: 'status PROCESSING is not exist!' });
         }
+        order = await Order.findById(id);
+        if (!order.id) {
+          return res.ok({ success: false, message: `order id ${id} is not exist!` });
+        }
+      } catch (e) {
+        sails.log.error(e);
       }
 
-      const orderProductsData = orderProducts.map((data) => {
-        return {
-          name: data.name,
-          quantity: data.quantity,
-          price: data.price,
-          total: data.total
-        }
+      await Order.update({
+        tracking: tracking,
+        OrderStatusId: orderStatus.id
+      },{
+        where: {
+          id
+        },
+        transaction
       })
 
-      for( let supplier of suppliers){
+      await OrderHistory.create({
+        notify: true,
+        // comment: `訂單 ID: ${id} 確認訂單，確認理由：${orderConfirmComment}.`,
+        comment: `使用者 ID: ${user.id} 操作，訂單 ID: ${id} 確認訂單.`,
+        OrderId: order.id,
+        OrderStatusId: orderStatus.id,
+      }, { transaction });
 
-        let shipOrderNumber = await OrderService.orderNumberGenerator({modelName: 'suppliershiporder',userId: order.UserId, product: orderProductsData});
+      sails.log.info('Order CONFIRM', Order);
+
+      let suppliers = [];
+      let supplierOrderProduts = {}; //將 orderProduct 利用 supplier ID 作索引分類 supplier 的 supplierOrderProduct
+      let supplierShipOrderTotalList = {}; // 利用 supplier Id 作索引，分類出供應商產品價格數量的加總
+      let orderProductsName = [];
+      for (const orderProduct of orderProducts) {
+        const productSupplierId = orderProduct.Product.SupplierId;
+        if (suppliers.indexOf(productSupplierId) === -1) {
+          suppliers.push(productSupplierId);
+          supplierOrderProduts[productSupplierId] = [];
+          supplierShipOrderTotalList[productSupplierId] = 0;
+        }
+
+        supplierOrderProduts[productSupplierId].push(
+          {
+            SupplierShipOrderId: 0,
+            ProductId: orderProduct.ProductId,
+            name: orderProduct.name,
+            model: orderProduct.model,
+            quantity: orderProduct.quantity,
+            price: orderProduct.price,
+            total: orderProduct.total,
+            tax: orderProduct.tax,
+            status: 'NEW',
+          }
+        );
+
+        supplierShipOrderTotalList[productSupplierId] += Number(orderProduct.total);
+
+        orderProductsName.push({
+          name: orderProduct.name,
+          quantity: orderProduct.quantity,
+          price: orderProduct.price,
+          total: orderProduct.total
+        });
+      }
+
+
+      for (const supplier of suppliers) {
+        // 產生Ship訂單編號
+        let shipOrderNumber = await OrderService.orderNumberGenerator({
+          modelName: 'suppliershiporder',
+          userId: order.UserId,
+          product: JSON.stringify(orderProductsName)
+        });
         sails.log.info('產生出貨單編號:', shipOrderNumber);
 
-        let supplierShipOrder = await SupplierShipOrder.create({
+        const newSupplierShipOrder = await SupplierShipOrder.create({
           shipOrderNumber: shipOrderNumber,
           OrderId: id,
           SupplierId: supplier,
@@ -229,7 +275,7 @@ module.exports = {
           shippingMethod: order.shippingMethod,
           shippingCode: order.shippingCode,
           comment: order.comment,
-          total: 0,
+          total: supplierShipOrderTotalList[supplier],
           commission: order.commission,
           tracking: order.tracking,
           ip: order.ip,
@@ -237,53 +283,35 @@ module.exports = {
           userAgent: order.userAgent,
           acceptLanguage: order.acceptLanguage,
           status: 'NEW',
-        });
+        }, { transaction });
 
-        const supplierName = await Supplier.findById(supplier);
-
-        await SupplierShipOrderHistory.create({
-          SupplierShipOrderId: supplierShipOrder.id,
-          notify: true,
-          comment: `訂單 ID: ${supplierShipOrder.OrderId} 已確認，建立 ${supplierName.name} 供應商出貨單 ID:${supplierShipOrder.id}.`
-        });
-
-        let orderProductTotal = 0;
-        for( let orderProduct of orderProducts ){
-          if( orderProduct.Product.SupplierId === supplier ){
-            await SupplierShipOrderProduct.create({
-              SupplierShipOrderId: supplierShipOrder.id,
-              ProductId: orderProduct.ProductId,
-              name: orderProduct.name,
-              model: orderProduct.model,
-              quantity: orderProduct.quantity,
-              price: orderProduct.price,
-              total: orderProduct.total,
-              tax: orderProduct.tax,
-              status: 'NEW',
-            });
-
-            orderProductTotal += orderProduct.total;
-          }
+        for (let shipOrderProduct of supplierOrderProduts[supplier]) {
+          shipOrderProduct.SupplierShipOrderId = newSupplierShipOrder.id;
+          await SupplierShipOrderProduct.create(shipOrderProduct, {transaction});
         }
-
-        supplierShipOrder.total = orderProductTotal;
-        await supplierShipOrder.save();
       }
+
+      transaction.commit();
 
       console.log('Order=>', order);
       console.log('Order.orderNumber=>', order.orderNumber);
-      const messageConfig = await MessageService.paymentConfirm({
-        email: order.email,
-        serialNumber: order.orderNumber,
-        username: `${order.lastname}${order.firstname}`,
-      });
-      const mail = await Message.create(messageConfig);
-      await MessageService.sendMail(mail);
+      try {
+        const messageConfig = await MessageService.paymentConfirm({
+          email: order.email,
+          serialNumber: Order.orderNumber,
+          username: `${order.lastname}${order.firstname}`,
+        });
+        const mail = await Message.create(messageConfig);
+        await MessageService.sendMail(mail);
+      } catch (e) {
+        sails.log.error(e);
+      }
 
       const message = 'Success Confirm Order';
       const item = order;
       res.ok({ message, data: { item } });
     } catch (e) {
+      transaction.rollback();
       res.serverError(e);
     }
   },
