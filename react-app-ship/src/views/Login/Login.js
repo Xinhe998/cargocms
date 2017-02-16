@@ -53,12 +53,14 @@ const muiTheme = getMuiTheme({
     super();
     this.state = {
       canSubmit: false,
+      notice: '',
     };
   }
 
   enableButton = () => {
     this.setState({
       canSubmit: true,
+      notice: '',
     });
     this.props.closeToast();
   }
@@ -66,10 +68,8 @@ const muiTheme = getMuiTheme({
   disableButton = () => {
     this.setState({
       canSubmit: false,
+      notice: '請完整輸入帳號/密碼',
     });
-    if (!this.props.toast.open) {
-      this.props.handleShowToast('尚有欄位未填寫');
-    }
   }
 
   submit = () => {
@@ -77,11 +77,10 @@ const muiTheme = getMuiTheme({
     document.querySelector('.login-form form').submit();
     // TODO: 登入表單會引發 locatonChange 會導致遺失 store 資訊
     // 所以正常情況下應該是要發 api 取得資訊之後再取得 CurrentUserData.
-    this.props.fetchCurrentUserData();
+    // this.props.fetchCurrentUserData();
   }
 
   render() {
-    console.log('this.state.toast', this.props.toast);
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <div className='login-container'>
@@ -114,11 +113,13 @@ const muiTheme = getMuiTheme({
                   className='form-control'
                   required={true}
                 />
-              <a className='forget-password' href='/forgot'>忘記密碼？</a>
+                <span className='empty-notice'>{this.state.notice}</span>
+                <a className='forget-password' href='/forgot'>忘記密碼？</a>
                 <button
                   type='submit'
                   disabled={!this.state.canSubmit}
                   className='btn login-btn'
+                  data-tip={this.state.notice}
                 >登入系統</button>
               </Formsy.Form>
             </div>
