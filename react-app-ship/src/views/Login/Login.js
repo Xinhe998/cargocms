@@ -10,6 +10,7 @@ import { Snackbar } from 'material-ui';
 import Crab from './crab.png';
 import FishLogo from './fish logo.png';
 import FormsyInput from '../../components/FormsyInput';
+import Lang from 'lodash';
 import {
   handleShowToast,
   closeToast,
@@ -54,6 +55,8 @@ const muiTheme = getMuiTheme({
     this.state = {
       canSubmit: false,
       notice: '',
+      username: '',
+      password: '',
     };
   }
 
@@ -66,9 +69,15 @@ const muiTheme = getMuiTheme({
   }
 
   disableButton = () => {
+    let msg = '有欄位尚未輸入';
+    const isUsrEmpty = Lang.isEmpty(this.username.getValue());
+    const isPwdEmpty = Lang.isEmpty(this.password.getValue());
+    if (isPwdEmpty && isUsrEmpty) {
+      msg = '請檢查帳號 / 密碼';
+    }
     this.setState({
       canSubmit: false,
-      notice: '請檢查帳號 / 密碼',
+      notice: msg,
     });
   }
 
@@ -96,10 +105,10 @@ const muiTheme = getMuiTheme({
                 onValid={this.enableButton}
                 onInvalid={this.disableButton}
               >
-                <label htmlFor={this.identifier}>帳號</label>
+                <label htmlFor={this.username}>帳號</label>
                 <FormsyInput
-                  ref={(c) => { this.identifier = c; }}
-                  name='identifier'
+                  ref={(c) => { this.username = c; }}
+                  name='username'
                   placeholder='Username'
                   className='form-control margin-bottom-20'
                   required={true}
