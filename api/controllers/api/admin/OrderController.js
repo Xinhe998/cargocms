@@ -180,7 +180,8 @@ module.exports = {
         notify: true,
         // comment: `訂單 ID: ${id} 確認訂單，確認理由：${orderConfirmComment}.`,
         comment: `使用者 ID: ${user.id} 操作，訂單 ID: ${id} 確認訂單.`,
-        OrderId: order.id
+        OrderId: order.id,
+        OrderStatusId: orderStatus.id,
       }, { transaction });
 
       sails.log.info('Order CONFIRM', Order);
