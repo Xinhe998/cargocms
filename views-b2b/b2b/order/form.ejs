@@ -32,6 +32,23 @@
           <input name="telephone" type="text" class="form-control" value=<%= loginUser.phone1 ? loginUser.phone1 : '' %>>
         </div>
 
+        <div class="form-group hidden">
+          <label for="userCity"><span class="column-require">*</span>縣市</label>
+          <input name="userCity" type="text" class="form-control" value=<%= loginUser.city ? loginUser.city : '' %>>
+        </div>
+        <div class="form-group hidden">
+          <label for="userDistrict"><span class="column-require">*</span>區域</label>
+          <input name="userDistrict" type="text" class="form-control" value=<%= loginUser.district ? loginUser.district : '' %>>
+        </div>
+        <div class="form-group hidden">
+          <label for="userPostCode"><span class="column-require">*</span>郵遞區號</label>
+          <input name="userPostCode" type="text" class="form-control" value=<%= loginUser.postCode ? loginUser.postCode : '' %>>
+        </div>
+        <div class="form-group hidden">
+          <label for="userAddress"><span class="column-require">*</span>地址</label>
+          <input name="userAddress" type="text" class="form-control" value=<%= loginUser.address ? loginUser.address : '' %>>
+        </div>
+
       </div>
   	</div>
 
@@ -70,14 +87,14 @@
           <h3><span class="column-require">*</span>收件地址</h3>
           <hr />
           <div class="row" id="twzipcode">
-            <div class="col-xs-4 form-group" data-role="county" data-value="<%= loginUser.city %>"></div>
-            <div class="col-xs-4 form-group" data-role="district" data-value="<%= loginUser.district %>"></div>
-            <div class="col-xs-4 form-group" data-role="zipcode" data-value="<%= loginUser.postCode %>"></div>
+            <div class="col-xs-4 form-group" data-role="county"></div>
+            <div class="col-xs-4 form-group" data-role="district"></div>
+            <div class="col-xs-4 form-group" data-role="zipcode"></div>
           </div>
 
           <div class="form-group">
             <label for=""><span class="column-require">*</span>地址</label>
-            <input name="shippingAddress1" type="text" class="form-control" value="<%= loginUser.address ? loginUser.address: '' %>">
+            <input name="shippingAddress1" type="text" class="form-control">
           </div>
 
           <div class="form-group">

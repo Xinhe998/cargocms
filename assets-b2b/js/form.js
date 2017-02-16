@@ -85,22 +85,23 @@ $(document).ready(function() {
 	$("[type=checkbox]").on('change', function(event) {
 		if ($("[type=checkbox]").prop("checked")) {
 			$("[name=shippingLastname]").val($("[name=lastname]").val());
-			// $("[name=shippingLastname]").prop('disabled', true);
 			$("[name=shippingFirstname]").val($("[name=firstname]").val());
-			// $("[name=shippingFirstname]").prop('disabled', true);
 			$("[name=shippingEmail]").val($("[name=email]").val());
-			// $("[name=shippingEmail]").prop('disabled', true);
-			$("[name=shippingTelephone]").val($("[name=telephone]").val());
-			// $("[name=shippingTelephone]").prop('disabled', true);
+      $("[name=shippingTelephone]").val($("[name=telephone]").val());
+      $("[name=county]").val($("[name=userCity]").val());
+      $("[name=county]").change();
+      $("[name=district]").val($("[name=userDistrict]").val());
+      $("[name=zipcode]").val($("[name=userPostCode]").val());
+			$("[name=shippingAddress1]").val($("[name=userAddress]").val());
 		} else {
 			$("[name=shippingLastname]").val('');
-			// $("[name=shippingLastname]").prop('disabled', false);
 			$("[name=shippingFirstname]").val('');
-			// $("[name=shippingFirstname]").prop('disabled', false);
 			$("[name=shippingEmail]").val('');
-			// $("[name=shippingEmail]").prop('disabled', false);
 			$("[name=shippingTelephone]").val('');
-			// $("[name=shippingTelephone]").prop('disabled', false);
+      $("[name=county]").val('');
+      $("[name=district]").val('');
+      $("[name=zipcode]").val('');
+			$("[name=shippingAddress1]").val('');
 		}
 	});
 
