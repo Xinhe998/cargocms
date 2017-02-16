@@ -36,15 +36,11 @@ module.exports = {
     }
   },
 
-  checkStock: async ({products}) => {
+  checkStock: async ({transaction, products}) => {
     try{
       let stock = true;
       for(let p of products){
-        let product = await Product.findOne({
-          where: {
-            id: p.id,
-          },
-        });
+        let product = await Product.findById(p.id, {transaction});
 
         if (product.quantity < p.quantity) {
           stock = false;
