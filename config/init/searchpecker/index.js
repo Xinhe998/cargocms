@@ -7,7 +7,7 @@ module.exports.init = async () => {
     if (isDevMode && isDropMode) {
       let searchPeckerData = [
         {
-          keywords: '客製化香水,調香,香水 實驗室',
+          keywords: ['客製化香水','調香','香水 實驗室'],
           crawlerAgent: 'CargoSearchBot-v.10',
           reportHtml: '<html...',
           reportImage: 'https://s3.../ID/screentshot1.png',
@@ -17,7 +17,7 @@ module.exports.init = async () => {
           targetUrl: 'labfnp.com',
           searchEngine: 'www.google.com.tw'
         }, {
-          keywords: '豆花,小吃',
+          keywords: ['豆花','小吃'],
           crawlerAgent: 'CargoSearchBot-v.10',
           reportHtml: '<html...',
           reportImage: 'https://s3.../ID/screentshot2.png',
@@ -27,7 +27,7 @@ module.exports.init = async () => {
           targetUrl: '',
           searchEngine: 'www.google.com.tw'
         }, {
-          keywords: '紅茶, 飲料',
+          keywords: ['紅茶', '飲料'],
           crawlerAgent: 'CargoSearchBot-v.10',
           reportHtml: '<html...',
           reportImage: 'https://s3.../ID/screentshot3.png',
@@ -37,7 +37,7 @@ module.exports.init = async () => {
           targetUrl: '',
           searchEngine: 'www.google.com.tw'
         }, {
-          keywords: '麵包,餐廳,義大利麵',
+          keywords: ['麵包','餐廳','義大利麵'],
           crawlerAgent: 'CargoSearchBot-v.10',
           reportHtml: '<html...',
           reportImage: 'https://s3.../ID/screentshot4.png',
@@ -48,9 +48,7 @@ module.exports.init = async () => {
           searchEngine: 'www.google.com.tw'
         }
       ];
-      await SearchPecker.bulkCreate({
-
-      });
+      await SearchPecker.bulkCreate(searchPeckerData);
     }
 
   } catch (e) {
