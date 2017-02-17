@@ -3,6 +3,26 @@ module.exports = {
     keywords: {
       type: Sequelize.STRING(255),
       allowNull: false,
+      set: function (val) {
+        if (val) {
+          this.setDataValue('keywords', JSON.stringify(val));
+        } else {
+          this.setDataValue('keywords', '[]');
+        }
+      },
+      get: function () {
+        try {
+          var keywords = this.getDataValue('keywords');
+          if (keywords) {
+            return JSON.parse(keywords);
+          } else {
+            return [];
+          }
+        } catch (e) {
+          console.log(e);
+          return [];
+        }
+      }
     },
 
     crawlerAgent: {
@@ -11,7 +31,7 @@ module.exports = {
     },
 
     reportHtml: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
       allowNull: false,
     },
 
