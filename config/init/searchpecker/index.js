@@ -7,45 +7,45 @@ module.exports.init = async () => {
     if (isDevMode && isDropMode) {
       let searchPeckerData = [
         {
-          keywords: ['客製化香水','調香','香水 實驗室'],
+          keywords: '客製化香水 調香 香水 實驗室',
           crawlerAgent: 'CargoSearchBot-v.10',
-          reportHtml: '<html...',
-          reportImage: 'https://s3.../ID/screentshot1.png',
+          reportHtml: 'crawlerAgent/google/reault/html/report.html',
+          reportImage: '/assets/labfnp/img/searchscreentshot_google.png',
           pageNo: '1',
-          pageNoPrev: '10',
+          pageNoPrev: '1',
           pageNoWarn: '5',
           targetUrl: 'labfnp.com',
           searchEngine: 'www.google.com.tw'
         }, {
-          keywords: ['豆花','小吃'],
+          keywords: '客製化香水 調香 香水 實驗室',
           crawlerAgent: 'CargoSearchBot-v.10',
-          reportHtml: '<html...',
-          reportImage: 'https://s3.../ID/screentshot2.png',
-          pageNo: '2',
-          pageNoPrev: '11',
+          reportHtml: 'crawlerAgent/bing/reault/html/report.html',
+          reportImage: '/assets/labfnp/img/searchscreentshot_bing.png',
+          pageNo: '1',
+          pageNoPrev: '1',
           pageNoWarn: '5',
-          targetUrl: '',
-          searchEngine: 'www.google.com.tw'
+          targetUrl: 'labfnp.com',
+          searchEngine: 'www.bing.com'
         }, {
-          keywords: ['紅茶', '飲料'],
+          keywords: '客製化香水 調香 香水 實驗室',
           crawlerAgent: 'CargoSearchBot-v.10',
-          reportHtml: '<html...',
-          reportImage: 'https://s3.../ID/screentshot3.png',
-          pageNo: '3',
-          pageNoPrev: '12',
+          reportHtml: 'crawlerAgent/yahoo/reault/html/report.html',
+          reportImage: '/assets/labfnp/img/searchscreentshot_yahoo.png',
+          pageNo: '1',
+          pageNoPrev: '1',
           pageNoWarn: '5',
-          targetUrl: '',
-          searchEngine: 'www.google.com.tw'
+          targetUrl: 'labfnp.com',
+          searchEngine: 'tw.yahoo.com'
         }, {
-          keywords: ['麵包','餐廳','義大利麵'],
+          keywords: '客製化香水 調香 香水 實驗室',
           crawlerAgent: 'CargoSearchBot-v.10',
-          reportHtml: '<html...',
-          reportImage: 'https://s3.../ID/screentshot4.png',
-          pageNo: '4',
-          pageNoPrev: '13',
+          reportHtml: 'crawlerAgent/baidu/reault/html/report.html',
+          reportImage: '/assets/labfnp/img/searchscreentshot_baidu.png',
+          pageNo: '1',
+          pageNoPrev: '1',
           pageNoWarn: '5',
-          targetUrl: '',
-          searchEngine: 'www.google.com.tw'
+          targetUrl: 'labfnp.com',
+          searchEngine: 'www.baidu.com'
         }
       ];
       await SearchPecker.bulkCreate(searchPeckerData);
