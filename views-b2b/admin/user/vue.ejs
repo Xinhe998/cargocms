@@ -23,6 +23,9 @@ var appModel = {
       phone2: '',
       address: '',
       address2: '',
+      city: '',
+      district: '',
+      postCode: '',
       password: '',
       Roles: [],
       rolesArray: [],
@@ -52,6 +55,26 @@ var appModel = {
 <%- include ../default/vue.ejs %>
 // 需要新增函式可以對 appMain 進行定義，如：
 // appMain.log = function () {console.log("123")}
+appMain.addressColumn = function() {
+  $('#twzipcode').twzipcode({});
+	$('#twzipcode input').addClass('form-control');
+	$('#twzipcode select').addClass('form-control');
+
+  $("[name=userCity]").val($("[name=city]").val());
+  $("[name=userCity]").change();
+  $("[name=userDistrict]").val($("[name=district]").val());
+  $("[name=userPostCode]").val($("[name=postCode]").val());
+
+  $('#twzipcode select').on('change', function(){
+    $("[name=city]").val($("[name=userCity]").val());
+    $("[name=district]").val($("[name=userDistrict]").val());
+    $("[name=postCode]").val($("[name=userPostCode]").val());
+    appMain.data.item.city = $("[name=userCity]").val();
+    appMain.data.item.district = $("[name=userDistrict]").val();
+    appMain.data.item.postCode = $("[name=userPostCode]").val();
+  });
+}
+
 appMain.addRoles = function() {
   var roles = [];
   $('#admin').prop('checked') ? roles.push('admin') : '';
