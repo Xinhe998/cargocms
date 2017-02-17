@@ -10,21 +10,21 @@
 
     <section row="" class="fn-create-hide">
       <label class="label">程序</label>
-      <label class="input state-disabled ">
+      <label class="input state-disabled fn-edit-disabled">
       <input type="text" name="crawlerAgent" placeholder="" v-model="data.item.crawlerAgent" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入程序</b></label>
     </section>
 
     <section row="" class="fn-create-hide">
       <label class="label">回報 Html</label>
-      <label class="input state-disabled">
+      <label class="input state-disabled fn-edit-disabled">
       <input type="text" name="reportHtml" placeholder="" v-model="data.item.reportHtml" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入回報 Html</b></label>
     </section>
 
     <section row="" class="fn-create-hide">
       <label class="label">回報截圖</label>
-      <label class="input state-disabled ">
+      <label class="input state-disabled fn-edit-disabled">
       <input type="text" name="reportImage" placeholder="" v-model="data.item.reportImage" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入回報截圖</b></label>
       <div class="text-center"><img src="{{data.item.reportImage}}" class="img-responsive"/></div>
@@ -32,14 +32,14 @@
 
     <section row="" class="fn-create-hide">
       <label class="label">頁面位置</label>
-      <label class="input state-disabled ">
+      <label class="input state-disabled fn-edit-disabled">
       <input type="text" name="pageNo" placeholder="" v-model="data.item.pageNo" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入頁面位置</b></label>
     </section>
 
     <section row="" class="fn-create-hide">
-      <label class="label">上個頁面</label>
-      <label class="input state-disabled ">
+      <label class="label">上次頁面紀錄</label>
+      <label class="input state-disabled fn-edit-disabled">
       <input type="text" name="pageNoPrev" placeholder="" v-model="data.item.pageNoPrev" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入上個頁面</b></label>
     </section>
@@ -115,7 +115,7 @@
     //   required: "請給予 頁面位置",
     // },
     // pageNoPrev:{
-    //   required: "請給予 上個頁面",
+    //   required: "請給予 上次頁面紀錄",
     // },
     pageNoWarn:{
       required: "請給予 頁面數量警示",
