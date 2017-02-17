@@ -15,3 +15,9 @@
 
 ### Message 欄位變動
 * type 欄位減少 orderSync
+
+### Order 欄位新增
+* 新增 shippingEmail, tax , totalIncludeTax
+
+### SupplierShipOrder 欄位新增
+* 新增 shippingEmail, tax , totalIncludeTax
