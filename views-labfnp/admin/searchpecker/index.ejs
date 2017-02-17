@@ -4,23 +4,13 @@
   <thead>
     <tr>
       <th data-hide=""
-      data-class="" class="no-sort">
+      data-class="expand" class="no-sort">
         關鍵字
       </th>
 
       <th data-hide=""
       data-class="" class="no-sort">
-        爬蟲程序
-      </th>
-
-      <th data-hide=""
-      data-class="" class="no-sort">
-        回報 Html
-      </th>
-
-      <th data-hide=""
-      data-class="" class="no-sort">
-        回報截圖
+        程序
       </th>
 
       <th data-hide=""
@@ -97,9 +87,9 @@
 
       { "data": "crawlerAgent" },
 
-      { "data": "reportHtml" },
-
-      { "data": "reportImage" },
+      // { "data": "reportHtml" },
+      //
+      // { "data": "reportImage" },
 
       { "data": "pageNo" },
 
@@ -117,7 +107,7 @@
     // server only
     var columnDefs = [
       {
-        "targets"  : 9,
+        "targets"  : 7,
         "orderable": false,
         "searchable": false,
         "render": function ( data, type, row ) {
