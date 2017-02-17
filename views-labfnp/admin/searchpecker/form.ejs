@@ -1,69 +1,70 @@
 <fieldset>
 
-  
+
     <section row="">
       <label class="label">關鍵字</label>
       <label class="input state-disabled ">
       <input type="text" name="keywords" placeholder="" v-model="data.item.keywords" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入關鍵字</b></label>
     </section>
-  
+
     <section row="">
-      <label class="label">爬蟲程序</label>
+      <label class="label">程序</label>
       <label class="input state-disabled ">
       <input type="text" name="crawlerAgent" placeholder="" v-model="data.item.crawlerAgent" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入爬蟲程序</b></label>
+      <b class="tooltip tooltip-bottom-right">請輸入程序</b></label>
     </section>
-  
+
     <section row="">
       <label class="label">回報 Html</label>
-      <label class="input state-disabled ">
+      <label class="input state-disabled">
       <input type="text" name="reportHtml" placeholder="" v-model="data.item.reportHtml" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入回報 Html</b></label>
     </section>
-  
+
     <section row="">
       <label class="label">回報截圖</label>
       <label class="input state-disabled ">
       <input type="text" name="reportImage" placeholder="" v-model="data.item.reportImage" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入回報截圖</b></label>
+      <div class="text-center"><img src="{{data.item.reportImage}}" class="img-responsive"/></div>
     </section>
-  
+
     <section row="">
       <label class="label">頁面位置</label>
       <label class="input state-disabled ">
       <input type="text" name="pageNo" placeholder="" v-model="data.item.pageNo" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入頁面位置</b></label>
     </section>
-  
+
     <section row="">
       <label class="label">上個頁面</label>
       <label class="input state-disabled ">
       <input type="text" name="pageNoPrev" placeholder="" v-model="data.item.pageNoPrev" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入上個頁面</b></label>
     </section>
-  
+
     <section row="">
       <label class="label">頁面數量警示</label>
       <label class="input state-disabled ">
       <input type="text" name="pageNoWarn" placeholder="" v-model="data.item.pageNoWarn" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入頁面數量警示</b></label>
     </section>
-  
+
     <section row="">
       <label class="label">目標網頁</label>
       <label class="input state-disabled ">
       <input type="text" name="targetUrl" placeholder="" v-model="data.item.targetUrl" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入目標網頁</b></label>
     </section>
-  
+
     <section row="">
       <label class="label">搜尋引擎</label>
       <label class="input state-disabled ">
       <input type="text" name="searchEngine" placeholder="" v-model="data.item.searchEngine" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入搜尋引擎</b></label>
     </section>
-  
+
 
 </fieldset>
 <script>
