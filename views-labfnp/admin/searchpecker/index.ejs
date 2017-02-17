@@ -14,12 +14,12 @@
       </th>
 
       <th data-hide=""
-      data-class="" class="no-sort">
+      data-class="" class="no-sort pageNo">
         頁面位置
       </th>
 
       <th data-hide=""
-      data-class="" class="no-sort">
+      data-class="" class="no-sort pageNoPrev">
         上次頁面紀錄
       </th>
 
@@ -102,6 +102,20 @@
 
     // server only
     var columnDefs = [
+      {
+        "targets": "pageNo",
+        "render": function ( data, type, row ) {
+          if (data === 0) return '<td></td>';
+          return '<td>'+ data +'</td>';
+        }
+      },
+      {
+        "targets": "pageNoPrev",
+        "render": function ( data, type, row ) {
+          if (data === 0) return '<td></td>';
+          return '<td>'+ data +'</td>';
+        }
+      },
       {
         "targets"  : 7,
         "orderable": false,
