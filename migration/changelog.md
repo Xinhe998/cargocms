@@ -102,3 +102,10 @@
 ### Feed 欄位變動
 * 修改 fullPicture 欄位 型態 STRING 修改為 TEXT
 * type 欄位等於 'status'，將 publish欄位 修改為 false
+
+
+## v7
+
+### 新增 SearchPeckers table
+* 新增資料表 SearchPeckers
+* 新增 SearchPeckers 測試資料
