@@ -102,6 +102,13 @@ var defaultConfig = {
   'delete /api/admin/eventallpay/:id': 'api/admin/EventAllpayController.destroy',
   'put /api/admin/eventorder/status/:id': 'api/admin/EventOrderController.updateProductionStatus',
 
+  'get /api/admin/searchpecker': 'api/admin/SearchPeckerController.find',
+  'get /api/admin/searchpecker/:id': 'api/admin/SearchPeckerController.findOne',
+  'post /api/admin/searchpecker': 'api/admin/SearchPeckerController.create',
+  'put /api/admin/searchpecker/:id': 'api/admin/SearchPeckerController.update',
+  'delete /api/admin/searchpecker/:id': 'api/admin/SearchPeckerController.destroy',
+
+
   'get /api/admin/download': 'api/admin/DownloadController.download',
 
   'get /api/admin/facebook/feed':        'api/admin/facebook/FeedController.find',
