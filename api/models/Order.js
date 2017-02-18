@@ -272,6 +272,11 @@ module.exports = {
       allowNull: false,
     },
 
+    shippingTelephone: {
+      type: Sequelize.STRING(32),
+      allowNull: false,
+    },
+
 
     createdDateTime:{
       type: Sequelize.VIRTUAL,
@@ -326,12 +331,11 @@ module.exports = {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{
-          let total = this.getDataValue('total');
-          if(!total){
+          let tax = this.getDataValue('tax');
+          if(!tax){
             return '';
           }
-          total = Math.round(total * 0.05);
-          return UtilsService.moneyFormat(total);
+          return UtilsService.moneyFormat(tax);
 
         } catch(e){
           sails.log.error(e);
@@ -342,12 +346,11 @@ module.exports = {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{
-          let total = this.getDataValue('total');
-          if(!total){
+          let totalIncludeTax = this.getDataValue('totalIncludeTax');
+          if(!totalIncludeTax){
             return '';
           }
-          total = Math.round(total * 1.05);
-          return UtilsService.moneyFormat(total);
+          return UtilsService.moneyFormat(totalIncludeTax);
 
         } catch(e){
           sails.log.error(e);
