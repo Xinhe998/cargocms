@@ -231,9 +231,9 @@ module.exports = {
           product: JSON.stringify(orderProductsName)
         });
         sails.log.info('產生出貨單編號:', shipOrderNumber);
-
+        const taxrate = sails.config.taxrate || 0;
         const total = supplierShipOrderTotalList[supplier];
-        const tax   = Math.round(total * sails.config.taxrate);
+        const tax   = Math.round(total * taxrate);
         const totalIncludeTax = total + tax;
 
         const newSupplierShipOrder = await SupplierShipOrder.create({

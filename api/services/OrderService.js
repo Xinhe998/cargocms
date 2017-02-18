@@ -10,8 +10,9 @@ module.exports = {
         let product = await Product.findById(p.id);
         totalPrice += Number(product.price) * Number( p.quantity );
       }
+      const taxrate = sails.config.taxrate || 0;
       data.total = totalPrice;
-      data.tax   = Math.round(totalPrice * sails.config.taxrate);
+      data.tax   = Math.round(totalPrice * taxrate);
       data.totalIncludeTax = data.total + data.tax;
 
       data.orderNumber = await OrderService.orderNumberGenerator({modelName: 'order', userId: data.UserId, product: data.porducts})
