@@ -54,6 +54,9 @@ var submitData = function (form) {
       phone1: values['phone1'],
       phone2: values['phone2'],
       address: values['address'],
+      city: values['city'],
+      district: values['district'],
+      postCode: values['postCode'],
       address2: values['address2'],
       avatarImgId: values['coverPhotoId']
 		}
@@ -126,3 +129,7 @@ $('#resendCheckEmail').on('click', function() {
 		});
 	});
 })
+
+$('#twzipcode').twzipcode({});
+$('#twzipcode input').addClass('form-control');
+$('#twzipcode select').addClass('form-control');

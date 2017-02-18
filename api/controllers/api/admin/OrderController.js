@@ -231,6 +231,10 @@ module.exports = {
           product: JSON.stringify(orderProductsName)
         });
         sails.log.info('產生出貨單編號:', shipOrderNumber);
+        const taxrate = sails.config.taxrate || 0;
+        const total = supplierShipOrderTotalList[supplier];
+        const tax   = Math.round(total * taxrate);
+        const totalIncludeTax = total + tax;
 
         const newSupplierShipOrder = await SupplierShipOrder.create({
           shipOrderNumber: shipOrderNumber,
@@ -275,7 +279,9 @@ module.exports = {
           shippingMethod: order.shippingMethod,
           shippingCode: order.shippingCode,
           comment: order.comment,
-          total: supplierShipOrderTotalList[supplier],
+          total: total,
+          tax: tax,
+          totalIncludeTax: totalIncludeTax,
           commission: order.commission,
           tracking: order.tracking,
           ip: order.ip,
@@ -283,6 +289,8 @@ module.exports = {
           userAgent: order.userAgent,
           acceptLanguage: order.acceptLanguage,
           status: 'NEW',
+          shippingEmail: order.shippingEmail,
+          shippingTelephone: order.shippingTelephone,
         }, { transaction });
 
         for (let shipOrderProduct of supplierOrderProduts[supplier]) {

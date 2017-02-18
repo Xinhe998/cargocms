@@ -54,6 +54,8 @@ module.exports.init = async () => {
           shippingCode: order.shippingCode,
           comment: order.comment,
           total: order.total,
+          tax: order.tax,
+          totalIncludeTax: order.totalIncludeTax,
           commission: order.commission,
           tracking: order.tracking,
           ip: order.ip,
@@ -61,6 +63,8 @@ module.exports.init = async () => {
           userAgent: order.userAgent,
           acceptLanguage: order.acceptLanguage,
           status: 'NEW',
+          shippingEmail: order.shippingEmail,
+          shippingTelephone: order.shippingTelephone,
         });
 
         let supplierShipOrderHistory = await SupplierShipOrderHistory.create({

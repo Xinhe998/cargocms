@@ -61,7 +61,7 @@
     <% for(var p = 0, len = data.items.length; p < len; p++) { %>
       <div class="col-sm-4 col-md-3 product" data-id="<%= data.items[p].id %>">
         <div class="product-img" style="background-image: url('<%= data.items[p].image%>');"></div>
-        <h1 class="product-name"><%= data.items[p].model %></h1>
+        <h1 class="product-name" title="<%= data.items[p].model %>" data-toggle="tooltip" data-placement="bottom"><%= data.items[p].model %></h1>
         <span class="promotion-label">限量優惠</span>
         <p class="product-price">
   				<i class="fa fa-dollar"></i><span><%= data.items[p].price %></span><small>起</small>
@@ -109,4 +109,8 @@
   if (infoMsg !== 'undefined') {
     swal("提醒", infoMsg , "info");
   }
+
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+  });
 `); %>

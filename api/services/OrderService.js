@@ -10,8 +10,10 @@ module.exports = {
         let product = await Product.findById(p.id);
         totalPrice += Number(product.price) * Number( p.quantity );
       }
+      const taxrate = sails.config.taxrate || 0;
       data.total = totalPrice;
-
+      data.tax   = Math.round(totalPrice * taxrate);
+      data.totalIncludeTax = data.total + data.tax;
 
       data.orderNumber = await OrderService.orderNumberGenerator({modelName: 'order', userId: data.UserId, product: data.porducts})
       sails.log.info('產生訂單編號:',data.orderNumber);
@@ -61,12 +63,12 @@ module.exports = {
       data.marketingId = 0;
       data.languageId = 0;
 
-      if (data.telephone ==! data.shippingTelephone) {
-        data.telephone = data.shippingTelephone;
-      }
-      if (data.email ==! data.shippingEmail) {
-        data.email = data.shippingEmail;
-      }
+      // if (data.telephone ==! data.shippingTelephone) {
+      //   data.telephone = data.shippingTelephone;
+      // }
+      // if (data.email ==! data.shippingEmail) {
+      //   data.email = data.shippingEmail;
+      // }
 
       await OrderService.updateUserData({userId: data.UserId, email: data.email, phone1: data.telephone, transaction});
 
