@@ -318,7 +318,7 @@ module.exports = {
         try{
           let total = this.getDataValue('total');
           if(!total){
-            return '';
+            return 0;
           }
           return UtilsService.moneyFormat(total);
 
@@ -333,7 +333,7 @@ module.exports = {
         try{
           let tax = this.getDataValue('tax');
           if(!tax){
-            return '';
+            return 0;
           }
           return UtilsService.moneyFormat(tax);
 
@@ -348,7 +348,7 @@ module.exports = {
         try{
           let totalIncludeTax = this.getDataValue('totalIncludeTax');
           if(!totalIncludeTax){
-            return '';
+            return 0;
           }
           return UtilsService.moneyFormat(totalIncludeTax);
 
