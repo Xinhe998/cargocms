@@ -74,6 +74,8 @@ describe('about Order controllers', () => {
         telephone: '04-22019020',
         fax: '',
         email: 'buyer@gmail.com',
+        shippingEmail: 'buyer@gmail.com',
+        shippingTelephone: '04-22019020',
         shippingFirstname: '拜爾',
         shippingLastname: '劉',
         shippingAddress1: '台灣大道二段2號16F-1',
@@ -171,6 +173,8 @@ describe('about Order controllers', () => {
         telephone: '04-22019020',
         fax: '',
         email: 'buyer@gmail.com',
+        shippingEmail: 'buyer@gmail.com',
+        shippingTelephone: '04-22019020',
         shippingFirstname: '拜爾',
         shippingLastname: '劉',
         shippingAddress1: '台灣大道二段2號16F-1',
@@ -227,7 +231,7 @@ describe('about Order controllers', () => {
 
   it.skip('CURL 同時快速建立多筆訂單', async(done) => {
     try{
-      const command = 'for i in {1..10}\n do\n curl -X POST -d "lastname=日&firstname=晶晶&products=[{\\"id\\":\\"1\\",\\"quantity\\":\\"3\\"},{\\"id\\":\\"2\\",\\"quantity\\":\\"2\\"},{\\"id\\":\\"3\\",\\"quantity\\":\\"5\\"}]&"telephone"="04-22019020"&"fax"=""&"email"="buyer@gmail.com"&"shippingFirstname"="拜爾"&"shippingLastname"="劉"&"shippingAddress1"="台灣大道二段2號16F-1"&"county"="台中市"&"zipcode"="403"&"district"="西區"&"shippingMethod"="低溫宅配"&"shippingCode"="ship654321"&"ip"=""&"forwardedIp"=""&"userAgent"=""&"comment"="這是一個訂購測試"&"token"=$i" http://localhost:1338/api/order \ndate +%s\ndone';
+      const command = 'for i in {1..10}\n do\n curl -X POST -d "lastname=日&firstname=晶晶&products=[{\\"id\\":\\"1\\",\\"quantity\\":\\"3\\"},{\\"id\\":\\"2\\",\\"quantity\\":\\"2\\"},{\\"id\\":\\"3\\",\\"quantity\\":\\"5\\"}]&"telephone"="04-22019020"&"fax"=""&"email"="buyer@gmail.com"&"shippingEmail"="buyer@gmail.com"&"shippingTelephone"="0987654321"&"shippingFirstname"="拜爾"&"shippingLastname"="劉"&"shippingAddress1"="台灣大道二段2號16F-1"&"county"="台中市"&"zipcode"="403"&"district"="西區"&"shippingMethod"="低溫宅配"&"shippingCode"="ship654321"&"ip"=""&"forwardedIp"=""&"userAgent"=""&"comment"="這是一個訂購測試"&"token"=$i" http://localhost:1338/api/order \ndate +%s\ndone';
       const confirmCommand = 'for i in {1..10}\n do\n curl -X POST -d "tracking="na"&orderConfirmComment="no"" http://localhost:1338/api/admin/order/confirm/$i \ndate +%s\ndone';
 
       let newOrders = '';
@@ -285,6 +289,8 @@ describe('about Order controllers', () => {
         telephone: '04-22019020',
         fax: '',
         email: 'buyer@gmail.com',
+        shippingEmail: 'buyer@gmail.com',
+        shippingTelephone: '04-22019020',
         shippingFirstname: '拜爾',
         shippingLastname: '劉',
         shippingAddress1: '台灣大道二段2號16F-1',
@@ -340,6 +346,8 @@ describe('about Order controllers', () => {
         telephone: '04-22019020',
         fax: '',
         email: 'buyer@gmail.com',
+        shippingEmail: 'buyer@gmail.com',
+        shippingTelephone: '04-22019020',
         shippingFirstname: '拜爾',
         shippingLastname: '劉',
         shippingAddress1: '台灣大道二段2號16F-1',
@@ -393,6 +401,8 @@ describe('about Order controllers', () => {
         telephone: '04-22019020',
         fax: '',
         email: 'buyer@gmail.com',
+        shippingEmail: 'buyer@gmail.com',
+        shippingTelephone: '04-22019020',
         shippingFirstname: '拜爾',
         shippingLastname: '劉',
         shippingAddress1: '台灣大道二段2號16F-1',
@@ -461,6 +471,8 @@ describe('about Order controllers', () => {
         telephone: '04-22019020',
         fax: '',
         email: 'buyer@gmail.com',
+        shippingEmail: 'buyer@gmail.com',
+        shippingTelephone: '04-22019020',
         shippingFirstname: '拜爾',
         shippingLastname: '劉',
         shippingAddress1: '台灣大道二段2號16F-1',
