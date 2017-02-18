@@ -246,6 +246,23 @@ module.exports = {
       unique: true,
     },
 
+    totalIncludeTax: {
+      type: Sequelize.DECIMAL(15,4),
+      defaultValue: '0.000',
+      allowNull: false,
+    },
+
+    tax: {
+      type: Sequelize.DECIMAL(15,4),
+      defaultValue: '0.000',
+      allowNull: false,
+    },
+
+    shippingEmail: {
+      type: Sequelize.STRING(96),
+      allowNull: false,
+    },
+
 		createdDateTime: {
 			type: Sequelize.VIRTUAL,
 			get: function() {
