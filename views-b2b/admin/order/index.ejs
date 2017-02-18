@@ -19,13 +19,17 @@
       <th width="" class="" data-hide="always"> 付款代碼</th>
       <th width="" class="" data-hide="always"> 運送名</th>
       <th width="" class="" data-hide="always"> 運送姓</th>
+      <th width="" class="" data-hide="always"> 運送郵件</th>
+      <th width="" class="" data-hide="always"> 運送電話</th>
       <th width="" class="" data-hide="always"> 運送地址</th>
       <th width="" class="" data-hide="always"> 運送城市</th>
       <th width="" class="" data-hide="always"> 運送郵遞區號</th>
       <th width="" class="" data-hide="always"> 運送方式</th>
       <th width="" class="" data-hide="always"> 運送代碼</th>
       <th width="" class="" data-hide="phone"> 附註</th>
-      <th width="" class="" data-hide="phone,tablet"> 總價</th>
+      <th width="" class="total" data-hide="phone,tablet"> 總價</th>
+      <th width="" class="tax" data-hide="always"> 稅額</th>
+      <th width="" class="totalIncludeTax" data-hide="always"> 含稅總價</th>
       <th width="" class=""> 追蹤狀態</th>
       <th width="" class="" data-hide="always"> IP</th>
       <th width="" class="" data-hide="always"> ForwardedIP</th>
@@ -55,6 +59,8 @@
       <td>{{ item.paymentCode }}</td>
       <td>{{ item.shippingFirstname }}</td>
       <td>{{ item.shippingLastname }}</td>
+      <td>{{ item.shippingEmail }}</td>
+      <td>{{ item.shippingTelephone }}</td>
       <td>{{ item.shippingAddress1 }}</td>
       <td>{{ item.shippingCity }}</td>
       <td>{{ item.shippingPostcode }}</td>
@@ -62,6 +68,8 @@
       <td>{{ item.shippingCode }}</td>
       <td>{{ item.comment }}</td>
       <td>{{ item.total }}</td>
+      <td>{{ item.tax }}</td>
+      <td>{{ item.totalIncludeTax }}</td>
       <td>{{ item.tracking }}</td>
       <td>{{ item.ip }}</td>
       <td>{{ item.forwardedIp }}</td>
@@ -107,6 +115,8 @@
       { "data": "paymentCode" },
       { "data": "shippingFirstname" },
       { "data": "shippingLastname" },
+      { "data": "shippingEmail" },
+      { "data": "shippingTelephone" },
       { "data": "shippingAddress1" },
       { "data": "shippingCity" },
       { "data": "shippingPostcode" },
@@ -114,6 +124,8 @@
       { "data": "shippingCode" },
       { "data": "comment" },
       { "data": "total" },
+      { "data": "tax" },
+      { "data": "totalIncludeTax" },
       { "data": "tracking" },
       { "data": "ip" },
       { "data": "forwardedIp" },
@@ -137,22 +149,33 @@
         }
       },
       {
-        "searchable": true,
-        "targets": 22,
+        "targets": "total",
         "render": function (data, type, row) {
           return '<td> $' + row.formatTotal + '</td>';
         }
       },
       {
+        "targets": "tax",
+        "render": function (data, type, row) {
+          return '<td> $' + row.formatTax + '</td>';
+        }
+      },
+      {
+        "targets": "totalIncludeTax",
+        "render": function (data, type, row) {
+          return '<td> $' + row.formatTotalWithTax + '</td>';
+        }
+      },
+      {
         "searchable": true,
-        "targets": 27,
+        "targets": 31,
         "render": function (data, type, row) {
           return '<td>' + row.createdDateTime.dateTime + '</td>';
         }
       },
       {
         "searchable": true,
-        "targets": 28,
+        "targets": 32,
         "render": function (data, type, row) {
           var orderStatus =  row.OrderStatus.name;
           var output = '<select class="form-control input-xs" data-oldValue ="'+ row.OrderStatus.name + '" data-orderId="'+ row.id + '" name="updateStatus">';
@@ -167,7 +190,7 @@
         }
       },
 			{
-				"targets"  : 29,
+				"targets"  : 33,
 				"orderable": false,
 				"searchable": false,
 				"render": function ( data, type, row ) {
