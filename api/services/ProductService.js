@@ -3,6 +3,9 @@ module.exports = {
     try{
 
       let query = {
+        where: {
+          publish: true,
+        },
         include: [
           {
             model: Category,
