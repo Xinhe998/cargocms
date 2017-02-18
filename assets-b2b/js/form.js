@@ -82,28 +82,34 @@ $(document).ready(function() {
 	$('#twzipcode input').addClass('form-control');
 	$('#twzipcode select').addClass('form-control');
 
-	$("[type=checkbox]").on('change', function(event) {
-		if ($("[type=checkbox]").prop("checked")) {
+	$("#userInfo").on('change', function(event) {
+		if ($("#userInfo").prop("checked")) {
 			$("[name=shippingLastname]").val($("[name=lastname]").val());
 			$("[name=shippingFirstname]").val($("[name=firstname]").val());
 			$("[name=shippingEmail]").val($("[name=email]").val());
       $("[name=shippingTelephone]").val($("[name=telephone]").val());
-      $("[name=county]").val($("[name=userCity]").val());
-      $("[name=county]").change();
-      $("[name=district]").val($("[name=userDistrict]").val());
-      $("[name=zipcode]").val($("[name=userPostCode]").val());
-			$("[name=shippingAddress1]").val($("[name=userAddress]").val());
 		} else {
 			$("[name=shippingLastname]").val('');
 			$("[name=shippingFirstname]").val('');
 			$("[name=shippingEmail]").val('');
 			$("[name=shippingTelephone]").val('');
+		}
+	});
+
+  $("#userAddress").on('change', function(event) {
+    if ($("#userAddress").prop("checked")) {
+      $("[name=county]").val($("[name=userCity]").val());
+      $("[name=county]").change();
+      $("[name=district]").val($("[name=userDistrict]").val());
+      $("[name=zipcode]").val($("[name=userPostCode]").val());
+      $("[name=shippingAddress1]").val($("[name=userAddress]").val());
+    } else {
       $("[name=county]").val('');
       $("[name=district]").val('');
       $("[name=zipcode]").val('');
-			$("[name=shippingAddress1]").val('');
-		}
-	});
+      $("[name=shippingAddress1]").val('');
+    }
+  });
 
 	$("#order").validate({
 		rules: {
