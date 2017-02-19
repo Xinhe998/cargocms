@@ -1,4 +1,5 @@
 /* @flow */
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -11,12 +12,14 @@ import { Snackbar } from 'material-ui';
 import Crab from './crab.png';
 import FishLogo from './fish logo.png';
 import FormsyInput from '../../components/FormsyInput';
+import log from '../../redux/utils/logs';
 import {
   handleShowToast,
   closeToast,
 } from '../../redux/utils/toast';
 import {
   fetchCurrentUserData,
+  requestLogIn,
 } from '../../redux/modules/user';
 import './_style.scss';
 
@@ -34,9 +37,11 @@ const muiTheme = getMuiTheme({
     handleShowToast,
     closeToast,
     fetchCurrentUserData,
+    requestLogIn,
   }, dispatch),
 ) export default class Login extends React.Component {
   static defaultProps = {
+    requestLogIn: null,
     handleShowToast: null,
     closeToast: null,
     toast: {},
@@ -44,6 +49,7 @@ const muiTheme = getMuiTheme({
   };
 
   static propTypes = {
+    requestLogIn: PropTypes.func,
     fetchCurrentUserData: PropTypes.func,
     handleShowToast: PropTypes.func,
     closeToast: PropTypes.func,
@@ -52,6 +58,11 @@ const muiTheme = getMuiTheme({
 
   constructor(props) {
     super();
+    try {
+      injectTapEventPlugin();
+    } catch (e) {
+      log.info(e);
+    }
     this.state = {
       canSubmit: false,
       notice: '',
@@ -83,10 +94,15 @@ const muiTheme = getMuiTheme({
 
   submit = () => {
     // FIXME: 需要登入 api ，目前暫時用 form 表單
-    document.querySelector('.login-form form').submit();
+    // document.querySelector('.login-form form').submit();
     // TODO: 登入表單會引發 locatonChange 會導致遺失 store 資訊
     // 所以正常情況下應該是要發 api 取得資訊之後再取得 CurrentUserData.
     // this.props.fetchCurrentUserData();
+    this.props.requestLogIn(this.username.getValue(), this.password.getValue());
+  }
+
+  requestLogIn = () => {
+    this.props.requestLogIn(this.username.getValue(), this.password.getValue());
   }
 
   render() {
@@ -131,6 +147,10 @@ const muiTheme = getMuiTheme({
                   data-tip={this.state.notice}
                 >登入系統</button>
               </Formsy.Form>
+              <button
+                type='submit'
+                onClick={this.requestLogIn}
+              >登入系統</button>
             </div>
             <div className='login-form-footer'>
               <div className='login-contact'>
@@ -150,7 +170,7 @@ const muiTheme = getMuiTheme({
           <Snackbar
             open={this.props.toast.open}
             message={this.props.toast.msg}
-            autoHideDuration={4000}
+            autoHideDuration={5000}
           />
         </div>
       </MuiThemeProvider>
