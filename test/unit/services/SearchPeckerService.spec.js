@@ -1,8 +1,9 @@
-describe.only('about SearchPecker Service.', function() {
-  let searchPecker, defaultSearchPecker, searchPeckerId = 1;
+describe('about SearchPecker Service.', function() {
+  let searchPecker, defaultSearchPecker, searchPeckerId;
   before('建立 SearchPecker 資料', async (done) => {
     try {
       const defaultSearchPecker = {
+        // id: '1',
         keywords: 'testKeywords',
         crawlerAgent: 'testCrawlerAgent',
         reportHtml: 'testReportHtml',
@@ -13,12 +14,9 @@ describe.only('about SearchPecker Service.', function() {
         targetUrl: 'testTargetUrl',
         searchEngine: 'testSearchEngine'
       };
-      console.log(defaultSearchPecker);
       // TODO searchPecker = SearchPecker.create
       const result = await SearchPecker.create(defaultSearchPecker);
-      // sails.log.info('create SearchPecker spec=>', result);
-      result.should.be.Object;
-      result.keywords.should.be.equal(defaultSearchPecker.keywords);
+      searchPeckerId = result.id;
       done();
     } catch (e) {
       done(e);
@@ -40,15 +38,15 @@ describe.only('about SearchPecker Service.', function() {
       }
       const searchPecker = await SearchPeckerService.update({ searchPeckerId, ...updateData});
       searchPecker.should.be.Object;
-      searchPecker.keywords.shoule.be.eq(updateData.keywords);
-      searchPecker.crawlerAgent.shoule.be.eq(updateData.crawlerAgent);
-      searchPecker.reportHtml.shoule.be.eq(updateData.reportHtml);
-      searchPecker.reportImage.shoule.be.eq(updateData.reportImage);
-      searchPecker.pageNo.shoule.be.eq(updateData.pageNo);
-      searchPecker.pageNoPrev.shoule.be.eq(updateData.pageNoPrev);
-      searchPecker.pageNoWarn.shoule.be.eq(updateData.pageNoWarn);
-      searchPecker.targetUrl.shoule.be.eq(updateData.targetUrl);
-      searchPecker.searchEngine.shoule.be.eq(updateData.searchEngine);
+      searchPecker.keywords.should.be.eq(updateData.keywords);
+      searchPecker.crawlerAgent.should.be.eq(updateData.crawlerAgent);
+      searchPecker.reportHtml.should.be.eq(updateData.reportHtml);
+      searchPecker.reportImage.should.be.eq(updateData.reportImage);
+      searchPecker.pageNo.should.be.eq(updateData.pageNo);
+      searchPecker.pageNoPrev.should.be.eq(updateData.pageNoPrev);
+      searchPecker.pageNoWarn.should.be.eq(updateData.pageNoWarn);
+      searchPecker.targetUrl.should.be.eq(updateData.targetUrl);
+      searchPecker.searchEngine.should.be.eq(updateData.searchEngine);
       done();
     } catch (e) {
       done(e)

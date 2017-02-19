@@ -12,11 +12,7 @@ module.exports = {
     searchEngine
   }) => {
     try {
-      let updatedPecker = await SearchPecker.findOne({
-        where: {
-          id: parseInt(pecker.searchPeckerId, 10)
-        }
-      });
+      let updatedPecker = await SearchPecker.findById(parseInt(pecker.searchPeckerId, 10));
       if (updatedPecker) {
         updatedPecker.keywords = pecker.keywords;
         updatedPecker.crawlerAgent = pecker.crawlerAgent;
@@ -27,9 +23,9 @@ module.exports = {
         updatedPecker.pageNoWarn = pecker.pageNoWarn;
         updatedPecker.targetUrl = pecker.targetUrl;
         updatedPecker.searchEngine = pecker.searchEngine;
-        updatedPecker = updatedPecker.save();
+        updatedPecker = await updatedPecker.save();
       } else {
-        sails.log.error(`can't find by ${pecker.searchPeckerId}.`);
+        throw Error;
       }
       return updatedPecker;
     } catch (e) {
