@@ -27,6 +27,7 @@ module.exports = {
         success: true,
         data: {
           currentUser,
+          jwtToken: AuthService.getSessionEncodeToJWT(req),
         },
       };
       res.ok(result);
