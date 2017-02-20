@@ -1,6 +1,13 @@
 
 
 <fieldset>
+  <section>
+    <img src="{{data.item.image}}" alt="" class="img-responsive">
+  </section>
+  <section>
+    <label class="label">產品圖片</label>
+    <%- include ../image/upload.ejs %>
+  </section>
 
   <div class="row">
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -82,6 +89,7 @@
         <b class="tooltip tooltip-bottom-right">重量</b></label>
       </label>
     </section>
+    <!--
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">圖片</label>
       <label class="input state-disabled">
@@ -94,7 +102,7 @@
         <input type="text" name="ImageId" placeholder="" v-model="data.item.ImageId" disabled>
         <b class="tooltip tooltip-bottom-right">ImageId</b></label>
     </section>
-    <!--
+
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">釋出日期</label>
       <label class="input state-disabled">
@@ -182,7 +190,7 @@
         <b class="tooltip tooltip-bottom-right">publish</b></label>
     </section>
 
-    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+    <!--<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">是否可運送</label>
       <label class="input state-disabled switch"></label>
       <span class="input-group-addon">
@@ -198,7 +206,7 @@
         </span>
       </span>
         <b class="tooltip tooltip-bottom-right">是否可運送</b></label>
-    </section>
+    </section> -->
 
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">賣出時減少</label>
