@@ -1,0 +1,123 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.css" rel="stylesheet" type="text/css">
+<style>
+</style>
+
+<!-- PAGE LEVEL SCRIPTS -->
+<!-- Load d3.js and c3.js -->
+<!-- Alreadt load jQuery 2.1 -->
+<!--script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script-->
+<script type="text/javascript">
+  var plugin_path = '/plugins/';
+  var chart = {};
+
+  var updateChart = function(data) {
+    chart.load(data);
+  }
+
+  loadScript("/assets/admin/js/libs/d3.js", function(){
+    loadScript("/assets/admin/js/libs/c3.js", function(){
+      var chart = c3.generate({
+         bindto: '#chart',
+          data: {
+            x: 'x',
+            columns: [
+              ['x', '2017-02-7', '2017-2-8', '2017-2-9', '2017-2-10', '2017-2-11', '2017-2-12', '2017-2-13', '2017-2-14', '2017-2-15', '2017-2-16', '2017-2-17', '2017-2-18', '2017-2-19', '2017-2-20'],
+              ['Rank', 5, 2, 1, 2, 5, 1, 1, 2, 1, 2, 5, 1, 1, 1],
+            ],
+            types: {
+              data1: 'area',
+            },
+            axes: {
+              data1: 'y'
+            }
+          },
+          axis: {
+            y: {
+              inverted: true,
+              min: 1,
+              max: 20,
+              padding: {
+                bottom: 0
+              }
+            },
+            x: {
+              padding: {
+                left: 0,
+                right: 0,
+              },
+              type: 'timeseries',
+              // if true, treat x value as localtime (Default)
+              // if false, convert to UTC internally
+              localtime: false,
+              tick: {
+                  format: '%Y/%m/%d'
+              }
+            }
+          },
+          zoom: {
+            enabled: true
+          },
+          padding: {
+            right: 100,
+            left: 100,
+            top: 20,
+          }
+      });
+
+      var stacke = c3.generate({
+         bindto: '#stacke',
+          data: {
+            x: 'x',
+            columns: [
+              ['x', '2017-02-7', '2017-2-8', '2017-2-9', '2017-2-10', '2017-2-11', '2017-2-12', '2017-2-13', '2017-2-14', '2017-2-15', '2017-2-16', '2017-2-17', '2017-2-18', '2017-2-19', '2017-2-20'],
+              ['上升', 0, 3, 1, 0, 0, 4, 0, 0, 1, 0, 0, 4, 0, 0],
+              ['下降', 0, 0, 0, -1, -3, 0, 0, -1, 0, -1, -3, 0, 0, 0],
+            ],
+            type: 'bar',
+            groups: [
+              ['data1', 'data2']
+            ]
+          },
+          axis: {
+            // y: {
+            //   min: 1,
+            //   max: 20,
+            //   padding: {
+            //     bottom: 0
+            //   }
+            // },
+            x: {
+              padding: {
+                left: 0,
+                right: 0,
+              },
+              type: 'timeseries',
+              // if true, treat x value as localtime (Default)
+              // if false, convert to UTC internally
+              localtime: false,
+              tick: {
+                  format: '%Y/%m/%d'
+              }
+            }
+          },
+          zoom: {
+            enabled: true
+          },
+          padding: {
+            right: 100,
+            left: 100,
+            top: 20,
+          },
+          grid: {
+            y: {
+              lines: [{value:0}]
+            }
+          }
+      });
+    });
+  });
+</script>
+<div id="chart" class="chart-c3">
+  <h2>排名</h2>
+</div>
+<div id="stacke" class="chart-c3"></div>
