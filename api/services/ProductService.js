@@ -3,6 +3,7 @@ module.exports = {
     try{
 
       let query = {
+        order: 'sortOrder ASC',
         where: {
           publish: true,
         },
