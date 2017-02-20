@@ -81,15 +81,8 @@
     </section>
   </div>
 -->
+<!--
   <div class="row">
-    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">重量</label>
-      <label class="input state-disabled">
-        <input type="number" name="weight" placeholder="" v-model="data.item.weight" disabled>
-        <b class="tooltip tooltip-bottom-right">重量</b></label>
-      </label>
-    </section>
-    <!--
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">圖片</label>
       <label class="input state-disabled">
@@ -110,8 +103,9 @@
         <b class="tooltip tooltip-bottom-right">dateAvailable</b></label>
       </label>
     </section>
-    -->
+
   </div>
+-->
 <!--
   <div class="row">
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -148,6 +142,13 @@
   </div>
 
   <div class="row">
+    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      <label class="label">重量</label>
+      <label class="input state-disabled">
+        <input type="number" name="weight" placeholder="" v-model="data.item.weight" disabled>
+        <b class="tooltip tooltip-bottom-right">重量</b></label>
+      </label>
+    </section>
 
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">最小存量</label>
@@ -156,6 +157,7 @@
         <b class="tooltip tooltip-bottom-right">最小存量</b></label>
       </label>
     </section>
+    <!--
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">排序</label>
       <label class="input state-disabled">
@@ -163,6 +165,8 @@
         <b class="tooltip tooltip-bottom-right">排序</b></label>
       </label>
     </section>
+    -->
+
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4 notForCreate">
       <label class="label">產品供應商</label>
       <label class="input state-disabled">
@@ -171,26 +175,10 @@
       </label>
     </section>
   </div>
+
+  <!--
   <div class="row">
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">公開狀態</label>
-      <label class="input state-disabled switch"></label>
-      <span class="input-group-addon">
-        <span class="onoffswitch">
-          <input type="checkbox" name="publish" class="onoffswitch-checkbox" v-model="data.item.publish" disabled="disabled" id="publish">
-          <label class="onoffswitch-label" for="publish">
-            <span
-              class="onoffswitch-inner"
-              data-swchon-text="On"
-              data-swchoff-text="Off"></span>
-            <span class="onoffswitch-switch"></span>
-          </label>
-        </span>
-      </span>
-        <b class="tooltip tooltip-bottom-right">publish</b></label>
-    </section>
-
-    <!--<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">是否可運送</label>
       <label class="input state-disabled switch"></label>
       <span class="input-group-addon">
@@ -206,7 +194,7 @@
         </span>
       </span>
         <b class="tooltip tooltip-bottom-right">是否可運送</b></label>
-    </section> -->
+    </section>
 
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">賣出時減少</label>
@@ -225,7 +213,7 @@
       </span>
         <b class="tooltip tooltip-bottom-right">賣出時減少</b></label>
     </section>
-    <!--
+
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">瀏覽數</label>
       <label class="input state-disabled">
@@ -233,8 +221,8 @@
         <b class="tooltip tooltip-bottom-right">瀏覽數</b></label>
       </label>
     </section>
-    -->
   </div>
+  -->
 
   <div class="row">
 
@@ -244,6 +232,24 @@
         <textarea rows="2" v-model="data.item.categoriesNameArray" disabled>
         </textarea>
       </label>
+    </section>
+
+    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      <label class="label">公開狀態</label>
+      <label class="input state-disabled switch"></label>
+      <span class="input-group-addon">
+        <span class="onoffswitch">
+          <input type="checkbox" name="publish" class="onoffswitch-checkbox" v-model="data.item.publish" disabled="disabled" id="publish">
+          <label class="onoffswitch-label" for="publish">
+            <span
+              class="onoffswitch-inner"
+              data-swchon-text="On"
+              data-swchoff-text="Off"></span>
+            <span class="onoffswitch-switch"></span>
+          </label>
+        </span>
+      </span>
+        <b class="tooltip tooltip-bottom-right">publish</b></label>
     </section>
 
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4 fn-show-hidden">
