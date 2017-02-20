@@ -58,6 +58,7 @@ module.exports = {
       const item = await SearchPecker.update(data ,{
         where: { id, },
       });
+      const resultData = SearchPecker.findById(id);
       res.ok({ message, data: { item } });
     } catch (e) {
       res.serverError(e);
