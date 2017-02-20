@@ -30,13 +30,13 @@
       <th width="" class="total" data-hide="phone,tablet"> 總價</th>
       <th width="" class="tax" data-hide="always"> 稅額</th>
       <th width="" class="totalIncludeTax" data-hide="always"> 含稅總價</th>
-      <th width="" class=""> 追蹤狀態</th>
+      <!-- <th width="" class=""> 追蹤狀態</th> -->
       <th width="" class="" data-hide="always"> IP</th>
       <th width="" class="" data-hide="always"> ForwardedIP</th>
       <th width="" class="" data-hide="always"> userAgent</th>
-      <th width="" class="" data-hide="always"> 建立時間</th>
-      <th width="" class="" data-hide=""> 訂單狀態</th>
-			<th width="120px" class="" data-hide="phone,tablet">操作</th>
+      <th width="" class="createdAt" data-hide="always"> 建立時間</th>
+      <th width="" class="status" data-hide=""> 訂單狀態</th>
+			<th width="120px" class="operate" data-hide="phone,tablet">操作</th>
 		</tr>
 	</thead>
 	<!-- client only -->
@@ -126,7 +126,7 @@
       { "data": "total" },
       { "data": "tax" },
       { "data": "totalIncludeTax" },
-      { "data": "tracking" },
+      // { "data": "tracking" },
       { "data": "ip" },
       { "data": "forwardedIp" },
       { "data": "userAgent" },
@@ -168,14 +168,14 @@
       },
       {
         "searchable": true,
-        "targets": 31,
+        "targets": "createdAt",
         "render": function (data, type, row) {
           return '<td>' + row.createdDateTime.dateTime + '</td>';
         }
       },
       {
         "searchable": true,
-        "targets": 32,
+        "targets": "status",
         "render": function (data, type, row) {
           var orderStatus =  row.OrderStatus.name;
           var output = '<select class="form-control input-xs" data-oldValue ="'+ row.OrderStatus.name + '" data-orderId="'+ row.id + '" name="updateStatus">';
@@ -190,7 +190,7 @@
         }
       },
 			{
-				"targets"  : 33,
+				"targets"  : "operate",
 				"orderable": false,
 				"searchable": false,
 				"render": function ( data, type, row ) {
@@ -202,7 +202,7 @@
 						'<a name="editDataButton" class="btn btn-default btn-xs" role="button" data-id="'+row.id+'">'+
 							'<i class="fa-fw fa fa-pencil-square-o text-muted"/>'+
 						'</a>'+
-            '<a name="orderConfirm" class="btn btn-default btn-xs'+( (data.tracking === '訂單建立') ? "": " hidden ") +'" role="button" data-id="'+ row.id +'" data-total="'+ row.formatTotal +'">'+
+            '<a name="orderConfirm" class="btn btn-default btn-xs'+( (data.status === 'NEW') ? "": " hidden ") +'" role="button" data-id="'+ row.id +'" data-total="'+ row.formatTotal +'">'+
               '<i class="fa-fw fa fa-check text-muted"/>'+
             '</a>'+
 					'</div>';
