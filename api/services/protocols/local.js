@@ -18,6 +18,9 @@ exports.register = async (req, res, next) => {
   let phone2    = req.param('phone2');
   let address   = req.param('address');
   let address2  = req.param('address2');
+  let city      = req.param('city');
+  let district  = req.param('district');
+  let postCode  = req.param('postCode');
   const verificationEmailToken = crypto.randomBytes(32).toString('hex').substr(0, 32);
 
   try {
@@ -41,6 +44,9 @@ exports.register = async (req, res, next) => {
       phone2,
       address,
       address2,
+      city,
+      district,
+      postCode,
       verificationEmailToken,
     }
 
