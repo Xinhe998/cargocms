@@ -25,7 +25,7 @@ module.exports = {
         updatedPecker.searchEngine = pecker.searchEngine;
         updatedPecker = await updatedPecker.save();
       } else {
-        throw Error;
+        throw Error(`Can\'t find ${pecker.searchPeckerId}.`);
       }
       return updatedPecker;
     } catch (e) {
