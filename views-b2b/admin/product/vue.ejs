@@ -23,7 +23,7 @@ var appModel = {
       location:'',
       quantity:'',
       image:'',
-      shipping:'',
+      shipping: true,
       price:'',
       points:'',
       dateAvailable:'',
@@ -112,4 +112,45 @@ appMain.enableSelect = function () {
   $('.onoffswitch-checkbox').attr('disabled', false);
 
   $('.notForCreate').hide();
+}
+
+appMain.setupForm = function (type) {
+  var registerForm = $("#main-form");
+
+  if(appModel.data.option.imgUpload){
+    var imgUploadSteup = appModel.data.option.imgUpload;
+    Object.keys(imgUploadSteup).forEach(function (key) {
+       uploadImageApp.updateModel(key, imgUploadSteup[key]);
+    });
+    uploadImageApp.setup();
+  }
+
+  uploadImageApp.updateModel('itemLimit', 1);
+  uploadImageApp.updateModel('onComplete', function(id, name, response){
+    appMain.data.item.imageId = response.data.id;
+    appMain.data.item.image = response.data.url;
+  })
+  uploadImageApp.updateModel('onDeleteComplete', function(id, name, response){
+    console.log(id, name, response);
+    appMain.data.item.imageId = null;
+    appMain.data.item.image = '';
+  })
+  uploadImageApp.setup();
+
+  registerForm.validate({
+    rules: formRules,
+    messages: formMessages,
+    errorPlacement: function (error, element) {
+      error.insertAfter(element.parent());
+    },
+    submitHandler: function (form) {
+      if (type === 'create') {
+        appMain.save();
+        return false;
+      } else if (type === 'edit') {
+        appMain.update();
+        return false;
+      }
+    }
+  });
 }
