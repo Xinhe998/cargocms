@@ -14,7 +14,7 @@
       <label class="label">名稱</label>
       <label class="input state-disabled">
         <input type="text" name="model" placeholder="" v-model="data.item.model" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入model</b></label>
+        <b class="tooltip tooltip-bottom-right">請輸入名稱</b></label>
     </section>
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">數量</label>
@@ -26,7 +26,7 @@
       <label class="label">價格</label>
       <label class="input state-disabled">
         <input type="number" name="price" placeholder="" v-model="data.item.price" disabled>
-        <b class="tooltip tooltip-bottom-right">價格</b></label>
+        <b class="tooltip tooltip-bottom-right">請輸入價格</b></label>
     </section>
     <!--
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-6">
@@ -122,21 +122,21 @@
       <label class="label">長度</label>
       <label class="input state-disabled">
         <input type="number" name="length" placeholder="" v-model="data.item.length" disabled>
-        <b class="tooltip tooltip-bottom-right">長度</b></label>
+        <b class="tooltip tooltip-bottom-right">請輸入長度</b></label>
       </label>
     </section>
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">寬度</label>
       <label class="input state-disabled">
         <input type="number" name="width" placeholder="" v-model="data.item.width" disabled>
-        <b class="tooltip tooltip-bottom-right">寬度</b></label>
+        <b class="tooltip tooltip-bottom-right">請輸入寬度</b></label>
       </label>
     </section>
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">高度</label>
       <label class="input state-disabled">
         <input type="number" name="height" placeholder="" v-model="data.item.height" disabled>
-        <b class="tooltip tooltip-bottom-right">高度</b></label>
+        <b class="tooltip tooltip-bottom-right">請輸入高度</b></label>
       </label>
     </section>
   </div>
@@ -146,7 +146,7 @@
       <label class="label">重量</label>
       <label class="input state-disabled">
         <input type="number" name="weight" placeholder="" v-model="data.item.weight" disabled>
-        <b class="tooltip tooltip-bottom-right">重量</b></label>
+        <b class="tooltip tooltip-bottom-right">請輸入重量</b></label>
       </label>
     </section>
 
@@ -154,7 +154,7 @@
       <label class="label">最小存量</label>
       <label class="input state-disabled">
         <input type="number" name="minimum" placeholder="" v-model="data.item.minimum" disabled>
-        <b class="tooltip tooltip-bottom-right">最小存量</b></label>
+        <b class="tooltip tooltip-bottom-right">請輸入最小存量</b></label>
       </label>
     </section>
     <!--
@@ -280,21 +280,21 @@
 
   <div class="row notForCreate">
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">createdAt</label>
+      <label class="label">建立時間</label>
       <label class="input state-disabled">
         <input type="text" name="createdAt" placeholder="" v-model="data.item.createdAt" disabled>
         <b class="tooltip tooltip-bottom-right">createdAt</b></label>
       </label>
     </section>
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">updatedAt</label>
+      <label class="label">更新時間</label>
       <label class="input state-disabled">
         <input type="text" name="updatedAt" placeholder="" v-model="data.item.updatedAt" disabled>
         <b class="tooltip tooltip-bottom-right">updatedAt</b></label>
       </label>
     </section>
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">deletedAt</label>
+      <label class="label">刪除時間</label>
       <label class="input state-disabled">
         <input type="text" name="deletedAt" placeholder="" v-model="data.item.deletedAt" disabled>
         <b class="tooltip tooltip-bottom-right">deletedAt</b></label>
