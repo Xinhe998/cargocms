@@ -127,12 +127,12 @@ appMain.setupForm = function (type) {
 
   uploadImageApp.updateModel('itemLimit', 1);
   uploadImageApp.updateModel('onComplete', function(id, name, response){
-    appMain.data.item.imageId = response.data.id;
+    appMain.data.item.ImageId = response.data.id;
     appMain.data.item.image = response.data.url;
   })
   uploadImageApp.updateModel('onDeleteComplete', function(id, name, response){
     console.log(id, name, response);
-    appMain.data.item.imageId = null;
+    appMain.data.item.ImageId = null;
     appMain.data.item.image = '';
   })
   uploadImageApp.setup();
