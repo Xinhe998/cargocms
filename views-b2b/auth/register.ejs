@@ -124,9 +124,15 @@ em.invalid{
             <input type="number" name="phone2" value="<%= data.user.phone2 %>" class="form-control margin-bottom-20">
           </div>
         </div>
-        <div class="row">
+
+        <div class="row margin-top-20">
           <div class="col-sm-12">
             <label><%= __('register.label.address') %> </label>
+            <div class="row" id="twzipcode">
+              <div class="col-xs-4 form-group" data-role="county" data-name="city" data-value="<%= data.user.city %>"></div>
+              <div class="col-xs-4 form-group" data-role="district" data-name="district" data-value="<%= data.user.district %>"></div>
+              <div class="col-xs-4 form-group" data-role="zipcode" data-name="postCode" data-value="<%= data.user.postCode %>"></div>
+            </div>
             <input type="text" name="address" value="<%= data.user.address %>" class="form-control margin-bottom-20">
           </div>
         </div>
@@ -186,6 +192,7 @@ em.invalid{
   </div>
 </div>
 <% LayoutUtils.addScripts('/assets/labfnp/lib/formSubmitHelper.js'); %>
+<% LayoutUtils.addScripts('/assets/b2b/plugins/jquery.twzipcode.min.js'); %>
 <% LayoutUtils.addScriptBlock(`
   $(document).ready(function(){
 
@@ -268,5 +275,9 @@ em.invalid{
     });
 
     $("#registerForm").preventDoubleSubmission();
+
+    $('#twzipcode').twzipcode({});
+    $('#twzipcode input').addClass('form-control');
+    $('#twzipcode select').addClass('form-control');
   });
 `); %>

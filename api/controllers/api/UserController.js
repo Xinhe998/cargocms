@@ -80,8 +80,7 @@ module.exports = {
       const checkPwdEqual = password === passwordConfirm;
 
       if (checkPwdEqual) {
-        const checkLastName = loginUser.lastName === data.lastName;
-        const checkFirstName = loginUser.firstName === data.firstName;
+
         const checkEmail = loginUser.email === data.email;
         if (!checkEmail) {
           const verificationEmailToken = crypto.randomBytes(32).toString('hex').substr(0, 32);
@@ -101,27 +100,21 @@ module.exports = {
           id: loginUser.id,
           ...data,
         });
-        if (checkFirstName && checkLastName) {
-          req.session.passport.user.displayName = user.displayName;
-          req.session.passport.user.lastName = user.lastName;
-          req.session.passport.user.firstName = user.firstName;
-          req.session.passport.user.email = user.email;
-          req.session.passport.user.local = user.local;
-          req.session.passport.user.avatarThumb = user.avatarThumb;
-          req.session.passport.user.avatar = user.avatar;
-          req.session.passport.user.city = user.city;
-          req.session.passport.user.district = user.district;
-          req.session.passport.user.postCode = user.postCode;
-          req.session.passport.user.address = user.address;
-          req.session.passport.user.phone1 = user.phone1;
-          res.send(req.session);
-          // res.ok({
-          //   message: 'Update user success.',
-          //   data: user,
-          // });
-        } else {
-          throw Error(`update user ${loginUser.id} failed`);
-        }
+
+        req.session.passport.user.displayName = user.displayName;
+        req.session.passport.user.lastName = user.lastName;
+        req.session.passport.user.firstName = user.firstName;
+        req.session.passport.user.email = user.email;
+        req.session.passport.user.local = user.local;
+        req.session.passport.user.avatarThumb = user.avatarThumb;
+        req.session.passport.user.avatar = user.avatar;
+        req.session.passport.user.city = user.city;
+        req.session.passport.user.district = user.district;
+        req.session.passport.user.postCode = user.postCode;
+        req.session.passport.user.address = user.address;
+        req.session.passport.user.phone1 = user.phone1;
+        res.send(req.session);
+
       } else {
         throw Error('error: user password and passwordConfirm is not equal!');
       }
