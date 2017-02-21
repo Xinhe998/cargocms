@@ -95,10 +95,9 @@ const muiTheme = getMuiTheme({
   submit = () => {
     // FIXME: 需要登入 api ，目前暫時用 form 表單
     // document.querySelector('.login-form form').submit();
-    // TODO: 登入表單會引發 locatonChange 會導致遺失 store 資訊
-    // 所以正常情況下應該是要發 api 取得資訊之後再取得 CurrentUserData.
-    // this.props.fetchCurrentUserData();
-    this.props.requestLogIn(this.username.getValue(), this.password.getValue());
+    const usr = this.username.getValue();
+    const pwd = this.password.getValue();
+    this.props.requestLogIn(usr, pwd);
   }
 
   requestLogIn = () => {
