@@ -88,6 +88,10 @@ module.exports = {
           include: ProductDescription
         });
 
+        if (!product || !product.ProductDescription) {
+          throw new Error(`產品資訊不正確，無法建立產品訂單，產品 ID: ${p.id}`);
+        }
+
         if (product.subtract) {
           let productUpdate = await Product.findById(product.id);
           productUpdate.quantity = Number(product.quantity) - Number(p.quantity);
