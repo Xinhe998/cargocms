@@ -1,4 +1,5 @@
-describe.only('about SearchPecker Controller operation.', function() {
+import moment from 'moment';
+describe('about SearchPecker Controller operation.', function() {
 
   let searchPecker, defaultSearchPecker, searchPeckerId;
   before('建立 SearchPecker 資料', async (done) => {
@@ -18,11 +19,47 @@ describe.only('about SearchPecker Controller operation.', function() {
       // TODO searchPecker = SearchPecker.create
       const result = await SearchPecker.create(defaultSearchPecker);
       searchPeckerId = result.id;
+
+      SearchPeckerLog.create({
+        rank: '5',
+        url: 'labfnp.com',
+        recordDate: moment(new Date()).format('YYYY/MM/DD'),
+        SearchPeckerId: result.id
+      });
+
+      let checkSearchPecker = await SearchPecker.findOne({
+        where: {
+          id: result.id
+        },
+        include: SearchPeckerLog
+      })
+
+      let checkSearchPeckerLog = await SearchPeckerLog.find({
+        SearchPeckerId: result.id
+      });
+
+      sails.log.debug(checkSearchPecker, checkSearchPeckerLog)
+
       done()
     } catch (e) {
       done(e)
     }
   });
+
+
+    it('get SearchPecker all keyword rank should success.', async (done) => {
+      try {
+        const res = await request(sails.hooks.http.app)
+        .get(`/api/admin/keywordrank`);
+        res.body.should.be.Object;
+        res.status.should.be.eq(200);
+        sails.log.info(JSON.stringify(res.body, null, 2));
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+
 
   it('update SearchPecker should success.', async (done) => {
     const updateData = {

@@ -10,106 +10,106 @@
   var plugin_path = '/plugins/';
   var chart = {};
 
-  var updateChart = function(data) {
-    chart.load(data);
-  }
-
-  loadScript("/assets/admin/js/libs/d3.js", function(){
-    loadScript("/assets/admin/js/libs/c3.js", function(){
-      var chart = c3.generate({
-         bindto: '#chart',
-          data: {
-            x: 'x',
-            columns: [
-              ['x', '2017-02-7', '2017-2-8', '2017-2-9', '2017-2-10', '2017-2-11', '2017-2-12', '2017-2-13', '2017-2-14', '2017-2-15', '2017-2-16', '2017-2-17', '2017-2-18', '2017-2-19', '2017-2-20'],
-              ['排名', 5, 2, 1, 2, 5, 1, 1, 2, 1, 2, 5, 1, 1, 1],
-            ],
-            types: {
-              data1: 'area',
-            },
-            axes: {
-              data1: 'y'
-            }
-          },
-          axis: {
-            y: {
-              inverted: true,
-              min: 1,
-              max: 20,
-              padding: {
-                bottom: 0
-              }
-            },
-            x: {
-              padding: {
-                left: 0,
-                right: 0,
-              },
-              type: 'timeseries',
-              // if true, treat x value as localtime (Default)
-              // if false, convert to UTC internally
-              localtime: false,
-              tick: {
-                  format: '%Y/%m/%d'
-              }
-            }
-          },
-          zoom: {
-            enabled: true
-          },
-          padding: {
-            right: 100,
-            left: 100,
-            top: 20,
-          }
-      });
-
-      var stacke = c3.generate({
-         bindto: '#stacke',
-          data: {
-            x: 'x',
-            columns: [
-              ['x', '2017-02-7', '2017-2-8', '2017-2-9', '2017-2-10', '2017-2-11', '2017-2-12', '2017-2-13', '2017-2-14', '2017-2-15', '2017-2-16', '2017-2-17', '2017-2-18', '2017-2-19', '2017-2-20'],
-              ['上升', null, 3, 1, null, null, 4, null, null, 1, null, null, 4, null, null],
-              ['下降', null, null, null, -1, -3, null, null, -1, null, -1, -3, null, null, null],
-            ],
-            type: 'bar',
-            groups: [
-              ['上升', '下降']
-            ],
-            labels: true,
-          },
-          axis: {
-            x: {
-              padding: {
-                left: 0,
-                right: 0,
-              },
-              type: 'timeseries',
-              // if true, treat x value as localtime (Default)
-              // if false, convert to UTC internally
-              localtime: false,
-              tick: {
-                  format: '%Y/%m/%d'
-              }
-            }
-          },
-          zoom: {
-            enabled: true
-          },
-          padding: {
-            right: 100,
-            left: 100,
-            top: 20,
-          },
-          grid: {
-            y: {
-              lines: [{value:0}]
-            }
-          }
-      });
-    });
-  });
+  // var updateChart = function(data) {
+  //   chart.load(data);
+  // }
+  //
+  // loadScript("/assets/admin/js/libs/d3.js", function(){
+  //   loadScript("/assets/admin/js/libs/c3.js", function(){
+  //     chart = c3.generate({
+  //        bindto: '#chart',
+  //         data: {
+  //           x: 'x',
+  //           columns: [
+  //             ['x', '2017-02-7', '2017-2-8', '2017-2-9', '2017-2-10', '2017-2-11', '2017-2-12', '2017-2-13', '2017-2-14', '2017-2-15', '2017-2-16', '2017-2-17', '2017-2-18', '2017-2-19', '2017-2-20'],
+  //             ['排名', 5, 2, 1, 2, 5, 1, 1, 2, 1, 2, 5, 1, 1, 1],
+  //           ],
+  //           types: {
+  //             data1: 'area',
+  //           },
+  //           axes: {
+  //             data1: 'y'
+  //           }
+  //         },
+  //         axis: {
+  //           y: {
+  //             inverted: true,
+  //             min: 1,
+  //             max: 20,
+  //             padding: {
+  //               bottom: 0
+  //             }
+  //           },
+  //           x: {
+  //             padding: {
+  //               left: 0,
+  //               right: 0,
+  //             },
+  //             type: 'timeseries',
+  //             // if true, treat x value as localtime (Default)
+  //             // if false, convert to UTC internally
+  //             localtime: false,
+  //             tick: {
+  //                 format: '%Y/%m/%d'
+  //             }
+  //           }
+  //         },
+  //         zoom: {
+  //           enabled: true
+  //         },
+  //         padding: {
+  //           right: 100,
+  //           left: 100,
+  //           top: 20,
+  //         }
+  //     });
+  //
+  //     var stacke = c3.generate({
+  //        bindto: '#stacke',
+  //         data: {
+  //           x: 'x',
+  //           columns: [
+  //             ['x', '2017-02-7', '2017-2-8', '2017-2-9', '2017-2-10', '2017-2-11', '2017-2-12', '2017-2-13', '2017-2-14', '2017-2-15', '2017-2-16', '2017-2-17', '2017-2-18', '2017-2-19', '2017-2-20'],
+  //             ['上升', null, 3, 1, null, null, 4, null, null, 1, null, null, 4, null, null],
+  //             ['下降', null, null, null, -1, -3, null, null, -1, null, -1, -3, null, null, null],
+  //           ],
+  //           type: 'bar',
+  //           groups: [
+  //             ['上升', '下降']
+  //           ],
+  //           labels: true,
+  //         },
+  //         axis: {
+  //           x: {
+  //             padding: {
+  //               left: 0,
+  //               right: 0,
+  //             },
+  //             type: 'timeseries',
+  //             // if true, treat x value as localtime (Default)
+  //             // if false, convert to UTC internally
+  //             localtime: false,
+  //             tick: {
+  //                 format: '%Y/%m/%d'
+  //             }
+  //           }
+  //         },
+  //         zoom: {
+  //           enabled: true
+  //         },
+  //         padding: {
+  //           right: 100,
+  //           left: 100,
+  //           top: 20,
+  //         },
+  //         grid: {
+  //           y: {
+  //             lines: [{value:0}]
+  //           }
+  //         }
+  //     });
+  //   });
+  // });
 </script>
 <h2 style="margin:20px;">排名</h2>
 <div id="chart" class="chart-c3"></div>

@@ -27,13 +27,42 @@ module.exports = {
   findOne: async (req, res) => {
     try {
       const { id } = req.params;
-      const item = await SearchPecker.findOne({
+      let item = await SearchPecker.findOne({
         where:{
           id
         },
-        include: []
+        include: SearchPeckerLog,
       });
-      res.ok({data: {item}});
+      item = item.toJSON();
+      const recordDate = ['x'];
+      const rank = ['排名'];
+      item.SearchPeckerLogs.forEach((data) => {
+        recordDate.push(data.recordDate);
+        rank.push(data.rank);
+      })
+      const rankTrend = {
+        up: ['上升'],
+        down: ['下降'],
+      };
+      for(let i = 1; i < rank.length ; i++) {
+        let result = rank[i] - rank[i - 1];
+        if (result !== 0) result *= -1;
+        console.log(result);
+        if (result > 0) {
+          rankTrend.up.push(result);
+          rankTrend.down.push(null);
+        } else if (result <  0) {
+          rankTrend.up.push(null);
+          rankTrend.down.push(result);
+        } else {
+          rankTrend.up.push(null);
+          rankTrend.down.push(null);
+        }
+      }
+
+      console.log(rankTrend);
+
+      res.ok({data: {item: { ...item, recordDate, rank, rankTrend }}});
     } catch (e) {
       res.serverError(e);
     }
@@ -71,6 +100,18 @@ module.exports = {
       const item = await SearchPecker.destroy({ where: { id } });
       let message = 'Delete success';
       res.ok({message, data: {item}});
+    } catch (e) {
+      res.serverError(e);
+    }
+  },
+
+  findAll: async(req, res) => {
+    try {
+      let item = await SearchPecker.findAll({
+        include: SearchPeckerLog
+      })
+      console.log(item);
+      res.ok({message: 'get data sucess', data: {item}});
     } catch (e) {
       res.serverError(e);
     }

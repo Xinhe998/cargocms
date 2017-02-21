@@ -1,46 +1,14 @@
 module.exports = {
   attributes: {
-    keywords: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-    },
-
-    crawlerAgent: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-    },
-
-    reportHtml: {
-      type: Sequelize.TEXT,
-      allowNull: false,
-    },
-
-    reportImage: {
-      type: Sequelize.STRING(255),
-      allowNull: false,
-    },
-
-    pageNo: {
+    rank: {
       type: Sequelize.INTEGER(32),
       allowNull: false,
     },
-
-    pageNoPrev: {
-      type: Sequelize.INTEGER(32),
-      allowNull: false,
-    },
-
-    pageNoWarn: {
-      type: Sequelize.INTEGER(32),
-      allowNull: false,
-    },
-
-    targetUrl: {
+    url: {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
-
-    searchEngine: {
+    recordDate: {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
@@ -68,7 +36,7 @@ module.exports = {
     }
   },
   associations: () => {
-    SearchPecker.hasMany(SearchPeckerLog);
+    // SearchPeckerLog.belongsTo(SearchPecker);
   },
   options: {
     classMethods: {},

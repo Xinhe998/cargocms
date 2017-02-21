@@ -108,6 +108,7 @@ var defaultConfig = {
   'put /api/admin/searchpecker/:id': 'api/admin/SearchPeckerController.update',
   'delete /api/admin/searchpecker/:id': 'api/admin/SearchPeckerController.destroy',
 
+  'get /api/admin/keywordrank': 'api/admin/SearchPeckerController.findAll',
 
   'get /api/admin/download': 'api/admin/DownloadController.download',
 
