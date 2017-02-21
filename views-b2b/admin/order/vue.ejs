@@ -49,7 +49,7 @@ var appModel = {
     },
     items: [],
     option: {
-      defaultSort: [[ 31, 'desc' ]],
+      defaultSort: [[ 30, 'desc' ]],
       orderProductList: ''
     }
   },
@@ -66,15 +66,16 @@ var appModel = {
 // 需要新增函式可以對 appMain 進行定義，如：
 // appMain.log = function () {console.log("123")}
 appMain.orderProductList = function(){
-  var orderProductList = appMain.data.item.OrderProducts.map(function(data) {
-    // return `名稱：${data.name}, 數量：${data.quantity}, 金額：${data.formatTotal}\n`;
-    return {
-      name: data.name,
-      quantity: data.quantity,
-      formatTotal: data.formatTotal,
-      formatPrice: data.formatPrice
+  var orderProductList = {};
+  for ( var key in appMain.data.item.OrderProducts ) {
+    var orderProduct = appMain.data.item.OrderProducts[key];
+    var supplier = orderProduct.Product.Supplier.name;
+
+    if (! Array.isArray(orderProductList[supplier])) {
+      orderProductList[supplier] = [];
     }
-  });
+    orderProductList[supplier].push(orderProduct);
+  }
   appMain.data.option.orderProductList = orderProductList;
 }
 

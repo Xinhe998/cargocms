@@ -16,6 +16,7 @@ module.exports = {
       });
 
       let categorys = await Category.findAll({
+        order: 'sortOrder asc',
         include: CategoryDescription
       });
 

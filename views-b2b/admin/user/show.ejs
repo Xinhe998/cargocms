@@ -202,7 +202,7 @@
                       <li>
                         <label class="checkbox state-disabled">
                           <input type="checkbox" id="supplier" value="supplier" class="disabled" v-model="data.item.rolesArray" disabled>
-                          <i></i>供應商{{ '(' + data.item.Supplier.name ')' }}</label>
+                          <i></i>供應商{{ data.item.Supplier ? '('+ data.item.Supplier.name +')': '' }}</label>
                       </li>
                       <li>
                         <label class="checkbox state-disabled">

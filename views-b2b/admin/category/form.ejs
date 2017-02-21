@@ -14,6 +14,7 @@
     <b class="tooltip tooltip-bottom-right">請輸入描述</b></label>
   </section>
 
+  <!--
   <section row="">
     <label class="label">Meta標題</label>
     <label class="input state-disabled ">
@@ -48,20 +49,22 @@
     <input type="text" name="column" placeholder="" v-model="data.item.column" disabled>
     <b class="tooltip tooltip-bottom-right">請輸入欄位</b></label>
   </section>
-
+  -->
   <section row="">
-    <label class="label">排序</label>
+    <label class="label">分類排序</label>
     <label class="input state-disabled ">
-    <input type="text" name="sortOrder" placeholder="" v-model="data.item.sortOrder" disabled>
+    <input type="number" name="sortOrder" placeholder="" v-model="data.item.sortOrder" disabled>
     <b class="tooltip tooltip-bottom-right">請輸入排序</b></label>
   </section>
 
+  <!--
   <section row="">
     <label class="label">狀態</label>
     <label class="input state-disabled ">
     <input type="text" name="status" placeholder="" v-model="data.item.status" disabled>
     <b class="tooltip tooltip-bottom-right">請輸入狀態</b></label>
   </section>
+  -->
 
 </fieldset>
 <script>
@@ -72,27 +75,27 @@
     description:{
       required: true,
     },
-    metaTitle:{
-      required: true,
-    },
-    metaDescription:{
-      required: true,
-    },
-    metaKeyword:{
-      required: true,
-    },
-    top:{
-      required: true,
-    },
-    column:{
-      required: true,
-    },
+    // metaTitle:{
+    //   required: true,
+    // },
+    // metaDescription:{
+    //   required: true,
+    // },
+    // metaKeyword:{
+    //   required: true,
+    // },
+    // top:{
+    //   required: true,
+    // },
+    // column:{
+    //   required: true,
+    // },
     sortOrder:{
       required: true,
     },
-    status:{
-      required: true,
-    },
+    // status:{
+    //   required: true,
+    // },
   };
 
   var formMessages = {
@@ -102,26 +105,26 @@
     description:{
       required: "請給予 描述",
     },
-    metaTitle:{
-      required: "請給予 Meta標題",
-    },
-    metaDescription:{
-      required: "請給予 Meta描述",
-    },
-    metaKeyword:{
-      required: "請給予 Meta關鍵字",
-    },
-    top:{
-      required: "請給予 TOP",
-    },
-    column:{
-      required: "請給予 欄位",
-    },
+    // metaTitle:{
+    //   required: "請給予 Meta標題",
+    // },
+    // metaDescription:{
+    //   required: "請給予 Meta描述",
+    // },
+    // metaKeyword:{
+    //   required: "請給予 Meta關鍵字",
+    // },
+    // top:{
+    //   required: "請給予 TOP",
+    // },
+    // column:{
+    //   required: "請給予 欄位",
+    // },
     sortOrder:{
-      required: "請給予 排序",
+      required: "請給予 分類排序",
     },
-    status:{
-      required: "請給予 狀態",
-    },
+    // status:{
+    //   required: "請給予 狀態",
+    // },
   };
 </script>
