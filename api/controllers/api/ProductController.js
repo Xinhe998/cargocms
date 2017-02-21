@@ -3,7 +3,7 @@ module.exports = {
     try{
       const {start, length, category, supplier, limit} = req.query;
 
-      const result = await ProductService.find({
+      const result = await ProductService.findAll({
         start,
         length,
         categoryId: category,
