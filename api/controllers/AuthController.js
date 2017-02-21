@@ -16,7 +16,11 @@ module.exports = {
         password: ''
       }
       let form = req.flash('form')[0];
-      if(form) user = form;
+
+      if (form) {
+        const isLogin = form.identifier && form.password;
+        if (isLogin) user = form;
+      }
 
       let url = req.query.url || '/';
 
@@ -47,7 +51,7 @@ module.exports = {
   },
 
   register: async (req, res) => {
-    if(req.session.authenticated) return res.redirect('/');
+    if(AuthService.isAuthenticated(req)) return res.redirect('/');
     try {
       let user = {
         username: '',
@@ -58,10 +62,17 @@ module.exports = {
         phone1: '',
         phone2: '',
         address: '',
-        address2: ''
+        address2: '',
+        city: '',
+        district: '',
+        postCode: '',
       }
       let form = req.flash('form')[0];
-      if(form) user = form;
+
+      if (form) {
+        const isRegist = form.username && form.email;
+        if (isRegist) user = form;
+      }
 
       res.ok({
         user,
