@@ -146,10 +146,6 @@ const muiTheme = getMuiTheme({
                   data-tip={this.state.notice}
                 >登入系統</button>
               </Formsy.Form>
-              <button
-                type='submit'
-                onClick={this.requestLogIn}
-              >登入系統</button>
             </div>
             <div className='login-form-footer'>
               <div className='login-contact'>
