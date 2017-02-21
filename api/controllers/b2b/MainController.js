@@ -72,7 +72,6 @@ module.exports = {
             // res.send(req.session);
           }
 
-          req.flash('info', '您更新了 Email ，請至新信箱點擊認證連結');
           message = 'E-Mail 驗證成功';
           valid = true;
         }
