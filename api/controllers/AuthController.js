@@ -122,7 +122,7 @@ module.exports = {
           }
           break;
       }
-    };
+    }; // end tryAgain
     const authCallback = function(err, user, challenges, status) {
       sails.log.info('=== callback url ===', url);
       sails.log.info('=== callback user ===', user);
@@ -150,22 +150,22 @@ module.exports = {
             break;
         }
 
+        // make respond depends on dataType
         if (req.wantsJSON) {
           const jwtToken = AuthService.getSessionEncodeToJWT(req);
           return res.ok({
             jwtToken,
           });
-        }
-        else {
+        } else {
           let url = req.query.url;
           if (!url && req.body) url = req.body.url;
           url = url || sails.config.urls.afterSignIn;
-          console.log('url=>', url);
+          // console.log('url=>', url);
           return res.redirect(url);
         }
-      };
+      }; // end loginCallback
       req.login(user, loginCallback);
-    };
+    }; // end authCallback
     try {
       await passport.callback(req, res, authCallback);
     } catch (e) {
