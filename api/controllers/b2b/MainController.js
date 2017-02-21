@@ -58,7 +58,8 @@ module.exports = {
           }
         });
         // if (!user.verificationEmailToken) throw Error('請點擊 Email 驗證連結');
-        if (!user.verificationEmailToken){
+
+        if (!user || !user.verificationEmailToken){
           message = '此驗證連結已失效';
           sails.log.error('此驗證連結已失效');
         } else {
