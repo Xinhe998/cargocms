@@ -104,53 +104,54 @@ module.exports = {
           } catch (e) {
             reference = { path : "/" };
           }
-          res.redirect(reference.path);
+          if (req.wantsJSON) {
+            res.forbidden(err);
+          } else {
+            res.redirect(reference.path);
+          }
           break;
       }
     };
     const authCallback = function(err, user, challenges, status) {
-      let url = req.query.url;
       sails.log.info('=== callback url ===', url);
       sails.log.info('=== callback user ===', user);
       sails.log.info('=== passport.callback ===', err);
-      if (url === 'api' && (err || !user)) {
-        return res.forbidden(err);
-      } else if (err || !user)
-        return tryAgain(err);
+      if (err || !user) return tryAgain(err);
 
       const loginCallback = function(err) {
         if (err) return tryAgain(err);
-        const forUpdateUserStatus = function() {
-          // update user lastLogin status
-          req.session.authenticated = true;
-          const userAgent = req.headers['user-agent'];
-          user.loginSuccess({ userAgent });
-          console.log('user=>', user);
-        };
-        const forActionRegister = function() {
-          const action = req.param('action');
-          if (action === 'register' && sails.config.verificationEmail) {
-            req.flash('info', '註冊成功!! 接下來補齊您的資料，並於信箱查收驗證信');
-            return res.redirect('/edit/me');
-          }
-          console.log('action=>', action);
-        };
-        const forRedirect = function() {
+
+        // update user lastLogin status
+        req.session.authenticated = true;
+        const userAgent = req.headers['user-agent'];
+        user.loginSuccess({ userAgent });
+        console.log('user=>', user);
+
+        // check action
+        const action = req.param('action');
+        sails.log.info('action=>', action);
+        switch (action) {
+          case 'register':
+            if (sails.config.verificationEmail) {
+              req.flash('info', '註冊成功!! 接下來補齊您的資料，並於信箱查收驗證信');
+              return res.redirect('/edit/me');
+            }
+            break;
+        }
+
+        if (req.wantsJSON) {
+          const jwtToken = AuthService.getSessionEncodeToJWT(req);
+          return res.ok({
+            jwtToken,
+          });
+        }
+        else {
+          let url = req.query.url;
           if (!url && req.body) url = req.body.url;
           url = url || sails.config.urls.afterSignIn;
           console.log('url=>', url);
-          if (url === 'api') {
-            const jwtToken = AuthService.getSessionEncodeToJWT(req);
-            return res.ok({
-              jwtToken,
-            });
-          } else {
-            return res.redirect(url);
-          }
-        };
-        forUpdateUserStatus();
-        forActionRegister();
-        forRedirect();
+          return res.redirect(url);
+        }
       };
       req.login(user, loginCallback);
     };
