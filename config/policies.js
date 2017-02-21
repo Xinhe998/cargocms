@@ -19,7 +19,7 @@ import customConfigLoader from './util/customConfigLoader.js';
 var customConfig = customConfigLoader('policies.js');
 
 var defaultConfig = {
-  '*': ['nocache', 'passport', 'sessionAuth'],
+  '*': ['nocache', 'passport', 'sessionAuth', 'validEmail'],
   'AuthController': {
     '*': ['passport'],
     'status': [],
@@ -41,6 +41,8 @@ var defaultConfig = {
     'forgotPassword': [],
     'updatePassword': [],
     'getCurrentUser': [],
+    'update': ['passport', 'sessionAuth'],
+    'validateResend': ['passport', 'sessionAuth'],
   },
   'EventController': {
     'allpay': ['passport', 'sessionAuth'],
