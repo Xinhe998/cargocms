@@ -46,6 +46,26 @@ module.exports.init = async () => {
           pageNoWarn: '5',
           targetUrl: 'labfnp.com',
           searchEngine: 'www.baidu.com'
+        }, {
+          keywords: 'DIY 香水',
+          crawlerAgent: 'CargoSearchBot-v.10',
+          reportHtml: 'crawlerAgent/baidu/reault/html/report.html',
+          reportImage: '/assets/labfnp/img/searchscreentshot_google2.png',
+          pageNo: '2',
+          pageNoPrev: '2',
+          pageNoWarn: '5',
+          targetUrl: 'labfnp.com',
+          searchEngine: 'google.com'
+        }, {
+          keywords: '自製 香水',
+          crawlerAgent: 'CargoSearchBot-v.10',
+          reportHtml: 'crawlerAgent/baidu/reault/html/report.html',
+          reportImage: '/assets/labfnp/img/searchscreentshot_google3.png',
+          pageNo: '2',
+          pageNoPrev: '3',
+          pageNoWarn: '5',
+          targetUrl: 'labfnp.com',
+          searchEngine: 'google.com'
         }
       ];
       await SearchPecker.bulkCreate(searchPeckerData);
