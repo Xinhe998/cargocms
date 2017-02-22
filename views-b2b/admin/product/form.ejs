@@ -1,6 +1,5 @@
-
-
 <fieldset>
+  <label class="label fn-show-hidden"><span class="text-danger">*</span>必填欄位</label>
   <section>
     <img src="{{data.item.image}}" alt="" class="img-responsive">
   </section>
@@ -11,19 +10,19 @@
 
   <div class="row">
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">名稱</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>名稱</label>
       <label class="input state-disabled">
         <input type="text" name="model" placeholder="" v-model="data.item.model" disabled>
         <b class="tooltip tooltip-bottom-right">請輸入名稱</b></label>
     </section>
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">數量</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>數量</label>
       <label class="input state-disabled">
         <input type="number" name="quantity" placeholder="" v-model="data.item.quantity" disabled>
         <b class="tooltip tooltip-bottom-right">請輸入數量</b></label>
     </section>
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">價格</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>價格</label>
       <label class="input state-disabled">
         <input type="number" name="price" placeholder="" v-model="data.item.price" disabled>
         <b class="tooltip tooltip-bottom-right">請輸入價格</b></label>
@@ -119,21 +118,21 @@
 -->
   <div class="row">
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">長度</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>長度</label>
       <label class="input state-disabled">
         <input type="number" name="length" placeholder="" v-model="data.item.length" disabled>
         <b class="tooltip tooltip-bottom-right">請輸入長度</b></label>
       </label>
     </section>
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">寬度</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>寬度</label>
       <label class="input state-disabled">
         <input type="number" name="width" placeholder="" v-model="data.item.width" disabled>
         <b class="tooltip tooltip-bottom-right">請輸入寬度</b></label>
       </label>
     </section>
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">高度</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>高度</label>
       <label class="input state-disabled">
         <input type="number" name="height" placeholder="" v-model="data.item.height" disabled>
         <b class="tooltip tooltip-bottom-right">請輸入高度</b></label>
@@ -143,7 +142,7 @@
 
   <div class="row">
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">重量</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>重量</label>
       <label class="input state-disabled">
         <input type="number" name="weight" placeholder="" v-model="data.item.weight" disabled>
         <b class="tooltip tooltip-bottom-right">請輸入重量</b></label>
@@ -151,7 +150,7 @@
     </section>
 
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">最小存量</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>最小存量</label>
       <label class="input state-disabled">
         <input type="number" name="minimum" placeholder="" v-model="data.item.minimum" disabled>
         <b class="tooltip tooltip-bottom-right">請輸入最小存量</b></label>
@@ -227,7 +226,7 @@
   <div class="row">
 
     <section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 notForCreate">
-      <label class="label">產品分類</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>產品分類</label>
       <label class="textarea state-disabled">
         <textarea rows="2" v-model="data.item.categoriesNameArray" disabled>
         </textarea>
@@ -235,7 +234,7 @@
     </section>
 
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">公開狀態</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>公開狀態</label>
       <label class="input state-disabled switch"></label>
       <span class="input-group-addon">
         <span class="onoffswitch">
@@ -253,7 +252,7 @@
     </section>
 
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4 fn-show-hidden">
-      <label class="label">產品供應商</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>產品供應商</label>
       <label class="select state-disabled">
         <select class="form-control" name="SupplierId" title="選擇產品供應商" v-model="data.item.SupplierId">
           <option value="" disabled selected>請選擇供應商</option>
@@ -265,7 +264,7 @@
     </section>
 
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4 fn-show-hidden">
-      <label class="label">產品分類</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>產品分類</label>
       <label class="select state-disabled">
         <select style="height: 60px;"class="form-control" multiple="multiple" name="categoriesId" title="選擇產品分類" v-model="data.item.categoriesId">
           <option v-for=" category in data.option.categoryList" v-bind:value="category.id" @click="addCategory">
