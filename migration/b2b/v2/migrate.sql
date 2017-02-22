@@ -7,13 +7,13 @@ ALTER TABLE Messages MODIFY COLUMN type enum('greeting','orderConfirm','paymentC
 ALTER TABLE `Orders` ADD (
   `tax` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `totalIncludeTax` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `shippingEmail` varchar(128) DEFAULT NULL,
-  `shippingTelephone` varchar(32) DEFAULT NULL,
+  `shippingEmail` varchar(96) NOT NULL,
+  `shippingTelephone` varchar(32) NOT NULL
 );
 
 ALTER TABLE `SupplierShipOrders` ADD (
   `tax` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `totalIncludeTax` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `shippingEmail` varchar(128) DEFAULT NULL
-  `shippingTelephone` varchar(32) DEFAULT NULL,
+  `shippingEmail` varchar(96) NOT NULL,
+  `shippingTelephone` varchar(32) NOT NULL
 );
