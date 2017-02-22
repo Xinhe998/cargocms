@@ -21,3 +21,7 @@
 
 ### SupplierShipOrder 欄位新增
 * 新增 shippingEmail, shippingTelephone, tax , totalIncludeTax
+
+v3
+### 更改 MenuItem 項目
+隱藏 orderpayment, orderpaymenthistory, orderpaymentstatus

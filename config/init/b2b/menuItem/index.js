@@ -19,10 +19,10 @@ module.exports.init = async () => {
 
       { href: '/admin/order', title: '訂單', sequence: 20, ParentMenuItemId: 4},
       { href: '/admin/orderproduct', title: '產品訂單', sequence: 30, ParentMenuItemId: 4},
-      { href: '/admin/orderpayment', title: '訂單付款資訊', sequence: 40, ParentMenuItemId: 4},
-      { href: '/admin/orderpaymentstatus', title: '付款狀態', sequence: 50, ParentMenuItemId: 4},
-      { href: '/admin/orderpaymenthistory', title: '訂單付款紀錄', sequence: 60, ParentMenuItemId: 4},
-      { href: '/admin/orderhistory', title: '訂單歷程', sequence: 70, ParentMenuItemId: 4},
+      // { href: '/admin/orderpayment', title: '訂單付款資訊', sequence: 40, ParentMenuItemId: 4},
+      // { href: '/admin/orderpaymentstatus', title: '付款狀態', sequence: 50, ParentMenuItemId: 4},
+      // { href: '/admin/orderpaymenthistory', title: '訂單付款紀錄', sequence: 60, ParentMenuItemId: 4},
+      { href: '/admin/orderhistory', title: '訂單歷程', sequence: 40, ParentMenuItemId: 4},
 
 
       { href: '/admin/supplier', title: '供應商清單', sequence: 20, ParentMenuItemId: 5},
