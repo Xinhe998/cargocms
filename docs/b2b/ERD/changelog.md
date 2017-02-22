@@ -61,3 +61,18 @@
 增加欄位
 - status enum('NEW','PAID','PROCESSING','SHIPPED','DELIVERED','CANCELLED','COMPLETED','SUBMITTED','DENIED','CANCELED REVERSAL','FAILED','REFUNDED','REVERSED','CHARGEBACK','PENDING','VOIDED','PROCESSED','EXPIRED')
   Default 'NEW'
+
+# v4
+## ERD-20170222_OverView.v4.mwb , ERD-20170222_detail.mwb
+### Order & SupplierShipOrder
+增加欄位
+- tax decimal(15,4) NOT NULL DEFAULT '0.0000'
+- totalIncludeTax decimal(15,4) NOT NULL DEFAULT '0.0000'
+- shippingEmail varchar(96) NOT NULL
+- shippingTelephone varchar(32) NOT NULL
+
+### User
+增加欄位
+- city varchar(128) DEFAULT NULL
+- district varchar(128) DEFAULT NULL
+- postCode varchar(10) DEFAULT NULL
