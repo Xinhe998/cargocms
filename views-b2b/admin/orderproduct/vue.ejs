@@ -51,7 +51,7 @@ appMain.createHide = function () {
   $('.fn-create-hide').hide();
 }
 
-appMain.setCallback = function() {
+appMain.setBackUrl = function() {
   var backUrl = '<%= req.query.url ? req.query.url : '' %>';
   //remove '/admin'
   if (backUrl) {
