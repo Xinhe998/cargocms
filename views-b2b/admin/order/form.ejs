@@ -271,7 +271,7 @@
           </thead>
           <tbody>
             <tr v-for="orderProduct in orderProducts">
-              <td class="col-xs-6">{{ orderProduct.name }}</td>
+              <td class="col-xs-6"><a href="/admin/#/admin/orderproduct/show/{{orderProduct.id}}?url=<%= req.path %>">{{ orderProduct.name }}</a></td>
               <td class="col-xs-2">{{ orderProduct.quantity }}</td>
               <td class="col-xs-2">{{ orderProduct.formatPrice }}</td>
               <td class="col-xs-2">{{ orderProduct.formatTotal }}</td>
