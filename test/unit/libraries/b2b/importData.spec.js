@@ -1,5 +1,4 @@
 const createProduct = async function(obj) {
-    // console.log('createProduct=>', obj);
     // const { category, supplier, rawProduct } = obj;
     const category = {
         name: obj.category || obj.productName,
@@ -55,7 +54,6 @@ const createProduct = async function(obj) {
             CategoryId: findCategory.id
         });
     }
-    // console.log('findCategory=>', findCategory);
 
     let findSupplier = await Supplier.find({ name: supplier.name });
     if (findSupplier === null) {
@@ -68,7 +66,6 @@ const createProduct = async function(obj) {
             taxId: supplier.taxId
         });
     }
-    // console.log('findSupplier=>', findSupplier);
 
     const productData = {
         model: rawProduct.name,
@@ -171,40 +168,41 @@ const createProduct = async function(obj) {
 };
 
 const createHelper = {
-    Product: async function(obj) {
+    product: async function(obj) {
         return await createProduct(obj);
     },
 };
 
-describe.only('import data.', () => {
+const importHelper = async(modelName, obj) => {
+    try {
+        const helper = createHelper[modelName];
+        return await helper(obj)
+    } catch (e) {
+        sails.log.error(e);
+    }
+};
+
+describe('import data.', () => {
     before(async(done) => {
         try {
-            const importData = require("./import.config.json");
-            for (const table of importData.tables) {
-                const json = require(table.jsonfile);
-                const modelName = table.targetModel;
-                const mapping = table.mapping;
-                const obj = {};
-                for (const data of json) {
-                    for (const map of mapping) {
-                        obj[map.to] = data[map.from];
-                    }
-                    console.log('obj=>', obj);
-                    const newData = await createHelper[modelName](obj);
-                }
-            }
+            await ImportDataService.create(importHelper);
             done();
         } catch (e) {
             done(e);
         }
     });
 
-    it.skip('import feeling', async(done) => {
+    it('check imported data', async(done) => {
         try {
-            let path = __dirname + "/feeling.json";
-            await ScentNote.importFeelingFromFile({ path });
+            const images = await Image.findAll();
+            const products = await Product.findAll();
+            const productDescriptions = await ProductDescription.findAll();
+            const suppliers = await Supplier.findAll();
+            const array = [images, products, productDescriptions, suppliers];
+            for (const list of array) {
+                list.length.should.be.gt(0);
+            }
             done();
-
         } catch (e) {
             done(e);
         }
