@@ -95,7 +95,34 @@ var defaultVueMathod = {
 			if (typeof cb !== 'undefined') setTimeout(cb, 0);
 		}; // end ajaxSuccess
 
-		$.get('/api/' + prefix + modelName + '/' + appModel.data.item.id, ajaxSuccess);
+    var ajaxError = function (result) {
+      let message = '讀取資料時發生錯誤。請稍候再試。';
+      if (result.status === 403) {
+        let responseText = JSON.parse(result.responseText);
+        message = responseText.message;
+      }
+      var msg = {
+        title: '提示',
+        content: message,
+        btnArray: ['確定'],
+      };
+      var action = function (ButtonPressed) {
+        if (result.status === 403) {
+          location.href = '/admin/login';
+        }
+        location.href = '/admin/#/admin/' + modelName;
+      }
+      messageApp.confirm(msg, action);
+
+    }
+    const ajaxConfig = {
+      url: '/api/' + prefix + modelName + '/' + appModel.data.item.id,
+      method: 'get',
+      dataType: 'json',
+    }
+    $.ajax(ajaxConfig).done(ajaxSuccess).fail(ajaxError);
+
+		// $.get('/api/' + prefix + modelName + '/' + appModel.data.item.id, ajaxSuccess);
 	},
 	isPageEditDataModified: function () {
 		var itemBeforeLeave = JSON.stringify(appModel.data.item);
