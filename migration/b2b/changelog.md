@@ -21,3 +21,7 @@
 
 ### SupplierShipOrder 欄位新增
 * 新增 shippingEmail, shippingTelephone, tax , totalIncludeTax
+
+## v3
+### Order, OrderProducts, SupplierShipOrder, SupplierShipOrderProduct 增加欄位
+* 增加 deletedAt，搭配 model paranoid 選項
