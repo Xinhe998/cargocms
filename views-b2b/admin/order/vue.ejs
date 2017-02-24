@@ -113,6 +113,10 @@ appMain.checkedOrder = function(){
           }; // end ajaxSuccess
 
          var ajaxError = function (result) {
+           setTimeout(function(){
+             location.replace('/admin/login');
+           },800);
+
            messageApp.show({
              desc: '確認訂單失敗！errorMessage: ' + result.responseJSON.message,
              type: 'error'
@@ -236,6 +240,12 @@ appMain.DataTableInitComplete = function() {
            }; // end ajaxSuccess
 
           var ajaxError = function (result) {
+            if (result.status === 403) {
+              setTimeout(function(){
+                location.replace('/admin/login');
+              },800);
+            }
+
             messageApp.show({
               desc: '確認訂單失敗！errorMessage: ' + result.responseJSON.message,
               type: 'error'
