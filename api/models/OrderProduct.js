@@ -96,6 +96,7 @@ module.exports = {
     OrderProduct.belongsTo(Order);
   },
   options: {
+    paranoid: true,
     classMethods: {},
     instanceMethods: {},
     hooks: {}
