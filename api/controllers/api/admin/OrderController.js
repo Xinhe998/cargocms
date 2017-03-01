@@ -305,8 +305,7 @@ module.exports = {
       console.log('Order.orderNumber=>', order.orderNumber);
       try {
         const orderProductStringTable = await OrderService.stringOrderProduct({orderId: order.id});
-
-        const messageConfig = await MessageService.orderConfirm({
+        let mailMessage = {
           email: order.email,
           serialNumber: order.orderNumber,
           username: `${order.lastname}${order.firstname}`,
@@ -315,9 +314,18 @@ module.exports = {
           shipmentAddress: order.shippingAddress1,
           note: order.comment,
           phone: order.shippingTelephone,
-        });
+        };
+        let messageConfig = await MessageService.orderConfirm(mailMessage);
         const mail = await Message.create(messageConfig);
         await MessageService.sendMail(mail);
+
+        if (order.email !== order.shippingEmail) {
+          mailMessage.email = order.shippingEmail;
+          messageConfig = await MessageService.orderConfirm(mailMessage);
+          let shippingMail = await Message.create(messageConfig);
+          await MessageService.sendMail(shippingMail);
+        }
+        
       } catch (e) {
         sails.log.error(e);
       }
