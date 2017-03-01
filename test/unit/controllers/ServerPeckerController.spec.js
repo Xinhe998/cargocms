@@ -5,14 +5,13 @@ describe('about SearchPecker Controller operation.', function() {
   before('建立 SearchPecker 資料', async (done) => {
     try {
       defaultSearchPecker = {
-        // id: '1',
         keywords: 'testKeywords',
         crawlerAgent: 'testCrawlerAgent',
         reportHtml: 'testReportHtml',
         reportImage: 'testReportImage',
-        pageNo: '0',
-        pageNoPrev: '0',
-        pageNoWarn: '0',
+        pageNo: 0,
+        pageNoPrev: 0,
+        pageNoWarn: 0,
         targetUrl: 'testTargetUrl',
         searchEngine: 'testSearchEngine'
       };
@@ -67,9 +66,9 @@ describe('about SearchPecker Controller operation.', function() {
       crawlerAgent: 'updateCrawlerAgent',
       reportHtml: 'updateReportHtml',
       reportImage: 'updateReportImage',
-      pageNo: '1',
-      pageNoPrev: '1',
-      pageNoWarn: '1',
+      pageNo: 1,
+      pageNoPrev: 1,
+      pageNoWarn: 1,
       targetUrl: 'updateTargetUrl',
       searchEngine: 'updateSearchEngine'
     }
