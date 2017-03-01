@@ -31,7 +31,7 @@ module.exports = {
 
   },
   orderConfirm: (result = {
-    productName, serialNumber, email, username, bankId, bankName, bankName,
+    productName, serialNumber, email, username, bankId, bankName,
     accountId, accountName, paymentTotalAmount, shipmentUsername, shipmentAddress,
     note, phone, invoiceNo
   }) => {
@@ -62,7 +62,7 @@ module.exports = {
 
   },
   orderToShopConfirm: (result = {
-    productName, serialNumber, email, username, bankId, bankName, bankName,
+    productName, serialNumber, email, username, bankId, bankName,
     accountId, accountName, paymentTotalAmount, shipmentUsername, shipmentAddress,
     note, phone, invoiceNo
   }) => {
@@ -203,7 +203,7 @@ module.exports = {
     }
   },
   eventOrderConfirm: (result = {
-    productName, serialNumber, email, username, bankId, bankName, bankName,
+    productName, serialNumber, email, username, bankId, bankName,
     accountId, accountName, paymentTotalAmount, shipmentUsername, shipmentAddress,
     note, phone
   }) => {
