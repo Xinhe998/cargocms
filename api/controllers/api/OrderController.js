@@ -46,12 +46,20 @@ module.exports = {
         let mail = await Message.create(messageConfig);
         await MessageService.sendMail(mail);
 
-        if(order.email !== loginUser.email){
+        if (order.email !== order.shippingEmail) {
+          mailMessage.email = order.shippingEmail;
+          messageConfig = await MessageService.orderCreated(mailMessage);
+          let shippingMail = await Message.create(messageConfig);
+          await MessageService.sendMail(shippingMail);
+        }
+
+        if (loginUser.email !== order.email && loginUser.email !== order.shippingEmail) {
           mailMessage.email = loginUser.email;
           messageConfig = await MessageService.orderCreated(mailMessage);
-          let mail = await Message.create(messageConfig);
-          await MessageService.sendMail(mail);
+          let accountMail = await Message.create(messageConfig);
+          await MessageService.sendMail(accountMail);
         }
+
       } catch (e) {
         sails.log.error(e);
       }
