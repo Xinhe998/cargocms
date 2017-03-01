@@ -29,7 +29,7 @@ module.exports = {
         html: `<html><body>
         <br />Hi %(username)s:
 
-        <br />感謝你的訂購，你所購買的產品
+        <br />感謝你的訂購，你所訂購的產品
         <br />
         <br />%(productName)s
         <br />
@@ -45,6 +45,30 @@ module.exports = {
         <br />From %(storeName)s
         </body></html>`
       },
+      orderConfirm: {
+        sendBy: 'email',
+        subject: '訂單 %(orderSerialNumber)s 已確認',
+        html: `<html><body>
+        <br />Hi %(username)s:
+
+        <br />感謝你的訂購，你所訂購的產品
+        <br />
+        <br />%(productName)s
+        <br />
+        <br />訂單已完成確認
+        <br />
+        <br />訂單編號為： %(orderSerialNumber)s
+        <br />收件者姓名： %(shipmentUsername)s
+        <br />收件者電話： %(phone)s
+        <br />收件者地址： %(shipmentAddress)s
+        <br />備註： %(note)s
+        <br />
+        <br />廠商將會盡快為您安排出貨
+        <br />
+        <br />
+        <br />From %(storeName)s
+        </body></html>`
+      }
     }
   }
 }

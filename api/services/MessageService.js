@@ -145,15 +145,21 @@ module.exports = {
     }
   },
   orderConfirm: (order = {
-    email, serialNumber, username
+    email, serialNumber, username, productName, shipmentUsername, shipmentAddress, note, phone
   }) => {
     try {
-      var orderConfirmTemplete = sails.config.mail.templete.orderConfirm;
+      var orderConfirmTemplete = sails.config.mail.templete.event.orderConfirm;
       var mailSendConfig = {...orderConfirmTemplete, to: order.email};
       mailSendConfig.subject = sprintf(mailSendConfig.subject, {orderSerialNumber: order.serialNumber});
-      mailSendConfig.text = sprintf(mailSendConfig.text, {
+      mailSendConfig.html = sprintf(mailSendConfig.html, {
         storeName: sails.config.storeName,
-        username: order.username
+        orderSerialNumber: order.serialNumber,
+        username: order.username,
+        productName: order.productName,
+        shipmentUsername: order.shipmentUsername,
+        shipmentAddress: order.shipmentAddress,
+        note: order.note,
+        phone: order.phone
       });
 
       mailSendConfig.type = 'orderConfirm';

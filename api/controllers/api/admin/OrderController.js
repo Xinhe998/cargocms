@@ -304,10 +304,17 @@ module.exports = {
       console.log('Order=>', order);
       console.log('Order.orderNumber=>', order.orderNumber);
       try {
-        const messageConfig = await MessageService.paymentConfirm({
+        const orderProductStringTable = await OrderService.stringOrderProduct({orderId: order.id});
+
+        const messageConfig = await MessageService.orderConfirm({
           email: order.email,
-          serialNumber: Order.orderNumber,
+          serialNumber: order.orderNumber,
           username: `${order.lastname}${order.firstname}`,
+          productName: orderProductStringTable,
+          shipmentUsername: `${order.lastname}${order.firstname}`,
+          shipmentAddress: order.shippingAddress1,
+          note: order.comment,
+          phone: order.shippingTelephone,
         });
         const mail = await Message.create(messageConfig);
         await MessageService.sendMail(mail);
