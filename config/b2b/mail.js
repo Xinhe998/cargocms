@@ -68,6 +68,24 @@ module.exports = {
         <br />
         <br />From %(storeName)s
         </body></html>`
+      },
+      orderConfirmToSupplier: {
+        sendBy: 'email',
+        subject: '出貨單 %(orderSerialNumber)s 已建立',
+        html: `<html><body>
+        <br />Hi %(supplier)s:
+        <br />
+        <br />出貨單 %(orderSerialNumber)s 已建立
+        <br />
+        <br />出貨單內產品
+        <br />%(productName)s
+        <br />
+        <br />收件者姓名： %(shipmentUsername)s
+        <br />收件者郵件： %(shipmentEmail)s
+        <br />收件者電話： %(phone)s
+        <br />收件者地址： %(shipmentAddress)s
+        <br />
+        </body></html>`
       }
     }
   }
