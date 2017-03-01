@@ -340,7 +340,7 @@ module.exports = {
             shipmentAddress: shipOrder.shippingAddress1,
             shipmentEmail: shipOrder.shippingEmail,
             phone: shipOrder.shippingTelephone,
-          }
+          };
           const messageConfig = await MessageService.shipOrderCreated(mailMessage);
           const supplierEmail = await Message.create(messageConfig);
           await MessageService.sendMail(supplierEmail);

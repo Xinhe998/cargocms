@@ -200,7 +200,7 @@ module.exports = {
           where: {
             SupplierShipOrderId: orderId
           }
-        }
+        };
       }
 
       const orderProducts = await sails.models[modelName].findAll(query);
