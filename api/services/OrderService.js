@@ -188,9 +188,22 @@ module.exports = {
     }
   },
 
-  stringOrderProduct: async ({ orderId }) => {
+  stringOrderProduct: async ({modelName, orderId }) => {
     try {
-      const orderProducts = await OrderProduct.findAll({ where: { OrderId: orderId }});
+      let query = {
+        where: {
+          OrderId: orderId
+        }
+      };
+      if (modelName === 'suppliershiporderproduct'){
+        query = {
+          where: {
+            SupplierShipOrderId: orderId
+          }
+        }
+      }
+
+      const orderProducts = await sails.models[modelName].findAll(query);
       let orderProductTable = '';
       for (const p of orderProducts) {
         orderProductTable += `
