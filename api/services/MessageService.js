@@ -377,6 +377,37 @@ module.exports = {
     } catch (e) {
       throw e;
     }
+  },
+  orderCreated: (result = {
+    productName, serialNumber, email, username, bankId, bankName,
+    accountId, accountName, paymentTotalAmount, shipmentUsername, shipmentAddress,
+    note, phone, invoiceNo
+  }) => {
+
+    try {
+
+      let orderToShopConfirm = sails.config.mail.templete.event.orderCreated;
+      let mailSendConfig = {...orderToShopConfirm, to: result.email};
+      let orderSerialNumber = result.serialNumber;
+      let DOMAIN_HOST = process.env.DOMAIN_HOST || 'localhost:5001';
+      let orderInfoLink = `http://${DOMAIN_HOST}/orderinfo/${orderSerialNumber}`
+
+      mailSendConfig.subject = sprintf(mailSendConfig.subject, { orderSerialNumber });
+      mailSendConfig.html = sprintf(mailSendConfig.html, {
+        ...result,
+        orderSerialNumber,
+        storeName: sails.config.storeName,
+        orderInfoLink
+      });
+
+      mailSendConfig.type = 'orderConfirm';
+
+      return mailSendConfig;
+
+    } catch (error) {
+      throw error;
+    }
+
   }
 
 };
