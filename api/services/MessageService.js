@@ -389,9 +389,7 @@ module.exports = {
     accountId, accountName, paymentTotalAmount, shipmentUsername, shipmentAddress,
     note, phone, invoiceNo
   }) => {
-
     try {
-
       let orderToShopConfirm = sails.config.mail.templete.event.orderCreated;
       let mailSendConfig = {...orderToShopConfirm, to: result.email};
       let orderSerialNumber = result.serialNumber;
@@ -413,7 +411,29 @@ module.exports = {
     } catch (error) {
       throw error;
     }
+  },
 
-  }
+  shipOrderCreated: (result = {
+    productName, serialNumber, email, supplier, shipmentUsername, shipmentEmail, shipmentAddress, phone
+  }) => {
+    try {
+      let orderToShopConfirm = sails.config.mail.templete.event.orderConfirmToSupplier;
+      let mailSendConfig = {...orderToShopConfirm, to: result.email};
+      let orderSerialNumber = result.serialNumber;
+
+      mailSendConfig.subject = sprintf(mailSendConfig.subject, { orderSerialNumber });
+      mailSendConfig.html = sprintf(mailSendConfig.html, {
+        ...result,
+        orderSerialNumber,
+      });
+
+      mailSendConfig.type = 'orderConfirm';
+
+      return mailSendConfig;
+
+    } catch (error) {
+      throw error;
+    }
+  },
 
 };
