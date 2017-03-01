@@ -304,7 +304,7 @@ module.exports = {
       console.log('Order=>', order);
       console.log('Order.orderNumber=>', order.orderNumber);
       try {
-        const orderProductStringTable = await OrderService.stringOrderProduct({orderId: order.id});
+        const orderProductStringTable = await OrderService.stringOrderProduct({ modelName:'orderproduct' , orderId: order.id });
         let mailMessage = {
           email: order.email,
           serialNumber: order.orderNumber,
@@ -325,7 +325,28 @@ module.exports = {
           let shippingMail = await Message.create(messageConfig);
           await MessageService.sendMail(shippingMail);
         }
-        
+
+        //supplier ship order info email
+        const supplierShipOrders = await SupplierShipOrder.findAll({ where: { OrderId: order.id } });
+        for (const shipOrder of supplierShipOrders) {
+          const supplier = await Supplier.findById(shipOrder.SupplierId);
+          const shipOrderProductTable = await OrderService.stringOrderProduct({ modelName:'suppliershiporderproduct' , orderId: shipOrder.id });
+          const mailMessage = {
+            email: supplier.email,
+            supplier: supplier.name,
+            serialNumber: shipOrder.shipOrderNumber,
+            productName: shipOrderProductTable,
+            shipmentUsername: `${shipOrder.lastname}${shipOrder.firstname}`,
+            shipmentAddress: shipOrder.shippingAddress1,
+            shipmentEmail: shipOrder.shippingEmail,
+            phone: shipOrder.shippingTelephone,
+          }
+          const messageConfig = await MessageService.shipOrderCreated(mailMessage);
+          const supplierEmail = await Message.create(messageConfig);
+          await MessageService.sendMail(supplierEmail);
+        }
+
+
       } catch (e) {
         sails.log.error(e);
       }
