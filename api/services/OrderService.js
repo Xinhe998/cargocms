@@ -187,4 +187,37 @@ module.exports = {
       throw e;
     }
   },
+
+  stringOrderProduct: async ({ orderId }) => {
+    try {
+      const orderProducts = await OrderProduct.findAll({ where: { OrderId: orderId }});
+      let orderProductTable = '';
+      for (const p of orderProducts) {
+        orderProductTable += `
+        <tr>
+          <td>${p.name}</td>
+          <td>${p.quantity}</td>
+          <td>${p.formatPrice}</td>
+          <td>${p.formatTotal}</td>
+        </tr>
+        `;
+      }
+      orderProductTable = `
+      <table>
+      <thead>
+        <tr>
+          <th>名稱</th><th>數量</th><th>單價</th><th>小計</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${orderProductTable}
+      </tbody>
+      </table>`;
+
+      return orderProductTable;
+    } catch (e) {
+      sails.log.error(e);
+      throw e;
+    }
+  }
 }
