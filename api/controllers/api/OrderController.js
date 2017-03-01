@@ -29,7 +29,7 @@ module.exports = {
       transaction.commit();
 
       try {
-        const orderProductStringTable = await OrderService.stringOrderProduct({orderId: order.id});
+        const orderProductStringTable = await OrderService.stringOrderProduct({ modelName:'orderproduct' ,orderId: order.id });
 
         let mailMessage = {};
         mailMessage.serialNumber = order.orderNumber;
