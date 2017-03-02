@@ -1,5 +1,6 @@
 module.exports.create = async(obj) => {
     // const { category, supplier, rawProduct } = obj;
+    const host = sails.config.appUrl;
     const category = {
         name: obj.category || obj.productName,
         engName: obj.categoryEng || 'product'
@@ -21,9 +22,9 @@ module.exports.create = async(obj) => {
     };
 
     const image = await Image.create({
-        filePath: `./data/product/${obj.image}`,
+        filePath: `${host}/assets/b2b/img/product/${obj.image}`,
         type: 'image/jpeg',
-        storage: 'local'
+        storage: 'url'
     });
 
     let findCategory = await Category.find({
@@ -32,9 +33,10 @@ module.exports.create = async(obj) => {
             where: { name: category.name }
         }]
     });
+    console.log('findCategory=>', findCategory);
     if (findCategory === null) {
         findCategory = await Category.create({
-            image: `./data/product/${obj.image}`,
+            image: image.url,
             top: 1,
             column: 2,
             sortOrder: 1,
@@ -42,7 +44,7 @@ module.exports.create = async(obj) => {
         });
 
         const initCategoryDesc = await CategoryDescription.create({
-            name: `${category.name}專區`,
+            name: category.name,
             description: `各種${category.name}海鮮產品`,
             metaTitle: `${category.name}`,
             metaDescription: `${category.name}`,
@@ -86,6 +88,7 @@ module.exports.create = async(obj) => {
         sortOrder: 0,
         publish: true,
         viewed: Math.floor(Math.random() * 90 + 10) * 12,
+        image: image.url,
         ImageId: image.id,
         SupplierId: findSupplier.id,
     };
@@ -103,9 +106,9 @@ module.exports.create = async(obj) => {
 
     const productImage = await ProductImage.create({
         ProductId: newProduct.id,
-        ImageId: image.id,
         image: image.url,
-        sortOrder: 1
+        sortOrder: 1,
+        ImageId: image.id,
     });
 
     const productTag = await ProductTag.create({
