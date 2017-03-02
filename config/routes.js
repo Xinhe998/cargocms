@@ -163,6 +163,11 @@ var defaultConfig = {
   'put /api/admin/suppliershiporderdescription/:id': 'api/admin/SupplierShipOrderDescriptionController.update',
   'delete /api/admin/suppliershiporderdescription/:id': 'api/admin/SupplierShipOrderDescriptionController.destroy',
 
+  'get /api/admin/roledetail': 'api/admin/RoleDetailController.find',
+  'get /api/admin/roledetail/:id': 'api/admin/RoleDetailController.findOne',
+  'post /api/admin/roledetail': 'api/admin/RoleDetailController.create',
+  'put /api/admin/roledetail/:id': 'api/admin/RoleDetailController.update',
+  'delete /api/admin/roledetail/:id': 'api/admin/RoleDetailController.destroy',
 
   //----- Event -----
   'get /events/:name': 'EventController.show',

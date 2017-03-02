@@ -1,0 +1,51 @@
+<fieldset>
+
+  
+    <section row="">
+      <label class="label">api</label>
+      <label class="input state-disabled ">
+      <input type="text" name="api" placeholder="" v-model="data.item.api" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入api</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">權限id</label>
+      <label class="input state-disabled ">
+      <input type="text" name="RoleId" placeholder="" v-model="data.item.RoleId" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入權限id</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">標籤</label>
+      <label class="input state-disabled ">
+      <input type="text" name="MenuItemId" placeholder="" v-model="data.item.MenuItemId" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入標籤</b></label>
+    </section>
+  
+
+</fieldset>
+<script>
+  var formRules = {
+    api:{
+      required: true,
+    },
+    RoleId:{
+      required: true,
+    },
+    MenuItemId:{
+      required: true,
+    },
+  };
+
+  var formMessages = {
+    api:{
+      required: "請給予 api",
+    },
+    RoleId:{
+      required: "請給予 權限id",
+    },
+    MenuItemId:{
+      required: "請給予 標籤",
+    },
+  };
+</script>
