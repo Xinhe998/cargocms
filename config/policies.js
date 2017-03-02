@@ -23,6 +23,7 @@ var defaultConfig = {
   'AuthController': {
     '*': ['passport'],
     'status': [],
+    'callback': ['passport', 'jwtEncode'],
   },
   ...customConfig,
   'BlogController': {

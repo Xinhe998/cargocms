@@ -129,8 +129,9 @@ exports.login = async (req, identifier, password, next) => {
       query.where.username = identifier;
     }
     let user = await User.findOne(query);
-    console.log("== user ==", user.toJSON());
-    if (!user) {
+    if (user) {
+      sails.log.info("== user ==", user.toJSON());
+    } else {
       if (isEmail) {
         throw new Error('Error.Passport.Email.NotFound');
       } else {
