@@ -49,6 +49,10 @@ module.exports.bootstrap = async (cb) => {
       where: {authority: 'admin'},
       defaults: {authority: 'admin'}
     });
+    let adminRoleDetail = await RoleDetail.findOrCreate({
+      where: {name: 'READ_WRITE'},
+      defaults: {name: 'READ_WRITE',api: 'testapi', RoleId: adminRole[0].dataValues.id}
+    });
     console.log("=== bootstrap create admin 1===");
     let userRole = await Role.findOrCreate({
       where: {authority: 'user'},
