@@ -213,11 +213,11 @@ var defaultVueMathod = {
 		}
 
 		var createButton = {
-			"sExtends": "text",
-			"sButtonText": "新增",
-			"fnClick": function (nButton, oConfig, oFlash) {
-				location.href = '/admin/#/admin/' + modelName + '/create';
-			}
+      "sExtends": "text",
+      "sButtonText": "新增",
+      "fnClick": function (nButton, oConfig, oFlash) {
+        location.href = '/admin/#/admin/' + modelName + '/create';
+      }
 		}
 
 		var defaultTableConfig = {
@@ -284,7 +284,10 @@ var defaultVueMathod = {
 							}
 						}
           },
-					createButton,
+          <% data.permissions ? '' : console.log("warning! 該頁面沒有設定權限"); %>
+					<% if(data.permissions && data.permissions.create) { %>
+            createButton,
+          <% }%>
 					{
 						"sExtends": "text",
 						"sButtonText": "編輯",
