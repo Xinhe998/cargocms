@@ -42,3 +42,23 @@ appMain.editDisabled = function(){
 appMain.createHide = function () {
   $('.fn-create-hide').hide();
 };
+
+appMain.DataTableInitComplete = function() {
+  $('.loading-wrapper').removeClass('active');
+  $('[type=search]').val($.urlParam('roleid'));
+};
+
+appMain.customSearch = function(data) {
+  var inputStatus = $.urlParam('roleid');
+  if(inputStatus !== null) {
+    appModel.pagingQuery.columns.push({
+      data: 'id',
+      searchable: true,
+      search: {
+        custom: {
+          where: $.urlParam('roleid'),
+        }
+      }
+    });
+  }
+};
