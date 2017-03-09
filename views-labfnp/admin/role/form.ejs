@@ -8,12 +8,31 @@
       <b class="tooltip tooltip-bottom-right">請輸入權限名稱</b></label>
     </section>
   
-
-    <a href="/admin/#/admin/roledetail?roleid={{ data.item.id }}" class="btn btn-default btn-lg btn-edit-only">詳細權限</a>
+    <section row="">
+      <label class="label">標題</label>
+      <label class="input state-disabled ">
+      <input type="text" name="title" placeholder="" v-model="data.item.title" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入標題</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">描述</label>
+      <label class="input state-disabled ">
+      <input type="text" name="description" placeholder="" v-model="data.item.description" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入描述</b></label>
+    </section>
+  
+<a href="/admin/#/admin/roledetail?roleid={{ data.item.id  }}" class="btn btn-default btn-lg btn-edit-only">詳細權限</a>
 </fieldset>
 <script>
   var formRules = {
     authority:{
+      required: true,
+    },
+    title:{
+      required: true,
+    },
+    description:{
       required: true,
     },
   };
@@ -21,6 +40,12 @@
   var formMessages = {
     authority:{
       required: "請給予 權限名稱",
+    },
+    title:{
+      required: "請給予 標題",
+    },
+    description:{
+      required: "請給予 描述",
     },
   };
 </script>

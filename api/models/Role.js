@@ -1,6 +1,17 @@
 module.exports = {
   attributes: {
-    authority: Sequelize.STRING
+    authority: {
+      type: Sequelize.STRING(255),
+      allowNull: false,
+    },
+    title: {
+      type: Sequelize.STRING(255),
+      allowNull: false,
+    },
+    description: {
+      type: Sequelize.STRING(255),
+      allowNull: false,
+    }
   },
 
   associations: function() {

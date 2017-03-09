@@ -10,6 +10,18 @@
           權限名稱
         </th>
       
+        
+        <th data-hide=""
+        data-class="" class="no-sort">
+          標題
+        </th>
+      
+        
+        <th data-hide=""
+        data-class="" class="no-sort">
+          描述
+        </th>
+      
       <th width="80" data-hide="phone,tablet"></th>
     </tr>
   </thead>
@@ -18,6 +30,10 @@
     <tr v-for="item in data.items">
       
         <td>{{ item.authority}}</td>
+      
+        <td>{{ item.title}}</td>
+      
+        <td>{{ item.description}}</td>
       
       <td align="center" style="cursor: pointer;">
         <div class="row">
@@ -44,6 +60,14 @@
           { "data": "authority" },
         
       
+        
+          { "data": "title" },
+        
+      
+        
+          { "data": "description" },
+        
+      
         { "data": null },
     ]
 
@@ -52,8 +76,12 @@
       
         
       
+        
+      
+        
+      
       {
-        "targets"  : 1,
+        "targets"  : 3,
         "orderable": false,
         "searchable": false,
         "render": function ( data, type, row ) {
