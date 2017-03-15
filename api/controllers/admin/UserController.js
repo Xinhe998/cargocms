@@ -13,9 +13,11 @@ module.exports = {
     });
   },
   edit: async (req, res) => {
+    let allRole = await Role.findAll();
     res.ok({
       view: true,
-      layout: 'admin/default/edit'
+      layout: 'admin/default/edit',
+      allRole: allRole,
     });
 
   },

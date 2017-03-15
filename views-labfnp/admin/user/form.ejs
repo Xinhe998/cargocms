@@ -1,15 +1,12 @@
 <fieldset>
-
   <section>
     <label class="label">權限</label>
+    <% for(var i=0, len = data.allRole.length; i< len; i++) { %>
     <label class="checkbox state-disabled">
-      <input type="checkbox" id="admin" name="admin" value="admin" v-model="data.item.rolesArray">
-      <i></i>管理員</label>
-    <label class="user checkbox state-disabled">
-      <input type="checkbox" id="user" name="user" value="user" v-model="data.item.rolesArray" checked disabled>
-      <i></i>使用者</label>
+      <input type="checkbox" id="<%- data.allRole[i].authority %>" name="<%- data.allRole[i].authority %>" value="<%- data.allRole[i].authority %>" v-model="data.item.rolesArray" checked disabled>
+      <i></i><%- data.allRole[i].title %></label>
+    <% } %>
   </section>
-
   <br>
   <hr>
   <br>
@@ -169,4 +166,5 @@ var formMessages = {
     dateISO : "請輸入正確日期格式"
   },
 }
+console.log();
 </script>
