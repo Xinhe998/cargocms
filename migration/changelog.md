@@ -102,3 +102,11 @@
 ### Feed 欄位變動
 * 修改 fullPicture 欄位 型態 STRING 修改為 TEXT
 * type 欄位等於 'status'，將 publish欄位 修改為 false
+
+## v7
+
+### Role 欄位變動
+* 新增 authority、title、description
+
+
+
