@@ -291,7 +291,10 @@ var defaultVueMathod = {
 							}
 						}
           },
-					createButton,
+          <% data.permissions ? '' : console.log("warning! 該頁面沒有設定權限"); %>
+					<% if(data.permissions && data.permissions.create) { %>
+            createButton,
+          <% }%>
 					{
 						"sExtends": "text",
 						"sButtonText": "編輯",

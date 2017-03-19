@@ -1,9 +1,20 @@
 module.exports = {
   index: async (req, res) => {
+    const modelName = req.options.controller.split("/").reverse()[0];
+    sails.log.info("modelName", modelName);
+    const user = AuthService.getSessionUser(req);
+    const roles = await RoleService.getUserAllRole({ user });
+    // TODO: 根據 roles 判斷權限，使用 RoleService.hasRoleDetailOfMenuItem
     res.ok({
       view: true,
       serverSidePaging: true,
-      layout: 'admin/default/index'
+      layout: 'admin/default/index',
+      // TODO: 根據 Role 替換
+      permissions: {
+        create: true,
+        update: true,
+        delete: true,
+      },
     });
   },
   create: async (req, res) => {
@@ -17,14 +28,23 @@ module.exports = {
     res.ok({
       view: true,
       layout: 'admin/default/edit',
-      allRole: allRole,
+      permissions: {
+        create: true,
+        update: true,
+        delete: true,
+      },
     });
 
   },
   show: async (req, res) => {
     res.ok({
       view: true,
-      layout: 'admin/user/show'
+      layout: 'admin/user/show',
+      permissions: {
+        create: true,
+        update: true,
+        delete: true,
+      },
     });
   },
 }
