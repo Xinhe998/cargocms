@@ -4,9 +4,20 @@ var COMMON = {
   DEFAULT_AVATAR: "/assets/admin/img/avatars/default.png",
 };
 
+$.urlParam = function(name){
+  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  if (results==null){
+     return null;
+  }
+  else{
+     return results[1] || 0;
+  }
+}
+
 var itemBeforeEdit = {};
 var prefix = 'admin/';
 var modelName = "roledetail";
+var inputStatus = $.urlParam('roleid');
 var appModel = {
   modelName: modelName,
   prefix: prefix,
@@ -46,13 +57,21 @@ appMain.createHide = function () {
 appMain.DataTableInitComplete = function() {
   $('.loading-wrapper').removeClass('active');
   $('[type=search]').val($.urlParam('roleid'));
+  if($.urlParam('roleid') !== null) {
+    $("#main-table_filter").attr('disabled', false);
+    $("#main-table_filter").hide();
+  }
 };
 
+appMain.enableSelect = function () {
+  $('select').attr('disabled', false);
+  $('.select').removeClass('state-disabled');                  
+}  
+
 appMain.customSearch = function(data) {
-  var inputStatus = $.urlParam('roleid');
   if(inputStatus !== null) {
     appModel.pagingQuery.columns.push({
-      data: 'id',
+      data: 'RoleId',
       searchable: true,
       search: {
         custom: {
@@ -62,3 +81,104 @@ appMain.customSearch = function(data) {
     });
   }
 };
+
+appMain.save = function (event) {
+  var ajaxSuccess = function (result) {
+    var callbackUrl = $('#main-form').data('callback') || '' || "/" + modelName + "?roleid=" + inputStatus;
+    var url = '/admin/#/admin/' + modelName;
+    if (callbackUrl!== '') {
+      url = '/admin/#/admin' + callbackUrl;
+    }
+    location.href = url;
+    messageApp.show({
+      desc: '新增成功！',
+      type: 'success'
+    });
+  }; // end ajaxSuccess
+
+  var ajaxError = function (result) {
+    messageApp.show({
+      desc: '新增資料失敗！errorMessage: ' + result.responseJSON.message,
+      type: 'error',
+    });
+  };
+
+  $.ajax({
+    url: '/api/' + prefix + modelName,
+    type: 'POST',
+    dataType: 'json',
+    data: appModel.data.item,
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: ajaxSuccess,
+    error: ajaxError,
+  });
+};
+
+appMain.cancel= function (event) {
+  inputStatus === null ? inputStatus = '' : inputStatus = "/" + modelName + "?roleid=" + inputStatus;
+  var callbackUrl = $('#main-form').data('callback') || '' || inputStatus;
+  var url = '/admin/#/admin/' + modelName;
+  if (callbackUrl!== '') {
+    url = '/admin/#/admin' + callbackUrl;
+  }
+  appMain.onLeavePageEdit(function() {
+    location.href = url;
+  });
+  inputStatus = $.urlParam('roleid');
+};
+
+appMain.edit = function(id) {
+  inputStatus === null ? inputStatus = '' : inputStatus = "?roleid=" + inputStatus;
+  location.href = '/admin/#/admin/' + modelName + '/edit/' + id + inputStatus;
+  inputStatus = $.urlParam('roleid');
+}
+
+appMain.delete = function (event) {
+  var msg = {
+    title: '刪除',
+    content: '確認刪除此筆資料？',
+    btnArray: ['刪除', '取消'],
+  };
+  var action = function (ButtonPressed) {
+    if (ButtonPressed === '刪除') {
+      var ajaxSuccess = function (result) {
+        appModel.view.table.selectIndex = COMMON.DEFAULT_INDEX;
+        messageApp.show({
+          desc: `刪除資料成功！`,
+          type: 'success'
+        });
+        var callbackUrl = $('#main-form').data('callback') || '' || "/" + modelName + "?roleid=" + inputStatus;
+        var url = '/admin/#/admin/' + modelName;
+        if (callbackUrl!== '') {
+          url = '/admin/#/admin' + callbackUrl;
+        }
+        location.href = url;
+        setTimeout(function () {
+          location.href = url;
+        }, 500);
+      }; // end ajaxSuccess
+
+      var ajaxError = function (result) {
+        messageApp.show({
+          desc: '刪除資料失敗！errorMessage: ' + result.responseJSON.message,
+          type: 'error'
+        });
+      };
+
+      $.ajax({
+        url: '/api/' + prefix + modelName + '/' + appModel.data.item.id,
+        type: 'DELETE',
+        dataType: 'json',
+        xhrFields: {
+          withCredentials: true
+        },
+        success: ajaxSuccess,
+        error: ajaxError,
+      });
+    }
+  };
+  messageApp.confirm(msg, action);
+};
+

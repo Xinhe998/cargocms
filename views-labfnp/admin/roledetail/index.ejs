@@ -7,7 +7,7 @@
         
         <th data-hide=""
         data-class="" class="no-sort">
-          名稱
+          權限
         </th>
       
         
@@ -19,13 +19,13 @@
         
         <th data-hide=""
         data-class="" class="no-sort">
-          權限id
+          權限名稱
         </th>
       
         
         <th data-hide=""
         data-class="" class="no-sort">
-          標籤
+          選單名稱
         </th>
       
         <th width="80" data-hide="phone,tablet" class="lastTh"></th>
@@ -81,7 +81,20 @@
       
         { "data": null },
     ]
-
+    var MenuItemIdNames = {
+      <% data.menuItems.forEach(function(item) { %>
+      <% if (item.SubMenuItems && item.SubMenuItems.length > 0) { %>
+        <% item.SubMenuItems.forEach(function(subItem) { %>
+            "<%= subItem.id %>": "<%= subItem.title %>",
+        <% }); %>
+      <% } %>
+    <% }); %>
+    };
+    var RoleIds = {
+      <% data.roleid.forEach(function(item) { %>
+        "<%= item.id %>": "<%= item.authority %>",
+    <% }); %>
+    };
     // server only
     var columnDefs = [
       
@@ -91,6 +104,18 @@
       
         
       
+      {
+        "targets"  : 2,
+        "render": function ( data, type, row ) {
+          return '<p>'+ RoleIds[data] +'</p>'
+        }
+      },
+      {
+        "targets"  : 3,
+        "render": function ( data, type, row ) {
+          return '<p>'+ MenuItemIdNames[data] +'</p>'
+        }
+      },
       {
         "targets"  : "lastTh",
         "orderable": false,
@@ -112,16 +137,7 @@
     var serverSidePaging = <%= (data.serverSidePaging != null)?data.serverSidePaging:false %>;
     <%- include vue.ejs %>
     appMain.$mount("#main-index");
-    appMain.loadItems(appMain.renderTable);
+    appMain.loadItems(appMain.renderTable("?roleid=" + $.urlParam('roleid')));
   };
 
-  $.urlParam = function(name){
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results==null){
-       return null;
-    }
-    else{
-       return results[1] || 0;
-    }
-  }
 </script>

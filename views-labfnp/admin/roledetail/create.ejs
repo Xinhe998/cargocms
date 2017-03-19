@@ -11,6 +11,10 @@
 		appMain.onEnterPageEdit();
     appMain.createHide();
     appMain.editDisabled();
+    appMain.enableSelect();
 
-	};
+    if(inputStatus !== null) {
+      appMain.data.item.RoleId = inputStatus;
+    }
+  };
 </script>
