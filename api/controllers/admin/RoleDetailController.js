@@ -1,8 +1,4 @@
-var menuItems = {}, roleid = {};
-(async function() {
-  menuItems = await MenuItem.findAllWithSubMenu();
-  roleid = await Role.findAll();
-})();
+var RoleNames = ["READ_WRITE", "READ", "CREATE", "UPDATE", "DELETE"];
 
 module.exports = {
   index: async (req, res) => {
@@ -10,27 +6,28 @@ module.exports = {
       view: true,
       serverSidePaging: true,
       layout: 'admin/default/index',
-      name: ["READ_WRITE", "READ", "CREATE", "UPDATE", "DELETE"],
-      roleid: roleid,
-      menuItems: menuItems
+      name: RoleNames,
+      roleid: await Role.findAll(),
+      menuItems: await MenuItem.findAllWithSubMenu()
     });
+    sails.log.info(RoleDetailService.getRoleid());
   },
   create: async (req, res) => {
     res.ok({
       view: true,
       layout: 'admin/default/create',
-      name: ["READ_WRITE", "READ", "CREATE", "UPDATE", "DELETE"],
-      roleid: roleid,
-      menuItems: menuItems
+      name: RoleNames,
+      roleid: await Role.findAll(),
+      menuItems: await MenuItem.findAllWithSubMenu()
     });
   },
   edit: async (req, res) => {
     res.ok({
       view: true,
       layout: 'admin/default/edit',
-      name: ["READ_WRITE", "READ", "CREATE", "UPDATE", "DELETE"],
-      roleid: roleid,
-      menuItems: menuItems
+      name: RoleNames,
+      roleid: await Role.findAll(),
+      menuItems: await MenuItem.findAllWithSubMenu()
     });
 
   },
@@ -38,9 +35,9 @@ module.exports = {
     res.ok({
       view: true,
       layout: 'admin/default/show',
-      name: ["READ_WRITE", "READ", "CREATE", "UPDATE", "DELETE"],
-      roleid: roleid,
-      menuItems: menuItems
+      name: RoleNames,
+      roleid: await Role.findAll(),
+      menuItems: await MenuItem.findAllWithSubMenu()
     });
   },
 }

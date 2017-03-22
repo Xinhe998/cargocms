@@ -33,6 +33,7 @@ module.exports = {
         update: true,
         delete: true,
       },
+      allRole: allRole,
     });
 
   },
