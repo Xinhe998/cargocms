@@ -48,6 +48,8 @@ var appModel = {
 appMain.editDisabled = function(){
   $('label.fn-edit-disabled > input').attr('disabled', true);
   $('label.fn-edit-disabled').addClass('state-disabled');
+  $('#roleid').attr('disabled', true);
+  $('#roleid').parent().addClass('state-disabled');
 };
 
 appMain.createHide = function () {

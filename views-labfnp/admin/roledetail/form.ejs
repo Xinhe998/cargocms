@@ -21,7 +21,7 @@
     <section row="">
       <label class="label">權限名稱</label>
       <label class="select state-disabled ">
-      <select v-model="data.item.RoleId" disabled>
+      <select v-model="data.item.RoleId" disabled id="roleid">
         <% data.roleid.forEach(function(item) { %>
           <option value="<%- item.id %>"><%- item.authority %></option>
         <% }); %>

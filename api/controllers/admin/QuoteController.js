@@ -9,12 +9,15 @@ module.exports = {
     });
   },
   create: async (req, res) => {
+    const permissions = await UserService.getPermissions(req);
     res.ok({
       view: true,
       layout: 'admin/default/create',
+      permissions,
     });
   },
   edit: async (req, res) => {
+    const permissions = await UserService.getPermissions(req);
     res.ok({
       view: true,
       layout: 'admin/default/edit',
@@ -23,6 +26,7 @@ module.exports = {
 
   },
   show: async (req, res) => {
+    const permissions = await UserService.getPermissions(req);
     res.ok({
       view: true,
       layout: 'admin/default/show',
