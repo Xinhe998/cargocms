@@ -1,6 +1,8 @@
 module.exports = {
   index: async (req, res) => {
-    res.ok({view: true});
+    res.ok({
+      view: true,
+    });
   },
   create: async (req, res) => {
     res.ok({view: true});

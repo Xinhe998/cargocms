@@ -9,7 +9,7 @@ const url = require('url');
 
 module.exports = {
 
-  index: function(req, res) {
+  index: async function(req, res) {
     let loginUser = null;
     let displayName = '未登入';
     let avatar = '/assets/admin/img/avatars/default.png';
@@ -23,7 +23,7 @@ module.exports = {
     MenuItem.findAllWithSubMenu().then((menuItems) => {
       res.ok({
         view: true,
-        menuItems, loginUser, avatar, displayName
+        menuItems, loginUser, avatar, displayName,
       });
 
     });

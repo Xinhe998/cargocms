@@ -2,6 +2,20 @@ import jwt from 'jsonwebtoken';
 import moment from 'moment';
 
 module.exports = {
+  getPermissions: async (req) => {
+    try {
+      const model = req.options.controller.split("/").reverse()[0];
+      const user = AuthService.getSessionUser(req);
+      const roles = await RoleService.getUserAllRole({ user });
+      return { 
+        'create': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'CREATE' }),
+        'update': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'UPDATE' }),
+        'delete': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'DELETE' }),
+      };
+    } catch (e) {
+      throw e;
+    }
+  },
   findAll: async () => {
     try {
       return await User.findAll();
