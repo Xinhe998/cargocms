@@ -69,10 +69,13 @@
 							<footer>
 								<button type="button" v-on:click="cancel" class="btn btn-default">
 									取消
-								</button>
+                </button>
+                <% data.permissions ? '' : console.log("warning! 該頁面沒有設定權限"); %>
+                <% if(data.permissions && data.permissions.create) { %> }
 								<button type="submit" class="btn btn-primary">
 									送出
-								</button>
+                </button>
+                <% }%>
 							</footer>
 						</form>
 
