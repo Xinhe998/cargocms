@@ -84,7 +84,8 @@ appMain.customSearch = function(data) {
 
 appMain.save = function (event) {
   var ajaxSuccess = function (result) {
-    var callbackUrl = $('#main-form').data('callback') || '' || "/" + modelName + "?roleid=" + inputStatus;
+    inputStatus === null ? inputStatus = '' : inputStatus = "/" + modelName + "?roleid=" + inputStatus; 
+    var callbackUrl = $('#main-form').data('callback') || '' || inputStatus;
     var url = '/admin/#/admin/' + modelName;
     if (callbackUrl!== '') {
       url = '/admin/#/admin' + callbackUrl;

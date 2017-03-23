@@ -49,7 +49,7 @@ var defaultVueMathod = {
       if(typeof getQuery === 'undefined' || getQuery === '' || getQuery.match(/roleid=([^&]*)/)[1] == 'null') {
         getQuery = '';
       }
-			var callbackUrl = $('#main-form').data('callback') || '' || "/" + modelName + getQuery;
+			var callbackUrl = $('#main-form').data('callback') || "/" + modelName + getQuery;
       var url = '/admin/#/admin/' + modelName;
 			if (callbackUrl!== '') {
 				url = '/admin/#/admin' + callbackUrl;
