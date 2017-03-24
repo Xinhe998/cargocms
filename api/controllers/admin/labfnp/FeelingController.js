@@ -1,6 +1,8 @@
 module.exports = {
   index: async (req, res) => {
-    const permissions = UserService.getPermissions(req);
+    const model = req.options.controller.split("/").reverse()[0];
+    const user = AuthService.getSessionUser(req);
+    const permissions = await UserService.getPermissions(model, user);
     res.ok({
       view: true,
       serverSidePaging: true,
@@ -9,7 +11,9 @@ module.exports = {
     });
   },
   create: async (req, res) => {
-    const permissions = UserService.getPermissions(req);
+    const model = req.options.controller.split("/").reverse()[0];
+    const user = AuthService.getSessionUser(req);
+    const permissions = await UserService.getPermissions(model, user);
     res.ok({
       view: true,
       layout: 'admin/default/create',
@@ -17,7 +21,9 @@ module.exports = {
     });
   },
   edit: async (req, res) => {
-    const permissions = UserService.getPermissions(req);
+    const model = req.options.controller.split("/").reverse()[0];
+    const user = AuthService.getSessionUser(req);
+    const permissions = await UserService.getPermissions(model, user);
     res.ok({
       view: true,
       layout: 'admin/default/edit',
@@ -26,7 +32,9 @@ module.exports = {
 
   },
   show: async (req, res) => {
-    const permissions = UserService.getPermissions(req);
+    const model = req.options.controller.split("/").reverse()[0];
+    const user = AuthService.getSessionUser(req);
+    const permissions = await UserService.getPermissions(model, user);
     res.ok({
       view: true,
       layout: 'admin/default/show',
