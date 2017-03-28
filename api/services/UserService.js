@@ -2,16 +2,18 @@ import jwt from 'jsonwebtoken';
 import moment from 'moment';
 
 module.exports = {
-  getPermissions: async (req) => {
+  getPermissions: async (model, user) => {
     try {
-      const model = req.options.controller.split("/").reverse()[0];
-      const user = AuthService.getSessionUser(req);
       const roles = await RoleService.getUserAllRole({ user });
-      return { 
+      let test = { 
+        'read_write': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'READ_WRITE' }),
+        'read': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'READ' }),
         'create': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'CREATE' }),
         'update': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'UPDATE' }),
         'delete': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'DELETE' }),
       };
+      sails.log.info(test);
+      return test;
     } catch (e) {
       throw e;
     }

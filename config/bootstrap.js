@@ -49,20 +49,11 @@ module.exports.bootstrap = async (cb) => {
       where: {authority: 'admin'},
       defaults: {authority: 'admin', title: '管理員', description: "admin"}
     });
-    let adminRoleDetail = await RoleDetail.findOrCreate({
-      where: {name: 'READ_WRITE'},
-      defaults: {name: 'READ_WRITE',api: 'testapi', RoleId: adminRole[0].dataValues.id}
-    });
     console.log("=== bootstrap create admin 1===");
     let userRole = await Role.findOrCreate({
       where: {authority: 'user'},
       defaults: {authority: 'user', title: "使用者", description: "一般用戶"}
     });
-    let userRoleDetail = await RoleDetail.findOrCreate({
-      where: {name: 'READ'},
-      defaults: {name: 'READ',api: 'testapi2', RoleId: userRole[0].dataValues.id}
-    });
-
 
     let adminUser = await User.findOne({
       where: {username: 'admin'}
