@@ -75,18 +75,23 @@ var userApp = new Vue({
              "fnClick": function ( nButton, oConfig, oFlash ) {
              }
            },
+          <% data.permissions ? '' : console.log("warning! 該頁面沒有設定權限"); %>
+					<% if(data.permissions && (data.permissions.create || data.permissions.read_write)) { %>
            {
              "sExtends": "text",
              "sButtonText": "新增",
              "fnClick": function ( nButton, oConfig, oFlash ) {
              }
            },
+          <% } %>
+					<% if(data.permissions && (data.permissions.update || data.permissions.read_write)) { %>
            {
              "sExtends": "text",
              "sButtonText": "編輯",
              "fnClick": function ( nButton, oConfig, oFlash ) {
              }
            },
+          <% } %>
          ]
        },
        "autoWidth" : true,
