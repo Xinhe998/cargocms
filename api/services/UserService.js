@@ -5,15 +5,14 @@ module.exports = {
   getPermissions: async (model, user) => {
     try {
       const roles = await RoleService.getUserAllRole({ user });
-      let test = { 
+      let result = { 
         'read_write': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'READ_WRITE' }),
         'read': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'READ' }),
         'create': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'CREATE' }),
         'update': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'UPDATE' }),
         'delete': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'DELETE' }),
       };
-      sails.log.info(test);
-      return test;
+      return result;
     } catch (e) {
       throw e;
     }

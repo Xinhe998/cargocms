@@ -3,6 +3,7 @@ module.exports = {
 
   getUserAllRole: async({ user }) => {
     try {
+      // sails.log.info(roles, model, roleDetailName);
       const findUser = await User.findOne({
         where: {
           id: user.id
@@ -34,7 +35,7 @@ module.exports = {
 
   hasRoleDetailOfMenuItem: function({ roles, model, roleDetailName }) {
     try {
-      sails.log.info(roles, model, roleDetailName);
+
       const menuItem = roles.filter((data) => {
         return _.isMatch(data, {
           name: roleDetailName,

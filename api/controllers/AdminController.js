@@ -14,18 +14,30 @@ module.exports = {
     let displayName = '未登入';
     let avatar = '/assets/admin/img/avatars/default.png';
     loginUser = AuthService.getSessionUser(req);
+    let roleDetailName = 'READ';
 
     if(loginUser != null){
       if(loginUser.avatar != null) avatar = loginUser.avatar
       displayName = loginUser.displayName
     }
 
-    MenuItem.findAllWithSubMenu().then((menuItems) => {
+    MenuItem.findAllWithSubMenu().then(async(menuItems) => {
+      for (var i = 0, len = menuItems.length; i < len; i++) {
+        if (menuItems[i].SubMenuItems && menuItems[i].SubMenuItems.length > 0){
+          for (var y = 0; y < menuItems[i].SubMenuItems.length; y++) {
+            let model = menuItems[i].SubMenuItems[y].dataValues.model;
+            let permissions = await UserService.getPermissions(model, loginUser);
+            if(permissions.read_write!==true && permissions.read===false) {
+              menuItems[i].SubMenuItems.splice(y, 1);
+              y-=1;
+            }
+          }
+        }
+      }
       res.ok({
         view: true,
         menuItems, loginUser, avatar, displayName,
       });
-
     });
   },
 
