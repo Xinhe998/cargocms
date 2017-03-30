@@ -2,15 +2,14 @@ import jwt from 'jsonwebtoken';
 import moment from 'moment';
 
 module.exports = {
-  getPermissions: async (model, user) => {
+  getPermissions: (roles, model, user) => {
     try {
-      const roles = await RoleService.getUserAllRole({ user });
       let result = { 
-        'read_write': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'READ_WRITE' }),
-        'read': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'READ' }),
-        'create': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'CREATE' }),
-        'update': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'UPDATE' }),
-        'delete': await RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'DELETE' }),
+        'read_write': RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'READ_WRITE' }),
+        'read': RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'READ' }),
+        'create': RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'CREATE' }),
+        'update': RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'UPDATE' }),
+        'delete': RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'DELETE' }),
       };
       return result;
     } catch (e) {

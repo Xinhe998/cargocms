@@ -15,29 +15,30 @@ module.exports = {
     let avatar = '/assets/admin/img/avatars/default.png';
     loginUser = AuthService.getSessionUser(req);
     let roleDetailName = 'READ';
+    let roles = await RoleService.getUserAllRole({ user:loginUser });
 
     if(loginUser != null){
       if(loginUser.avatar != null) avatar = loginUser.avatar
       displayName = loginUser.displayName
     }
 
-    MenuItem.findAllWithSubMenu().then(async(menuItems) => {
-      for (var i = 0, len = menuItems.length; i < len; i++) {
-        if (menuItems[i].SubMenuItems && menuItems[i].SubMenuItems.length > 0){
-          for (var y = 0; y < menuItems[i].SubMenuItems.length; y++) {
-            let model = menuItems[i].SubMenuItems[y].dataValues.model;
-            let permissions = await UserService.getPermissions(model, loginUser);
-            if(permissions.read_write!==true && permissions.read===false) {
-              menuItems[i].SubMenuItems.splice(y, 1);
-              y-=1;
-            }
+    let menuItems =  await MenuItem.findAllWithSubMenu();
+    for(let menuItem of menuItems) {
+      if (menuItem.SubMenuItems && menuItem.SubMenuItems.length > 0) {
+        for (var subitemNum = 0; subitemNum < menuItem.SubMenuItems.length; subitemNum++) {
+          let model = menuItem.SubMenuItems[subitemNum].dataValues.model;
+          let permissions = UserService.getPermissions(roles, model, loginUser);
+          let forbiddenMenuItem = permissions.read_write === false && permissions.read===false;
+          if(forbiddenMenuItem) {
+            menuItem.SubMenuItems.splice(subitemNum, 1);
+            subitemNum-=1;
           }
         }
       }
-      res.ok({
-        view: true,
-        menuItems, loginUser, avatar, displayName,
-      });
+    }
+    res.ok({
+      view: true,
+      menuItems, loginUser, avatar, displayName,
     });
   },
 
