@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import moment from 'moment';
 
 module.exports = {
-  getPermissions: (roles, model, user) => {
+  getPermissions: (roles, model) => {
     try {
       let result = { 
         'read_write': RoleService.hasRoleDetailOfMenuItem({ roles:roles , model: model, roleDetailName:'READ_WRITE' }),
