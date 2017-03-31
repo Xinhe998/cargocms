@@ -14,6 +14,17 @@ $.urlParam = function(name){
   }
 }
 
+var hrefRefreshQuery = function () {
+  let hrefRefreshQuery ='';
+  if($.urlParam('roleid')!==null) {
+    hrefRefreshQuery = '&refresh=true';
+  } else {
+    hrefRefreshQuery = '?refresh=true';
+  }
+  return hrefRefreshQuery;
+}
+
+
 var itemBeforeEdit = {};
 var prefix = 'admin/';
 var modelName = "roledetail";
@@ -56,8 +67,20 @@ appMain.createHide = function () {
   $('.fn-create-hide').hide();
 };
 
+appMain.refresh = function () {
+  console.log($.urlParam('refresh'));
+  if($.urlParam('refresh') === 'true') {
+  let inputQuery = '';
+    if($.urlParam('roleid') !== null) inputQuery = '?roleid=' + $.urlParam('roleid');
+    window.location.reload();
+    window.location.replace(location.protocol + "//" + location.host + '/admin/#/admin/roledetail' + inputQuery);
+  }
+}
+
 appMain.DataTableInitComplete = function() {
-  $('.loading-wrapper').removeClass('active');
+  if($.urlParam('refresh') === null || !$.urlParam('refresh')) {
+    $('.loading-wrapper').removeClass('active');
+  }
   $('[type=search]').val($.urlParam('roleid'));
   if($.urlParam('roleid') !== null) {
     $("#main-table_filter").attr('disabled', false);
@@ -92,7 +115,7 @@ appMain.save = function (event) {
     if (callbackUrl!== '') {
       url = '/admin/#/admin' + callbackUrl;
     }
-    location.href = url;
+    location.href = url + hrefRefreshQuery();
     messageApp.show({
       desc: '新增成功！',
       type: 'success'
@@ -158,9 +181,9 @@ appMain.delete = function (event) {
         if (callbackUrl!== '') {
           url = '/admin/#/admin' + callbackUrl;
         }
-        location.href = url;
+        location.href = url + hrefRefreshQuery();
         setTimeout(function () {
-          location.href = url;
+          location.href = url + hrefRefreshQuery();
         }, 500);
       }; // end ajaxSuccess
 

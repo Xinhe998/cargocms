@@ -27,7 +27,7 @@ module.exports = {
       if (menuItem.SubMenuItems && menuItem.SubMenuItems.length > 0) {
         for (var subitemNum = 0; subitemNum < menuItem.SubMenuItems.length; subitemNum++) {
           let model = menuItem.SubMenuItems[subitemNum].dataValues.model;
-          let permissions = UserService.getPermissions(roles, model, loginUser);
+          let permissions = UserService.getPermissions(roles, model);
           let forbiddenMenuItem = permissions.read_write === false && permissions.read===false;
           if(forbiddenMenuItem) {
             menuItem.SubMenuItems.splice(subitemNum, 1);

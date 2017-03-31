@@ -139,7 +139,10 @@
     var serverSidePaging = <%= (data.serverSidePaging != null)?data.serverSidePaging:false %>;
     <%- include vue.ejs %>
     appMain.$mount("#main-index");
-    appMain.loadItems(appMain.renderTable("?roleid=" + $.urlParam('roleid')));
+    appMain.loadItems(function() {
+      appMain.refresh();
+      appMain.renderTable("?roleid=" + $.urlParam('roleid'));
+    });
   };
 
 </script>

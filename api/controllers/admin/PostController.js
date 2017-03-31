@@ -18,7 +18,7 @@ module.exports = {
     const user = AuthService.getSessionUser(req);
     const roles = await RoleService.getUserAllRole({ user });
     const permissions = UserService.getPermissions(roles, model);
-    if(permissions.read === true || permissions.read_write === true || permissions.create === true) {
+    if(permissions.read_write === true || permissions.create === true) {
       res.ok({
         view: true,
         permissions,
@@ -32,7 +32,7 @@ module.exports = {
     const user = AuthService.getSessionUser(req);
     const roles = await RoleService.getUserAllRole({ user });
     const permissions = UserService.getPermissions(roles, model);
-    if(permissions.read === true || permissions.read_write === true || permissions.update === true) {
+    if(permissions.read_write === true || permissions.update === true) {
       res.ok({
         view: true,
         permissions,
