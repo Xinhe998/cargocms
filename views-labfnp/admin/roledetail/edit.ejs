@@ -12,6 +12,9 @@
       appMain.onEnterPageEdit();
       appMain.enableSelect();
       appMain.editDisabled();
+      <% if(data.user === 'admin') { %>
+          appMain.removeDelete();
+      <% } %>
     });
     appMain.setupForm("edit", "?roleid=" + $.urlParam('roleid'), checkRefresh);
 	};

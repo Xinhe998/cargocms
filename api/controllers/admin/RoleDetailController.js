@@ -51,6 +51,7 @@ module.exports = {
         roleid: await Role.findAll(),
         menuItems: await MenuItem.findAllWithSubMenu(),
         permissions,
+        user: user.username
       });
     } else {
       res.forbidden();

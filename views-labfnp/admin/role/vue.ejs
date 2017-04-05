@@ -47,3 +47,11 @@ appMain.editOnlyMethod = function(){
 appMain.createHide = function () {
   $('.fn-create-hide').hide();
 };
+
+appMain.removeDelete = function () {
+  var editUser = $('input[name="authority"]').val();
+  if(editUser === 'admin') {
+    $('.btn-danger').attr('disabled', true);
+    $('.btn-danger').hide();
+  }
+}

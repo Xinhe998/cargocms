@@ -209,3 +209,10 @@ appMain.delete = function (event) {
   messageApp.confirm(msg, action);
 };
 
+appMain.removeDelete = function () {
+  var selectText = $('#roleName option:selected').text();
+  if(selectText === '詳細權限' || selectText === '權限') {
+    $('.btn-danger').attr('disabled', true);
+    $('.btn-danger').hide();
+  }
+}

@@ -40,6 +40,7 @@ module.exports = {
         view: true,
         layout: 'admin/default/edit',
         permissions,
+        user: user.username,
       });
     } else {
       res.forbidden();
