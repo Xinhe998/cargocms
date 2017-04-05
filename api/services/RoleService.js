@@ -46,7 +46,7 @@ module.exports = {
           }
         })
       });
-      console.log(menuItem);
+      //console.log(menuItem);
       return menuItem.length > 0;
     } catch (e) {
       throw e;

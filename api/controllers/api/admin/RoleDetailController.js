@@ -42,9 +42,15 @@ module.exports = {
   create: async (req, res) => {
     try {
       let data = req.body;
-      const item = await RoleDetail.create(data);
-      let message = 'Create success.';
-      res.ok({ message, data: { item } } );
+      const checkRoleDetailHaveREADName = await RoleDetailService.checkRoleDetailHaveREADName({ data });
+      const checkSuccess = (data.api === '' && checkRoleDetailHaveREADName) || data.api !== '' || data.name === 'READ' || data.name === 'READ_WRITE';
+      if(checkSuccess) {
+        const item = await RoleDetail.create(data);
+        let message = 'Create success.';
+        res.ok({ message, data: { item } } );
+      } else {
+        res.serverError('需要先有 READ 權限才能建立此權限!');
+      }
     } catch (e) {
       res.serverError(e);
     }
