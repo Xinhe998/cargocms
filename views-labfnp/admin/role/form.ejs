@@ -2,17 +2,17 @@
 
   
     <section row="">
-      <label class="label">權限名稱</label>
+      <label class="label">角色</label>
       <label class="input state-disabled ">
       <input type="text" name="authority" placeholder="" v-model="data.item.authority" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入權限名稱</b></label>
+      <b class="tooltip tooltip-bottom-right">請輸入角色</b></label>
     </section>
   
     <section row="">
-      <label class="label">標題</label>
+      <label class="label">名稱</label>
       <label class="input state-disabled ">
       <input type="text" name="title" placeholder="" v-model="data.item.title" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入標題</b></label>
+      <b class="tooltip tooltip-bottom-right">請輸入名稱</b></label>
     </section>
   
     <section row="">
@@ -39,7 +39,7 @@
 
   var formMessages = {
     authority:{
-      required: "請給予 權限名稱",
+      required: "請給予 角色",
     },
     title:{
       required: "請給予 標題",

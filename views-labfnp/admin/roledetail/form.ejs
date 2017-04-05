@@ -19,7 +19,7 @@
     </section>
   
     <section row="">
-      <label class="label">權限名稱</label>
+      <label class="label">角色</label>
       <label class="select state-disabled ">
       <select v-model="data.item.RoleId" disabled id="roleid">
         <% data.roleid.forEach(function(item) { %>
@@ -68,7 +68,7 @@
       required: "請給予 api",
     },
     RoleId:{
-      required: "請給予 權限名稱",
+      required: "請給予 角色",
     },
     MenuItemId:{
       required: "請給予 選單名稱",
