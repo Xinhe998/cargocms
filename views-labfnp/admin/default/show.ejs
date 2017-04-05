@@ -72,9 +72,12 @@
 								<button type="button" v-on:click="cancel" class="btn btn-default">
 									返回
 								</button>
+                <% data.permissions ? '' : console.log("warning! 該頁面沒有設定權限"); %>
+                <% if(data.permissions && (data.permissions.update || data.permissions.read_write)) { %> 
 								<button type="button" v-on:click="edit(data.item.id)" class="btn btn-primary">
 									編輯
 								</button>
+                <% }%>
 							</footer>
 						</form>
 
