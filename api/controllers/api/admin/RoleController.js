@@ -67,9 +67,14 @@ module.exports = {
   destroy: async (req, res) => {
     try {
       const { id } = req.params;
-      const item = await Role.destroy({ where: { id } });
-      let message = 'Delete success';
-      res.ok({message, data: {item}});
+      const findUser = await Role.findOne({ where: { id } });
+      if(findUser.dataValues.authority === 'admin') {
+        res.serverError("不能刪除自己的權限");
+      } else {
+        const item = await Role.destroy({ where: { id } });
+        let message = 'Delete success';
+        res.ok({message, data: {item}});
+      }
     } catch (e) {
       res.serverError(e);
     }

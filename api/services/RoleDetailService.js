@@ -26,10 +26,11 @@ module.exports = {
           name: data.name
         }
       });
-      for (var item in findRoleDetail) {
+      if(Object.keys(findRoleDetail).length === 0) {
+        return false;
+      } else {
         return true;
       }
-      return false;
     } catch (e) {
       throw e;
     }
