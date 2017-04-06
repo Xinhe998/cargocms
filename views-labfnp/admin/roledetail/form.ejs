@@ -2,6 +2,22 @@
 
   
     <section row="">
+      <label class="label">選單名稱</label>
+      <label class="select state-disabled">
+      <select id="roleName" v-model="data.item.MenuItemId" disabled>
+        <% data.menuItems.forEach(function(item) { %>
+          <optgroup label="<%= item.title %>">
+            <% if (item.SubMenuItems && item.SubMenuItems.length > 0) { %>
+              <% item.SubMenuItems.forEach(function(subItem) { %>
+                <option value=<%= subItem.id %>><%= subItem.title %></option>
+              <% }); %>
+            <% } %>
+          </optgroup>
+        <% }); %>
+      </select> <i></i> </label>
+    </section>
+
+    <section row="">
       <label class="label">權限</label>
       <label class="select state-disabled">
       <select v-model="data.item.name" disabled>
@@ -24,22 +40,6 @@
       <select v-model="data.item.RoleId" disabled id="roleid">
         <% data.roleid.forEach(function(item) { %>
           <option value="<%- item.id %>"><%- item.authority %></option>
-        <% }); %>
-      </select> <i></i> </label>
-    </section>
-  
-    <section row="">
-      <label class="label">選單名稱</label>
-      <label class="select state-disabled">
-      <select id="roleName" v-model="data.item.MenuItemId" disabled>
-        <% data.menuItems.forEach(function(item) { %>
-          <optgroup label="<%= item.title %>">
-            <% if (item.SubMenuItems && item.SubMenuItems.length > 0) { %>
-              <% item.SubMenuItems.forEach(function(subItem) { %>
-                <option value=<%= subItem.id %>><%= subItem.title %></option>
-              <% }); %>
-            <% } %>
-          </optgroup>
         <% }); %>
       </select> <i></i> </label>
     </section>

@@ -7,6 +7,12 @@
         
         <th data-hide=""
         data-class="" class="no-sort">
+          選單名稱
+        </th>
+
+
+        <th data-hide=""
+        data-class="" class="no-sort">
           權限
         </th>
       
@@ -22,11 +28,6 @@
           角色
         </th>
       
-        
-        <th data-hide=""
-        data-class="" class="no-sort">
-          選單名稱
-        </th>
       
         <th width="80" data-hide="phone,tablet" class="lastTh"></th>
     </tr>
@@ -35,13 +36,13 @@
   <tbody>
     <tr v-for="item in data.items">
       
+        <td>{{ item.MenuItemId}}</td>
+
         <td>{{ item.name}}</td>
       
         <td>{{ item.api}}</td>
       
         <td>{{ item.RoleId}}</td>
-      
-        <td>{{ item.MenuItemId}}</td>
       
       <td align="center" style="cursor: pointer;">
         <div class="row">
@@ -65,18 +66,16 @@
     var columns = [
       
         
+          { "data": "MenuItemId" },
+
+
           { "data": "name" },
       
         
           { "data": "api" },
         
       
-        
           { "data": "RoleId" },
-        
-      
-        
-          { "data": "MenuItemId" },
         
       
         { "data": null },
@@ -105,15 +104,15 @@
         
       
       {
-        "targets"  : 2,
+        "targets"  : 0,
         "render": function ( data, type, row ) {
-          return '<p>'+ RoleIds[data] +'</p>'
+          return '<p>'+ MenuItemIdNames[data] +'</p>'
         }
       },
       {
         "targets"  : 3,
         "render": function ( data, type, row ) {
-          return '<p>'+ MenuItemIdNames[data] +'</p>'
+          return '<p>'+ RoleIds[data] +'</p>'
         }
       },
       {

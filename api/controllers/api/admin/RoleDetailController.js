@@ -42,14 +42,20 @@ module.exports = {
   create: async (req, res) => {
     try {
       let data = req.body;
-      const checkRoleDetailHaveREADName = await RoleDetailService.checkRoleDetailHaveREADName({ data });
-      const checkSuccess = (data.api === '' && checkRoleDetailHaveREADName) || data.api !== '' || data.name === 'READ' || data.name === 'READ_WRITE';
+      let checkRoleDetailHaveREADName = await RoleDetailService.checkRoleDetailHaveREADName({ data });
+      const checkHaveSameRole = await RoleDetailService.checkHaveSameRole({ data });
+      checkRoleDetailHaveREADName = (data.api === '' && checkRoleDetailHaveREADName) || data.api !== '' || data.name === 'READ' || data.name === 'READ_WRITE';
+      const checkSuccess = checkRoleDetailHaveREADName && !checkHaveSameRole;
       if(checkSuccess) {
         const item = await RoleDetail.create(data);
         let message = 'Create success.';
         res.ok({ message, data: { item } } );
       } else {
-        res.serverError('需要先有 READ 權限才能建立此權限!');
+        if(checkHaveSameRole) {
+          res.serverError('此權限已存在!');
+        } else {
+          res.serverError('需要先有 READ 權限才能建立此權限!');
+        }
       }
     } catch (e) {
       res.serverError(e);
@@ -61,10 +67,22 @@ module.exports = {
       const { id } = req.params;
       const data = req.body;
       const message = 'Update success.';
-      const item = await RoleDetail.update(data ,{
-        where: { id, },
-      });
-      res.ok({ message, data: { item } });
+      let checkRoleDetailHaveREADName = await RoleDetailService.checkRoleDetailHaveREADName({ data });
+      const checkHaveSameRole = await RoleDetailService.checkHaveSameRole({ data });
+      checkRoleDetailHaveREADName = checkRoleDetailHaveREADName || data.name === 'READ' || data.name === 'READ_WRITE'; 
+      const checkSuccess = checkRoleDetailHaveREADName && !checkHaveSameRole;
+      if(checkSuccess) {
+        const item = await RoleDetail.update(data ,{
+          where: { id, },
+        });
+        res.ok({ message, data: { item } });
+      } else {
+        if(checkHaveSameRole) {
+          res.serverError('此權限已存在!');
+        } else {
+          res.serverError('需要先有 READ 權限才能更新此權限!');
+        }
+      }
     } catch (e) {
       res.serverError(e);
     }
