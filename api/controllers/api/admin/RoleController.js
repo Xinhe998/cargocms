@@ -69,7 +69,7 @@ module.exports = {
       const { id } = req.params;
       const findUser = await Role.findOne({ where: { id } });
       if(findUser.dataValues.authority === 'admin') {
-        res.serverError("不能刪除自己的權限");
+        throw Error("不能刪除自己的權限");
       } else {
         const item = await Role.destroy({ where: { id } });
         let message = 'Delete success';

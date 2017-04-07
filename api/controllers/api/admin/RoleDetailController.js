@@ -52,9 +52,9 @@ module.exports = {
         res.ok({ message, data: { item } } );
       } else {
         if(checkHaveSameRole) {
-          res.serverError('此權限已存在!');
+          throw Error('此權限已存在!');
         } else {
-          res.serverError('需要先有 READ 權限才能建立此權限!');
+          throw Error('需要先有 READ 權限才能建立此權限!');
         }
       }
     } catch (e) {
@@ -81,11 +81,11 @@ module.exports = {
         res.ok({ message, data: { item } });
       } else {
         if(checkHaveSameRole) {
-          res.serverError('此權限已存在!');
+          throw Error('此權限已存在!');
         } else if(checkAdminUpdateRolePage) {
-          res.serverError("不能修改自己的權限");
+          throw Error("無法調整此權限！  調整後將會造成此頁無法進入！");
         } else {
-          res.serverError('需要先有 READ 權限才能更新此權限!');
+          throw Error('需要先有 READ 權限才能更新此權限!');
         }
       }
     } catch (e) {
@@ -101,7 +101,7 @@ module.exports = {
       const loinUser = AuthService.getSessionUser(req).username;
       const checkAdminUpdateRolePage = (findMenuItemId.dataValues.title === '詳細權限' || findMenuItemId.dataValues.title === '權限') && loinUser === 'admin';
       if(checkAdminUpdateRolePage) {
-        res.serverError("不能刪除自己的權限");
+        throw Error("無法刪除此權限！  刪除後將會造成此頁無法進！");
       } else {
         const item = await RoleDetail.destroy({ where: { id } });
         let message = 'Delete success';
