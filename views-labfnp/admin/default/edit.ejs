@@ -71,12 +71,17 @@
 								<button type="button" v-on:click="cancel" class="btn btn-default">
 									取消
 								</button>
+                <% data.permissions ? '' : console.log("warning! 該頁面沒有設定權限"); %>
+                <% if(data.permissions && (data.permissions.update || data.permissions.read_write)) { %> 
 								<button type="submit" class="btn btn-primary">
 									儲存
 								</button>
+                <% }%>
+                <% if(data.permissions && (data.permissions.delete || data.permissions.read_write)) { %> 
 								<button type="button" v-on:click="delete" class="btn btn-danger pull-left">
 									刪除
 								</button>
+                <% }%>
 							</footer>
 						</form>
 

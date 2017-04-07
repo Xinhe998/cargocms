@@ -286,6 +286,8 @@ var postApp = new Vue({
                }
              }
            },
+          <% data.permissions ? '' : console.log("warning! 該頁面沒有設定權限"); %>
+					<% if(data.permissions && (data.permissions.create || data.permissions.read_write)) { %>
            {
              "sExtends": "text",
              "sButtonText": "新增",
@@ -293,6 +295,8 @@ var postApp = new Vue({
                location.href = '/admin/#/admin/post/create';
              }
            },
+          <% } %>
+					<% if(data.permissions && (data.permissions.update || data.permissions.read_write)) { %>
            {
              "sExtends": "text",
              "sButtonText": "編輯",
@@ -307,6 +311,7 @@ var postApp = new Vue({
                }
              }
            },
+          <% } %>
          ]
        },
        "autoWidth" : true,

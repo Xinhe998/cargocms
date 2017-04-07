@@ -10,7 +10,7 @@ var defaultVueMathod = {
 			location.href = url;
 		});
 	},
-	save: function (event) {
+  save: function (event) {
 		var ajaxSuccess = function (result) {
 			var callbackUrl = $('#main-form').data('callback') || '';
 			var url = '/admin/#/admin/' + modelName;
@@ -43,14 +43,31 @@ var defaultVueMathod = {
 			error: ajaxError,
 		});
 	},
-	update: function (event) {
+  update: function (event, getQuery, refreshCheck) {
+    getQuery = getQuery || '';
 		var ajaxSuccess = function (result) {
-			var callbackUrl = $('#main-form').data('callback') || '';
-			var url = '/admin/#/admin/' + modelName;
+      if(typeof getQuery === 'undefined' || getQuery === '' || getQuery.match(/roleid=([^&]*)/)[1] == 'null') {
+        getQuery = '';
+      }
+			var callbackUrl = $('#main-form').data('callback') || "/" + modelName + getQuery;
+      var url = '/admin/#/admin/' + modelName;
 			if (callbackUrl!== '') {
 				url = '/admin/#/admin' + callbackUrl;
-			}
-			location.href = url;
+      }
+      if(typeof refreshCheck == 'undefined') {
+        refreshCheck = false;
+      }
+			if(refreshCheck) {
+        let hrefRefreshQuery ='';                                                                                                                              
+        if($.urlParam('roleid')!==null) {                                                                                                                      
+          hrefRefreshQuery = '&refresh=true';                                                                                                                  
+        } else {                                                                                                                                               
+          hrefRefreshQuery = '?refresh=true';                                                                                                                  
+        }                                                                                                                                      
+        location.href = url + hrefRefreshQuery;
+      } else {
+        location.href = url;
+      }
 			messageApp.show({
 				desc: '更新資料成功！',
 				type: 'success'
@@ -162,9 +179,22 @@ var defaultVueMathod = {
 
 		$.get('/api/' + prefix + modelName, ajaxSuccess);
 	},
-	renderTable: function () {
+	renderTable: function (getQuery, refreshCheck) {
 		/* BASIC ;*/
-		var responsiveHelper_datatable = undefined;
+    var responsiveHelper_datatable = undefined;
+    if(typeof getQuery === 'undefined' || getQuery.match(/roleid=([^&]*)/)[1] == 'null') {
+      getQuery = '';
+    }
+
+		var hrefRefreshQuery = function () {                                                                                                                     
+			let hrefRefreshQuery ='';                                                                                                                              
+			if($.urlParam('roleid')!==null) {                                                                                                                      
+				hrefRefreshQuery = '&refresh=true';                                                                                                                  
+			} else {                                                                                                                                               
+				hrefRefreshQuery = '?refresh=true';                                                                                                                  
+			}                                                                                                                                                      
+			return hrefRefreshQuery;                                                                                                                               
+		} 
 
 		var breakpointDefinition = {
 			tablet: 1024,
@@ -213,11 +243,11 @@ var defaultVueMathod = {
 		}
 
 		var createButton = {
-      "sExtends": "text",
-      "sButtonText": "新增",
+			"sExtends": "text",
+			"sButtonText": "新增",
       "fnClick": function (nButton, oConfig, oFlash) {
-        location.href = '/admin/#/admin/' + modelName + '/create';
-      }
+        location.href = '/admin/#/admin/' + modelName + '/create' + getQuery;
+			}
 		}
 
 		var defaultTableConfig = {
@@ -268,14 +298,15 @@ var defaultVueMathod = {
 			"oTableTools": {
 				"aButtons": [
 					excelExportButton,
+					<% if(data.permissions && (data.permissions.read || data.permissions.read_write)) { %>
 					{
 						"sExtends": "text",
 						"sButtonText": "檢視",
 						"fnClick": function (nButton, oConfig, oFlash) {
 							var isSelected = appModel.view.table.selectIndex !== COMMON.DEFAULT_INDEX;
 							if (isSelected) {
-								var id = appModel.view.table.selectIndex;
-								location.href = '/admin/#/admin/' + modelName + '/show/' + id;
+                var id = appModel.view.table.selectIndex;
+								location.href = '/admin/#/admin/' + modelName + '/show/' + id + getQuery;
 							} else {
 								messageApp.show({
 									desc: '請先選擇一筆資料',
@@ -284,18 +315,20 @@ var defaultVueMathod = {
 							}
 						}
           },
+          <% }%>
           <% data.permissions ? '' : console.log("warning! 該頁面沒有設定權限"); %>
-					<% if(data.permissions && data.permissions.create) { %>
+					<% if(data.permissions && (data.permissions.create || data.permissions.read_write)) { %>
             createButton,
           <% }%>
+					<% if(data.permissions && (data.permissions.update || data.permissions.read_write)) { %>
 					{
 						"sExtends": "text",
 						"sButtonText": "編輯",
-						"fnClick": function (nButton, oConfig, oFlash) {
+            "fnClick": function (nButton, oConfig, oFlash) {
 							var isSelected = appModel.view.table.selectIndex !== COMMON.DEFAULT_INDEX;
-							if (isSelected) {
+              if (isSelected) { 
 								var id = appModel.view.table.selectIndex;
-								location.href = '/admin/#/admin/' + modelName + '/edit/' + id;
+								location.href = '/admin/#/admin/' + modelName + '/edit/' + id + getQuery;
 							} else {
 								messageApp.show({
 									desc: '請先選擇一筆資料',
@@ -304,6 +337,7 @@ var defaultVueMathod = {
 							}
 						}
           }
+          <% }%>
         ]
 			},
 			"autoWidth": true,
@@ -319,7 +353,7 @@ var defaultVueMathod = {
 				responsiveHelper_datatable.respond();
 				$("[name=showDataButton]").on("click", function() {
 					var id = $(this).data("id")
-					appMain.show(id)
+					appMain.show(id + getQuery)
 				})
 
 				$("[name=editDataButton]").on("click", function() {
@@ -383,7 +417,7 @@ var defaultVueMathod = {
 			defaultTable.on('dblclick', 'tr', function () {
 				var data = defaultTable.fnGetData(this);
 				var id = data.id || data[0];
-				appMain.show(id);
+				appMain.show(id + getQuery);
 			});
 
 		}
@@ -394,13 +428,13 @@ var defaultVueMathod = {
 		appModel.view.table.selectIndex =
 			index !== appModel.view.table.selectIndex ? index : COMMON.DEFAULT_INDEX;
 	},
-	show: function (id) {
+  show: function (id) {
 		location.href = '/admin/#/admin/' + modelName + '/show/' + id;
 	},
 	edit: function (id) {
-		location.href = '/admin/#/admin/' + modelName + '/edit/' + id;
-	},
-	delete: function () {
+	  location.href = '/admin/#/admin/' + modelName + '/edit/' + id;
+  },
+  delete: function (event) {
 		var msg = {
 			title: '刪除',
 			content: '確認刪除此筆資料？',
@@ -414,7 +448,7 @@ var defaultVueMathod = {
 						desc: `刪除資料成功！`,
 						type: 'success'
 					});
-					var callbackUrl = $('#main-form').data('callback') || '';
+          var callbackUrl = $('#main-form').data('callback') || '';
 					var url = '/admin/#/admin/' + modelName;
 					if (callbackUrl!== '') {
 						url = '/admin/#/admin' + callbackUrl;
@@ -444,10 +478,13 @@ var defaultVueMathod = {
 				});
 			}
 		};
-		messageApp.confirm(msg, action);
+    messageApp.confirm(msg, action);
 	},
-	setupForm: function (type) {
+  setupForm: function (type, getQuery, refreshCheck) {
 		var registerForm = $("#main-form");
+    if(typeof getQuery === 'undefined' || getQuery.match(/roleid=([^&]*)/)[1] == 'null') {
+      getQuery = '';
+    }
 
     if(appModel.data.option.imgUpload){
       var imgUploadSteup = appModel.data.option.imgUpload;
@@ -465,10 +502,10 @@ var defaultVueMathod = {
 			},
 			submitHandler: function (form) {
 				if (type === 'create') {
-					appMain.save();
+					appMain.save('');
 					return false;
-				} else if (type === 'edit') {
-					appMain.update();
+        } else if (type === 'edit') {
+					appMain.update('', getQuery, refreshCheck);
 					return false;
 				}
 			}

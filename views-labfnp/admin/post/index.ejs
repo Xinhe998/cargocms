@@ -78,9 +78,11 @@
                       <a class="btn btn-default btn-xs" role="button" v-on:click="show(post.id)">
                         <i class="fa-fw fa fa-eye text-muted" />
                       </a>
+                      <% if(data.permissions && (data.permissions.update || data.permissions.read_write)) { %>
                       <a class="btn btn-default btn-xs" role="button" v-on:click="edit(post.id)">
       									<i class="fa-fw fa fa-pencil-square-o text-muted"/>
                       </a>
+                      <% } %>
                     </div>
 									</td>
 								</tr>

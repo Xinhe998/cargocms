@@ -1,0 +1,218 @@
+var COMMON = {
+  DOUBLE_CLICK_TIME_PERIOD: 250,
+  DEFAULT_INDEX: -1,
+  DEFAULT_AVATAR: "/assets/admin/img/avatars/default.png",
+};
+
+$.urlParam = function(name){
+  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  if (results==null){
+     return null;
+  }
+  else{
+     return results[1] || 0;
+  }
+}
+
+var hrefRefreshQuery = function () {
+  let hrefRefreshQuery ='';
+  if($.urlParam('roleid')!==null) {
+    hrefRefreshQuery = '&refresh=true';
+  } else {
+    hrefRefreshQuery = '?refresh=true';
+  }
+  return hrefRefreshQuery;
+}
+
+
+var itemBeforeEdit = {};
+var prefix = 'admin/';
+var modelName = "roledetail";
+var inputStatus = $.urlParam('roleid');
+var appModel = {
+  modelName: modelName,
+  prefix: prefix,
+  data: {
+  item: {
+      name: '',
+      api: '',
+      RoleId: '',
+      MenuItemId: '',
+      
+    },
+    items: [],
+    option: {}
+  },
+  view: {
+    table: {
+      selectIndex: COMMON.DEFAULT_INDEX,
+    },
+  }
+}
+
+/* TABLETOOLS */
+
+<%- include ../default/vue.ejs %>
+// 需要新增函式可以對 appMain 進行定義，如：
+// appMain.log = function () {console.log("123")}
+
+appMain.editDisabled = function(){
+  $('label.fn-edit-disabled > input').attr('disabled', true);
+  $('label.fn-edit-disabled').addClass('state-disabled');
+  $('#roleid').attr('disabled', true);
+  $('#roleid').parent().addClass('state-disabled');
+};
+
+appMain.createHide = function () {
+  $('.fn-create-hide').hide();
+};
+
+appMain.refresh = function () {
+  console.log($.urlParam('refresh'));
+  if($.urlParam('refresh') === 'true') {
+  let inputQuery = '';
+    if($.urlParam('roleid') !== null) inputQuery = '?roleid=' + $.urlParam('roleid');
+    window.location.reload();
+    window.location.replace(location.protocol + "//" + location.host + '/admin/#/admin/roledetail' + inputQuery);
+  }
+}
+
+appMain.DataTableInitComplete = function() {
+  if($.urlParam('refresh') === null || !$.urlParam('refresh')) {
+    $('.loading-wrapper').removeClass('active');
+  }
+  $('[type=search]').val($.urlParam('roleid'));
+  if($.urlParam('roleid') !== null) {
+    $("#main-table_filter").attr('disabled', false);
+    $("#main-table_filter").hide();
+  }
+};
+
+appMain.enableSelect = function () {
+  $('select').attr('disabled', false);
+  $('.select').removeClass('state-disabled');                  
+}  
+
+appMain.customSearch = function(data) {
+  if(inputStatus !== null) {
+    appModel.pagingQuery.columns.push({
+      data: 'RoleId',
+      searchable: true,
+      search: {
+        custom: {
+          where: $.urlParam('roleid'),
+        }
+      }
+    });
+  }
+};
+
+appMain.save = function (event) {
+  var ajaxSuccess = function (result) {
+    inputStatus === null ? inputStatus = '' : inputStatus = "/" + modelName + "?roleid=" + inputStatus; 
+    var callbackUrl = $('#main-form').data('callback') || '' || inputStatus;
+    var url = '/admin/#/admin/' + modelName;
+    if (callbackUrl!== '') {
+      url = '/admin/#/admin' + callbackUrl;
+    }
+    location.href = url + hrefRefreshQuery();
+    messageApp.show({
+      desc: '新增成功！',
+      type: 'success'
+    });
+  }; // end ajaxSuccess
+
+  var ajaxError = function (result) {
+    messageApp.show({
+      desc: '新增資料失敗！errorMessage: ' + result.responseJSON.message,
+      type: 'error',
+    });
+  };
+
+  $.ajax({
+    url: '/api/' + prefix + modelName,
+    type: 'POST',
+    dataType: 'json',
+    data: appModel.data.item,
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: ajaxSuccess,
+    error: ajaxError,
+  });
+};
+
+appMain.cancel= function (event) {
+  inputStatus === null ? inputStatus = '' : inputStatus = "/" + modelName + "?roleid=" + inputStatus;
+  var callbackUrl = $('#main-form').data('callback') || '' || inputStatus;
+  var url = '/admin/#/admin/' + modelName;
+  if (callbackUrl!== '') {
+    url = '/admin/#/admin' + callbackUrl;
+  }
+  appMain.onLeavePageEdit(function() {
+    location.href = url;
+  });
+  inputStatus = $.urlParam('roleid');
+};
+
+appMain.edit = function(id) {
+  inputStatus === null ? inputStatus = '' : inputStatus = "?roleid=" + inputStatus;
+  location.href = '/admin/#/admin/' + modelName + '/edit/' + id + inputStatus;
+  inputStatus = $.urlParam('roleid');
+}
+
+appMain.delete = function (event) {
+  var msg = {
+    title: '刪除',
+    content: '確認刪除此筆資料？',
+    btnArray: ['刪除', '取消'],
+  };
+  var action = function (ButtonPressed) {
+    if (ButtonPressed === '刪除') {
+      var ajaxSuccess = function (result) {
+        appModel.view.table.selectIndex = COMMON.DEFAULT_INDEX;
+        messageApp.show({
+          desc: `刪除資料成功！`,
+          type: 'success'
+        });
+        inputStatus === null ? inputStatus = '' : inputStatus = "/" + modelName + "?roleid=" + inputStatus;
+        var callbackUrl = $('#main-form').data('callback') || '' || inputStatus;
+        var url = '/admin/#/admin/' + modelName;
+        if (callbackUrl!== '') {
+          url = '/admin/#/admin' + callbackUrl;
+        }
+        location.href = url + hrefRefreshQuery();
+        setTimeout(function () {
+          location.href = url + hrefRefreshQuery();
+        }, 500);
+      }; // end ajaxSuccess
+
+      var ajaxError = function (result) {
+        messageApp.show({
+          desc: '刪除資料失敗！errorMessage: ' + result.responseJSON.message,
+          type: 'error'
+        });
+      };
+
+      $.ajax({
+        url: '/api/' + prefix + modelName + '/' + appModel.data.item.id,
+        type: 'DELETE',
+        dataType: 'json',
+        xhrFields: {
+          withCredentials: true
+        },
+        success: ajaxSuccess,
+        error: ajaxError,
+      });
+    }
+  };
+  messageApp.confirm(msg, action);
+};
+
+appMain.removeDelete = function () {
+  var selectText = $('#roleName option:selected').text();
+  if(selectText === '詳細權限' || selectText === '權限') {
+    $('.btn-danger').attr('disabled', true);
+    $('.btn-danger').hide();
+  }
+}

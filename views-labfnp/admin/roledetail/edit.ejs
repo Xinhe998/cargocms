@@ -1,0 +1,22 @@
+
+<%- include form.ejs %>
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+
+  var checkRefresh = true;
+	var pagefunction = function() {
+		<%- include vue.ejs %>
+		appMain.$mount("#main-edit");
+		appMain.loadItem(function() {
+      appMain.onEnterPageEdit();
+      appMain.enableSelect();
+      appMain.editDisabled();
+      <% if(data.user === 'admin') { %>
+          appMain.removeDelete();
+      <% } %>
+    });
+    appMain.setupForm("edit", "?roleid=" + $.urlParam('roleid'), checkRefresh);
+	};
+
+</script>

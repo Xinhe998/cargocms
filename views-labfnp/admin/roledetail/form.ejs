@@ -1,0 +1,77 @@
+<fieldset>
+
+  
+    <section row="">
+      <label class="label">選單名稱</label>
+      <label class="select state-disabled">
+      <select id="roleName" v-model="data.item.MenuItemId" disabled>
+        <% data.menuItems.forEach(function(item) { %>
+          <optgroup label="<%= item.title %>">
+            <% if (item.SubMenuItems && item.SubMenuItems.length > 0) { %>
+              <% item.SubMenuItems.forEach(function(subItem) { %>
+                <option value=<%= subItem.id %>><%= subItem.title %></option>
+              <% }); %>
+            <% } %>
+          </optgroup>
+        <% }); %>
+      </select> <i></i> </label>
+    </section>
+
+    <section row="">
+      <label class="label">權限</label>
+      <label class="select state-disabled">
+      <select v-model="data.item.name" disabled>
+        <% data.name.forEach(function(item) { %>
+          <option value="<%- item %>"><%- item %></option>
+        <% }); %>
+      </select> <i></i> </label>
+    </section>
+
+    <section row="">
+      <label class="label">api</label>
+      <label class="input state-disabled ">
+      <input type="text" name="api" placeholder="" v-model="data.item.api" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入api</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">角色</label>
+      <label class="select state-disabled ">
+      <select v-model="data.item.RoleId" disabled id="roleid">
+        <% data.roleid.forEach(function(item) { %>
+          <option value="<%- item.id %>"><%- item.authority %></option>
+        <% }); %>
+      </select> <i></i> </label>
+    </section>
+
+</fieldset>
+<script>
+  var formRules = {
+    name:{
+      required: true,
+    },
+    api:{
+    },
+    RoleId:{
+      required: true,
+    },
+    MenuItemId:{
+      required: true,
+    },
+  };
+
+  var formMessages = {
+    name:{
+      required: "請給予 權限",
+    },
+    api:{
+      required: "請給予 api",
+    },
+    RoleId:{
+      required: "請給予 角色",
+    },
+    MenuItemId:{
+      required: "請給予 選單名稱",
+    },
+  };
+</script>

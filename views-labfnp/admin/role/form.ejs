@@ -1,0 +1,51 @@
+<fieldset>
+
+  
+    <section row="">
+      <label class="label">角色</label>
+      <label class="input state-disabled ">
+      <input type="text" name="authority" placeholder="" v-model="data.item.authority" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入角色</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">名稱</label>
+      <label class="input state-disabled ">
+      <input type="text" name="title" placeholder="" v-model="data.item.title" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入名稱</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">描述</label>
+      <label class="input state-disabled ">
+      <input type="text" name="description" placeholder="" v-model="data.item.description" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入描述</b></label>
+    </section>
+  
+<a href="/admin/#/admin/roledetail?roleid={{ data.item.id  }}" class="btn btn-default btn-lg btn-edit-only">詳細權限</a>
+</fieldset>
+<script>
+  var formRules = {
+    authority:{
+      required: true,
+    },
+    title:{
+      required: true,
+    },
+    description:{
+      required: true,
+    },
+  };
+
+  var formMessages = {
+    authority:{
+      required: "請給予 角色",
+    },
+    title:{
+      required: "請給予 標題",
+    },
+    description:{
+      required: "請給予 描述",
+    },
+  };
+</script>

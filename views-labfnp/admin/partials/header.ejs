@@ -81,7 +81,8 @@
 				</a>
 				<% if (item.SubMenuItems && item.SubMenuItems.length > 0) { %>
 				<ul>
-					<% item.SubMenuItems.forEach(function(subItem) { %>
+          <% item.SubMenuItems.forEach(function(subItem) { %>
+            <% //console.log('subItem=>' + JSON.stringify(subItem)); %>
 					<li>
 						<a href="<%= subItem.href %>" title="<%= subItem.title %>"><span class="menu-item-parent"><%= subItem.title %></span></a>
 					</li>

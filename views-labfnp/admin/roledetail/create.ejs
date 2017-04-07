@@ -1,0 +1,20 @@
+<%- include form.ejs %>
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+
+	var pagefunction = function() {
+
+		<%- include vue.ejs %>
+		appMain.$mount("#main-create");
+		appMain.setupForm("create");
+		appMain.onEnterPageEdit();
+    appMain.createHide();
+    appMain.editDisabled();
+    appMain.enableSelect();
+
+    if(inputStatus !== null) {
+      appMain.data.item.RoleId = inputStatus;
+    }
+  };
+</script>

@@ -9,23 +9,36 @@ const url = require('url');
 
 module.exports = {
 
-  index: function(req, res) {
+  index: async function(req, res) {
     let loginUser = null;
     let displayName = '未登入';
     let avatar = '/assets/admin/img/avatars/default.png';
     loginUser = AuthService.getSessionUser(req);
+    let roleDetailName = 'READ';
+    let roles = await RoleService.getUserAllRole({ user:loginUser });
 
     if(loginUser != null){
       if(loginUser.avatar != null) avatar = loginUser.avatar
       displayName = loginUser.displayName
     }
 
-    MenuItem.findAllWithSubMenu().then((menuItems) => {
-      res.ok({
-        view: true,
-        menuItems, loginUser, avatar, displayName
-      });
-
+    let menuItems =  await MenuItem.findAllWithSubMenu();
+    for(let menuItem of menuItems) {
+      if (menuItem.SubMenuItems && menuItem.SubMenuItems.length > 0) {
+        for (var subitemNum = 0; subitemNum < menuItem.SubMenuItems.length; subitemNum++) {
+          let model = menuItem.SubMenuItems[subitemNum].dataValues.model;
+          let permissions = UserService.getPermissions(roles, model);
+          let forbiddenMenuItem = permissions.read_write === false && permissions.read===false;
+          if(forbiddenMenuItem) {
+            menuItem.SubMenuItems.splice(subitemNum, 1);
+            subitemNum-=1;
+          }
+        }
+      }
+    }
+    res.ok({
+      view: true,
+      menuItems, loginUser, avatar, displayName,
     });
   },
 
