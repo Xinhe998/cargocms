@@ -71,7 +71,15 @@ module.exports = {
       const message = 'Update success.';
       let checkRoleDetailHaveREADName = await RoleDetailService.checkRoleDetailHaveREADName({ data });
       const checkHaveSameRole = await RoleDetailService.checkHaveSameRole({ data });
-      checkRoleDetailHaveREADName = checkRoleDetailHaveREADName || data.name === 'READ' || data.name === 'READ_WRITE';
+      if(!checkRoleDetailHaveREADName) {
+        checkRoleDetailHaveREADName = false;
+      } else {
+        if(data.name === 'READ' || data.name === 'READ_WRITE') {
+          checkRoleDetailHaveREADName = false;
+        } else {
+          checkRoleDetailHaveREADName = true;
+        }
+      }
       const checkAdminUpdateRolePage = (findMenuItemId.dataValues.title === '詳細權限' || findMenuItemId.dataValues.title === '權限') && loinUser === 'admin';
       const checkSuccess = checkRoleDetailHaveREADName && !checkHaveSameRole && !checkAdminUpdateRolePage;
       if(checkSuccess) {
