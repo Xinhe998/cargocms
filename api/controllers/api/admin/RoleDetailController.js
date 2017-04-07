@@ -101,7 +101,7 @@ module.exports = {
       const loinUser = AuthService.getSessionUser(req).username;
       const checkAdminUpdateRolePage = (findMenuItemId.dataValues.title === '詳細權限' || findMenuItemId.dataValues.title === '權限') && loinUser === 'admin';
       if(checkAdminUpdateRolePage) {
-        throw Error("無法刪除此權限！  刪除後將會造成此頁無法進！");
+        throw Error("無法刪除此權限！  刪除後將會造成此頁無法進入！");
       } else {
         const item = await RoleDetail.destroy({ where: { id } });
         let message = 'Delete success';
