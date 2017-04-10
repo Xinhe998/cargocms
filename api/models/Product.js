@@ -49,6 +49,12 @@ module.exports = {
       defaultValue: 'tw',
     },
 
+    origin: {
+      type: Sequelize.STRING(128),
+      allowNull: false,
+      defaultValue: 'tw',
+    },
+
     quantity: {
       type: Sequelize.INTEGER(4),
       allowNull: false,
@@ -76,6 +82,11 @@ module.exports = {
       type: Sequelize.INTEGER(8),
       allowNull: false,
       defaultValue: 0,
+    },
+
+    precautions: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
     },
 
     // taxClassId: {
