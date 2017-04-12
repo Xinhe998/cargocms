@@ -42,20 +42,24 @@ module.exports = {
   create: async (req, res) => {
     try {
       let data = req.body;
-      let checkRoleDetailHaveREADName = await RoleDetailService.checkRoleDetailHaveREADName({ data });
-      const checkHaveSameRole = await RoleDetailService.checkHaveSameRole({ data });
-      checkRoleDetailHaveREADName = (data.api === '' && checkRoleDetailHaveREADName) || data.api !== '' || data.name === 'READ' || data.name === 'READ_WRITE';
-      const checkSuccess = checkRoleDetailHaveREADName && !checkHaveSameRole;
-      if(checkSuccess) {
+      let checkHaveREAD_WRITE = await RoleDetailService.checkHaveSameRole({ data, rolename: 'READ_WRITE' });
+      let checkHaveREAD = await RoleDetailService.checkHaveSameRole({ data, rolename: 'READ' });
+      let checkHaveSameRole = await RoleDetailService.checkHaveSameRole({ data, rolename: data.name });
+
+      if((checkHaveREAD_WRITE || checkHaveREAD) && !checkHaveSameRole) {
+        sails.log('1 data=>', data);
         const item = await RoleDetail.create(data);
         let message = 'Create success.';
         res.ok({ message, data: { item } } );
+      } else if((!checkHaveREAD_WRITE || !checkHaveREAD) && !checkHaveSameRole) {
+       sails.log('2 data=>', data);
+        let addCreate = { name: 'READ', api: '', RoleId: data.RoleId, MenuItemId: data.MenuItemId  };
+        await RoleDetail.create(addCreate);
+        let itme = await RoleDetail.create(data);
+        let message = 'Create success.';
+        res.ok({ message, data: { item } } );
       } else {
-        if(checkHaveSameRole) {
-          throw Error('此權限已存在!');
-        } else {
-          throw Error('需要先有 READ 權限才能建立此權限!');
-        }
+        throw Error('此權限已存在!');
       }
     } catch (e) {
       res.serverError(e);
@@ -66,35 +70,23 @@ module.exports = {
     try {
       const { id, MenuItemId } = req.params;
       const data = req.body;
-      const findMenuItemId = await MenuItem.findOne({ where: { id: data.MenuItemId } });
-      const loinUser = AuthService.getSessionUser(req).username;
-      const message = 'Update success.';
-      let checkRoleDetailHaveREADName = await RoleDetailService.checkRoleDetailHaveREADName({ data });
-      const checkHaveSameRole = await RoleDetailService.checkHaveSameRole({ data });
-      if(!checkRoleDetailHaveREADName) {
-        checkRoleDetailHaveREADName = false;
-      } else {
-        if(data.name === 'READ' || data.name === 'READ_WRITE') {
-          checkRoleDetailHaveREADName = false;
-        } else {
-          checkRoleDetailHaveREADName = true;
-        }
-      }
-      const checkAdminUpdateRolePage = (findMenuItemId.dataValues.title === '詳細權限' || findMenuItemId.dataValues.title === '權限') && loinUser === 'admin';
-      const checkSuccess = checkRoleDetailHaveREADName && !checkHaveSameRole && !checkAdminUpdateRolePage;
-      if(checkSuccess) {
+      let checkHaveSameRole = await RoleDetailService.checkHaveSameRole({ data, rolename: data.name  });
+
+      if(!checkHaveSameRole) {
         const item = await RoleDetail.update(data ,{
           where: { id, },
         });
+
+        let checkHaveREAD = await RoleDetailService.checkHaveSameRole({ data, rolename: 'READ' });
+        if(!checkHaveREAD) {
+          let addCreate = { name: 'READ', api: '', RoleId: data.RoleId, MenuItemId: data.MenuItemId  };
+          await RoleDetail.create(addCreate);
+        }
+
+        const message = 'Update success.';
         res.ok({ message, data: { item } });
       } else {
-        if(checkHaveSameRole) {
-          throw Error('此權限已存在!');
-        } else if(checkAdminUpdateRolePage) {
-          throw Error("無法調整此權限！  調整後將會造成此頁無法進入！");
-        } else {
-          throw Error('需要先有 READ 權限才能更新此權限!');
-        }
+        throw Error('此權限已存在!');
       }
     } catch (e) {
       res.serverError(e);

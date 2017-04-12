@@ -1,30 +1,12 @@
 module.exports = {
 
-  checkRoleDetailHaveREADName: async({ data }) => {
+  checkHaveSameRole: async({ data, rolename }) => {
     try {
       const findRoleDetail = await RoleDetail.findAll({
         where: {
           MenuItemId: data.MenuItemId,
+          name: rolename,
         },
-      });
-      for(let item of findRoleDetail) {
-        if(item.dataValues.name === 'READ' || item.dataValues.name === 'READ_WRITE') {
-          return true;
-        }
-      }
-      return false;
-    } catch (e) {
-      throw e;
-    }
-  },
-
-  checkHaveSameRole: async({ data }) => {
-    try {
-      const findRoleDetail = await RoleDetail.findAll({
-        where: {
-          MenuItemId: data.MenuItemId,
-          name: data.name
-        }
       });
       if(Object.keys(findRoleDetail).length === 0) {
         return false;
