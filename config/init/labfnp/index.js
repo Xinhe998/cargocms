@@ -116,12 +116,13 @@ module.exports.init = async () => {
       where: {authority: 'admin'},
     });
 
-    let allMenuItem = await MenuItem.findAll();
-    allMenuItem.filter((item)=> {
+    let allMenuItems = await MenuItem.findAll();
+    let filterAllMenuItems = allMenuItems.filter((item)=> {
       if(item.ParentMenuItemId!==null) return item.id;
-    }).map(async(item) => {
-      await RoleDetail.create({name: 'READ_WRITE', RoleId: adminRole.dataValues.id, MenuItemId: item.id});
     });
+    for(let menuItem of filterAllMenuItems) {
+      await RoleDetail.create({name: 'READ_WRITE', RoleId: adminRole.dataValues.id, MenuItemId: menuItem.id});
+    }
 
     const feeling = {
       title: '花香',
