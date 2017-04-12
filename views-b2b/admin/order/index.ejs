@@ -26,6 +26,7 @@
       <th width="" class="" data-hide="always"> 運送郵遞區號</th>
       <th width="" class="" data-hide="always"> 運送方式</th>
       <th width="" class="" data-hide="always"> 運送代碼</th>
+      <th width="" class="" data-hide="always"> 貨運單號</th>
       <th width="" class="" data-hide="phone"> 附註</th>
       <th width="" class="total" data-hide="phone,tablet"> 總價</th>
       <th width="" class="tax" data-hide="always"> 稅額</th>
@@ -66,6 +67,7 @@
       <td>{{ item.shippingPostcode }}</td>
       <td>{{ item.shippingMethod }}</td>
       <td>{{ item.shippingCode }}</td>
+      <td>{{ item.deliveryNumber }}</td>
       <td>{{ item.comment }}</td>
       <td>{{ item.total }}</td>
       <td>{{ item.tax }}</td>
@@ -122,6 +124,7 @@
       { "data": "shippingPostcode" },
       { "data": "shippingMethod" },
       { "data": "shippingCode" },
+      { "data": "deliveryNumber" },
       { "data": "comment" },
       { "data": "total" },
       { "data": "tax" },
