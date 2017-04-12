@@ -47,15 +47,13 @@ module.exports = {
       let checkHaveSameRole = await RoleDetailService.checkHaveSameRole({ data, rolename: data.name });
 
       if((checkHaveREAD_WRITE || checkHaveREAD) && !checkHaveSameRole) {
-        sails.log('1 data=>', data);
         const item = await RoleDetail.create(data);
         let message = 'Create success.';
         res.ok({ message, data: { item } } );
       } else if((!checkHaveREAD_WRITE || !checkHaveREAD) && !checkHaveSameRole) {
-       sails.log('2 data=>', data);
         let addCreate = { name: 'READ', api: '', RoleId: data.RoleId, MenuItemId: data.MenuItemId  };
         await RoleDetail.create(addCreate);
-        let itme = await RoleDetail.create(data);
+        let item = await RoleDetail.create(data);
         let message = 'Create success.';
         res.ok({ message, data: { item } } );
       } else {
