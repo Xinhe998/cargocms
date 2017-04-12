@@ -124,6 +124,18 @@ var defaultConfig = {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
 
+  "api/admin/OrderProductController": {
+    '*': ['passport', 'sessionAuth', 'isAdmin'],
+  },
+
+  "api/admin/RoleController": {
+    '*': ['passport', 'sessionAuth', 'isAdmin'],
+  },
+
+  "api/admin/RoleDetailController": {
+    '*': ['passport', 'sessionAuth', 'isAdmin'],
+  },
+
   /***************************************************************************
   *                                                                          *
   * Default policy for all controllers and actions (`true` allows public     *
