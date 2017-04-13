@@ -14,7 +14,7 @@ module.exports = async function(req, res, next) {
   // or if this is the last policy, the controller
   const user = AuthService.getSessionUser(req);
   console.log("req.session", user, sails.config.offAuth);
-  if (sails.config.offAuth || user) {
+  if (sails.config.offAuth == true || user) {
     // const noEmail = !user.email;
     // if (noEmail || user.email === '') {
     //   sails.log.warn('使用者登入沒有 Email');
