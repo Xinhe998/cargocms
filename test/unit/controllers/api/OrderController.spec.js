@@ -37,9 +37,9 @@ describe('about Order controllers', () => {
       product2 = await createHelper.product({name: '肥美黑鮪魚', category:[category1.id]});
       product3 = await createHelper.product({name: '鮮甜大扇貝', category:[category3.id]});
 
-      productOption1 = await createHelper.productOption(1000, '3隻', product1.id)
-      productOption2 = await createHelper.productOption(2000, '6隻', product1.id);
-      productOption3 = await createHelper.productOption(3000, '12隻', product1.id);
+      productOption1 = await createHelper.productOption({ price:1000, value:'3隻', quantity: 3, productId: product1.id })
+      productOption2 = await createHelper.productOption({ price:2000, value:'6隻', quantity: 6, productId: product1.id });
+      productOption3 = await createHelper.productOption({ price:4000, value:'12隻',quantity: 12, productId: product1.id });
 
       await createHelper.supplierProduct(supplier.id, product1.id);
       await createHelper.supplierProduct(supplier.id, product2.id);

@@ -66,18 +66,32 @@ module.exports = {
     return product;
   },
 
-  productOption: async function(price, value, productId) {
+  productOption: async function({price, value, quantity, productId}) {
     try {
       const productOptionData = {
-        price: price,
         value: value,
         required: true,
         productId: productId
       };
 
       const productOption = await ProductOpiton.create(productOptionData);
+
+      const productOptionValueData = {
+        quantity: quantity,
+        price: price,
+        subtract: true,
+        pricePrefix: '+',
+        points: 0,
+        pointsPrefix: '+',
+        weight: 1,
+        weightPrefix: 1,
+        ProductId: productId,
+        ProductOptionId: productOption.id,
+      }
+      const productOptionValue = await ProductOpitonValue.create(productOptionValueData);
+
       return productOption;
-      
+
     } catch (e) {
       throw e;
     }
