@@ -15,6 +15,12 @@ module.exports = {
     //   type: Sequelize.INTEGER(11),
     //   allowNull: false
     // },
+    
+    price: {
+      type: Sequelize.DECIMAL(15,4),
+      allowNull: false,
+      defaultValue: '0.0000',
+    },
 
     value: {
       type: Sequelize.TEXT,
