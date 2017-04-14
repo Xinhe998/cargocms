@@ -156,7 +156,7 @@ describe('about Order controllers', () => {
 
   });
 
-  it.only('Order Products with Product Option', async (done) => {
+  it('Order Products with Product Option', async (done) => {
     try{
       const token = '8178e7c8e88a68321af84bc7b77e2yoo';
       let product = [
