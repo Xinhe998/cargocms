@@ -102,6 +102,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const item = await ProductOption.destroy({ where: { id } });
+      await ProductOptionValue.destroy({ where: { ProductOptionId: id } });
       let message = 'Delete success';
       res.ok({message, data: {item}});
     } catch (e) {
