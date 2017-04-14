@@ -5,7 +5,7 @@ module.exports = {
       const { query, method, body } = req;
       const { serverSidePaging } = query;
       const modelName = req.options.controller.split("/").reverse()[0];
-      const include = [  ];
+      const include = [ProductOptionValue];
       const isPost = method === 'POST';
       let mServerSidePaging = isPost ? body.serverSidePaging : serverSidePaging;
       let mQuery = isPost ? body : query;
@@ -31,7 +31,7 @@ module.exports = {
         where:{
           id
         },
-        include: []
+        include: [ProductOptionValue]
       });
       res.ok({data: {item}});
     } catch (e) {
@@ -42,7 +42,24 @@ module.exports = {
   create: async (req, res) => {
     try {
       let data = req.body;
-      const item = await ProductOption.create(data);
+      const productOptionData = {
+        value: data.value,
+        required: data.required,
+        OptionId: null,
+        ProductId: null,
+      };
+      const item = await ProductOption.create(productOptionData);
+
+      const productOptionValueData = {
+        ...data.ProductOptionValue,
+        OptionId: null,
+        OptionVauleId: null,
+        ProductOptionId: item.id,
+        ProductId: null
+      };
+
+      const productOptionValue = await ProductOptionValue.create(productOptionValueData);
+
       let message = 'Create success.';
       res.ok({ message, data: { item } } );
     } catch (e) {
@@ -54,10 +71,27 @@ module.exports = {
     try {
       const { id } = req.params;
       const data = req.body;
-      const message = 'Update success.';
-      const item = await ProductOption.update(data ,{
+
+      const productOptionData = {
+        value: data.value,
+        required: data.required,
+        deletedAt: null,
+        OptionId: null,
+      };
+      const item = await ProductOption.update(productOptionData ,{
         where: { id, },
       });
+      const productOptionValueData = data.ProductOptionValue;
+      productOptionValueData.OptionId = null;
+      productOptionValueData.OptionValueId = null;
+      productOptionValueData.deletedAt = null;
+      productOptionValueData.ProductId = null;
+  
+      const productOptionValue = await ProductOptionValue.update(productOptionValueData ,{
+        where: { ProductOptionId: id, },
+      });
+
+      const message = 'Update success.';
       res.ok({ message, data: { item } });
     } catch (e) {
       res.serverError(e);
