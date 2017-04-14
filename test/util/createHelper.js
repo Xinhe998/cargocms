@@ -74,7 +74,7 @@ module.exports = {
         productId: productId
       };
 
-      const productOption = await ProductOpiton.create(productOptionData);
+      const productOption = await ProductOption.create(productOptionData);
 
       const productOptionValueData = {
         quantity: quantity,
@@ -88,7 +88,7 @@ module.exports = {
         ProductId: productId,
         ProductOptionId: productOption.id,
       }
-      const productOptionValue = await ProductOpitonValue.create(productOptionValueData);
+      const productOptionValue = await ProductOptionValue.create(productOptionValueData);
 
       return productOption;
 

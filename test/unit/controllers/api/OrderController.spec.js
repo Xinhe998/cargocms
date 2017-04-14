@@ -37,9 +37,9 @@ describe('about Order controllers', () => {
       product2 = await createHelper.product({name: '肥美黑鮪魚', category:[category1.id]});
       product3 = await createHelper.product({name: '鮮甜大扇貝', category:[category3.id]});
 
-      productOption1 = await createHelper.productOption({ price:1000, value:'3隻', quantity: 3, productId: product1.id })
-      productOption2 = await createHelper.productOption({ price:2000, value:'6隻', quantity: 6, productId: product1.id });
-      productOption3 = await createHelper.productOption({ price:4000, value:'12隻',quantity: 12, productId: product1.id });
+      productOption1 = await createHelper.productOption({ price:1000, value: '3隻', quantity: 3, productId: product1.id })
+      productOption2 = await createHelper.productOption({ price:2000, value: '6隻', quantity: 6, productId: product1.id });
+      productOption3 = await createHelper.productOption({ price:4000, value:'12隻', quantity:12, productId: product1.id });
 
       await createHelper.supplierProduct(supplier.id, product1.id);
       await createHelper.supplierProduct(supplier.id, product2.id);
@@ -156,14 +156,14 @@ describe('about Order controllers', () => {
 
   });
 
-  it('Order Products with Product Option', async (done) => {
+  it.only('Order Products with Product Option', async (done) => {
     try{
       const token = '8178e7c8e88a68321af84bc7b77e2yoo';
       let product = [
         {
           id: product1.id,
           quantity: 3,
-          optionId: productOption3,
+          optionId: productOption3.id,
         },{
           id: product2.id,
           quantity: 2,
