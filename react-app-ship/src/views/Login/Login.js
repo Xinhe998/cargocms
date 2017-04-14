@@ -1,8 +1,10 @@
 /* @flow */
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Formsy from 'formsy-react';
+import Lang from 'lodash';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { deepOrange500 } from 'material-ui/styles/colors';
@@ -10,12 +12,14 @@ import { Snackbar } from 'material-ui';
 import Crab from './crab.png';
 import FishLogo from './fish logo.png';
 import FormsyInput from '../../components/FormsyInput';
+import log from '../../redux/utils/logs';
 import {
-  showToast,
+  handleShowToast,
   closeToast,
 } from '../../redux/utils/toast';
 import {
   fetchCurrentUserData,
+  requestLogIn,
 } from '../../redux/modules/user';
 import './_style.scss';
 
@@ -30,54 +34,74 @@ const muiTheme = getMuiTheme({
     toast: state.toast,
   }),
   dispatch => bindActionCreators({
-    showToast,
+    handleShowToast,
     closeToast,
     fetchCurrentUserData,
+    requestLogIn,
   }, dispatch),
 ) export default class Login extends React.Component {
   static defaultProps = {
-    showToast: null,
+    requestLogIn: null,
+    handleShowToast: null,
     closeToast: null,
     toast: {},
     fetchCurrentUserData: null,
   };
 
   static propTypes = {
-    showToast: PropTypes.func,
+    requestLogIn: PropTypes.func,
+    fetchCurrentUserData: PropTypes.func,
+    handleShowToast: PropTypes.func,
     closeToast: PropTypes.func,
     toast: PropTypes.object,
-    fetchCurrentUserData: PropTypes.func,
   };
 
   constructor(props) {
     super();
+    try {
+      injectTapEventPlugin();
+    } catch (e) {
+      log.info(e);
+    }
     this.state = {
       canSubmit: false,
+      notice: '',
+      username: '',
+      password: '',
     };
   }
 
   enableButton = () => {
     this.setState({
       canSubmit: true,
+      notice: '',
     });
     this.props.closeToast();
   }
 
   disableButton = () => {
+    let msg = '有欄位尚未輸入';
+    const isUsrEmpty = Lang.isEmpty(this.username.getValue());
+    const isPwdEmpty = Lang.isEmpty(this.password.getValue());
+    if (isPwdEmpty && isUsrEmpty) {
+      msg = '請檢查帳號 / 密碼';
+    }
     this.setState({
       canSubmit: false,
+      notice: msg,
     });
-    if (!this.props.toast.open) {
-      this.props.showToast('尚有欄位未填寫');
-    }
   }
 
   submit = () => {
     // FIXME: 需要登入 api ，目前暫時用 form 表單
-    document.querySelector('.login-form form').submit();
-    // TODO: 登入表單會引發 locatonChange 會導致遺失 store 資訊
-    // 所以正常情況下應該是要發 api 取得資訊之後再取得 CurrentUserData.
-    this.props.fetchCurrentUserData();
+    // document.querySelector('.login-form form').submit();
+    const usr = this.username.getValue();
+    const pwd = this.password.getValue();
+    this.props.requestLogIn(usr, pwd);
+  }
+
+  requestLogIn = () => {
+    this.props.requestLogIn(this.username.getValue(), this.password.getValue());
   }
 
   render() {
@@ -96,9 +120,9 @@ const muiTheme = getMuiTheme({
                 onValid={this.enableButton}
                 onInvalid={this.disableButton}
               >
-                <label htmlFor={this.identifier}>帳號</label>
+                <label htmlFor={this.username}>帳號</label>
                 <FormsyInput
-                  ref={(c) => { this.identifier = c; }}
+                  ref={(c) => { this.username = c; }}
                   name='identifier'
                   placeholder='Username'
                   className='form-control margin-bottom-20'
@@ -113,11 +137,13 @@ const muiTheme = getMuiTheme({
                   className='form-control'
                   required={true}
                 />
-                <a className='forget-password' href='#!'>忘記密碼？</a>
+                <span className='empty-notice'>{this.state.notice}</span>
+                <a className='forget-password' href='/forgot'>忘記密碼？</a>
                 <button
                   type='submit'
                   disabled={!this.state.canSubmit}
                   className='btn login-btn'
+                  data-tip={this.state.notice}
                 >登入系統</button>
               </Formsy.Form>
             </div>
@@ -139,7 +165,7 @@ const muiTheme = getMuiTheme({
           <Snackbar
             open={this.props.toast.open}
             message={this.props.toast.msg}
-            autoHideDuration={4000}
+            autoHideDuration={5000}
           />
         </div>
       </MuiThemeProvider>

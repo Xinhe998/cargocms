@@ -80,6 +80,10 @@
   h1 {
     font-size: 1.3em;
     margin-bottom: 7px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space : nowrap;
+    height: 1.3em;
   }
 }
 .outOfStock {

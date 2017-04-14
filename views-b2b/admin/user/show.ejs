@@ -114,6 +114,14 @@
                     <p class="text-muted">
                       <i class="fa fa-map-marker"></i>
                       <span class="txt-color-darken">
+                        {{ (data.item.postCode || '' ) + ' '+ (data.item.city || '') + ' ' + (data.item.district || '') }}
+                      </span>
+                    </p>
+                  </li>
+                  <li>
+                    <p class="text-muted">
+                      <i class="fa fa-map-marker"></i>
+                      <span class="txt-color-darken">
                         {{data.item.address}}
                       </span>
                     </p>
@@ -194,7 +202,7 @@
                       <li>
                         <label class="checkbox state-disabled">
                           <input type="checkbox" id="supplier" value="supplier" class="disabled" v-model="data.item.rolesArray" disabled>
-                          <i></i>供應商</label>
+                          <i></i>供應商{{ data.item.Supplier ? '('+ data.item.Supplier.name +')': '' }}</label>
                       </li>
                       <li>
                         <label class="checkbox state-disabled">

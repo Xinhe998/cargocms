@@ -37,14 +37,29 @@
         <input class="Order" type="text" name="invoiceNo" placeholder="" v-model="data.item.invoiceNo" disabled>
         <b class="tooltip tooltip-bottom-right">發票號碼</b></label>
     </section>
+  </div>
 
+  <div class="row">
     <section class="col col-lg-4 col-xs-4">
       <label class="label">總價</label>
       <label class="input state-disabled">
         <input type="text" name="total" placeholder="" v-model="data.item.total" disabled>
-        <b class="tooltip tooltip-bottom-right">總數</b></label>
+        <b class="tooltip tooltip-bottom-right">總價</b></label>
     </section>
 
+    <section class="col col-lg-4 col-xs-4">
+      <label class="label">稅額</label>
+      <label class="input state-disabled">
+        <input type="text" name="tax" placeholder="" v-model="data.item.tax" disabled>
+        <b class="tooltip tooltip-bottom-right">稅額</b></label>
+    </section>
+
+    <section class="col col-lg-4 col-xs-4">
+      <label class="label">含稅總價</label>
+      <label class="input state-disabled">
+        <input type="text" name="totalIncludeTax" placeholder="" v-model="data.item.totalIncludeTax" disabled>
+        <b class="tooltip tooltip-bottom-right">含稅總價</b></label>
+    </section>
   </div>
 
   <div class="row">
@@ -70,7 +85,7 @@
     </section>
   </div>
 
-  <div class="row">
+  <div class="row hidden">
     <section class="col col-lg-3 col-xs-3">
       <label class="label">付款名字</label>
       <label class="input state-disabled">
@@ -102,7 +117,7 @@
 
   </div>
 
-  <div class="row">
+  <div class="row hidden">
     <section class="col col-lg-3 col-xs-3">
       <label class="label">付款郵遞區號</label>
       <label class="input state-disabled">
@@ -154,7 +169,22 @@
         <input type="text" name="shippingCode" placeholder="" v-model="data.item.shippingCode" disabled>
         <b class="tooltip tooltip-bottom-right">運送代碼</b></label>
     </section>
+  </div>
 
+  <div class="row">
+    <section class="col col-lg-3 col-xs-3">
+      <label class="label">運送電話</label>
+      <label class="input state-disabled">
+        <input type="text" name="shippingTelephone" placeholder="" v-model="data.item.shippingTelephone" disabled>
+        <b class="tooltip tooltip-bottom-right">運送電話</b></label>
+    </section>
+
+    <section class="col col-lg-3 col-xs-3">
+      <label class="label">運送郵件</label>
+      <label class="input state-disabled">
+        <input type="text" name="shippingEmail" placeholder="" v-model="data.item.shippingEmail" disabled>
+        <b class="tooltip tooltip-bottom-right">運送郵件</b></label>
+    </section>
   </div>
 
   <div class="row">
@@ -183,24 +213,24 @@
 
   <div class="row">
 
-    <section class="col col-lg-6 col-xs-6">
+    <section class="col col-lg-12 col-xs-12">
       <label class="label">附註</label>
       <label class="input state-disabled">
         <input type="text" name="comment" placeholder="" v-model="data.item.comment" disabled>
         <b class="tooltip tooltip-bottom-right">附註</b></label>
     </section>
 
+    <!--
     <section class="col col-lg-6 col-xs-6">
       <label class="label">追蹤狀態</label>
       <label class="input state-disabled">
         <input type="text" name="tracking" placeholder="" v-model="data.item.tracking" disabled>
         <b class="tooltip tooltip-bottom-right">追蹤狀態</b></label>
     </section>
-
+    -->
   </div>
 
-  <div class="row">
-
+  <div class="row hidden">
     <section class="col col-lg-6 col-xs-6">
       <label class="label">IP</label>
       <label class="input state-disabled fn-edit-disabled">
@@ -216,7 +246,7 @@
     </section>
   </div>
 
-  <div class="row">
+  <div class="row hidden">
     <section class="col col-lg-12 col-xs-12">
       <label class="label">User Agent</label>
       <label class="input state-disabled fn-edit-disabled">
@@ -225,12 +255,31 @@
     </section>
   </div>
 
-  <div class="row">
+  <div class="row fn-create-hide">
     <section class="col col-lg-12 col-xs-12">
-      <label class="label">訂購產品{{data.item.orderProductList}}</label>
-      <label class="textarea state-disabled fn-edit-disabled">
-        <textarea rows="3" name="OrderProduct" placeholder="" v-model="data.option.orderProductList" disabled></textarea>
-        <b class="tooltip tooltip-bottom-right">訂購產品</b></label>
+      <label class="label">訂購產品</label>
+      <label class="table state-disabled fn-edit-disabled">
+      <div v-for="(supplier ,orderProducts) in data.option.orderProductList" class="margin-buttom-20">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{ supplier }}</th>
+              <th>數量</th>
+              <th>價格</th>
+              <th>合計</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="orderProduct in orderProducts">
+              <td class="col-xs-6">{{ orderProduct.name }}</td>
+              <td class="col-xs-2">{{ orderProduct.quantity }}</td>
+              <td class="col-xs-2">{{ orderProduct.formatPrice }}</td>
+              <td class="col-xs-2">{{ orderProduct.formatTotal }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <b class="tooltip tooltip-bottom-right">訂購產品</b></label>
     </section>
   </div>
 

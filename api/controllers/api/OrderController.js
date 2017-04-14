@@ -1,5 +1,7 @@
 module.exports = {
   createOrder: async (req, res) => {
+    const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
+    let transaction = await sequelize.transaction({isolationLevel});
     try{
       let data = req.body;
       const loginUser = AuthService.getSessionUser(req);
@@ -20,35 +22,13 @@ module.exports = {
 
       // check Product Numbers
       const products = JSON.parse(data.products);
-      const stock = await ProductService.checkStock({products});
+      const stock = await ProductService.checkStock({transaction, products});
       if (!stock) throw Error('訂購的產品庫存量不足！');
 
+      const order = await OrderService.createOrder(transaction, data);
+      transaction.commit();
 
-      const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
-
-      const success = (order) => {
-        const message = 'Order create success';
-        return res.ok({
-          message,
-          data: {
-            item: {
-              orderNumber: order.orderNumber
-            }
-          }
-        })
-
-      };
-      const error = () => {
-        return res.redirect('/');
-      };
-
-      let transaction;
-      return sequelize.transaction({ isolationLevel })
-      .then(function (t) {
-        transaction = t;
-        return OrderService.createOrder(transaction, data);
-      })
-      .then(async function(order){
+      try {
         let mailMessage = {};
         mailMessage.serialNumber = order.orderNumber;
         mailMessage.paymentTotalAmount = order.total;
@@ -60,22 +40,32 @@ module.exports = {
         mailMessage.note = order.comment;
         mailMessage.phone = order.telephone;
         mailMessage.invoiceNo = `${order.invoicePrefix}${order.invoiceNo}`;
-        const messageConfig = await MessageService.orderToShopConfirm(mailMessage);
-        const mail = await Message.create(messageConfig);
+        let messageConfig = await MessageService.orderToShopConfirm(mailMessage);
+        let mail = await Message.create(messageConfig);
         await MessageService.sendMail(mail);
-        transaction.commit();
-        success(order);
+
+        if(order.email !== loginUser.email){
+          mailMessage.email = loginUser.email;
+          messageConfig = await MessageService.orderToShopConfirm(mailMessage);
+          let mail = await Message.create(messageConfig);
+          await MessageService.sendMail(mail);
+        }
+      } catch (e) {
+        sails.log.error(e);
+      }
+
+      const message = 'Order create success';
+      return res.ok({
+        message,
+        data: {
+          item: {
+            orderNumber: order.orderNumber
+          }
+        }
       })
-      .catch(sequelize.UniqueConstraintError, function(e) {
-        throw Error('此交易已失效，請重新下訂')
-      })
-      .catch(function(err) {
-        sails.log.error('訂單建立 Order 失敗', err.toString());
-        transaction.rollback();
-        error();
-      });
 
     } catch (e) {
+      transaction.rollback();
       res.serverError(e);
     }
   },

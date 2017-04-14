@@ -1,4 +1,30 @@
 describe('test Recipe model operation', function() {
+
+  it('run 50 transactions parallelly should be success.', async (done) => {
+    const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
+    const transaction = await sequelize.transaction({ isolationLevel });
+    try {
+      let recipes = [];
+      for (const i in [...Array(50).keys()]) {
+        recipes.push({
+          formula: [ 'B5:3', 'T14:3' ],
+          formulaLogs: "+B4:3;+T14:2;-B4:3",
+          authorName: '作者名' + i,
+          perfumeName: '香水配方名' + i
+        });
+      }
+      const promises = recipes.map((recipe) => Recipe.create(recipe, { transaction }));
+      const results = await Promise.all(promises);
+      transaction.commit();
+      done();
+    } catch (e) {
+      console.log('erroe=>', e);
+      transaction.rollback();
+      done(e);
+    }
+  });
+
+
   it('build model.', async (done) => {
     try {
       let emptyRecipe = Recipe.build({},{raw: true});

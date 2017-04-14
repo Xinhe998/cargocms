@@ -27,6 +27,7 @@
       <th width="8%" class="" data-hide="phone,tablet"> 生日</th>
       <th width="10%" class="" data-hide="phone,tablet"> 手機</th>
       <th class="" data-hide="always"> 市話</th>
+      <th class="city" data-hide="always"> 縣市區域</th>
       <th class="" data-hide="always"> 收件地址1</th>
       <th class="" data-hide="always"> 收件地址2</th>
       <th width="10%" data-hide="phone,tablet">
@@ -47,8 +48,8 @@
       <td>{{ item.birthday }}</td>
       <td>{{ item.phone1 }}</td>
       <td>{{ item.phone2 }}</td>
-      <td>{{ item.address }}</td>
-			<td>{{ item.address2 }}</td>
+      <td>{{ item.postCode + item.city + item.district }}</td>
+			<td>{{ item.address }}</td>
       <td><small>{{ item.lastLogin }}</small></td>
 			<td>{{ item.rolesArray }}</td>
 			<td align="center" style="cursor: pointer;">
@@ -78,6 +79,7 @@
       { "data": "birthday" },
       { "data": "phone1" },
       { "data": "phone2" },
+      { "data": null },
       { "data": "address" },
 			{ "data": "address2" },
       { "data": "lastLogin" },
@@ -101,6 +103,12 @@
         "orderable": false,
       },
       {
+        "targets" : "city",
+        "render": function(data, type, row) {
+          return '<td>'+ (row.postCode || '') + (row.city || '') + (row.district || '') +'</td>'
+        },
+      },
+      {
         "targets" : 1,
         "render": function(data, type, row) {
           var html = '<img width="15" src="' + row.avatarThumb + '" class="img-circle" /> ';
@@ -113,7 +121,7 @@
         "targets": 2
       },
 			{
-				"targets" : 10,
+				"targets" : 11,
 				"render": function(data, type, row) {
 					if (!data) {
 						return '<span class="text-muted"><small>沒有記錄</small></span>';
@@ -122,7 +130,7 @@
 				}
 			},
       {
-        "targets" : 11,
+        "targets" : 12,
         "render": function(data, type, row) {
           var roles = row.rolesArray;
           console.log("roles ==>", row.rolesArray);
@@ -136,7 +144,7 @@
         }
       },
 			{
-				"targets"  : 12,
+				"targets"  : 13,
 				"orderable": false,
 				"searchable": false,
 				"render": function ( data, type, row ) {

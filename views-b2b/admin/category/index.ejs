@@ -4,13 +4,14 @@
   <thead>
     <tr>
       <th data-hide=""
-      data-class="expand" class="no-sort">
+      data-class="expand" class="no-sort name">
         名稱
       </th>
       <th data-hide=""
-      data-class="" class="no-sort">
+      data-class="" class="no-sort description">
         描述
       </th>
+      <!--
       <th data-hide=""
       data-class="" class="no-sort">
         Meta標題
@@ -31,15 +32,18 @@
       data-class="" class="no-sort">
         分類欄位
       </th>
+      -->
       <th data-hide="always"
       data-class="" class="no-sort">
         排序
       </th>
+      <!--
       <th data-hide=""
       data-class="" class="no-sort">
         狀態
       </th>
-      <th width="80" data-hide="phone,tablet"></th>
+      -->
+      <th width="80" class="operate" data-hide="phone,tablet"></th>
     </tr>
   </thead>
   <!-- client only -->
@@ -81,17 +85,17 @@
     var columns = [
       { "data": null },
       { "data": null },
-      { "data": null },
-      { "data": null },
-      { "data": null },
-
-      { "data": "top" },
-
-      { "data": "column" },
-
+      // { "data": null },
+      // { "data": null },
+      // { "data": null },
+      //
+      // { "data": "top" },
+      //
+      // { "data": "column" },
+      //
       { "data": "sortOrder" },
-
-      { "data": "status" },
+      //
+      // { "data": "status" },
 
       { "data": null },
     ]
@@ -100,42 +104,42 @@
     var columnDefs = [
       {
         "searchable": false,
-        "targets": 0,
+        "targets": "name",
         "render": function (data, type, row) {
           return '<td>' + row.CategoryDescription.name + '</td>';
         }
       },
       {
         "searchable": false,
-        "targets": 1,
+        "targets": "description",
         "render": function (data, type, row) {
           return '<td>' + row.CategoryDescription.description + '</td>';
         }
       },
-      {
-        "searchable": false,
-        "targets": 2,
-        "render": function (data, type, row) {
-          return '<td>' + row.CategoryDescription.metaTitle + '</td>';
-        }
-      },
-      {
-        "searchable": false,
-        "targets": 3,
-        "render": function (data, type, row) {
-          return '<td>' + row.CategoryDescription.metaDescription + '</td>';
-        }
-      },
-      {
-        "searchable": false,
-        "targets": 4,
-        "render": function (data, type, row) {
-          return '<td>' + row.CategoryDescription.metaKeyword + '</td>';
-        }
-      },
+      // {
+      //   "searchable": false,
+      //   "targets": 2,
+      //   "render": function (data, type, row) {
+      //     return '<td>' + row.CategoryDescription.metaTitle + '</td>';
+      //   }
+      // },
+      // {
+      //   "searchable": false,
+      //   "targets": 3,
+      //   "render": function (data, type, row) {
+      //     return '<td>' + row.CategoryDescription.metaDescription + '</td>';
+      //   }
+      // },
+      // {
+      //   "searchable": false,
+      //   "targets": 4,
+      //   "render": function (data, type, row) {
+      //     return '<td>' + row.CategoryDescription.metaKeyword + '</td>';
+      //   }
+      // },
 
       {
-        "targets"  : 9,
+        "targets"  : "operate",
         "orderable": false,
         "searchable": false,
         "render": function ( data, type, row ) {

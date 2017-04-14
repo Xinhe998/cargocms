@@ -23,6 +23,7 @@ var defaultConfig = {
   'AuthController': {
     '*': ['passport'],
     'status': [],
+    'callback': ['passport', 'jwtEncode'],
   },
   ...customConfig,
   'BlogController': {
@@ -40,6 +41,7 @@ var defaultConfig = {
     '*': ['passport', 'sessionAuth'],
     'forgotPassword': [],
     'updatePassword': [],
+    'getCurrentUser': [],
   },
   'EventController': {
     'allpay': ['passport', 'sessionAuth'],
@@ -85,56 +87,10 @@ var defaultConfig = {
   "api/admin/UserController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
-  "api/admin/ProductController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
   "UtilsController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
 
-
-
-  "api/admin/ProductDescriptionController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
-
-  "api/admin/ProductController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
-  "api/admin/SupplierController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
-  "api/admin/SupplierShipOrderController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-    // '*': [],
-  },
-  "api/admin/SupplierShipOrderProductController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
-
-  "api/admin/OrderController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
-
-  "api/admin/OrderPaymentController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
-
-  "api/admin/OrderPaymentStatusController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
-
-  "api/admin/OrderPaymentHistoryController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
-
-  "api/admin/SupplierShipOrderHistoryController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
-
-  "api/admin/OrderHistoryController": {
-    '*': ['passport', 'sessionAuth', 'isAdmin'],
-  },
 
   /***************************************************************************
   *                                                                          *

@@ -167,8 +167,13 @@
 
             <section class="col">
               <label class="input" for="address">
-                收件地址
+                地址
               </label>
+              <div class="row" id="twzipcode">
+                <div class="col-xs-4 form-group" data-role="county" data-name="city" data-value="<%= user.city %>"></div>
+                <div class="col-xs-4 form-group" data-role="district" data-name="district" data-value="<%= user.district %>"></div>
+                <div class="col-xs-4 form-group" data-role="zipcode" data-name="postCode" data-value="<%= user.postCode %>"></div>
+              </div>
               <div class="input-group">
                 <span class="input-group-addon rounded-left">
                   <i class="fa fa-location-arrow color-blue"></i>
@@ -177,17 +182,6 @@
               </div>
             </section>
 
-            <!-- <section class="col">
-              <label class="input" for="address2">
-                住址2
-              </label>
-              <div class="input-group">
-                <span class="input-group-addon rounded-left">
-                  <i class="fa fa-location-arrow color-blue"></i>
-                </span>
-                <input type="text" name="address2" class="form-control rounded-right" placeholder="請輸入地址" value="<%= user.address2 ? user.address2: "" %>">
-              </div>
-            </section> -->
 
             <% if (!user.facebookId) { %>
               <section class="col">
@@ -236,9 +230,12 @@
     </div>
     <!-- end col -->
 
+
+
   </div>
   <!-- end row -->
 </div>
+<% LayoutUtils.addScripts('/assets/b2b/plugins/jquery.twzipcode.min.js'); %>
 <% LayoutUtils.addScripts('/assets/b2b/page/profile/edit.js'); %>
 <% LayoutUtils.addScripts('/assets/admin/js/libs/fine-uploader.min.js'); %>
 <% LayoutUtils.addScripts('/assets/b2b/lib/fineuploader.js'); %>

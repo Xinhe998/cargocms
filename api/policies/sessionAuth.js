@@ -23,7 +23,8 @@ module.exports = async function(req, res, next) {
 
     if (sails.config.verificationEmail && user.verificationEmailToken) {
       const modelUser = await User.findById(user.id);
-      if (modelUser.verificationEmailToken) {
+
+      if (req.path !== '/api/user/edit' && modelUser.verificationEmailToken) {
         req.flash('info', '請先驗證完您的 Email 才能使用此功能');
         return res.redirect('/edit/me');
       }

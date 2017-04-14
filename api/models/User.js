@@ -46,6 +46,15 @@ module.exports = {
     address2:{
       type: Sequelize.STRING
     },
+    postCode: {
+      type: Sequelize.STRING(10)
+    },
+    city: {
+      type: Sequelize.STRING(128)
+    },
+    district: {
+      type: Sequelize.STRING(128)
+    },
     locale: {
       type: Sequelize.STRING,
       defaultValues: 'zh_TW'
@@ -239,8 +248,11 @@ module.exports = {
     },
     hooks: {
       afterCreate: async function(user, options) {
+        let {transaction} = options;
+        // console.log("=== transaction ===", transaction);
+        // transaction = null;
         const userRole = await Role.findOne({where: {authority: 'user'}});
-        await user.addRole(userRole);
+        await user.addRole(userRole, {transaction});
       }
     }
   }

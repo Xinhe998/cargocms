@@ -71,6 +71,13 @@
           float: right;
           margin: 8px 0;
         }
+        .empty-notice {
+          font-weight: bold;
+          font-size: 13px;
+          color: #ff0000;
+          float: left;
+          margin: 8px 0;
+        }
       }
       @media (max-width: 649px) {
         img.crab {

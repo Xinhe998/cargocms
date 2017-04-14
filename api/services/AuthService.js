@@ -18,24 +18,49 @@ module.exports = {
   },
 
   isAdmin: function(req) {
-
     let user = AuthService.getSessionUser(req);
     let isAdmin = false;
     if (user) {
-      user.Roles.forEach((role) => {
-        if(role.authority == 'admin') isAdmin = true;
-      });
+      console.log('user=>', user);
+      if (user.Roles) {
+        user.Roles.forEach((role) => {
+          if(role.authority == 'admin') isAdmin = true;
+        });
+      }
+      if (user.rolesArray) {
+        user.rolesArray.forEach((role) => {
+          if(role == 'admin') isAdmin = true;
+        });
+      }
     }
 
     return isAdmin;
   },
 
+  isSupplier: function(req) {
+
+    let user = AuthService.getSessionUser(req);
+    let isSupplier = false;
+    if (user) {
+      user.Roles.forEach((role) => {
+        if(role.authority == 'supplier') isSupplier = true;
+      });
+    }
+
+    return isSupplier;
+  },
+
   getSessionEncodeToJWT: function(req) {
-    const session = AuthService.getSessionUser(req);
+    const user = AuthService.getSessionUser(req);
     const isWebView = AuthService.isWebView(req.headers['user-agent']);
     let jwtToken = '';
-    if ((req.session.needJwt || isWebView ) && session ) {
-      jwtToken = jwt.sign(session, 'secret');
+    if ((req.session.needJwt || isWebView ) && user ) {
+      try {
+        jwtToken = jwt.sign(JSON.stringify(user), 'secret');
+      } catch (e) {
+        console.log(e);
+        throw new Error(e);
+      }
     }
     req.session.needJwt = false;
     return jwtToken;

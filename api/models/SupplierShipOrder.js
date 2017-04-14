@@ -246,6 +246,28 @@ module.exports = {
       unique: true,
     },
 
+    totalIncludeTax: {
+      type: Sequelize.DECIMAL(15,4),
+      defaultValue: '0.000',
+      allowNull: false,
+    },
+
+    tax: {
+      type: Sequelize.DECIMAL(15,4),
+      defaultValue: '0.000',
+      allowNull: false,
+    },
+
+    shippingEmail: {
+      type: Sequelize.STRING(96),
+      allowNull: false,
+    },
+
+    shippingTelephone: {
+      type: Sequelize.STRING(32),
+      allowNull: false,
+    },
+
 		createdDateTime: {
 			type: Sequelize.VIRTUAL,
 			get: function() {
@@ -285,7 +307,7 @@ module.exports = {
         try{
           let total = this.getDataValue('total');
           if(!total){
-            return '';
+            return 0;
           }
           return UtilsService.moneyFormat(total);
 
@@ -298,12 +320,26 @@ module.exports = {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{
-          let total = this.getDataValue('total');
-          if(!total){
-            return '';
+          let tax = this.getDataValue('tax');
+          if(!tax){
+            return 0;
           }
-          total = Math.round(total * 0.05);
-          return UtilsService.moneyFormat(total);
+          return UtilsService.moneyFormat(tax);
+
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
+    },
+    formatTotalWithTax: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          let totalIncludeTax = this.getDataValue('totalIncludeTax');
+          if(!totalIncludeTax){
+            return 0;
+          }
+          return UtilsService.moneyFormat(totalIncludeTax);
 
         } catch(e){
           sails.log.error(e);
@@ -323,6 +359,17 @@ module.exports = {
 		classMethods: {},
 		instanceMethods: {},
 		hooks: {
+      afterCreate: async function(supplierShipOrder, options) {
+        let {transaction} = options;
+
+        const supplierName = await Supplier.findById(supplierShipOrder.SupplierId);
+
+        await SupplierShipOrderHistory.create({
+          SupplierShipOrderId: supplierShipOrder.id,
+          notify: true,
+          comment: `訂單 ID: ${supplierShipOrder.OrderId} 已確認，建立 ${supplierName.name} 供應商出貨單 ID:${supplierShipOrder.id}.`
+        }, { transaction });
+      },
       afterUpdate: async function(supplierShipOrder, options) {
         let { transaction } = options;
         let shipOrderChanged = supplierShipOrder.changed();

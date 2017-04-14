@@ -1,8 +1,8 @@
 /* @flow */
+// import injectTapEventPlugin from 'react-tap-event-plugin';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import {
   AppBar,
   Drawer,
@@ -11,12 +11,13 @@ import {
 import MainToolbar from './MainToolbar';
 import DrawerMenuItems from './DrawerMenuItems';
 import {
-  showToast,
+  handleShowToast,
   closeToast,
 } from '../../redux/utils/toast';
 import {
   fetchCurrentUserData,
 } from '../../redux/modules/user';
+import log from '../../redux/utils/logs';
 
 const styles = {
   appBar: {
@@ -48,36 +49,38 @@ const styles = {
     user: state.user,
   }),
   dispatch => bindActionCreators({
-    showToast,
+    handleShowToast,
     closeToast,
     fetchCurrentUserData,
   }, dispatch),
 ) export default class AppDrawer extends React.Component {
   static propTypes = {
     fetchCurrentUserData: PropTypes.func,
-    showToast: PropTypes.func,
+    handleShowToast: PropTypes.func,
     closeToast: PropTypes.func,
     toast: PropTypes.object,
     content: PropTypes.object,
+    user: PropTypes.object,
   };
 
   static defaultProps = {
     fetchCurrentUserData: null,
-    showToast: null,
+    handleShowToast: null,
     closeToast: null,
     toast: {},
     content: '',
+    user: {},
   };
 
   constructor(props) {
     super(props);
-    injectTapEventPlugin();
     props.fetchCurrentUserData();
     this.state = {
       drawerOpen: true,
       drawerWidth: 150,
       width: 0,
       height: 0,
+      isShow: false,
     };
   }
 
@@ -106,7 +109,7 @@ const styles = {
   }
 
   handleToggle = () => {
-    this.props.showToast('你切換了 Drawer');
+    this.props.handleShowToast('你切換了 Drawer');
     this.setState({
       drawerOpen: !this.state.drawerOpen,
     });
@@ -132,7 +135,10 @@ const styles = {
 
     styles.drawerContainer.position = isMobile ? 'fixed' : 'relative';
     return (
-      <div className='appBarWraaper'>
+      <div
+        className='appBarWraaper'
+        style={{ display: this.props.user.isAuthorized ? 'block' : 'none' }}
+      >
         <AppBar
           className='appBar'
           title={titleText}

@@ -1,31 +1,5 @@
 module.exports = {
 
-  getCurrentUser: async (req, res) => {
-    try {
-      if (!req.user.id)
-        throw Error('no login');
-
-      const where = {
-        where: {
-          id: req.user.id,
-        },
-        include: [
-          Role,
-          Supplier,
-        ],
-      };
-      const currentUser = await User.find(where);
-      console.log('currentUser=>', currentUser);
-      const roles = ''
-      const result = {
-        currentUser,
-      };
-      res.ok(result);
-    } catch (e) {
-      res.serverError(e);
-    }
-  },
-
   find: async (req, res) => {
     try {
       let {query} = req

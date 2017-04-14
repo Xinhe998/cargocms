@@ -51,44 +51,44 @@
 	</div>
 	<div class="row b2b-content b2b-content-body">
 
-    <% if (data.items.length == 0) { %>
+    <% if (!data.items || data.items.length == 0) { %>
       <div class="no-product">
         <img class="no-product-img" src="/assets/b2b/img/sold-out.png" />
         <span>目前此分類沒有任何商品！</span>
       </div>
-    <% } %>
-
-    <% for(var p = 0, len = data.items.length; p < len; p++) { %>
-      <div class="col-sm-4 col-md-3 product" data-id="<%= data.items[p].id %>">
-        <div class="product-img" style="background-image: url('<%= data.items[p].image%>');"></div>
-        <h1><%= data.items[p].model %></h1>
-        <span class="promotion-label">限量優惠</span>
-        <p class="product-price">
-  				<i class="fa fa-dollar"></i><span><%= data.items[p].price %></span><small>起</small>
-  			</p>
-        <div class="form-group">
-          <div>
-            <label class="control-label">特級 <%= data.items[p].price %> /包</label>
-          </div>
-          <div>
-            <label class="control-label"><%= data.items[p].weight %> 公克/包</label>
-          </div>
-          <% if( data.items[p].quantity > 0) { %>
+    <% } else { %>
+      <% for(var p = 0, len = data.items.length; p < len; p++) { %>
+        <div class="col-sm-4 col-md-3 product" data-id="<%= data.items[p].id %>">
+          <div class="product-img" style="background-image: url('<%= data.items[p].image%>');"></div>
+          <h1 class="product-name" title="<%= data.items[p].model %>" data-toggle="tooltip" data-placement="bottom"><%= data.items[p].model %></h1>
+          <span class="promotion-label">限量優惠</span>
+          <p class="product-price">
+    				<i class="fa fa-dollar"></i><span><%= data.items[p].price %></span><small>起</small>
+    			</p>
+          <div class="form-group">
             <div>
-              <label class="control-label">目前庫存 <%= data.items[p].quantity %>包</label>
+              <label class="control-label">特級 <%= data.items[p].price %> /包</label>
             </div>
-
-            <label style="float: left;margin: 9px 8px 0 0;font-size: 1.2em;">訂購</label>
-            <label style="float: right;margin: 9px 0 0 8px;font-size: 1.2em;">包</label>
-            <input class="form-control" type="number" value="0" min="0" max="<%= data.items[p].quantity %>" />
-          <% } else { %>
             <div>
-              <label class="control-label outOfStock">此商品已售完</label>
-              <input class="form-control" type="number" value="0" min="0" max="<%= data.items[p].quantity %>" disabled/>
+              <label class="control-label"><%= data.items[p].weight %> 公克/包</label>
             </div>
-          <% } %>
-  			</div>
-      </div>
+            <% if( data.items[p].quantity > 0) { %>
+              <div>
+                <label class="control-label">目前庫存 <%= data.items[p].quantity %>包</label>
+              </div>
+
+              <label style="float: left;margin: 9px 8px 0 0;font-size: 1.2em;">訂購</label>
+              <label style="float: right;margin: 9px 0 0 8px;font-size: 1.2em;">包</label>
+              <input class="form-control" type="number" value="0" min="0" max="<%= data.items[p].quantity %>" />
+            <% } else { %>
+              <div>
+                <label class="control-label outOfStock">此商品已售完</label>
+                <input class="form-control" type="number" value="0" min="0" max="<%= data.items[p].quantity %>" disabled/>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      <% } %>
     <% } %>
 
 	</div>
@@ -98,7 +98,19 @@
 <% LayoutUtils.addScripts('/assets/unify/js/app.js', '/assets/unify/js/plugins/owl-carousel.js'); %>
 <% LayoutUtils.addScriptBlock(`
   var error = ${errors ? 'true' : 'false'};
+  var infoMsg  = '${req.flash('info')[0]}';
   if (error) {
-    swal("Oops", "帳號或密碼有誤！", "warning")
+    var errorMsg = '${errors}';
+    if (errorMsg === 'Error.Passport.BadUserPassword') {
+      errorMsg = '帳號或密碼有誤';
+    }
+    swal("Oops", errorMsg , "warning");
   }
+  if (infoMsg !== 'undefined') {
+    swal("提醒", infoMsg , "info");
+  }
+
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+  });
 `); %>

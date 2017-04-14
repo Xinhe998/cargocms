@@ -183,6 +183,42 @@ describe('about admin Supplier Ship Order controllers', () => {
       }
     });
 
+    it('admin update status: COMPLETED , Supplier Ship Order should success.', async (done) => {
+      try{
+        const res = await request(sails.hooks.http.app)
+        .put(`/api/admin/suppliershiporder/status/${supplierShipOrder1.id}`)
+        .send({
+          status: 'COMPLETED',
+        });
+        res.status.should.be.eq(200);
+
+        const checkSupplierShipOrder = await SupplierShipOrder.findById(supplierShipOrder1.id);
+        checkSupplierShipOrder.status.should.be.eq('COMPLETED');
+
+        const checkSupplierShipOrderProduct = await SupplierShipOrderProduct.findById(supplierShipOrderProduct1.id);
+        checkSupplierShipOrderProduct.status.should.be.eq('COMPLETED');
+
+        const checkSupplierShipOrderHistory = await SupplierShipOrderHistory.findAll({
+          where: {
+            SupplierShipOrderId: supplierShipOrder1.id
+          }
+        });
+        (checkSupplierShipOrderHistory.length > 0).should.be.true;
+
+        const orderStatus = await OrderStatus.findOne({
+          where: {
+            name: 'COMPLETED'
+          }
+        })
+        const checkOrder = await Order.findById(checkSupplierShipOrder.OrderId);
+        checkOrder.OrderStatusId.should.be.eq(orderStatus.id);
+
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+
     it('admin CANCELLED Supplier Ship Order desc cancel too.', async (done) => {
       try{
         const res = await request(sails.hooks.http.app)

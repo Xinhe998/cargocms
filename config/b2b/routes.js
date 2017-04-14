@@ -31,4 +31,5 @@ module.exports = {
 
   '/validate/email':  'b2b/MainController.validateEmail',
   '/edit/me':  'b2b/MainController.editPofile',
+  '/update/password': 'b2b/MainController.updatePassword',
 };

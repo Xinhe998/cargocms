@@ -32,6 +32,23 @@
           <input name="telephone" type="text" class="form-control" value=<%= loginUser.phone1 ? loginUser.phone1 : '' %>>
         </div>
 
+        <div class="form-group hidden">
+          <label for="userCity"><span class="column-require">*</span>縣市</label>
+          <input name="userCity" type="text" class="form-control" value=<%= loginUser.city ? loginUser.city : '' %>>
+        </div>
+        <div class="form-group hidden">
+          <label for="userDistrict"><span class="column-require">*</span>區域</label>
+          <input name="userDistrict" type="text" class="form-control" value=<%= loginUser.district ? loginUser.district : '' %>>
+        </div>
+        <div class="form-group hidden">
+          <label for="userPostCode"><span class="column-require">*</span>郵遞區號</label>
+          <input name="userPostCode" type="text" class="form-control" value=<%= loginUser.postCode ? loginUser.postCode : '' %>>
+        </div>
+        <div class="form-group hidden">
+          <label for="userAddress"><span class="column-require">*</span>地址</label>
+          <input name="userAddress" type="text" class="form-control" value=<%= loginUser.address ? loginUser.address : '' %>>
+        </div>
+
       </div>
   	</div>
 
@@ -42,11 +59,11 @@
       <div class="col-sm-8">
 
           <h3>收件人資訊</h3>
-          <hr />
           <p><span class="column-require">*</span> 必填欄位</p>
-          <div class="checkbox">
+          <hr />
+          <div class="checkbox" >
             <label>
-              <input type="checkbox"> 與訂購人相同請打勾
+              <input type="checkbox" id="userInfo"> 與訂購人相同請打勾
             </label>
           </div>
           <div class="form-group">
@@ -66,13 +83,18 @@
             <input name="shippingTelephone" type="text" class="form-control">
           </div>
 
-
           <h3><span class="column-require">*</span>收件地址</h3>
           <hr />
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="userAddress"> 使用預設地址
+            </label>
+          </div>
+
           <div class="row" id="twzipcode">
-            <div class="col-xs-4 form-group" data-role="county" ></div>
-            <div class="col-xs-4 form-group" data-role="district" ></div>
-            <div class="col-xs-4 form-group" data-role="zipcode" ></div>
+            <div class="col-xs-4 form-group" data-role="county"></div>
+            <div class="col-xs-4 form-group" data-role="district"></div>
+            <div class="col-xs-4 form-group" data-role="zipcode"></div>
           </div>
 
           <div class="form-group">
@@ -86,11 +108,11 @@
           </div>
 
           <hr />
-          <div class="form-group">
+          <span>* 產品運送方式皆採用 <strong>低溫宅配</strong></span>
+          <div class="form-group hidden">
             <label for=""><span class="column-require">*</span>選擇運送方式</label>
             <select class="form-control" name="shippingMethod">
               <option value="低溫宅配">低溫宅配</option>
-              <option value="集貨自取">集貨自取</option>
             </select>
           </div>
 
@@ -126,10 +148,14 @@
         <th>營業稅</th><td>$ {{ Math.round(priceSum * 0.05) | moneyNum }}</td>
       </tr>
       <tr>
-        <th>總計</th><td>$ {{priceSum | moneyNum}}</td>
+        <th>總計</th><td>$ {{priceSum + Math.round(priceSum * 0.05) | moneyNum}}</td>
       </tr>
     </table>
-    <button class="btn btn-default btn-lg pull-right" type="submit" style="clear:right; display:inline-block; margin:1.6em 0 3em;">確認訂單</button>
+    <div class="col-xs-12">
+      <button class="btn btn-default btn-lg pull-right" type="submit" style="display:inline-block; margin:1.6em 0 3em;">確認訂單</button>
+      <a href="/" class="btn btn-lg btn-info pull-right" style="display:inline-block; margin:1.6em 1em 3em;">繼續選購</a>
+    </div>
+
   </div>
 
 </form>

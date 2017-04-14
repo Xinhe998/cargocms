@@ -134,7 +134,8 @@
 
 
 	// PAGE RELATED SCRIPTS
-
-	loadScript("/assets/admin/js/plugin/jquery-form/jquery-form.min.js", pagefunction);
+  loadScript("/assets/admin/js/plugin/jquery-form/jquery-form.min.js", function(){
+    loadScript('/assets/b2b/plugins/jquery.twzipcode.min.js',pagefunction)
+  });
 
 </script>
