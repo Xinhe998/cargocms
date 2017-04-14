@@ -2,10 +2,10 @@
 
   
     <section row="">
-      <label class="label">數值</label>
+      <label class="label">內容</label>
       <label class="input state-disabled ">
       <input type="text" name="value" placeholder="" v-model="data.item.value" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入數值</b></label>
+      <b class="tooltip tooltip-bottom-right">請輸入內容</b></label>
     </section>
   
     <section row="">
@@ -18,56 +18,56 @@
     <section row="">
       <label class="label">數量</label>
       <label class="input state-disabled ">
-      <input type="text" name="quantity" placeholder="" v-model="data.item.quantity" disabled>
+      <input type="text" name="quantity" placeholder="" v-model="data.item.ProductOptionValue.quantity" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入數量</b></label>
     </section>
   
     <section row="">
       <label class="label">賣出減少</label>
       <label class="input state-disabled ">
-      <input type="text" name="subtract" placeholder="" v-model="data.item.subtract" disabled>
+      <input type="text" name="subtract" placeholder="" v-model="data.item.ProductOptionValue.subtract" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入賣出減少</b></label>
     </section>
   
     <section row="">
       <label class="label">價格</label>
       <label class="input state-disabled ">
-      <input type="text" name="price" placeholder="" v-model="data.item.price" disabled>
+      <input type="text" name="price" placeholder="" v-model="data.item.ProductOptionValue.price" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入價格</b></label>
     </section>
   
     <section row="">
       <label class="label">價格字首</label>
       <label class="input state-disabled ">
-      <input type="text" name="pricePrefix" placeholder="" v-model="data.item.pricePrefix" disabled>
+      <input type="text" name="pricePrefix" placeholder="" v-model="data.item.ProductOptionValue.pricePrefix" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入價格字首</b></label>
     </section>
   
     <section row="">
       <label class="label">點數</label>
       <label class="input state-disabled ">
-      <input type="text" name="points" placeholder="" v-model="data.item.points" disabled>
+      <input type="text" name="points" placeholder="" v-model="data.item.ProductOptionValue.points" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入點數</b></label>
     </section>
   
     <section row="">
       <label class="label">點數字首</label>
       <label class="input state-disabled ">
-      <input type="text" name="pointsPrefix" placeholder="" v-model="data.item.pointsPrefix" disabled>
+      <input type="text" name="pointsPrefix" placeholder="" v-model="data.item.ProductOptionValue.pointsPrefix" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入點數字首</b></label>
     </section>
   
     <section row="">
-      <label class="label">價格</label>
+      <label class="label">重量</label>
       <label class="input state-disabled ">
-      <input type="text" name="weight" placeholder="" v-model="data.item.weight" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入價格</b></label>
+      <input type="text" name="weight" placeholder="" v-model="data.item.ProductOptionValue.weight" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入重量</b></label>
     </section>
   
     <section row="">
       <label class="label">重量字首</label>
       <label class="input state-disabled ">
-      <input type="text" name="weightPrefix" placeholder="" v-model="data.item.weightPrefix" disabled>
+      <input type="text" name="weightPrefix" placeholder="" v-model="data.item.ProductOptionValue.weightPrefix" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入重量字首</b></label>
     </section>
   
@@ -133,7 +133,7 @@
       required: "請給予 點數字首",
     },
     weight:{
-      required: "請給予 價格",
+      required: "請給予 重量",
     },
     weightPrefix:{
       required: "請給予 重量字首",

@@ -3,66 +3,55 @@
 <table id="main-table" class="table table-striped table-bordered table-hover" width="100%">
   <thead>
     <tr>
-      
-        
-        <th data-hide=""
-        data-class="" class="no-sort">
-          數值
-        </th>
-      
-        
-        <th data-hide=""
-        data-class="" class="no-sort">
-          啟用
-        </th>
-      
-        
-        <th data-hide=""
-        data-class="" class="no-sort">
-          數量
-        </th>
-      
-        
-        <th data-hide=""
-        data-class="" class="no-sort">
-          賣出減少
-        </th>
-      
-        
-        <th data-hide=""
-        data-class="" class="no-sort">
-          價格
-        </th>
-      
-        
-        <th data-hide=""
-        data-class="" class="no-sort">
-          價格字首
-        </th>
-      
-        
-        <th data-hide=""
-        data-class="" class="no-sort">
-          點數
-        </th>
-      
-        
-        <th data-hide=""
-        data-class="" class="no-sort">
-          點數字首
-        </th>
-      
-        
-        <th data-hide=""
-        data-class="" class="no-sort">
-          價格
-        </th>
-      
-        
-        <th data-hide=""
-        data-class="" class="no-sort">
-          重量字首
-        </th>
+      <th data-hide=""
+      data-class="" class="no-sort value">
+        內容
+      </th>
+  
+      <th data-hide=""
+      data-class="" class="no-sort required">
+        啟用
+      </th>
+  
+      <th data-hide=""
+      data-class="" class="no-sort quantity">
+        數量
+      </th>
+  
+      <th data-hide=""
+      data-class="" class="no-sort subtract">
+        賣出減少
+      </th>
+  
+      <th data-hide=""
+      data-class="" class="no-sort price">
+        價格
+      </th>
+  
+      <th data-hide=""
+      data-class="" class="no-sort pricePrefix">
+        價格字首
+      </th>
+  
+      <th data-hide=""
+      data-class="" class="no-sort points">
+        點數
+      </th>
+  
+      <th data-hide=""
+      data-class="" class="no-sort pointsPrefix">
+        點數字首
+      </th>
+  
+      <th data-hide=""
+      data-class="" class="no-sort weight">
+        重量
+      </th>
+  
+      <th data-hide=""
+      data-class="" class="no-sort weightPrefix">
+        重量字首
+      </th>
       
       <th width="80" data-hide="phone,tablet"></th>
     </tr>
@@ -111,72 +100,95 @@
 
     // server only
     var columns = [
-      
-        
-          { "data": "value" },
-        
-      
-        
-          { "data": "required" },
-        
-      
-        
-          { "data": "quantity" },
-        
-      
-        
-          { "data": "subtract" },
-        
-      
-        
-          { "data": "price" },
-        
-      
-        
-          { "data": "pricePrefix" },
-        
-      
-        
-          { "data": "points" },
-        
-      
-        
-          { "data": "pointsPrefix" },
-        
-      
-        
-          { "data": "weight" },
-        
-      
-        
-          { "data": "weightPrefix" },
-        
-      
-        { "data": null },
+      { "data": "value" },
+
+      { "data": "required" },
+
+      { "data": null },
+
+      { "data": null },
+
+      { "data": null },
+
+      { "data": null },
+
+      { "data": null },
+
+      { "data": null },
+
+      { "data": null },
+
+      { "data": null },
+    
+      { "data": null },
     ]
 
     // server only
     var columnDefs = [
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
+      {
+        "searchable": false,
+        "targets": "quantity",
+        "render": function (data, type, row) {
+          return '<td>' + row.ProductOptionValue.quantity + '</td>';
+        }
+      },
+
+      {
+        "searchable": false,
+        "targets": "subtract",
+        "render": function (data, type, row) {
+          return '<td>' + row.ProductOptionValue.subtract + '</td>';
+        }
+      },
+
+      {
+        "searchable": false,
+        "targets": "price",
+        "render": function (data, type, row) {
+          return '<td>' + row.ProductOptionValue.price + '</td>';
+        }
+      },
+
+      {
+        "searchable": false,
+        "targets": "pricePrefix",
+        "render": function (data, type, row) {
+          return '<td>' + row.ProductOptionValue.pricePrefix + '</td>';
+        }
+      },
+
+      {
+        "searchable": false,
+        "targets": "points",
+        "render": function (data, type, row) {
+          return '<td>' + row.ProductOptionValue.points + '</td>';
+        }
+      },
+
+      {
+        "searchable": false,
+        "targets": "pointsPrefix",
+        "render": function (data, type, row) {
+          return '<td>' + row.ProductOptionValue.pointsPrefix + '</td>';
+        }
+      },
+
+
+      {
+        "searchable": false,
+        "targets": "weight",
+        "render": function (data, type, row) {
+          return '<td>' + row.ProductOptionValue.weight + '</td>';
+        }
+      },
+
+      {
+        "searchable": false,
+        "targets": "weightPrefix",
+        "render": function (data, type, row) {
+          return '<td>' + row.ProductOptionValue.weightPrefix + '</td>';
+        }
+      },
       
       {
         "targets"  : 10,

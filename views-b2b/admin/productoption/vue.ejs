@@ -14,15 +14,16 @@ var appModel = {
     item: {
       value: '',
       required: '',
-      quantity: '',
-      subtract: '',
-      price: '',
-      pricePrefix: '',
-      points: '',
-      pointsPrefix: '',
-      weight: '',
-      weightPrefix: '',
-      
+      ProductOptionValue: {
+        quantity: '',
+        subtract: true,
+        price: 0,
+        pricePrefix: '+',
+        points: 0,
+        pointsPrefix: '+',
+        weight: 0,
+        weightPrefix: '+',
+      }
     },
     items: [],
     option: {}
