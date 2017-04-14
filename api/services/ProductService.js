@@ -43,13 +43,31 @@ module.exports = {
   checkStock: async ({transaction, products}) => {
     try{
       let stock = true;
+      
       for(let p of products){
         let product = await Product.findById(p.id, {transaction});
+        
+        if (p.optionId) {
+          let productOptionValue = await ProductOptionValue.findOne({
+            where: {
+              ProductOptionId: p.optionId
+            },
+            transaction
+          });
 
-        if (product.quantity < p.quantity) {
-          stock = false;
-          break;
+          let orderQuantity = Number(p.quantity) * Number(productOptionValue.quantity);
+          
+          if (product.quantity < orderQuantity) {
+            stock = false;
+            break;
+          }
+        } else {
+          if (product.quantity < p.quantity) {
+            stock = false;
+            break;
+          }
         }
+        
       }
 
       return stock;
