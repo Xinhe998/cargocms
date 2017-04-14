@@ -1,0 +1,142 @@
+<fieldset>
+
+  
+    <section row="">
+      <label class="label">數值</label>
+      <label class="input state-disabled ">
+      <input type="text" name="value" placeholder="" v-model="data.item.value" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入數值</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">啟用</label>
+      <label class="input state-disabled ">
+      <input type="text" name="required" placeholder="" v-model="data.item.required" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入啟用</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">數量</label>
+      <label class="input state-disabled ">
+      <input type="text" name="quantity" placeholder="" v-model="data.item.quantity" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入數量</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">賣出減少</label>
+      <label class="input state-disabled ">
+      <input type="text" name="subtract" placeholder="" v-model="data.item.subtract" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入賣出減少</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">價格</label>
+      <label class="input state-disabled ">
+      <input type="text" name="price" placeholder="" v-model="data.item.price" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入價格</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">價格字首</label>
+      <label class="input state-disabled ">
+      <input type="text" name="pricePrefix" placeholder="" v-model="data.item.pricePrefix" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入價格字首</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">點數</label>
+      <label class="input state-disabled ">
+      <input type="text" name="points" placeholder="" v-model="data.item.points" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入點數</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">點數字首</label>
+      <label class="input state-disabled ">
+      <input type="text" name="pointsPrefix" placeholder="" v-model="data.item.pointsPrefix" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入點數字首</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">價格</label>
+      <label class="input state-disabled ">
+      <input type="text" name="weight" placeholder="" v-model="data.item.weight" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入價格</b></label>
+    </section>
+  
+    <section row="">
+      <label class="label">重量字首</label>
+      <label class="input state-disabled ">
+      <input type="text" name="weightPrefix" placeholder="" v-model="data.item.weightPrefix" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入重量字首</b></label>
+    </section>
+  
+
+</fieldset>
+<script>
+  var formRules = {
+    value:{
+      required: true,
+    },
+    required:{
+      required: true,
+    },
+    quantity:{
+      required: true,
+    },
+    subtract:{
+      required: true,
+    },
+    price:{
+      required: true,
+    },
+    pricePrefix:{
+      required: true,
+    },
+    points:{
+      required: true,
+    },
+    pointsPrefix:{
+      required: true,
+    },
+    weight:{
+      required: true,
+    },
+    weightPrefix:{
+      required: true,
+    },
+  };
+
+  var formMessages = {
+    value:{
+      required: "請給予 數值",
+    },
+    required:{
+      required: "請給予 啟用",
+    },
+    quantity:{
+      required: "請給予 數量",
+    },
+    subtract:{
+      required: "請給予 賣出減少",
+    },
+    price:{
+      required: "請給予 價格",
+    },
+    pricePrefix:{
+      required: "請給予 價格字首",
+    },
+    points:{
+      required: "請給予 點數",
+    },
+    pointsPrefix:{
+      required: "請給予 點數字首",
+    },
+    weight:{
+      required: "請給予 價格",
+    },
+    weightPrefix:{
+      required: "請給予 重量字首",
+    },
+  };
+</script>
