@@ -66,6 +66,23 @@ module.exports = {
     return product;
   },
 
+  productOption: async function(price, value, productId) {
+    try {
+      const productOptionData = {
+        price: price,
+        value: value,
+        required: true,
+        productId: productId
+      };
+
+      const productOption = await ProductOpiton.create(productOptionData);
+      return productOption;
+      
+    } catch (e) {
+      throw e;
+    }
+  },
+
   order: async (userId) => {
     try {
       const orderStatus = await OrderStatus.findOne({
