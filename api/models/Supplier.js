@@ -32,7 +32,10 @@ module.exports = {
 	},
 	associations: () => {
     Supplier.hasMany(SupplierShipOrder);
-    Supplier.hasMany(Product);
+    // Supplier.hasMany(Product);
+    Supplier.belongsToMany(Product, {
+      through: 'ProductSupplier'
+    });
     Supplier.hasMany(User);
   },
 	options: {
