@@ -214,8 +214,10 @@ module.exports = {
     try {
 
       const product = await Product.findById(productId);
-      product.SupplierId = supplierId;
-      await product.save();
+      const supplier = await Supplier.findById(supplierId);
+      // product.SupplierId = supplierId;
+      // await product.save();
+      await product.setSupplier(supplier);
 
       return product;
     } catch (e) {

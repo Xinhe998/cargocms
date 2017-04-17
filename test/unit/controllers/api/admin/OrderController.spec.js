@@ -68,8 +68,21 @@ describe('about admin Order controllers', () => {
 
     it('admin confirm Order to Supplier shoubld success.', async (done) => {
       try{
+
+        const sendData = {
+          confirmOrderData: [{
+            orderProductId: orderProduct1.id,
+            supplierId: supplier1.id
+          }, {
+            orderProductId: orderProduct2.id,
+            supplierId: supplier2.id
+          }]
+        };
+
         const res = await request(sails.hooks.http.app)
-        .post(`/api/admin/order/confirm/${order.id}`);
+        .post(`/api/admin/order/confirm/${order.id}`)
+        .send(sendData);
+
         res.status.should.be.eq(200);
 
         const supplierShipOrder1 = await SupplierShipOrder.findOne({
