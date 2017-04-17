@@ -48,6 +48,11 @@ module.exports = {
         let product = await Product.findById(p.id, {transaction});
         
         if (p.optionId) {
+          const productOption = await ProductOption.findById(p.optionId);
+          if (productOption.ProductId !== p.id) {
+            throw Error ('產品與產品選項不匹配');
+          }
+
           let productOptionValue = await ProductOptionValue.findOne({
             where: {
               ProductOptionId: p.optionId
