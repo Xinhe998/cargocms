@@ -70,6 +70,7 @@ describe('about admin Order controllers', () => {
       try{
 
         const sendData = {
+          tracking: 'admin confirm order!',
           confirmOrderData: [{
             orderProductId: orderProduct1.id,
             supplierId: supplier1.id

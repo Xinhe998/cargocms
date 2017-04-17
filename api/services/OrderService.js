@@ -10,7 +10,7 @@ module.exports = {
         let product = await Product.findById(p.id);
         if (p.optionId) {
           let productOptionValue = await ProductOptionValue.findOne({ where:{ ProductOptionId: p.optionId }});
-          totalPrice += Number(productOptionValue.price) * Number( p.quantity);
+          totalPrice += Number(productOptionValue.price) * Number(p.quantity);
         } else {
           totalPrice += Number(product.price) * Number( p.quantity );
         }

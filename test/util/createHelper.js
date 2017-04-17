@@ -160,6 +160,8 @@ module.exports = {
         comment:'',
         tracking: '客戶訂購',
         OrderStatusId: orderStatus.id,
+        shippingEmail: 'userShip@example.com',
+        shippingTelephone: '0987654321',
       }
       return await Order.create(data);
     } catch (e) {
@@ -217,7 +219,7 @@ module.exports = {
       const supplier = await Supplier.findById(supplierId);
       // product.SupplierId = supplierId;
       // await product.save();
-      await product.setSupplier(supplier);
+      await product.setSuppliers(supplier);
 
       return product;
     } catch (e) {
