@@ -35,13 +35,26 @@
       <input type="text" name="price" placeholder="" v-model="data.item.ProductOptionValue.price" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入價格</b></label>
     </section>
+
+    <section>
+      <label class="label">價格影響</label>
+      <label class="select state-disabled">
+        <select class="form-control" name="pricePrefix" title="選擇價格影響" v-model="data.item.ProductOptionValue.pricePrefix">
+          <option value="=" selected> = </option>
+          <option value="+" > + </option>
+          <option value="-" > - </option>
+        </select>
+      </label>
+    </section>
   
+  <!--
     <section row="">
-      <label class="label">價格字首</label>
+      <label class="label">價格影響</label>
       <label class="input state-disabled ">
       <input type="text" name="pricePrefix" placeholder="" v-model="data.item.ProductOptionValue.pricePrefix" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入價格字首</b></label>
+      <b class="tooltip tooltip-bottom-right">請輸入價格影響</b></label>
     </section>
+  -->
   
     <section row="">
       <label class="label">點數</label>
@@ -49,13 +62,26 @@
       <input type="text" name="points" placeholder="" v-model="data.item.ProductOptionValue.points" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入點數</b></label>
     </section>
+
+    <section>
+      <label class="label">點數影響</label>
+      <label class="select state-disabled">
+        <select class="form-control" name="pointsPrefix" title="選擇點數影響" v-model="data.item.ProductOptionValue.pointsPrefix">
+          <option value="=" selected> = </option>
+          <option value="+" > + </option>
+          <option value="-" > - </option>
+        </select>
+      </label>
+    </section>
   
+  <!--
     <section row="">
-      <label class="label">點數字首</label>
+      <label class="label">點數影響</label>
       <label class="input state-disabled ">
       <input type="text" name="pointsPrefix" placeholder="" v-model="data.item.ProductOptionValue.pointsPrefix" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入點數字首</b></label>
+      <b class="tooltip tooltip-bottom-right">請輸入點數影響</b></label>
     </section>
+    -->
   
     <section row="">
       <label class="label">重量</label>
@@ -63,13 +89,26 @@
       <input type="text" name="weight" placeholder="" v-model="data.item.ProductOptionValue.weight" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入重量</b></label>
     </section>
+
+    <section>
+      <label class="label">重量影響</label>
+      <label class="select state-disabled">
+        <select class="form-control" name="weightPrefix" title="選擇重量影響" v-model="data.item.ProductOptionValue.weightPrefix">
+          <option value="=" selected> = </option>
+          <option value="+" > + </option>
+          <option value="-" > - </option>
+        </select>
+      </label>
+    </section>
   
+    <!--
     <section row="">
-      <label class="label">重量字首</label>
+      <label class="label">重量影響</label>
       <label class="input state-disabled ">
       <input type="text" name="weightPrefix" placeholder="" v-model="data.item.ProductOptionValue.weightPrefix" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入重量字首</b></label>
+      <b class="tooltip tooltip-bottom-right">請輸入重量影響</b></label>
     </section>
+    -->
   
 
 </fieldset>
