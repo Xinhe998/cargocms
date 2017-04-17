@@ -77,6 +77,12 @@
       margin-right: 4px;
     }
   }
+  .input-group {
+    input {
+      border-left: none;
+      margin-left: 1px;
+    }
+  }
   .promotion-label {
     visibility: hidden;
     font-size: 0.8em;

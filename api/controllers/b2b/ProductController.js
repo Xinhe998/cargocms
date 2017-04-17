@@ -37,4 +37,12 @@ module.exports = {
       sails.log.error(e);
     }
   },
+
+  detail: async (req, res) => {
+    try{
+      res.view('b2b/product/detail');
+    } catch (e) {
+      sails.log.error(e);
+    }
+  },
 };

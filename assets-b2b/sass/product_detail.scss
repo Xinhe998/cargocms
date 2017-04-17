@@ -1,0 +1,48 @@
+.b2b-product-detail {
+  margin-top: -20px;
+  > .row {
+    .col-sm-6 {
+      padding: 0;
+      &.b2b-product-detail-content {
+        max-width: 585px;
+        padding-top: 24px;
+        padding-left: 82px;
+        > h1 {
+          margin-top: 0;
+          margin-bottom: 1em;
+          font-size: 32px;
+          color: #000000;
+        }
+        .price {
+          font-size: 19px;
+          color: #5e5f63;
+        }
+        .origin {
+          font-size: 16px;
+          color: #9b9da4;
+        }
+        .order-options {
+          margin: 2em 0 2.5em;
+          .radio {
+            margin-bottom: 1em;
+          }
+        }
+        .order-input {
+          margin-bottom: 3.5em;
+          .input-group {
+            .btn, input {
+              height: 46px;
+            }
+            input {
+              border-left: none;
+              margin-left: 1px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .product-image-cover {
+    width: 100%;
+  }
+}

@@ -5,6 +5,7 @@ module.exports = {
   },
 
   'get /product': 'b2b/ProductController.index',
+  'get /product/:id': 'b2b/ProductController.detail',
 
   'get /order/form': {
     controller: 'b2b/OrderController',
