@@ -142,7 +142,7 @@ module.exports = {
     let transaction = await sequelize.transaction({ isolationLevel });
     try{
       const { id } = req.params;
-      const { tracking, orderConfirmComment } = req.body;
+      const { tracking, orderConfirmComment, confirmOrderData } = req.body;
       const user = AuthService.getSessionUser(req);
 
       let orderProducts = await OrderProduct.findAll({
@@ -191,7 +191,14 @@ module.exports = {
       let supplierShipOrderTotalList = {}; // 利用 supplier Id 作索引，分類出供應商產品價格數量的加總
       let orderProductsName = [];
       for (const orderProduct of orderProducts) {
-        const productSupplierId = orderProduct.Product.SupplierId;
+        // const productSupplierId = orderProduct.Product.SupplierId;
+        let productSupplierId = '';
+        for (const orderProductConfirmData of confirmOrderData) {
+          if (orderProduct.Product.id === orderProductConfirmData.orderProductId) {
+            productSupplierId = orderProductConfirmData.supplierId;
+          }
+        }
+
         if (suppliers.indexOf(productSupplierId) === -1) {
           suppliers.push(productSupplierId);
           supplierOrderProduts[productSupplierId] = [];
