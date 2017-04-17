@@ -1,5 +1,23 @@
 <fieldset>
+    <section class="fn-show-hidden">
+      <label class="label">產品</label>
+      <label class="select state-disabled">
+        <select class="form-control" name="ProductId" title="選擇產品" v-model="data.item.ProductId">
+          <option value="" disabled selected>請選擇</option>
+          <option v-for="product in data.option.productList" v-bind:value="product.id">
+            {{product.model}}
+          </option>
+        </select>
+      </label>
+    </section>
 
+    <section class="notForCreate">
+      <label class="label">產品ID</label>
+      <label class="input state-disabled">
+        <input type="text" name="productName" placeholder="" v-model="data.item.ProductId" disabled>
+        <b class="tooltip tooltip-bottom-right">產品ID</b></label>
+      </label>
+    </section>
   
     <section row="">
       <label class="label">內容</label>

@@ -26,7 +26,9 @@ var appModel = {
       }
     },
     items: [],
-    option: {}
+    option: {
+      productList: [],
+    }
   },
   view: {
     table: {
@@ -49,3 +51,14 @@ appMain.editDisabled = function(){
 appMain.createHide = function () {
   $('.fn-create-hide').hide();
 };
+
+appMain.loadProduct = function () {
+
+  $.get('/api/admin/product', ajaxSuccess);
+
+  function ajaxSuccess(result) {
+    if (result.success) {
+      appModel.data.option.productList = result.data.items;
+    }
+  } // end ajaxSuccess
+}
