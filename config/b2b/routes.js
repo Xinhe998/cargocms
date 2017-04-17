@@ -29,6 +29,12 @@ module.exports = {
   'put /api/admin/categorydescription/:id': 'api/admin/CategoryDescriptionController.update',
   'delete /api/admin/categorydescription/:id': 'api/admin/CategoryDescriptionController.destroy',
 
+  'get /api/admin/qa': 'api/admin/qacontroller.find',
+  'get /api/admin/qa/:id': 'api/admin/qacontroller.findone',
+  'post /api/admin/qa': 'api/admin/qacontroller.create',
+  'put /api/admin/qa/:id': 'api/admin/qacontroller.update',
+  'delete /api/admin/qa/:id': 'api/admin/qacontroller.destroy',
+
   '/validate/email':  'b2b/MainController.validateEmail',
   '/edit/me':  'b2b/MainController.editPofile',
   '/update/password': 'b2b/MainController.updatePassword',

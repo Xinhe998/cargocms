@@ -12,6 +12,7 @@ module.exports.init = async () => {
       { href: '/admin/user', title: '會員資料', sequence: 20, ParentMenuItemId: 2},
       { href: '/admin/message', title: '訊息', sequence: 140, ParentMenuItemId: 2},
       { href: '/admin/contact', title: '聯繫訊息', sequence: 150, ParentMenuItemId: 2},
+      { href: '/admin/post', title: 'Q&A', sequence: 160, ParentMenuItemId: 2},
 
       { href: '/admin/product', title: '產品', sequence: 20, ParentMenuItemId: 3},
       { href: '/admin/productdescription', title: '產品描述', sequence: 30, ParentMenuItemId: 3},
