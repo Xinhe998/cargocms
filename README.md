@@ -111,3 +111,24 @@ controllers/labfnp/*Controller.js
 // 站台專屬客製 API 功能
 controllers/api/labfnp/*Controller.js
 ```
+
+
+B2B 供應商後台
+==========
+
+Working Directory
+-------------
+./react-app-ship
+
+Install
+-------------
+npm install & npm start
+
+Ports
+-------------
+* 3000 供應商後台
+
+Notice
+-------------
+※ 更新 React Developer Tools 後須重啟 Server
+
