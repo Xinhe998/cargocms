@@ -153,6 +153,7 @@ module.exports = {
       });
 
       await product.setCategories(initCategory);
+      await product.setSuppliers(supplier);
     };
 
     return product;
