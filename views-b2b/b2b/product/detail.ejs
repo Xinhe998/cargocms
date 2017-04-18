@@ -5,10 +5,10 @@
     <div class="col-md-6">
       <img class="product-image-cover" src="http://localhost:5001/assets/b2b/img/product/P00076.jpg" alt="">
     </div>
-    <div class="col-md-6 b2b-product-detail-content">
+    <div class="col-md-6 b2b-product-detail-content" data-id="<%= data.item.id %>">
       <h3 class="origin"><%= data.item.origin %></h3>
-      <h1><%= data.item.model %></h1>
-      <h2 class="price">$ <%= data.item.price %></h2>
+      <h1 class="name"><%= data.item.model %></h1>
+      <h2 class="price">$ <span><%= data.item.price %></span></h2>
       
       <div class="order-options">
         <div class="radio">
@@ -35,11 +35,11 @@
       <div class="row order-input">
         
         <div class="col-sm-4">
-          <input class="form-control" type="number" value="0" min="0" max="" />
+          <input class="form-control" type="number" value="0" min="0" max="<%= data.item.quantity %>" />
         </div>
         
         <div class="col-sm-8">
-          <a class="btn btn-lg btn-block btn-primary btn-border-circle" href="#" role="button">加入購物車</a>
+          <a class="btn btn-lg btn-block btn-primary btn-border-circle add-to-cart" href="#" role="button">加入購物車</a>
         </div>
         
       </div>
