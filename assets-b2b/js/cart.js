@@ -98,6 +98,7 @@ $(function () {
       price: $('.b2b-product-detail-content .price span').text(),
       quantity: parseInt($('.b2b-product-detail-content .order-input input').val()),
     };
+    if (isNaN(product.quantity)) product.quantity = 0;
     storeToCart(product);
     $(window).trigger('modifyCart');
   });
