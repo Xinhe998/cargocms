@@ -8,6 +8,7 @@ import product from './product';
 import supplier from './supplier';
 import supplierShipOrder from './suppliershiporder';
 import user from './../default/user';
+import qa from './qa';
 
 const importHelper = async(modelName, obj) => {
     try {
@@ -21,6 +22,7 @@ const importHelper = async(modelName, obj) => {
 module.exports = {
     init: async function() {
         console.log("=== init b2b data ===");
+        sails.log("=== init b2b data ===");
         await product.init();
         await supplier.init();
         await orderStatus.init();
@@ -30,6 +32,7 @@ module.exports = {
         await menuItem.init();
         await fakeusers.init();
         await user.init();
+        await qa.init();
 
         await ImportDataService.create(importHelper);
     }
