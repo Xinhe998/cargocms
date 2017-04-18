@@ -129,6 +129,11 @@
     var serverSidePaging = <%= (data.serverSidePaging != null)?data.serverSidePaging:false %>;
     <%- include vue.ejs %>
     appMain.$mount("#main-index");
-    appMain.loadItems(appMain.renderTable);
+    appMain.loadItems(function() {
+      appMain.renderTable(getConfig());
+      appMain.filterConfig();
+      appMain.hidenSearch();
+      appMain.hideIndex();
+    });
   };
 </script>
