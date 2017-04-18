@@ -166,14 +166,6 @@
       </label>
     </section>
     -->
-
-    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4 notForCreate">
-      <label class="label">產品供應商</label>
-      <label class="input state-disabled">
-        <input type="text" name="supplierName" placeholder="" v-model="data.item.Supplier.name" disabled>
-        <b class="tooltip tooltip-bottom-right">產品供應商</b></label>
-      </label>
-    </section>
   </div>
 
   <!--
@@ -225,6 +217,13 @@
   -->
 
   <div class="row">
+    <section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 notForCreate">
+      <label class="label">供應商列表</label>
+      <label class="textarea state-disabled">
+        <textarea rows="2" v-model="data.item.suppliersNameArray" disabled>
+        </textarea>
+      </label>
+    </section>
 
     <section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 notForCreate">
       <label class="label">產品分類</label>
@@ -255,9 +254,8 @@
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4 fn-show-hidden">
       <label class="label">產品供應商</label>
       <label class="select state-disabled">
-        <select class="form-control" name="SupplierId" title="選擇產品供應商" v-model="data.item.SupplierId">
-          <option value="" disabled selected>請選擇供應商</option>
-          <option v-for=" supplier in data.option.supplierList" v-bind:value="supplier.id">
+        <select style="height: 60px;" class="form-control" multiple="multiple" name="suppliersId" title="選擇產品供應商" v-model="data.item.suppliersId">
+          <option v-for=" supplier in data.option.supplierList" v-bind:value="supplier.id" @click="addSupplier">
             {{supplier.name}}
           </option>
         </select>
@@ -267,7 +265,7 @@
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4 fn-show-hidden">
       <label class="label">產品分類</label>
       <label class="select state-disabled">
-        <select style="height: 60px;"class="form-control" multiple="multiple" name="categoriesId" title="選擇產品分類" v-model="data.item.categoriesId">
+        <select style="height: 60px; "class="form-control" multiple="multiple" name="categoriesId" title="選擇產品分類" v-model="data.item.categoriesId">
           <option v-for=" category in data.option.categoryList" v-bind:value="category.id" @click="addCategory">
             {{category.CategoryDescription.name}}
           </option>

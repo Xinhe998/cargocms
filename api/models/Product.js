@@ -222,6 +222,31 @@ module.exports = {
       }
     },
 
+    suppliersId: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          const tihsSuppliers = this.getDataValue('Suppliers');
+          const suppliers = tihsSuppliers ? tihsSuppliers.map((supplier) => supplier.id) : [];
+          return suppliers;
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
+    },
+    suppliersNameArray: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try{
+          const tihsSuppliers = this.getDataValue('Suppliers');
+          const suppliers = tihsSuppliers ? tihsSuppliers.map((supplier) => supplier.name) : [];
+          return suppliers;
+        } catch(e){
+          sails.log.error(e);
+        }
+      }
+    },
+
     // stockStatusId: {
     //   type: Sequelize.INTEGER(11),
     //   allowNull: false,

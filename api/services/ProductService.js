@@ -84,17 +84,29 @@ module.exports = {
   create: async ({data}) => {
     try{
       //ignore column
+      console.log('create product data =>', data);
+
       data.points = 0;
       data.dateAvailable = UtilsService.DataTimeFormat().date;
 
-      const categories = data.categoriesId.map( function (data) {
+      const categories = data.categoriesId.map( function(data) {
         return { id: data };
       });
+      console.log('# create # categories =>',categories);
       const productCategory = await Category.findAll({
         where: {
           '$or': categories
         }
-      })
+      });
+      const suppliers = data.suppliersId.map( function(data) {
+        return { id: data };
+      });
+      console.log('# create # suppliers =>',suppliers);
+      const productSuppliers = await Supplier.findAll({
+        where: {
+          '$or': suppliers
+        }
+      });
 
       const product = await Product.create(data);
 
@@ -109,6 +121,7 @@ module.exports = {
       });
 
       await product.setCategories(productCategory);
+      await product.setSuppliers(productSuppliers);
 
       return product;
     } catch (e) {
@@ -129,6 +142,14 @@ module.exports = {
           '$or': categories
         }
       })
+      const suppliers = data.suppliersId.map( function(data) {
+        return { id: data };
+      });
+      const productSuppliers = await Supplier.findAll({
+        where: {
+          '$or': suppliers
+        }
+      });
 
       let product = await Product.update(data, {
         where: {
@@ -138,6 +159,8 @@ module.exports = {
       product = await Product.findById(id);
 
       await product.setCategories(productCategory);
+      await product.setSuppliers(productSuppliers);
+
       return product;
     } catch (e) {
       sails.log.error(e);

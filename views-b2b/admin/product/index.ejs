@@ -31,7 +31,7 @@
       <th width="8%" class="" data-hide="phone">瀏覽數</th>
       <th width="" class="" data-hide="always">建立時間</th>
       <th width="" class="" data-hide="always">更新時間</th>
-      <!-- <th width="" class="supplier" data-hide="always">供應商</th> -->
+      <th width="" class="supplier" data-hide="always">供應商</th>
       <th width="" class="category" data-hide="always">產品分類</th>
 			<th width="10%" class="operate" data-hide="phone,tablet">操作</th>
 		</tr>
@@ -113,7 +113,7 @@
       { "data": "viewed"},
       { "data": "createdAt"},
       { "data": "updatedAt"},
-      // { "data": null }, //supplier
+      { "data": null }, //supplier
       { "data": null },
 			{ "data": null }
 		]
@@ -174,16 +174,16 @@
           return '<td>'+ '否' +'</td>';
         }
       },
-      // {
-      //   "searchable": false,
-      //   "targets": 'supplier',
-      //   "render": function (data, type, row) {
-      //     if(row.SupplierId){
-      //       return '<td>' + row.Supplier.name + '</td>';
-      //     }
-      //     return '<td></td>';
-      //   }
-      // },
+      {
+        "searchable": false,
+        "targets": 'supplier',
+        "render": function (data, type, row) {
+          if(row.suppliersId){
+            return '<td>' + row.suppliersNameArray + '</td>';
+          }
+          return '<td></td>';
+        }
+      },
       {
         "searchable": false,
         "targets": 'category',
