@@ -1,12 +1,27 @@
 .b2b-product-detail {
   margin-top: -20px;
+  @media (max-width: 1074px) {
+    margin-top: 1px;
+  }
   > .row {
-    .col-sm-6 {
+    .col-md-6 {
       padding: 0;
       &.b2b-product-detail-content {
-        max-width: 585px;
+        max-width: 617px;
         padding-top: 24px;
         padding-left: 82px;
+        padding-right: 2.5em;
+        @media screen and (max-width: 1230px) {
+          padding-left: 3em;
+        }
+        @media screen and (max-width: 991px) {
+          max-width: inherit;
+          padding-left: 2.5em;
+        }
+        @media screen and (max-width: 767px) {
+          padding-right: 1.5em;
+          padding-left: 1.5em;
+        }
         > h1 {
           margin-top: 0;
           margin-bottom: 1em;
@@ -22,7 +37,7 @@
           color: #9b9da4;
         }
         .order-options {
-          margin: 2em 0 2.5em;
+          margin: 2.5em 0 2.5em;
           .radio {
             margin-bottom: 1em;
           }
@@ -44,5 +59,8 @@
   }
   .product-image-cover {
     width: 100%;
+  }
+  .b2b-tabs {
+    margin-bottom: 3em;
   }
 }
