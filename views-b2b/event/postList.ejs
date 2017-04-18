@@ -38,50 +38,15 @@
         </h2>
       </div>
 
-      <div>
-        <% var socialData = social.data[index] %>
-        <%- include ../lib/fbLikeShare.ejs %>
-      </div>
-
       <div class="blog-content">
         <p><%= post.abstract %></p>
       </div>
 
-      <!-- <ul class="post-shares">
-        <li>
-          <a href="#">
-            <i class="rounded-x icon-speech"></i>
-            <span>26</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="rounded-x icon-share"></i>
-            <span>98</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="rounded-x icon-heart"></i>
-            <span>30</span>
-          </a>
-        </li>
-      </ul> -->
       <div class="margin-bottom-20">
         <% post.TagsArray.forEach(function(tag){ %>
           <span class="label label-default"><%= tag %></span>
         <% }); %>
       </div>
-      <!--
-      <% if(social.targets.length > 0){ %>
-        <div class="row shareSticker">
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <% var socialData = social.data[index] %>
-            <%- include ../lib/rrssbb.ejs %>
-          </div>
-        </div>
-      <% } %>
-      -->
     </div>
   </div>
 <% }); %>
