@@ -54,6 +54,11 @@ appMain.createHide = function () {
   $('.fn-create-hide').hide();
 };
 
+appMain.enableSelect = function () {
+	$('select').attr('disabled', false);
+	$('.select').removeClass('state-disabled');
+}
+
 appMain.loadProduct = function () {
 
   $.get('/api/admin/product', ajaxSuccess);
