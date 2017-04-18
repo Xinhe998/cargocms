@@ -23,13 +23,13 @@
 			<th width="5%" class="" data-hide="phone"><i class="fa fa-fw text-muted fa-hashtag hidden-sm hidden-xs"/>ID</th>
 			<th width="15%" class="" data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-sm hidden-xs"/>票券名稱</th>
       <th width="15%" class="" data-hide="phone">描述</th>
-      <th width="6%" class="">價格</th>
+      <!-- <th width="6%" class="">價格</th>
       <th width="5%" class="">數量</th>
       <th width="5%" class="">已售</th>
       <th width="10%" class="" data-hide="phone">開賣時間</th>
       <th width="10%" class="" data-hide="phone">截止時間</th>
       <th width="10%" class="" data-hide="phone">活動開始</th>
-			<th width="10%" class="" data-hide="phone">活動結束</th>
+			<th width="10%" class="" data-hide="phone">活動結束</th> -->
 			<th width="78px" class="" data-hide="phone,tablet"></th>
 		</tr>
 	</thead>
@@ -70,13 +70,13 @@
 			{ "data": "id" },
 			{ "data": "title" },
       { "data": "description" },
-      { "data": "price" },
-      { "data": "limit" },
-      { "data": "signupCount" },
-      { "data": "sellStartDate" },
-      { "data": "sellEndDate" },
-      { "data": "eventStartDate" },
-			{ "data": "eventEndDate" },
+      // { "data": "price" },
+      // { "data": "limit" },
+      // { "data": "signupCount" },
+      // { "data": "sellStartDate" },
+      // { "data": "sellEndDate" },
+      // { "data": "eventStartDate" },
+			// { "data": "eventEndDate" },
 			{ "data": null }
 		]
 
@@ -94,7 +94,8 @@
         }
       },
 			{
-				"targets"  : 10,
+				// "targets"  : 10,
+        "targets"  : 3,
 				"orderable": false,
 				"searchable": false,
 				"render": function ( data, type, row ) {
