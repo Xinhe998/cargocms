@@ -61,6 +61,10 @@ module.exports = {
     '*': ['passport', 'sessionAuth'],
   },
 
+  "api/ConfirmOrderController": {
+    '*': ['passport', 'sessionAuth'],
+  },
+
   'b2b/MainController': {
     // 'portfolio': ['nocache'],
     'editPofile': ['nocache'],

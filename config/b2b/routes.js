@@ -35,6 +35,10 @@ module.exports = {
   'put /api/admin/productoption/:id': 'api/admin/ProductOptionController.update',
   'delete /api/admin/productoption/:id': 'api/admin/ProductOptionController.destroy',
 
+  'get /admin/confirmorder/:id': 'admin/ConfirmOrderController.show',
+  'get /api/admin/confirmorder/:id': 'api/admin/ConfirmOrderController.findOne',
+  'put /api/admin/order/confirm/:id': 'api/admin/ConfirmOrderController.confirm',
+
   '/validate/email':  'b2b/MainController.validateEmail',
   '/edit/me':  'b2b/MainController.editPofile',
   '/update/password': 'b2b/MainController.updatePassword',

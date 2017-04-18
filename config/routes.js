@@ -123,7 +123,7 @@ var defaultConfig = {
 
   'post /api/order': 'api/OrderController.createOrder',
 
-  'put /api/admin/order/confirm/:id': 'api/admin/OrderController.confirm',
+  // 'put /api/admin/order/confirm/:id': 'api/admin/OrderController.confirm',
 
   'post  /api/admin/suppliershiporder/all': 'api/admin/SupplierShipOrderController.find',
   'put /api/admin/suppliershiporder/status/:id': 'api/admin/SupplierShipOrderController.status',
