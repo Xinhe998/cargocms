@@ -6,6 +6,32 @@
   text-overflow: ellipsis;;
   white-space: nowrap;
 }
+body {
+  background-color: #f7f7f7 !important;
+}
+.navbar {
+  margin-bottom: 0px !important;
+}
+.bg-color-light {
+  padding-top: 50px;
+}
+.blog-trending li {
+  margin-bottom: 20px;
+}
+.text-overflow {
+  max-width: 99%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+li a, label {
+  color: #555;
+}
+.blog-trending h3 {
+  font-size: 14px;
+  margin: 0 0 5px;
+  line-height: 17px;
+}
 </style>
 
 <!--=== Blog Posts ===-->
@@ -17,8 +43,7 @@
 				<ul class="list-unstyled blog-trending margin-bottom-50">
 					<% data.items.forEach(function(post){ %>
 						<li class="text-overflow">
-							<h3 class="text-overflow"><a href="/events/<%= post.alias || post.id %>"><%= post.title %></a></h3>
-
+							<a href="/events/<%= post.alias || post.id %>"><%= post.title %></a>
 						</li>
 					<% }); %>
 				</ul>
