@@ -72,6 +72,9 @@ $(function () {
   });
 
   $('.product input[type="number"]').bootstrapNumber();
+  $('.product .input-group').click(function (e) {
+    e.preventDefault();
+  });
   $('.product .input-group input').change(function(event) {
     var product = getProductInfo($(this).closest('.product'));
     storeToCart(product);

@@ -37,6 +37,9 @@
   background: #e6e6e6;
 }
 .product {
+  display: block;
+  color: black !important;
+  text-decoration: none !important;
   @media (max-width: 1200px) {
     padding: 20px 13px;
   }

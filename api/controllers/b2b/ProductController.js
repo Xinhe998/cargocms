@@ -40,7 +40,16 @@ module.exports = {
 
   detail: async (req, res) => {
     try{
-      res.view('b2b/product/detail');
+      let item = await Product.findOne({
+        where: {
+          id: req.params.id
+        }
+      });
+      res.view('b2b/product/detail',{
+        data: {
+          item,
+        }
+      });
     } catch (e) {
       sails.log.error(e);
     }
