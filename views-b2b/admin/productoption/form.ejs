@@ -11,6 +11,7 @@
       </label>
     </section>
 
+    <!--
     <section class="notForCreate">
       <label class="label">產品ID</label>
       <label class="input state-disabled">
@@ -18,6 +19,7 @@
         <b class="tooltip tooltip-bottom-right">產品ID</b></label>
       </label>
     </section>
+    -->
   
     <section row="">
       <label class="label">內容</label>
@@ -25,12 +27,15 @@
       <input type="text" name="value" placeholder="" v-model="data.item.value" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入內容</b></label>
     </section>
-  
-    <section row="">
+
+    <section>
       <label class="label">啟用</label>
-      <label class="input state-disabled ">
-      <input type="text" name="required" placeholder="" v-model="data.item.required" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入啟用</b></label>
+      <label class="select state-disabled">
+        <select class="form-control" name="required" title="選擇是否啟用" v-model="data.item.required">
+          <option value=true selected> true </option>
+          <option value=false > false </option>
+        </select>
+      </label>
     </section>
   
     <section row="">

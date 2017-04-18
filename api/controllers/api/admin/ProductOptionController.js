@@ -46,7 +46,7 @@ module.exports = {
         value: data.value,
         required: data.required,
         OptionId: null,
-        ProductId: null,
+        ProductId: data.ProductId,
       };
       const item = await ProductOption.create(productOptionData);
 
@@ -55,7 +55,7 @@ module.exports = {
         OptionId: null,
         OptionVauleId: null,
         ProductOptionId: item.id,
-        ProductId: null
+        ProductId: item.ProductId
       };
 
       const productOptionValue = await ProductOptionValue.create(productOptionValueData);
@@ -75,6 +75,7 @@ module.exports = {
       const productOptionData = {
         value: data.value,
         required: data.required,
+        ProductId: data.ProductId,
         deletedAt: null,
         OptionId: null,
       };
@@ -85,7 +86,7 @@ module.exports = {
       productOptionValueData.OptionId = null;
       productOptionValueData.OptionValueId = null;
       productOptionValueData.deletedAt = null;
-      productOptionValueData.ProductId = null;
+      productOptionValueData.ProductId = data.ProductId;
   
       const productOptionValue = await ProductOptionValue.update(productOptionValueData ,{
         where: { ProductOptionId: id, },
