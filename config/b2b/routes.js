@@ -39,6 +39,12 @@ module.exports = {
   'get /api/admin/confirmorder/:id': 'api/admin/ConfirmOrderController.findOne',
   'put /api/admin/order/confirm/:id': 'api/admin/ConfirmOrderController.confirm',
 
+  'get /api/admin/qa': 'api/admin/qacontroller.find',
+  'get /api/admin/qa/:id': 'api/admin/qacontroller.findone',
+  'post /api/admin/qa': 'api/admin/qacontroller.create',
+  'put /api/admin/qa/:id': 'api/admin/qacontroller.update',
+  'delete /api/admin/qa/:id': 'api/admin/qacontroller.destroy',
+
   '/validate/email':  'b2b/MainController.validateEmail',
   '/edit/me':  'b2b/MainController.editPofile',
   '/update/password': 'b2b/MainController.updatePassword',
