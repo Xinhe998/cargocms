@@ -3,6 +3,10 @@
     padding: 0 !important;
   }
 
+  .borderless td, .borderless th {
+    border: none !important;;
+  }
+
   .accordion-toggle td:first-child:after {
     content: "\f078"; /* fa-chevron-down */
     font-family: 'FontAwesome';
@@ -17,6 +21,20 @@
   .ng-binding {
     margin-top: 5px;
     margin-left: 5px;
+  }
+  .panel {
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+  .panel-brown {
+    border-color: #9c8061;
+  }
+  .panel-heading {
+    background: #9c8061;
+  }
+  .panel-heading {
+    color: #fff;
+    padding: 5px 15px;
   }
 </style>
 
@@ -44,19 +62,12 @@
       <%- data.content %>
     </div>
 
-    <div class="panel panel-brown margin-bottom-40 margin-top-20">
+    <div class="panel panel-brown">
 			<div class="panel-heading">
 				<h3 class="panel-title"><i class="fa fa-question-circle-o"></i>常見問題</h3>
 			</div>
 			<div class="panel-body">
-				<table class="table">
-					<thead>
-						<tr>
-              <th></th>
-							<th></th>
-
-						</tr>
-					</thead>
+				<table class="table borderless">
 					<tbody>
             <% data.Events.forEach(function(Event){ %>
   						<tr data-toggle="collapse" data-target="#event<%= Event.id %>" class="accordion-toggle">

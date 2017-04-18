@@ -199,6 +199,10 @@ var defaultConfig = {
   //----- Event -----
   'get /events/:name': 'EventController.show',
 
+  //----- QA -----
+  'get /questions': 'EventController.index',
+  'get /questions/:name': 'EventController.show',
+
   //----- Blog -----
   'get /blogs/:name': 'BlogController.show',
 
