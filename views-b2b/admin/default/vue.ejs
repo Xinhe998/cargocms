@@ -1,23 +1,36 @@
 var defaultTable = {};
+function getConfig() {
+  var query = location.hash.split('/').reverse()[0].split('?')[1];
+  if(typeof query === 'undefined') {
+    query = '';
+  }
+  return query;
+}
 var defaultVueMathod = {
-	cancel: function (event) {
+	cancel: function (event, getQuery) {
 		var callbackUrl = $('#main-form').data('callback') || '';
 		var url = '/admin/#/admin/' + modelName;
+    if(getQuery !== '') {
+      getQuery = '?' + getQuery;
+    } 
 		if (callbackUrl!== '') {
-			url = '/admin/#/admin' + callbackUrl;
+			url = '/admin/#/admin' + callbackUrl + getQuery;
 		}
 		appMain.onLeavePageEdit(function() {
-			location.href = url;
+			location.href = url + getQuery;
 		});
 	},
-	save: function (event) {
+  save: function (event, getQuery) {
 		var ajaxSuccess = function (result) {
 			var callbackUrl = $('#main-form').data('callback') || '';
 			var url = '/admin/#/admin/' + modelName;
+      if(getQuery !== '') {
+        getQuery = '?' + getQuery;
+      } 
 			if (callbackUrl!== '') {
-				url = '/admin/#/admin' + callbackUrl;
+				url = '/admin/#/admin' + callbackUrl + getQuery;
 			}
-			location.href = url;
+			location.href = url + getQuery;
 			messageApp.show({
 				desc: '新增成功！',
 				type: 'success'
@@ -43,14 +56,17 @@ var defaultVueMathod = {
 			error: ajaxError,
 		});
 	},
-	update: function (event) {
+  update: function (event, getQuery) {
 		var ajaxSuccess = function (result) {
 			var callbackUrl = $('#main-form').data('callback') || '';
-			var url = '/admin/#/admin/' + modelName;
+      var url = '/admin/#/admin/' + modelName;
+      if(getQuery !== '') {
+        getQuery = '?' + getQuery;
+      } 
 			if (callbackUrl!== '') {
-				url = '/admin/#/admin' + callbackUrl;
+				url = '/admin/#/admin' + callbackUrl + getQuery;
 			}
-			location.href = url;
+			location.href = url + getQuery;
 			messageApp.show({
 				desc: '更新資料成功！',
 				type: 'success'
@@ -162,9 +178,15 @@ var defaultVueMathod = {
 
 		$.get('/api/' + prefix + modelName, ajaxSuccess);
 	},
-	renderTable: function () {
+	renderTable: function (getQuery) {
 		/* BASIC ;*/
-		var responsiveHelper_datatable = undefined;
+    var responsiveHelper_datatable = undefined;
+    console.log(getQuery);
+    if(typeof getQuery === 'undefined') {
+      getQuery = '';
+    } else {
+      getQuery = '?' + getQuery;
+    }
 
 		var breakpointDefinition = {
 			tablet: 1024,
@@ -216,7 +238,7 @@ var defaultVueMathod = {
 			"sExtends": "text",
 			"sButtonText": "新增",
 			"fnClick": function (nButton, oConfig, oFlash) {
-				location.href = '/admin/#/admin/' + modelName + '/create';
+				location.href = '/admin/#/admin/' + modelName + '/create' + getQuery;
 			}
 		}
 
@@ -275,7 +297,7 @@ var defaultVueMathod = {
 							var isSelected = appModel.view.table.selectIndex !== COMMON.DEFAULT_INDEX;
 							if (isSelected) {
 								var id = appModel.view.table.selectIndex;
-								location.href = '/admin/#/admin/' + modelName + '/show/' + id;
+								location.href = '/admin/#/admin/' + modelName + '/show/' + id + getQuery;
 							} else {
 								messageApp.show({
 									desc: '請先選擇一筆資料',
@@ -292,7 +314,7 @@ var defaultVueMathod = {
 							var isSelected = appModel.view.table.selectIndex !== COMMON.DEFAULT_INDEX;
 							if (isSelected) {
 								var id = appModel.view.table.selectIndex;
-								location.href = '/admin/#/admin/' + modelName + '/edit/' + id;
+								location.href = '/admin/#/admin/' + modelName + '/edit/' + id + getQuery;
 							} else {
 								messageApp.show({
 									desc: '請先選擇一筆資料',
@@ -462,10 +484,10 @@ var defaultVueMathod = {
 			},
 			submitHandler: function (form) {
 				if (type === 'create') {
-					appMain.save();
+					appMain.save('', getConfig());
 					return false;
 				} else if (type === 'edit') {
-					appMain.update();
+					appMain.update('', getConfig());
 					return false;
 				}
 			}

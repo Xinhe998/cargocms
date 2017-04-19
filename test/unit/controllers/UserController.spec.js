@@ -28,6 +28,7 @@ describe('about User Controller operation.', function() {
       lastName: 'test',
       locale: 'zh_TW',
       Passports: [{ password: '000000' }],
+      rolesArray: [],
     };
     try {
       const res = await request(sails.hooks.http.app)
