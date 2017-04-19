@@ -61,7 +61,26 @@ import {
 
   handleDialogPrintOpen = (event) => {
     this.stopPropagation(event);
-    window.print();
+    let whichClick = this.props.shipOrderNumber;
+    let allExpened = document.getElementsByClassName("cardbody-expened");
+    let printHhiddenObject = [];
+    for(let item = 0, allExpenedLength = allExpened.length; item < allExpenedLength; item++) {
+      if(allExpened[item].innerText.indexOf(whichClick) !== 0) {
+        printHhiddenObject.push(allExpened[item].parentNode.parentNode.parentNode);
+      }
+    }
+    if(printHhiddenObject) {
+      for(let item of printHhiddenObject) {
+        console.log(item);
+        item.style.display = "none";
+      }
+      window.print();
+      for(let item of printHhiddenObject) {
+        console.log(item);
+        item.style.display = "inline";
+      }
+    }
+    // window.print();
     // const state = this.state.dialogPrintOpen;
     // this.setState({
     //   dialogPrintOpen: !state,
