@@ -71,16 +71,13 @@ import {
     }
     if(printHhiddenObject) {
       for(let item of printHhiddenObject) {
-        console.log(item);
         item.style.display = "none";
       }
       window.print();
       for(let item of printHhiddenObject) {
-        console.log(item);
         item.style.display = "inline";
       }
     }
-    // window.print();
     // const state = this.state.dialogPrintOpen;
     // this.setState({
     //   dialogPrintOpen: !state,
@@ -123,7 +120,7 @@ import {
           input={true}
         />
         <DialogShip
-          content={'確定要列印出貨單嗎？'}
+          content={'確定要列印出貨明細嗎？'}
           modal={false}
           leftOnPress={this.handleDialogPrintClose}
           rightOnPress={this.handleDialogPrintOpen}

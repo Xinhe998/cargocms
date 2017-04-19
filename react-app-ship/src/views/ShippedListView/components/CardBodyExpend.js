@@ -42,7 +42,7 @@ function CardBodyExpend(props) {
           />
           <FlatButton
             className='btn-print'
-            label='列印出貨單'
+            label='列印出貨明細'
             onClick={props.handleBtnPrint}
           />
         </div>
