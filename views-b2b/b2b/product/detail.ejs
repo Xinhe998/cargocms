@@ -58,13 +58,10 @@
           </div>
           <div role="tabpanel" class="tab-pane" id="detail">
             <ol>
-              <li>圖片僅供參考，產品以實際出貨為準。</li>
-              <li>迷你柚3台斤±5%(約6-7顆/箱，顆數因文旦大小不同而有所差異)</li>
-              <li>出貨時每箱文旦一定稱足重量才出貨，但由於文旦具有會辭水的特性，故收到文旦禮盒時可能會不足斤兩，敬請見諒。</li>
-              <li>農產品易受季節、氣候、產地等影響，若因故導致產量不足時，為維持產品品質，將由雲端農場主動調整或順延交貨期限。</li>
-              <li>農產品因產量關係若售完將提前停售，敬請見諒。</li>
-              <li>訂單成立後，雲端農場將會在確認付款後進行出貨。</li>
-              <li>雲端農產品皆為無毒且無任何加工防腐，若外觀上稍有瑕疵，乃屬正常狀況，敬請安心食用，買後建議趁新鮮食用。</li>
+              <li>重量： <%= data.item.weight %> 克</li>
+              <li>長度： <%= data.item.length %> 公分</li>
+              <li>寬度： <%= data.item.width %> 公分</li>
+              <li>高度： <%= data.item.height %> 公分</li>
             </ol>
           </div>
           <div role="tabpanel" class="tab-pane" id="notice"><%= data.item.precautions %></div>
