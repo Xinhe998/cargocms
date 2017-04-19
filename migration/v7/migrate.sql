@@ -11,3 +11,5 @@ CREATE TABLE `ProductSupplier` (
 
 ALTER TABLE `Products` DROP FOREIGN KEY `products_ibfk_2`; #先移除 FOREIGN KEY 再移除 SupplierId
 ALTER TABLE `Products` DROP `SupplierId`;
+
+ALTER TABLE `OrderProducts` ADD `option` text;

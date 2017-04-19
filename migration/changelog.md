@@ -109,3 +109,6 @@
 ### 修改 Product 與 Supplier 關聯為多對多
 * Product 表格移除 SupplierId 欄位
 * 新增 ProductSupplier 表格
+
+### OrderProduct 欄位修改
+* 新增 option 欄位
