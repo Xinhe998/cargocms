@@ -10,30 +10,15 @@
       <h1 class="name"><%= data.item.model %></h1>
       <h2 class="price">
         $ <span>
-        <%= data.item.price %>
+        <% if(data.item.ProductOptions.length > 0) { %>
+          <%= data.item.ProductOptionValues[0].price %>
+        <% } else { %>
+          <%= data.item.price %>
+        <% } %>
         </span>
       </h2>
       
       <div class="order-options">
-        <div class="radio">
-          <label>
-            <input type="radio" name="orderType" value="" checked="checked">
-            3 公斤（每公斤約55-65顆）
-          </label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="orderType" value="" checked="checked">
-            6 公斤（每公斤約55-65顆）
-          </label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="orderType" value="" checked="checked">
-            12 公斤（每公斤約55-65顆）
-          </label>
-        </div>
-
         <% for(var key in data.item.ProductOptions) { %>
           <div class="radio">
             <label>
@@ -105,5 +90,21 @@
 <% LayoutUtils.addScriptBlock(`
   $(function(){
     $('.order-input input[type="number"]').bootstrapNumber();
+
+    var changePrice = function () {
+      var options = $('input[name=orderType]');
+      for (var key in options) {
+        var option = options[key];
+        console.log(option);
+        if (option.checked) {
+          var price = option.getAttribute('data-price');
+          $('.price > span').text(price);
+          break;
+        }
+      }
+    };
+    changePrice();
+
+    $('input[name=orderType]').on('click', changePrice);
   });
 `); %>
