@@ -106,17 +106,19 @@ module.exports = {
 
         let subtractQuantity = Number(p.quantity);
         if (p.optionId) {
-          const productOptionValue = await ProductOptionValue.findOne({
+          const productOption = await ProductOption.findOne({
             where: {
-              ProductOptionId: p.optionId
-            }
+              id: p.optionId
+            },
+            include: [ProductOptionValue]
           }); 
-          subtractQuantity = Number(productOptionValue.quantity) * Number(p.quantity);
+          subtractQuantity = Number(productOption.ProductOptionValue.quantity) * Number(p.quantity);
 
-          orderProductCreateData.quantity = subtractQuantity;
-          orderProductCreateData.price    = productOptionValue.price;
-          orderProductCreateData.total    = Number(p.quantity) * Number(productOptionValue.price);
-          orderProductCreateData.tax      = orderProductCreateData.total * 0.05;
+          orderProductCreateData.total = Number(p.quantity) * Number(productOption.ProductOptionValue.price);
+          orderProductCreateData.price = productOption.ProductOptionValue.price;
+          // orderProductCreateData.quantity = subtractQuantity;
+          orderProductCreateData.tax   = orderProductCreateData.total * 0.05;
+          orderProductCreateData.comment = productOption.value;
         }
 
         if (product.subtract) {
