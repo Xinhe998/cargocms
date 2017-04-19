@@ -9,4 +9,5 @@ CREATE TABLE `ProductSupplier` (
   CONSTRAINT `productsupplier_ibfk_2` FOREIGN KEY (`SupplierId`) REFERENCES `Suppliers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `Products` DROP FOREIGN KEY `products_ibfk_2`; #先移除 FOREIGN KEY 再移除 SupplierId
 ALTER TABLE `Products` DROP `SupplierId`;
