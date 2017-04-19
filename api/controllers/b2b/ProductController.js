@@ -44,7 +44,7 @@ module.exports = {
         where: {
           id: req.params.id
         },
-        include: [ProductOption, ProductOptionValue]
+        include: [ProductDescription, ProductOption, ProductOptionValue]
       });
       res.view('b2b/product/detail',{
         data: {

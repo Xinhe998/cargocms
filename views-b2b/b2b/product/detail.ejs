@@ -54,15 +54,7 @@
         <!-- Tab panes -->
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="profile">
-            來自雲林斗六的好滋味，25-40年的老欉文旦果樹，糖度10-13度，
-
-迷你果品項，糖度偏高，數量有限，
-
-適合中秋佳節小家庭、朋友團聚共同享用，
-
-一人一顆迷你柚，柚好吃X柚溫馨。
-
-數量有限趕快購買!!!  把安全健康的好滋味分享給家人朋友吧!
+            <%= data.item.ProductDescription.description %>
           </div>
           <div role="tabpanel" class="tab-pane" id="detail">
             <ol>
@@ -75,8 +67,8 @@
               <li>雲端農產品皆為無毒且無任何加工防腐，若外觀上稍有瑕疵，乃屬正常狀況，敬請安心食用，買後建議趁新鮮食用。</li>
             </ol>
           </div>
-          <div role="tabpanel" class="tab-pane" id="notice">...</div>
-          <div role="tabpanel" class="tab-pane" id="story">..c.</div>
+          <div role="tabpanel" class="tab-pane" id="notice"><%= data.item.precautions %></div>
+          <div role="tabpanel" class="tab-pane" id="story">...</div>
         </div>
       </div>
       
