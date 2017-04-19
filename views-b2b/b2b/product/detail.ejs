@@ -95,7 +95,6 @@
       var options = $('input[name=orderType]');
       for (var key in options) {
         var option = options[key];
-        console.log(option);
         if (option.checked) {
           var price = option.getAttribute('data-price');
           $('.price > span').text(price);
