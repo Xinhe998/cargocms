@@ -5,7 +5,11 @@ const exec = require('child_process').exec;
 
 describe('about Order controllers', () => {
 
-  let supplier, product1, product2, product3, category1, category2, category3, user, roleAdmin;
+  let supplier, product1, product2, product3,
+      productOption1, productOption2, productOption3,
+      category1, category2, category3,
+      user, roleAdmin;
+
   before(async function(done){
     try{
       user = await User.create({
@@ -32,6 +36,10 @@ describe('about Order controllers', () => {
       product1 = await createHelper.product({name: '波士頓龍蝦', category:[category2.id]});
       product2 = await createHelper.product({name: '肥美黑鮪魚', category:[category1.id]});
       product3 = await createHelper.product({name: '鮮甜大扇貝', category:[category3.id]});
+
+      productOption1 = await createHelper.productOption({ price:1000, value: '3隻', quantity: 3, productId: product1.id })
+      productOption2 = await createHelper.productOption({ price:2000, value: '6隻', quantity: 6, productId: product1.id });
+      productOption3 = await createHelper.productOption({ price:4000, value:'12隻', quantity:12, productId: product1.id });
 
       await createHelper.supplierProduct(supplier.id, product1.id);
       await createHelper.supplierProduct(supplier.id, product2.id);
@@ -140,6 +148,90 @@ describe('about Order controllers', () => {
       //   },
       // });
       // orderPaymentHistory.length.should.be.eq(1);
+
+      done();
+    } catch (e) {
+      done(e);
+    }
+
+  });
+
+  it('Order Products with Product Option', async (done) => {
+    try{
+      const token = '8178e7c8e88a68321af84bc7b77e2yoo';
+      let product = [
+        {
+          id: product1.id,
+          quantity: 3,
+          optionId: productOption3.id,
+        },{
+          id: product2.id,
+          quantity: 2,
+        },{
+          id: product3.id,
+          quantity: 5,
+        }];
+      product = JSON.stringify(product);
+
+      const orderData = {
+        lastname: '金',
+        firstname: '拜爾',
+        products: product,
+        telephone: '04-22019020',
+        fax: '',
+        email: 'buyer2@gmail.com',
+        shippingEmail: 'buyer2@gmail.com',
+        shippingTelephone: '04-22019020',
+        shippingFirstname: '拜爾',
+        shippingLastname: '金',
+        shippingAddress1: '台灣大道二段2號16F-1',
+        county: '台中市',
+        zipcode: '403',
+        district: '西區',
+        shippingMethod: '低溫宅配',
+        shippingCode: 'shipabcdef',
+        ip: '',
+        forwardedIp: '',
+        userAgent: '',
+        comment: '這是一個訂購選項測試',
+        token: token
+      };
+
+
+      const res = await request(sails.hooks.http.app)
+      .post(`/api/order`).set('Accept', 'application/json').send( orderData );
+
+
+      res.status.should.be.eq(200);
+
+      const order = await Order.findOne({
+        where: {
+          orderNumber: res.body.data.item.orderNumber
+        }
+      });
+
+      const orderProduct = await OrderProduct.findAll({
+        where: {
+          OrderId: order.id
+        }
+      });
+
+      orderProduct.length.should.be.equal(3);
+
+      const orderHistory = await OrderHistory.findAll({
+        where: {
+          OrderId: order.id
+        }
+      });
+      orderHistory.length.should.be.equal(1);
+
+      const orderStatus = await OrderStatus.findOne({
+        where: {
+          name: 'NEW'
+        }
+      })
+      orderHistory[0].OrderStatusId.should.be.equal(orderStatus.id);
+
 
       done();
     } catch (e) {

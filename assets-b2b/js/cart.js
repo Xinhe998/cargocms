@@ -92,11 +92,23 @@ $(function () {
     $(window).trigger('modifyCart');
   });
   $('.b2b-product-detail-content .add-to-cart').click(function(event) {
+    var options = $('input[name=orderType]');
+    var optionId = null;
+    if (options.length > 0) {
+      for (var key in options) {
+        var option = options[key];
+        if (option.checked) {
+          optionId = option.value;
+          break;
+        }
+      }
+    }
     var product = {
       id: $('.b2b-product-detail-content').data('id'),
       name: $('.b2b-product-detail-content .name').text(),
       price: $('.b2b-product-detail-content .price span').text(),
       quantity: parseInt($('.b2b-product-detail-content .order-input input').val()),
+      optionId: optionId,
     };
     if (isNaN(product.quantity)) product.quantity = 0;
     storeToCart(product);

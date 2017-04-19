@@ -30,6 +30,16 @@ module.exports = {
   'put /api/admin/categorydescription/:id': 'api/admin/CategoryDescriptionController.update',
   'delete /api/admin/categorydescription/:id': 'api/admin/CategoryDescriptionController.destroy',
 
+  'get /api/admin/productoption': 'api/admin/ProductOptionController.find',
+  'get /api/admin/productoption/:id': 'api/admin/ProductOptionController.findOne',
+  'post /api/admin/productoption': 'api/admin/ProductOptionController.create',
+  'put /api/admin/productoption/:id': 'api/admin/ProductOptionController.update',
+  'delete /api/admin/productoption/:id': 'api/admin/ProductOptionController.destroy',
+
+  'get /admin/confirmorder/:id': 'admin/ConfirmOrderController.show',
+  'get /api/admin/confirmorder/:id': 'api/admin/ConfirmOrderController.findOne',
+  'put /api/admin/order/confirm/:id': 'api/admin/ConfirmOrderController.confirm',
+
   'get /api/admin/qa': 'api/admin/qacontroller.find',
   'get /api/admin/qa/:id': 'api/admin/qacontroller.findone',
   'post /api/admin/qa': 'api/admin/qacontroller.create',

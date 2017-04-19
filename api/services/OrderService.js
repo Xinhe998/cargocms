@@ -8,7 +8,12 @@ module.exports = {
       let totalPrice = 0;
       for(let p of products){
         let product = await Product.findById(p.id);
-        totalPrice += Number(product.price) * Number( p.quantity );
+        if (p.optionId) {
+          let productOptionValue = await ProductOptionValue.findOne({ where:{ ProductOptionId: p.optionId }});
+          totalPrice += Number(productOptionValue.price) * Number(p.quantity);
+        } else {
+          totalPrice += Number(product.price) * Number( p.quantity );
+        }
       }
       const taxrate = sails.config.taxrate || 0;
       data.total = totalPrice;
@@ -88,14 +93,7 @@ module.exports = {
           include: ProductDescription
         });
 
-        if (product.subtract) {
-          let productUpdate = await Product.findById(product.id);
-          productUpdate.quantity = Number(product.quantity) - Number(p.quantity);
-          if (productUpdate.quantity < 0) throw new Error(`產品ID: ${productUpdate.id}，庫存量不足`);
-          await productUpdate.save({ transaction });
-        }
-
-        await OrderProduct.create({
+        const orderProductCreateData = {
           ProductId: product.id,
           name: product.ProductDescription.name,
           model: product.model,
@@ -104,8 +102,35 @@ module.exports = {
           total: (product.price * p.quantity),
           tax: (product.price * p.quantity) * 0.05,
           OrderId: order.id,
-        }, { transaction });
+        };
 
+        let subtractQuantity = Number(p.quantity);
+        if (p.optionId) {
+          const productOption = await ProductOption.findOne({
+            where: {
+              id: p.optionId
+            },
+            include: [ProductOptionValue]
+          }); 
+          subtractQuantity = Number(productOption.ProductOptionValue.quantity) * Number(p.quantity);
+
+          orderProductCreateData.total = Number(p.quantity) * Number(productOption.ProductOptionValue.price);
+          orderProductCreateData.price = productOption.ProductOptionValue.price;
+          // orderProductCreateData.quantity = subtractQuantity;
+          orderProductCreateData.tax   = orderProductCreateData.total * 0.05;
+          orderProductCreateData.comment = productOption.value;
+        }
+
+        if (product.subtract) {
+          let productUpdate = await Product.findById(product.id);
+          productUpdate.quantity = Number(product.quantity) - Number(subtractQuantity);
+          if (productUpdate.quantity < 0) 
+            throw new Error(`產品ID: ${productUpdate.id}，庫存量不足`);
+          
+          await productUpdate.save({ transaction });
+        }
+        
+        await OrderProduct.create(orderProductCreateData, { transaction });
       }
 
       const orderHistory = await OrderHistory.create({
