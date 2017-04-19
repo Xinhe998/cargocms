@@ -43,7 +43,8 @@ module.exports = {
       let item = await Product.findOne({
         where: {
           id: req.params.id
-        }
+        },
+        include: [ProductOption, ProductOptionValue]
       });
       res.view('b2b/product/detail',{
         data: {
