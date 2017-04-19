@@ -8,7 +8,11 @@
     <div class="col-md-6 b2b-product-detail-content" data-id="<%= data.item.id %>">
       <h3 class="origin"><%= data.item.origin %></h3>
       <h1 class="name"><%= data.item.model %></h1>
-      <h2 class="price">$ <span><%= data.item.price %></span></h2>
+      <h2 class="price">
+        $ <span>
+        <%= data.item.price %>
+        </span>
+      </h2>
       
       <div class="order-options">
         <div class="radio">
@@ -29,8 +33,16 @@
             12 公斤（每公斤約55-65顆）
           </label>
         </div>
-      </div>
 
+        <% for(var key in data.item.ProductOptions) { %>
+          <div class="radio">
+            <label>
+              <input type="radio" name="orderType" value="<%= data.item.ProductOptions[key].id %>" data-price="<%= data.item.ProductOptionValues[key].price %>" checked="checked">
+              <%= data.item.ProductOptions[key].value %>
+            </label>
+          </div>
+        <% } %>
+      </div>
       
       <div class="row order-input">
         
