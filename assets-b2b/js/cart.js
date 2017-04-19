@@ -49,10 +49,15 @@ function removeFromCart(productId) {
 
 function updateCartInput() {
   $('.product .form-group input').val(0);
+  $('.b2b-product-detail-content .order-input input').val(0);
+
   var cart = JSON.parse(localStorage.cart || '[]');
   $(cart).each(function(index, el) {
     var productDom = $('.product[data-id="' + el.id + '"]');
     $('.form-group input', productDom).val(el.quantity);
+    if (el.id == $('.b2b-product-detail-content').data('id')) {
+      $('.b2b-product-detail-content .order-input input').val(el.quantity)
+    }
   });
   if (cart.length > 0) {
     $('li#cart > a').css('color', 'red');
@@ -72,6 +77,10 @@ $(function () {
   });
 
   $('.product input[type="number"]').bootstrapNumber();
+  $('.product .input-group').click(function (e) {
+    e.preventDefault();
+  });
+
   $('.product .input-group input').change(function(event) {
     var product = getProductInfo($(this).closest('.product'));
     storeToCart(product);
@@ -79,6 +88,17 @@ $(function () {
   });
   $('.product .input-group button').click(function(event) {
     var product = getProductInfo($(this).closest('.product'));
+    storeToCart(product);
+    $(window).trigger('modifyCart');
+  });
+  $('.b2b-product-detail-content .add-to-cart').click(function(event) {
+    var product = {
+      id: $('.b2b-product-detail-content').data('id'),
+      name: $('.b2b-product-detail-content .name').text(),
+      price: $('.b2b-product-detail-content .price span').text(),
+      quantity: parseInt($('.b2b-product-detail-content .order-input input').val()),
+    };
+    if (isNaN(product.quantity)) product.quantity = 0;
     storeToCart(product);
     $(window).trigger('modifyCart');
   });

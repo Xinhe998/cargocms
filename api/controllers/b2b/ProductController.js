@@ -37,4 +37,21 @@ module.exports = {
       sails.log.error(e);
     }
   },
+
+  detail: async (req, res) => {
+    try{
+      let item = await Product.findOne({
+        where: {
+          id: req.params.id
+        }
+      });
+      res.view('b2b/product/detail',{
+        data: {
+          item,
+        }
+      });
+    } catch (e) {
+      sails.log.error(e);
+    }
+  },
 };

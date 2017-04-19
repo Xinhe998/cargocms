@@ -1,0 +1,97 @@
+
+<div class="container-fluid b2b-product-detail">
+  
+  <div class="row">
+    <div class="col-md-6">
+      <img class="product-image-cover" src="http://localhost:5001/assets/b2b/img/product/P00076.jpg" alt="">
+    </div>
+    <div class="col-md-6 b2b-product-detail-content" data-id="<%= data.item.id %>">
+      <h3 class="origin"><%= data.item.origin %></h3>
+      <h1 class="name"><%= data.item.model %></h1>
+      <h2 class="price">$ <span><%= data.item.price %></span></h2>
+      
+      <div class="order-options">
+        <div class="radio">
+          <label>
+            <input type="radio" name="orderType" value="" checked="checked">
+            3 公斤（每公斤約55-65顆）
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="orderType" value="" checked="checked">
+            6 公斤（每公斤約55-65顆）
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="orderType" value="" checked="checked">
+            12 公斤（每公斤約55-65顆）
+          </label>
+        </div>
+      </div>
+
+      
+      <div class="row order-input">
+        
+        <div class="col-sm-4">
+          <input class="form-control" type="number" value="0" min="0" max="<%= data.item.quantity %>" />
+        </div>
+        
+        <div class="col-sm-8">
+          <a class="btn btn-lg btn-block btn-primary btn-border-circle add-to-cart" role="button">加入購物車</a>
+        </div>
+        
+      </div>
+
+      <div class="b2b-tabs">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">商品介紹</a></li>
+          <li role="presentation"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">產品規格</a></li>
+          <li role="presentation"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab">注意事項</a></li>
+          <li role="presentation"><a href="#story" aria-controls="story" role="tab" data-toggle="tab">品牌故事</a></li>
+          
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="profile">
+            來自雲林斗六的好滋味，25-40年的老欉文旦果樹，糖度10-13度，
+
+迷你果品項，糖度偏高，數量有限，
+
+適合中秋佳節小家庭、朋友團聚共同享用，
+
+一人一顆迷你柚，柚好吃X柚溫馨。
+
+數量有限趕快購買!!!  把安全健康的好滋味分享給家人朋友吧!
+          </div>
+          <div role="tabpanel" class="tab-pane" id="detail">
+            <ol>
+              <li>圖片僅供參考，產品以實際出貨為準。</li>
+              <li>迷你柚3台斤±5%(約6-7顆/箱，顆數因文旦大小不同而有所差異)</li>
+              <li>出貨時每箱文旦一定稱足重量才出貨，但由於文旦具有會辭水的特性，故收到文旦禮盒時可能會不足斤兩，敬請見諒。</li>
+              <li>農產品易受季節、氣候、產地等影響，若因故導致產量不足時，為維持產品品質，將由雲端農場主動調整或順延交貨期限。</li>
+              <li>農產品因產量關係若售完將提前停售，敬請見諒。</li>
+              <li>訂單成立後，雲端農場將會在確認付款後進行出貨。</li>
+              <li>雲端農產品皆為無毒且無任何加工防腐，若外觀上稍有瑕疵，乃屬正常狀況，敬請安心食用，買後建議趁新鮮食用。</li>
+            </ol>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="notice">...</div>
+          <div role="tabpanel" class="tab-pane" id="story">..c.</div>
+        </div>
+      </div>
+      
+
+      
+    </div>
+  </div>
+  
+</div>
+
+<% LayoutUtils.addScriptBlock(`
+  $(function(){
+    $('.order-input input[type="number"]').bootstrapNumber();
+  });
+`); %>
