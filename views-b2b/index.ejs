@@ -70,10 +70,12 @@
               <div>
                 <label class="control-label">目前庫存 <%= data.items[p].quantity %>包</label>
               </div>
-
+              <!--
               <label style="float: left;margin: 9px 8px 0 0;font-size: 1.2em;">訂購</label>
               <label style="float: right;margin: 9px 0 0 8px;font-size: 1.2em;">包</label>
               <input class="form-control" type="number" value="0" min="0" max="<%= data.items[p].quantity %>" />
+              -->
+              <button style="float: center;margin: 9px 8px 0 0;font-size: 1.2em;">點擊立即訂購</button>
             <% } else { %>
               <div>
                 <label class="control-label outOfStock">此商品已售完</label>
