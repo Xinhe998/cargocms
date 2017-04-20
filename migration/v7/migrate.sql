@@ -13,3 +13,4 @@ ALTER TABLE `Products` DROP FOREIGN KEY `products_ibfk_2`; #先移除 FOREIGN KE
 ALTER TABLE `Products` DROP `SupplierId`;
 
 ALTER TABLE `OrderProducts` ADD `option` text;
+ALTER TABLE `SupplierShipOrderProducts` ADD `option` text;
