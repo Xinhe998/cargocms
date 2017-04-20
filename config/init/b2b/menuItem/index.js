@@ -8,14 +8,18 @@ module.exports.init = async () => {
       { icon: 'product-hunt', href: '#', title: '產品管理', sequence: 2},
       { icon: 'file-text', href: '#', title: '訂單管理', sequence: 3},
       { icon: 'truck', href: '#', title: '供應商', sequence: 4},
+      { icon: 'sliders', href: '#', title: '設定', sequence: 160},
 
       { href: '/admin/user', title: '會員資料', sequence: 20, ParentMenuItemId: 2},
       { href: '/admin/message', title: '訊息', sequence: 140, ParentMenuItemId: 2},
       { href: '/admin/contact', title: '聯繫訊息', sequence: 150, ParentMenuItemId: 2},
+      { href: '/admin/post', title: '常見問題', sequence: 160, ParentMenuItemId: 2},
+      { href: '/admin/event', title: 'Q&A', sequence: 170, ParentMenuItemId: 2},
 
       { href: '/admin/product', title: '產品', sequence: 20, ParentMenuItemId: 3},
       { href: '/admin/productdescription', title: '產品描述', sequence: 30, ParentMenuItemId: 3},
-      { href: '/admin/category', title: '產品分類', sequence: 40, ParentMenuItemId: 3},
+      { href: '/admin/productoption', title: '產品選項', sequence: 40, ParentMenuItemId: 3},
+      { href: '/admin/category', title: '產品分類', sequence: 50, ParentMenuItemId: 3},
 
       { href: '/admin/order', title: '訂單', sequence: 20, ParentMenuItemId: 4},
       { href: '/admin/orderproduct', title: '產品訂單', sequence: 30, ParentMenuItemId: 4},
@@ -29,6 +33,9 @@ module.exports.init = async () => {
       // { href: '/admin/suppliershiporder', title: '供應商出貨訂單', sequence: 30, ParentMenuItemId: 5},
       // { href: '/admin/suppliershiporderproduct', title: '供應商出貨單細項', sequence: 40, ParentMenuItemId: 5},
       { href: '/admin/suppliershiporderhistory', title: '供應商出貨單歷程', sequence: 50, ParentMenuItemId: 5},
+
+      { href: '/admin/config?paymentSetting', title: 'ATM設定', sequence: 20, ParentMenuItemId: 6},
+
 
     ]
 
