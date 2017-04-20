@@ -41,6 +41,11 @@ module.exports = {
       defaultValue: null,
     },
 
+    supplierName: {
+			type: Sequelize.STRING(32),
+			defaultValue: ''
+		},
+
     createdDateTime:{
       type: Sequelize.VIRTUAL,
       get: function(){
