@@ -103,6 +103,7 @@ module.exports = {
             total: orderProduct.total,
             tax: orderProduct.tax,
             status: 'NEW',
+            option: orderProduct.option,
           }
         );
 
@@ -112,7 +113,8 @@ module.exports = {
           name: orderProduct.name,
           quantity: orderProduct.quantity,
           price: orderProduct.price,
-          total: orderProduct.total
+          total: orderProduct.total,
+          option: orderProduct.option,
         });
       }
 
