@@ -68,4 +68,16 @@ appMain.loadProduct = function () {
       appModel.data.option.productList = result.data.items;
     }
   } // end ajaxSuccess
+};
+
+appMain.customSearch = function(data) {
+  appModel.pagingQuery.columns.push({
+    data: 'productName',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'Product',
+      column: 'model',
+    }
+  });
 }
