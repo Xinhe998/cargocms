@@ -7,6 +7,13 @@ function getConfig() {
   return query;
 }
 var defaultVueMathod = {
+
+  dismissMessageBox: function () {
+    ExistMsg = 0;
+    SmartMSGboxCount = 0;
+    $('.divMessageBox').remove();
+  },
+
 	cancel: function (event, getQuery) {
 		var callbackUrl = $('#main-form').data('callback') || '';
 		var url = '/admin/#/admin/' + modelName;

@@ -90,7 +90,7 @@ appMain.createHide = function () {
 
 appMain.checkedOrder = function(){
   var orderId = appMain.data.item.id;
-  if(appMain.data.item.tracking === '訂單建立'){
+  if(appMain.data.item.status === 'NEW'){
     var checkBtn = '<button type="button" class="btn btn-success pull-left">確認訂單</button>';
     $(checkBtn).prependTo('footer');
 
@@ -206,7 +206,7 @@ appMain.DataTableInitComplete = function() {
       var orderId = $(that).attr("data-id");
       var orderTotal = $(that).attr("data-total");
       var orderProduct = $(that).attr("data-order");
-  
+
       window.location.href = '#/admin/confirmorder/' + orderId;
   });
 }
