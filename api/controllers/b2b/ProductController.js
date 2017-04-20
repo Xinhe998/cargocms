@@ -16,6 +16,7 @@ module.exports = {
       });
 
       let categorys = await Category.findAll({
+        order: 'sortOrder asc',
         include: CategoryDescription
       });
 
@@ -32,6 +33,24 @@ module.exports = {
           errors: req.flash('error')[0],
         }
       );
+    } catch (e) {
+      sails.log.error(e);
+    }
+  },
+
+  detail: async (req, res) => {
+    try{
+      let item = await Product.findOne({
+        where: {
+          id: req.params.id
+        },
+        include: [ProductDescription, ProductOption, ProductOptionValue]
+      });
+      res.view('b2b/product/detail',{
+        data: {
+          item,
+        }
+      });
     } catch (e) {
       sails.log.error(e);
     }

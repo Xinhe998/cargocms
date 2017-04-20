@@ -5,6 +5,7 @@ module.exports = {
   },
 
   'get /product': 'b2b/ProductController.index',
+  'get /product/:id': 'b2b/ProductController.detail',
 
   'get /order/form': {
     controller: 'b2b/OrderController',
@@ -28,6 +29,22 @@ module.exports = {
   'post /api/admin/categorydescription': 'api/admin/CategoryDescriptionController.create',
   'put /api/admin/categorydescription/:id': 'api/admin/CategoryDescriptionController.update',
   'delete /api/admin/categorydescription/:id': 'api/admin/CategoryDescriptionController.destroy',
+
+  'get /api/admin/productoption': 'api/admin/ProductOptionController.find',
+  'get /api/admin/productoption/:id': 'api/admin/ProductOptionController.findOne',
+  'post /api/admin/productoption': 'api/admin/ProductOptionController.create',
+  'put /api/admin/productoption/:id': 'api/admin/ProductOptionController.update',
+  'delete /api/admin/productoption/:id': 'api/admin/ProductOptionController.destroy',
+
+  'get /admin/confirmorder/:id': 'admin/ConfirmOrderController.show',
+  'get /api/admin/confirmorder/:id': 'api/admin/ConfirmOrderController.findOne',
+  'put /api/admin/order/confirm/:id': 'api/admin/ConfirmOrderController.confirm',
+
+  'get /api/admin/qa': 'api/admin/qacontroller.find',
+  'get /api/admin/qa/:id': 'api/admin/qacontroller.findone',
+  'post /api/admin/qa': 'api/admin/qacontroller.create',
+  'put /api/admin/qa/:id': 'api/admin/qacontroller.update',
+  'delete /api/admin/qa/:id': 'api/admin/qacontroller.destroy',
 
   '/validate/email':  'b2b/MainController.validateEmail',
   '/edit/me':  'b2b/MainController.editPofile',

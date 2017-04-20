@@ -213,20 +213,21 @@
 
   <div class="row">
 
-    <section class="col col-lg-6 col-xs-6">
+    <section class="col col-lg-12 col-xs-12">
       <label class="label">附註</label>
       <label class="input state-disabled">
         <input type="text" name="comment" placeholder="" v-model="data.item.comment" disabled>
         <b class="tooltip tooltip-bottom-right">附註</b></label>
     </section>
 
+    <!--
     <section class="col col-lg-6 col-xs-6">
       <label class="label">追蹤狀態</label>
       <label class="input state-disabled">
         <input type="text" name="tracking" placeholder="" v-model="data.item.tracking" disabled>
         <b class="tooltip tooltip-bottom-right">追蹤狀態</b></label>
     </section>
-
+    -->
   </div>
 
   <div class="row hidden">
@@ -258,25 +259,27 @@
     <section class="col col-lg-12 col-xs-12">
       <label class="label">訂購產品</label>
       <label class="table state-disabled fn-edit-disabled">
-        <table class="table table-striped" id="orderProductTable">
+      <div v-for="(supplier ,orderProducts) in data.option.orderProductList" class="margin-buttom-20">
+        <table class="table">
           <thead>
             <tr>
-              <th>名稱</th>
+              <th>{{ supplier }}</th>
               <th>數量</th>
               <th>價格</th>
-              <th>金額</th>
+              <th>合計</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="orderProduct in data.option.orderProductList">
-              <td>{{ orderProduct.name }}</td>
-              <td>{{ orderProduct.quantity }}</td>
-              <td>{{ orderProduct.formatPrice }}</td>
-              <td>{{ orderProduct.formatTotal }}</td>
+            <tr v-for="orderProduct in orderProducts">
+              <td class="col-xs-6">{{ orderProduct.name }}</td>
+              <td class="col-xs-2">{{ orderProduct.quantity }}</td>
+              <td class="col-xs-2">{{ orderProduct.formatPrice }}</td>
+              <td class="col-xs-2">{{ orderProduct.formatTotal }}</td>
             </tr>
           </tbody>
         </table>
-        <b class="tooltip tooltip-bottom-right">訂購產品</b></label>
+      </div>
+      <b class="tooltip tooltip-bottom-right">訂購產品</b></label>
     </section>
   </div>
 

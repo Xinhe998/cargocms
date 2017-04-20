@@ -1,0 +1,162 @@
+<fieldset>
+
+  <div class="row">
+    <section class="col col-lg-4 col-xs-4">
+      <label class="label">訂單編號</label>
+      <label class="input state-disabled fn-edit-disabled">
+        <input type="text" name="orderNumber" placeholder="" v-model="data.item.orderNumber" disabled>
+        <b class="tooltip tooltip-bottom-right">訂單編號</b></label>
+    </section>
+
+    <section class="col col-lg-4 col-xs-4">
+      <label class="label">訂購名字</label>
+      <label class="input state-disabled">
+        <input type="text" name="firstname" placeholder="" v-model="data.item.firstname" disabled>
+        <b class="tooltip tooltip-bottom-right">名字</b></label>
+    </section>
+
+    <section class="col col-lg-4 col-xs-4">
+      <label class="label">訂購姓氏</label>
+      <label class="input state-disabled">
+        <input type="text" name="lastname" placeholder="" v-model="data.item.lastname" disabled>
+        <b class="tooltip tooltip-bottom-right">姓氏</b></label>
+    </section>
+  </div>
+
+
+  <div class="row">
+    <section class="col col-lg-4 col-xs-4">
+      <label class="label">總價</label>
+      <label class="input state-disabled">
+        <input type="text" name="total" placeholder="" v-model="data.item.total" disabled>
+        <b class="tooltip tooltip-bottom-right">總價</b></label>
+    </section>
+
+    <section class="col col-lg-4 col-xs-4">
+      <label class="label">稅額</label>
+      <label class="input state-disabled">
+        <input type="text" name="tax" placeholder="" v-model="data.item.tax" disabled>
+        <b class="tooltip tooltip-bottom-right">稅額</b></label>
+    </section>
+
+    <section class="col col-lg-4 col-xs-4">
+      <label class="label">含稅總價</label>
+      <label class="input state-disabled">
+        <input type="text" name="totalIncludeTax" placeholder="" v-model="data.item.totalIncludeTax" disabled>
+        <b class="tooltip tooltip-bottom-right">含稅總價</b></label>
+    </section>
+  </div>
+
+  <div class="row">
+    <section class="col col-lg-4 col-xs-4">
+      <label class="label">電子郵件</label>
+      <label class="input state-disabled">
+        <input type="text" name="email" placeholder="" v-model="data.item.email" disabled>
+        <b class="tooltip tooltip-bottom-right">電子郵件</b></label>
+    </section>
+
+    <section class="col col-lg-4 col-xs-4">
+      <label class="label">電話</label>
+      <label class="input state-disabled">
+        <input type="text" name="telephone" placeholder="" v-model="data.item.telephone" disabled>
+        <b class="tooltip tooltip-bottom-right">電話</b></label>
+    </section>
+
+    <section class="col col-lg-4 col-xs-4">
+      <label class="label">傳真</label>
+      <label class="input state-disabled">
+        <input type="text" name="fax" placeholder="" v-model="data.item.fax" disabled>
+        <b class="tooltip tooltip-bottom-right">傳真</b></label>
+    </section>
+  </div>
+
+  <div class="row fn-create-hide">
+    <section class="col col-lg-12 col-xs-12">
+      <label class="label">訂購產品</label>
+      <label class="table state-disabled fn-edit-disabled">
+      <div class="margin-buttom-20">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>產品名稱</th>
+              <th>供應商</th>
+              <th>數量</th>
+              <th>價格</th>
+              <th>合計</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="orderProduct in data.item.OrderProducts">
+              <td class="col-xs-3">{{ orderProduct.name }}</td>
+              <td class="col-xs-3">
+                <select v-model="orderProduct.supplierId">
+                  <option v-for="supplier in data.option.suppliersList" v-bind:value="supplier.id">
+                    {{supplier.name}}
+                  </option>
+                </select>
+              </td>
+              <td class="col-xs-2">{{ orderProduct.quantity }}</td>
+              <td class="col-xs-2">{{ orderProduct.formatPrice }}</td>
+              <td class="col-xs-2">{{ orderProduct.formatTotal }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <b class="tooltip tooltip-bottom-right">訂購產品</b></label>
+    </section>
+  </div>
+
+  <br/>
+  <hr style="border-width: 2px;"/>
+  <br/>
+
+</fieldset>
+<script>
+var formRules = {
+  firstname: {
+    required: true
+  },
+  lastname: {
+    required: true
+  },
+  email: {
+    required: true,
+    email: true,
+  },
+  telephone: {
+    required: true
+  },
+  fax: {
+    required: true
+  },
+  total: {
+    required: true
+  },
+}
+
+// Messages for form validation
+var formMessages = {
+
+  firstname: {
+    required: "請給予名字"
+  },
+  lastname: {
+    required: "請給予姓氏"
+  },
+  email: {
+    required: "請給予電子郵件"
+  },
+  telephone: {
+    required: "請給予電話"
+  },
+  fax: {
+    required: "請給予傳真號碼"
+  },
+  total: {
+    required: "請給予總數"
+  },
+  tracking: {
+    required: "請給予追蹤代碼"
+  },
+}
+</script>

@@ -44,8 +44,15 @@ module.exports = {
       let data = req.body;
       const item = await Category.create(data);
 
+      const categoryDescriptionData = {
+        name: data.CategoryDescription.name,
+        description: data.CategoryDescription.description,
+        metaTitle: '',
+        metaDescription: '',
+        metaKeyword: '',
+      };
       await CategoryDescription.create({
-        ...data.CategoryDescription,
+        ...categoryDescriptionData,
         CategoryId: item.id
       });
 

@@ -66,6 +66,37 @@ module.exports = {
     return product;
   },
 
+  productOption: async function({price, value, quantity, productId}) {
+    try {
+      const productOptionData = {
+        value: value,
+        required: true,
+        productId: productId
+      };
+
+      const productOption = await ProductOption.create(productOptionData);
+
+      const productOptionValueData = {
+        quantity: quantity,
+        price: price,
+        subtract: true,
+        pricePrefix: '+',
+        points: 0,
+        pointsPrefix: '+',
+        weight: 1,
+        weightPrefix: 1,
+        ProductId: productId,
+        ProductOptionId: productOption.id,
+      }
+      const productOptionValue = await ProductOptionValue.create(productOptionValueData);
+
+      return productOption;
+
+    } catch (e) {
+      throw e;
+    }
+  },
+
   order: async (userId) => {
     try {
       const orderStatus = await OrderStatus.findOne({
@@ -129,6 +160,8 @@ module.exports = {
         comment:'',
         tracking: '客戶訂購',
         OrderStatusId: orderStatus.id,
+        shippingEmail: 'userShip@example.com',
+        shippingTelephone: '0987654321',
       }
       return await Order.create(data);
     } catch (e) {
@@ -183,8 +216,10 @@ module.exports = {
     try {
 
       const product = await Product.findById(productId);
-      product.SupplierId = supplierId;
-      await product.save();
+      const supplier = await Supplier.findById(supplierId);
+      // product.SupplierId = supplierId;
+      // await product.save();
+      await product.setSuppliers(supplier);
 
       return product;
     } catch (e) {
