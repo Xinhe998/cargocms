@@ -13,7 +13,6 @@
  */
 
 module.exports = function forbidden (data, options) {
-
   // Get access to `req`, `res`, & `sails`
   var req = this.req;
   var res = this.res;
@@ -64,7 +63,7 @@ module.exports = function forbidden (data, options) {
   else {
     if (req.path.split('/')[1] === 'admin') {
       sails.log.info('Forbidden redirect /admin/login');
-      
+
       return res.redirect('/admin/login');
     } else {
 

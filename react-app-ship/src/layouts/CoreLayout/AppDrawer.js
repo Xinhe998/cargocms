@@ -1,8 +1,8 @@
 /* @flow */
+// import injectTapEventPlugin from 'react-tap-event-plugin';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import {
   AppBar,
   Drawer,
@@ -17,6 +17,7 @@ import {
 import {
   fetchCurrentUserData,
 } from '../../redux/modules/user';
+import log from '../../redux/utils/logs';
 
 const styles = {
   appBar: {
@@ -73,7 +74,6 @@ const styles = {
 
   constructor(props) {
     super(props);
-    injectTapEventPlugin();
     props.fetchCurrentUserData();
     this.state = {
       drawerOpen: true,

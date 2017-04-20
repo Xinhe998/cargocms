@@ -23,6 +23,7 @@ var defaultConfig = {
   'AuthController': {
     '*': ['passport'],
     'status': [],
+    'callback': ['passport', 'jwtEncode'],
   },
   ...customConfig,
   'BlogController': {
@@ -84,6 +85,12 @@ var defaultConfig = {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
   "api/admin/UserController": {
+    '*': ['passport', 'sessionAuth', 'isAdmin'],
+  },
+  "api/admin/ConfigController": {
+    '*': ['passport', 'sessionAuth', 'isAdmin'],
+  },
+  "api/admin/ProductController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
   "UtilsController": {

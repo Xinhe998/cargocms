@@ -13,9 +13,9 @@ var appModel = {
   data: {
     item: {
       id: '',
-      limit: '',
-      signupCount: '',
-      price: '',
+      limit: '1',
+      signupCount: '0',
+      price: '1',
       title: '',
       description: '',
       sellStartDate: '',
@@ -72,14 +72,9 @@ appMain.loadDateTimeScript = function(){
 }
 
 appMain.createDateInit = function(){
-  $("input[name='signupCount']").val(0);
-  $("input[name='sellStartDate']").val( "<%= data.StartDate %>");
-  $("input[name='eventStartDate']").val( "<%= data.StartDate %>");
-  $("input[name='sellEndDate']").val( "<%= data.EndDate %>");
-  $("input[name='eventEndDate']").val( "<%= data.EndDate %>");
   appModel.data.item.signupCount = 0;
-  appModel.data.item.sellStartDate = "<%= data.StartDate %>";
-  appModel.data.item.eventStartDate = "<%= data.StartDate %>";
-  appModel.data.item.sellEndDate = "<%= data.EndDate %>";
-  appModel.data.item.eventEndDate = "<%= data.EndDate %>";
+  appModel.data.item.sellStartDate = "1999/04/18 00:00";
+  appModel.data.item.eventStartDate = "1999/04/18 00:00";
+  appModel.data.item.sellEndDate = "3333/04/18 00:00";
+  appModel.data.item.eventEndDate = "3333/04/18 00:00";
 }

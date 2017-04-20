@@ -202,57 +202,8 @@ appMain.DataTableInitComplete = function() {
       var orderId = $(that).attr("data-id");
       var orderTotal = $(that).attr("data-total");
       var orderProduct = $(that).attr("data-order");
-      $('body').delegate(".orderDetailLink", "click", function(e) {
-        e.preventDefault();
-        window.location.href = '/admin/#/admin/order/show/' + orderId;
-        appMain.dismissMessageBox();
-      });
-      $.SmartMessageBox({
-        title : "提醒",
-        content:
-        '是否確認此訂單 ? ' +
-        '<p />'+
-        '<a class="btn btn-link orderDetailLink"> 檢視訂單詳細內容 </a><br />' +
-        '訂單總金額 : $<em style="font-size: 1.5em;">'+  orderTotal +'</em><br />',
-        buttons : "[確認][取消]"
-      }, function(ButtonPress) {
-           if(ButtonPress === "取消"){
-             return 0;
-           }
+ 
+      window.location.href = '#/admin/confirmorder/' + orderId;
 
-           var ajaxSuccess = function (result) {
-             location.href = '/admin/#/admin/' + modelName;
-             messageApp.show({
-             desc: '確認訂單成功！',
-             type: 'success'
-             });
-           }; // end ajaxSuccess
-
-          var ajaxError = function (result) {
-            messageApp.show({
-              desc: '確認訂單失敗！errorMessage: ' + result.responseJSON.message,
-              type: 'error'
-            });
-          };
-
-          $.ajax({
-            url: '/api/' + prefix + 'order/confirm' + '/' + orderId,
-            type: 'PUT',
-            dataType: 'json',
-            data: {
-              tracking:'確認訂單',
-              // orderConfirmComment: orderConfirmComment
-            },
-            xhrFields: {
-            withCredentials: true,
-            },
-            success: ajaxSuccess,
-            error: ajaxError,
-          }).done(function(result){
-            defaultTable.api().ajax.reload(null, false);
-          });
-         }
-      );
-      e.preventDefault();
   });
 }

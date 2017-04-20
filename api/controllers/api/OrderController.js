@@ -29,27 +29,37 @@ module.exports = {
       transaction.commit();
 
       try {
+        const orderProductStringTable = await OrderService.stringOrderProduct({ modelName:'orderproduct' ,orderId: order.id });
+
         let mailMessage = {};
         mailMessage.serialNumber = order.orderNumber;
         mailMessage.paymentTotalAmount = order.total;
-        mailMessage.productName = '';
+        mailMessage.productName = orderProductStringTable;
         mailMessage.email = order.email;
         mailMessage.username = `${order.lastname}${order.firstname}`;
         mailMessage.shipmentUsername = `${order.lastname}${order.firstname}`;
         mailMessage.shipmentAddress = order.shippingAddress1;
         mailMessage.note = order.comment;
         mailMessage.phone = order.telephone;
-        mailMessage.invoiceNo = `${order.invoicePrefix}${order.invoiceNo}`;
-        let messageConfig = await MessageService.orderToShopConfirm(mailMessage);
+        // mailMessage.invoiceNo = `${order.invoicePrefix}${order.invoiceNo}`;
+        let messageConfig = await MessageService.orderCreated(mailMessage);
         let mail = await Message.create(messageConfig);
         await MessageService.sendMail(mail);
 
-        if(order.email !== loginUser.email){
-          mailMessage.email = loginUser.email;
-          messageConfig = await MessageService.orderToShopConfirm(mailMessage);
-          let mail = await Message.create(messageConfig);
-          await MessageService.sendMail(mail);
+        if (order.email !== order.shippingEmail) {
+          mailMessage.email = order.shippingEmail;
+          messageConfig = await MessageService.orderCreated(mailMessage);
+          let shippingMail = await Message.create(messageConfig);
+          await MessageService.sendMail(shippingMail);
         }
+
+        if (loginUser.email !== order.email && loginUser.email !== order.shippingEmail) {
+          mailMessage.email = loginUser.email;
+          messageConfig = await MessageService.orderCreated(mailMessage);
+          let accountMail = await Message.create(messageConfig);
+          await MessageService.sendMail(accountMail);
+        }
+
       } catch (e) {
         sails.log.error(e);
       }
