@@ -143,7 +143,7 @@
         "searchable": false,
         "targets": "required",
         "render": function (data, type, row) {
-          if (data) {
+          if (row.required) {
             return '<td><i class="fa fw fa-check"></i></td>';
           }
           return '<td><i class="fa fw fa-close"></i></td>';
@@ -173,7 +173,7 @@
         "orderable": false,
         "targets": "subtract",
         "render": function (data, type, row) {
-          if (data) {
+          if (row.ProductOptionValue.subtract) {
             return '<td><i class="fa fw fa-check"></i></td>';
           }
           return '<td><i class="fa fw fa-close"></i></td>';
