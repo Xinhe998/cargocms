@@ -31,8 +31,8 @@
       <th width="8%" class="" data-hide="phone">瀏覽數</th>
       <th width="" class="" data-hide="always">建立時間</th>
       <th width="" class="" data-hide="always">更新時間</th>
-      <th width="" class="supplier" data-hide="always">供應商</th>
-      <th width="" class="category" data-hide="always">產品分類</th>
+      <!-- <th width="" class="supplier" data-hide="always" style="display:none">供應商</th> -->
+      <!-- <th width="" class="category" data-hide="always" style="display:none">產品分類</th> -->
 			<th width="10%" data-hide="phone,tablet">操作</th>
 		</tr>
 	</thead>
@@ -113,8 +113,8 @@
       { "data": "viewed"},
       { "data": "createdAt"},
       { "data": "updatedAt"},
-      { "data": null },
-      { "data": null },
+			// { "data": null }
+			// { "data": null }
 			{ "data": null }
 		]
 
@@ -174,7 +174,7 @@
           return '<td>'+ '否' +'</td>';
         }
       },
-      {
+      /*{
         "searchable": false,
         "targets": 'supplier',
         "render": function (data, type, row) {
@@ -194,9 +194,9 @@
           }
           return '<td>' + output + '</td>';
         }
-      },
+      },*/
 			{
-				"targets"  : 21,
+				"targets"  : 19,
 				"orderable": false,
 				"searchable": false,
 				"render": function ( data, type, row ) {
