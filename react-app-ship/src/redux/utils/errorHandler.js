@@ -1,6 +1,8 @@
 /* @flow */
+import Lang from 'lodash';
 import { replace } from 'react-router-redux';
 import { handleShowToast } from './toast';
+import log from './logs';
 
 // ------------------------------------
 // Constants
@@ -26,11 +28,13 @@ export function handleResponse(
     message: '',
   },
 ) {
-  const con = console;
   const response = result.response;
+  // const responseDetail = Lang.isUndefined(response.data) ?
+  //   '' : Lang.isUndefined(response.data.message) ? '' : response.data.message;
   let message = result.message;
   return (dispatch) => {
-    con.error('[errorHandler] origin error message: ', message);
+    log.error('[errorHandler] origin error response description: ', response.data.message);
+    log.error('[errorHandler] origin error message: ', message);
     switch (response.status) {
       case 401:
         dispatch(replace('/ship/login'));
@@ -39,6 +43,9 @@ export function handleResponse(
       case 403:
         dispatch(replace('/ship/login'));
         message = '請登入後使用！';
+        if (response.data.message.search('NotFound') !== -1) {
+          message = '帳號或密碼錯誤！';
+        }
         break;
       case 404:
         break;

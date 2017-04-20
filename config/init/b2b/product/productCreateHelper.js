@@ -30,8 +30,10 @@ module.exports = {
 
 
     let productData, product, productDescription, productTag,
-        productImage, option, optionValue, productOption,
-        productOptionValue, optionDescription, optionValueDescription;
+        productImage, option, optionValue,
+        productOption1, productOption2, productOption3,
+        productOptionValue1, productOptionValue2, productOptionValue3, 
+        optionDescription, optionValueDescription;
 
     for(let p of productNames){
       let imageNo = Math.floor(Math.random() * 800 ) + 1;
@@ -50,11 +52,13 @@ module.exports = {
         isbn: "9788175257665",
         mpn: "XYZ876A1B2C3",
         location: "台中市清水區",
+        origin: "台中市西區",
         quantity: 200,
         image: image.url,
         shipping: true,
         price: Math.floor(Math.random() * 90 + 10 ) * 10,
         points: 200,
+        precautions: '慎生食',
         dateAvailable: "2017-01-01",
         weight: 146.4,
         length: 10,
@@ -117,28 +121,6 @@ module.exports = {
         OptionId: option.id
       });
 
-      productOption = await ProductOption.create({
-        value: '超低溫冷藏',
-        required: true,
-        OptionId: option.id,
-        ProductId: product.id
-      });
-
-      productOptionValue = await ProductOptionValue.create({
-        quantity: 100,
-        subtract: true,
-        price: 150,
-        pricePrefix: "+",
-        points: 0,
-        pointsPrefix: "+",
-        weight: 1.00000,
-        weightPrefix: "+",
-        OptionId: option.id,
-        OptionValueId: optionValue.id,
-        ProductId: product.id,
-        ProductOptionId: productOption.id
-      });
-
       optionDescription = await OptionDescription.create({
         name: 'textarea',
         OptionId: option.id
@@ -150,7 +132,48 @@ module.exports = {
         OptionValueId: optionValue.id
       });
 
+      const productOptionData = {
+        value: '3 公斤',
+        required: true,
+        OptionId: option.id,
+        ProductId: product.id
+      };
+      productOption1 = await ProductOption.create(productOptionData);
+
+      const productOptionValueData = {
+        quantity: 3,
+        subtract: true,
+        price: productData.price * 3,
+        pricePrefix: "=",
+        points: 0,
+        pointsPrefix: "=",
+        weight: 0.00000,
+        weightPrefix: "=",
+        OptionId: option.id,
+        OptionValueId: optionValue.id,
+        ProductId: product.id,
+        ProductOptionId: productOption1.id
+      };
+      productOptionValue1 = await ProductOptionValue.create(productOptionValueData);
+
+      productOptionData.value = '6 公斤';
+      productOption2 = await ProductOption.create(productOptionData);
+
+      productOptionValueData.quantity = 6;
+      productOptionValueData.price = productOptionValueData.price * 2;
+      productOptionValueData.ProductOptionId = productOption2.id;
+      productOptionValue2 = await ProductOptionValue.create(productOptionValueData);
+
+      productOptionData.value = '12公斤';
+      productOption3 = await ProductOption.create(productOptionData);
+
+      productOptionValueData.quantity = 12;
+      productOptionValueData.price = productOptionValueData.price * 2;
+      productOptionValueData.ProductOptionId = productOption3.id;
+      productOptionValue3 = await ProductOptionValue.create(productOptionValueData);
+
       await product.setCategories(initCategory);
+      await product.setSuppliers(supplier);
     };
 
     return product;

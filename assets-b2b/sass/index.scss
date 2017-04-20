@@ -21,6 +21,15 @@
   // background-size: cover;
   // background-position: 50% 46%;
   // box-shadow: 0 -3px 10px 2px rgba(0, 0, 0, 0.25) inset;
+
+  background: url('http://i.imgur.com/Z2K6d9T.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 13%;
+  margin-top: -20px;
+  @media (max-width: 1074px) {
+    margin-top: 0;
+  }
 }
 .b2b-side-nav + div > .b2b-content.b2b-content-body {
   padding-top: 3em;
@@ -28,6 +37,9 @@
   background: #e6e6e6;
 }
 .product {
+  display: block;
+  color: black !important;
+  text-decoration: none !important;
   @media (max-width: 1200px) {
     padding: 20px 13px;
   }
@@ -66,6 +78,12 @@
     span {
       font-size: 1.6em;
       margin-right: 4px;
+    }
+  }
+  .input-group {
+    input {
+      border-left: none;
+      margin-left: 1px;
     }
   }
   .promotion-label {
