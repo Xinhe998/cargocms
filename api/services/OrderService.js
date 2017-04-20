@@ -118,7 +118,7 @@ module.exports = {
           orderProductCreateData.price = productOption.ProductOptionValue.price;
           // orderProductCreateData.quantity = subtractQuantity;
           orderProductCreateData.tax   = orderProductCreateData.total * 0.05;
-          orderProductCreateData.comment = productOption.value;
+          orderProductCreateData.option = productOption.value;
         }
 
         if (product.subtract) {
