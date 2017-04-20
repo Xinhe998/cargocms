@@ -80,4 +80,40 @@ appMain.customSearch = function(data) {
       column: 'model',
     }
   });
+  appModel.pagingQuery.columns.push({
+    data: 'price',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'ProductOptionValue',
+      column: 'price',
+    }
+  });
+  appModel.pagingQuery.columns.push({
+    data: 'weight',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'ProductOptionValue',
+      column: 'weight',
+    }
+  });
+  appModel.pagingQuery.columns.push({
+    data: 'points',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'ProductOptionValue',
+      column: 'points',
+    }
+  });
+  appModel.pagingQuery.columns.push({
+    data: 'quantity',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'ProductOptionValue',
+      column: 'quantity',
+    }
+  });
 }
