@@ -61,10 +61,10 @@ div.note-editable.panel-body ol, div.note-editable.panel-body ul{
   </section>
 
   <section v-show="data.item.type === 'internal-event'">
-    <label class="label">活動票卷
-      <button type="button" class="btn btn-default btn-sm" style="margin: 10px;"
-      v-on:click="onCreateNewEvet()" >新增 Q&A</button  >
-    </label>
+    <!-- <label class="label">問與答</label> -->
+    <button type="button" class="btn btn-default btn-sm" style="margin: 10px 0;"
+    v-on:click="onCreateNewEvet()" >新增 Q&A</button  >
+    
     <div class="row" v-for="event in data.item.eventId">
       <section class="col col-lg-10 col-xs-10">
         <label class="select">
