@@ -4,6 +4,11 @@
   <thead>
     <tr>
       <th data-hide=""
+      data-class="" class="no-sort id">
+        ID
+      </th>
+
+      <th data-hide=""
       data-class="" class="no-sort value">
         內容
       </th>
@@ -27,32 +32,32 @@
       data-class="" class="no-sort price">
         價格
       </th>
-  
+      <!--
       <th data-hide=""
       data-class="" class="no-sort pricePrefix">
         價格影響
       </th>
-  
+      -->
       <th data-hide=""
       data-class="" class="no-sort points">
         點數
       </th>
-  
+      <!--
       <th data-hide=""
       data-class="" class="no-sort pointsPrefix">
         點數影響
       </th>
-  
+      -->
       <th data-hide=""
       data-class="" class="no-sort weight">
         重量
       </th>
-  
+      <!--
       <th data-hide=""
       data-class="" class="no-sort weightPrefix">
         重量影響
       </th>
-      
+      -->
       <th width="80" data-hide="phone,tablet"></th>
     </tr>
   </thead>
@@ -100,6 +105,8 @@
 
     // server only
     var columns = [
+      { "data": "id"},
+
       { "data": "value" },
 
       { "data": "required" },
@@ -108,23 +115,33 @@
 
       { "data": null },
 
-      { "data": null },
+      { "data": null }, //price
 
-      { "data": null },
+      // { "data": null }, 
 
-      { "data": null },
+      { "data": null }, //points
 
-      { "data": null },
+      // { "data": null }, 
 
-      { "data": null },
+      { "data": null }, //weight
 
-      { "data": null },
+      // { "data": null },
     
       { "data": null },
     ]
 
     // server only
     var columnDefs = [
+      {
+        "searchable": false,
+        "targets": "required",
+        "render": function (data, type, row) {
+          if (data) {
+            return '<td><i class="fa fw fa-check"></i></td>';
+          }
+          return '<td><i class="fa fw fa-close"></i></td>';
+        }
+      },
       {
         "searchable": false,
         "targets": "quantity",
@@ -137,7 +154,10 @@
         "searchable": false,
         "targets": "subtract",
         "render": function (data, type, row) {
-          return '<td>' + row.ProductOptionValue.subtract + '</td>';
+          if (data) {
+            return '<td><i class="fa fw fa-check"></i></td>';
+          }
+          return '<td><i class="fa fw fa-close"></i></td>';
         }
       },
 
@@ -149,13 +169,13 @@
         }
       },
 
-      {
-        "searchable": false,
-        "targets": "pricePrefix",
-        "render": function (data, type, row) {
-          return '<td>' + row.ProductOptionValue.pricePrefix + '</td>';
-        }
-      },
+      // {
+      //   "searchable": false,
+      //   "targets": "pricePrefix",
+      //   "render": function (data, type, row) {
+      //     return '<td>' + row.ProductOptionValue.pricePrefix + '</td>';
+      //   }
+      // },
 
       {
         "searchable": false,
@@ -165,13 +185,13 @@
         }
       },
 
-      {
-        "searchable": false,
-        "targets": "pointsPrefix",
-        "render": function (data, type, row) {
-          return '<td>' + row.ProductOptionValue.pointsPrefix + '</td>';
-        }
-      },
+      // {
+      //   "searchable": false,
+      //   "targets": "pointsPrefix",
+      //   "render": function (data, type, row) {
+      //     return '<td>' + row.ProductOptionValue.pointsPrefix + '</td>';
+      //   }
+      // },
 
 
       {
@@ -182,16 +202,16 @@
         }
       },
 
-      {
-        "searchable": false,
-        "targets": "weightPrefix",
-        "render": function (data, type, row) {
-          return '<td>' + row.ProductOptionValue.weightPrefix + '</td>';
-        }
-      },
+      // {
+      //   "searchable": false,
+      //   "targets": "weightPrefix",
+      //   "render": function (data, type, row) {
+      //     return '<td>' + row.ProductOptionValue.weightPrefix + '</td>';
+      //   }
+      // },
       
       {
-        "targets"  : 10,
+        "targets"  : 8,
         "orderable": false,
         "searchable": false,
         "render": function ( data, type, row ) {
