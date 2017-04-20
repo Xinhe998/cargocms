@@ -1,7 +1,7 @@
 var defaultTable = {};
 function getConfig() {
   var query = location.hash.split('/').reverse()[0].split('?')[1];
-  if(typeof query === 'undefined' || query === 'undefined') {
+  if(typeof query === 'undefined' || query === 'undefined' || query === null) {
     query = '';
   }
   return query;
