@@ -25,7 +25,7 @@
           <select class="form-control" name="required" title="選擇是否啟用" v-model="data.item.required" disabled>
             <option value=1 selected> true </option>
             <option value=0 > false </option>
-          </select>
+          </select> <i></i>
         </label>
       </section>
     
@@ -39,69 +39,75 @@
       <section row="" class="col col-lg-4 col-md-4 col-sm-4 col-xs-12">
         <label class="label">賣出減少</label>
         <label class="input state-disabled ">
-        <input type="text" name="subtract" placeholder="" v-model="data.item.ProductOptionValue.subtract" disabled>
+        <select class="form-control" name="subtract" title="選擇賣出是否減少" v-model="data.item.ProductOptionValue.subtract" disabled>
+          <option value=1 selected> true </option>
+          <option value=0 > false </option>
+        </select> <i></i>
         <b class="tooltip tooltip-bottom-right">請輸入賣出減少</b></label>
       </section>
     
     </div>
 
     <div class="row">
-      <section row="" class="col col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <label class="label">價格</label>
-        <label class="input state-disabled ">
-        <input type="text" name="price" placeholder="" v-model="data.item.ProductOptionValue.price" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入價格</b></label>
-      </section>
 
-      <section class="col col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <section class="col col-lg-2 col-md-2 col-sm-2 col-xs-4">
         <label class="label">價格影響</label>
         <label class="select state-disabled">
           <select class="form-control" name="pricePrefix" title="選擇價格影響" v-model="data.item.ProductOptionValue.pricePrefix" disabled>
             <option value="=" selected> = </option>
             <option value="+" > + </option>
             <option value="-" > - </option>
-          </select>
+          </select> <i></i>
         </label>
       </section>
+
+      <section row="" class="col col-lg-10 col-md-10 col-sm-10 col-xs-8">
+        <label class="label">價格</label>
+        <label class="input state-disabled ">
+        <input type="text" name="price" placeholder="" v-model="data.item.ProductOptionValue.price" disabled>
+        <b class="tooltip tooltip-bottom-right">請輸入價格</b></label>
+      </section>
+
+      
     </div>
   
     <div class="row">
-      <section row="" class="col col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <label class="label">點數</label>
-        <label class="input state-disabled">
-        <input type="text" name="points" placeholder="" v-model="data.item.ProductOptionValue.points" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入點數</b></label>
-      </section>
-
-      <section class="col col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <section class="col col-lg-2 col-md-2 col-sm-2 col-xs-4">
         <label class="label">點數影響</label>
         <label class="select state-disabled">
           <select class="form-control" name="pointsPrefix" title="選擇點數影響" v-model="data.item.ProductOptionValue.pointsPrefix" disabled>
             <option value="=" selected> = </option>
             <option value="+" > + </option>
             <option value="-" > - </option>
-          </select>
+          </select> <i></i>
         </label>
+      </section>
+
+      <section row="" class="col col-lg-10 col-md-10 col-sm-10 col-xs-8">
+        <label class="label">點數</label>
+        <label class="input state-disabled">
+        <input type="text" name="points" placeholder="" v-model="data.item.ProductOptionValue.points" disabled>
+        <b class="tooltip tooltip-bottom-right">請輸入點數</b></label>
       </section>
     </div>
   
     <div class="row">
-      <section row="" class="col col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <label class="label">重量</label>
-        <label class="input state-disabled ">
-        <input type="text" name="weight" placeholder="" v-model="data.item.ProductOptionValue.weight" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入重量</b></label>
-      </section>
-
-      <section class="col col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <section class="col col-lg-2 col-md-2 col-sm-2 col-xs-4">
         <label class="label">重量影響</label>
         <label class="select state-disabled">
           <select class="form-control" name="weightPrefix" title="選擇重量影響" v-model="data.item.ProductOptionValue.weightPrefix" disabled>
             <option value="=" selected> = </option>
             <option value="+" > + </option>
             <option value="-" > - </option>
-          </select>
+          </select> <i></i>
         </label>
+      </section>
+
+      <section row="" class="col col-lg-10 col-md-10 col-sm-10 col-xs-8">
+        <label class="label">重量</label>
+        <label class="input state-disabled ">
+        <input type="text" name="weight" placeholder="" v-model="data.item.ProductOptionValue.weight" disabled>
+        <b class="tooltip tooltip-bottom-right">請輸入重量</b></label>
       </section>
     </div>
   
