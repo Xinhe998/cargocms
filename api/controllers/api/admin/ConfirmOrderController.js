@@ -197,13 +197,49 @@ module.exports = {
       console.log('Order=>', order);
       console.log('Order.orderNumber=>', order.orderNumber);
       try {
-        const messageConfig = await MessageService.paymentConfirm({
+        const orderProductStringTable = await OrderService.stringOrderProduct({ modelName:'orderproduct' , orderId: order.id });
+        let mailMessage = {
           email: order.email,
-          serialNumber: Order.orderNumber,
+          serialNumber: order.orderNumber,
           username: `${order.lastname}${order.firstname}`,
-        });
+          productName: orderProductStringTable,
+          shipmentUsername: `${order.lastname}${order.firstname}`,
+          shipmentAddress: order.shippingAddress1,
+          note: order.comment,
+          phone: order.shippingTelephone,
+        };
+        let messageConfig = await MessageService.orderConfirm(mailMessage);
         const mail = await Message.create(messageConfig);
         await MessageService.sendMail(mail);
+
+        if (order.email !== order.shippingEmail) {
+          mailMessage.email = order.shippingEmail;
+          messageConfig = await MessageService.orderConfirm(mailMessage);
+          let shippingMail = await Message.create(messageConfig);
+          await MessageService.sendMail(shippingMail);
+        }
+
+        //supplier ship order info email
+        const supplierShipOrders = await SupplierShipOrder.findAll({ where: { OrderId: order.id } });
+        for (const shipOrder of supplierShipOrders) {
+          const supplier = await Supplier.findById(shipOrder.SupplierId);
+          const shipOrderProductTable = await OrderService.stringOrderProduct({ modelName:'suppliershiporderproduct' , orderId: shipOrder.id });
+          const mailMessage = {
+            email: supplier.email,
+            supplier: supplier.name,
+            serialNumber: shipOrder.shipOrderNumber,
+            productName: shipOrderProductTable,
+            shipmentUsername: `${shipOrder.lastname}${shipOrder.firstname}`,
+            shipmentAddress: shipOrder.shippingAddress1,
+            shipmentEmail: shipOrder.shippingEmail,
+            phone: shipOrder.shippingTelephone,
+          };
+          const messageConfig = await MessageService.shipOrderCreated(mailMessage);
+          const supplierEmail = await Message.create(messageConfig);
+          await MessageService.sendMail(supplierEmail);
+        }
+
+
       } catch (e) {
         sails.log.error(e);
       }
