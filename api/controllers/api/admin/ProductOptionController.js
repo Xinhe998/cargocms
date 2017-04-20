@@ -5,7 +5,7 @@ module.exports = {
       const { query, method, body } = req;
       const { serverSidePaging } = query;
       const modelName = req.options.controller.split("/").reverse()[0];
-      const include = [ProductOptionValue];
+      const include = [ProductOptionValue, Product];
       const isPost = method === 'POST';
       let mServerSidePaging = isPost ? body.serverSidePaging : serverSidePaging;
       let mQuery = isPost ? body : query;
@@ -31,7 +31,7 @@ module.exports = {
         where:{
           id
         },
-        include: [ProductOptionValue]
+        include: [ProductOptionValue, Product]
       });
       res.ok({data: {item}});
     } catch (e) {

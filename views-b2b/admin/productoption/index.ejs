@@ -9,6 +9,11 @@
       </th>
 
       <th data-hide=""
+      data-class="" class="no-sort productName">
+        產品名稱
+      </th>
+
+      <th data-hide=""
       data-class="" class="no-sort value">
         內容
       </th>
@@ -58,7 +63,7 @@
         重量影響
       </th>
       -->
-      <th width="80" data-hide="phone,tablet"></th>
+      <th width="80" data-hide="phone,tablet" class="operate"></th>
     </tr>
   </thead>
   <!-- client only -->
@@ -107,6 +112,8 @@
     var columns = [
       { "data": "id"},
 
+      { "data": null },
+
       { "data": "value" },
 
       { "data": "required" },
@@ -142,11 +149,20 @@
           return '<td><i class="fa fw fa-close"></i></td>';
         }
       },
+
       {
         "searchable": false,
         "targets": "quantity",
         "render": function (data, type, row) {
           return '<td>' + row.ProductOptionValue.quantity + '</td>';
+        }
+      },
+
+      {
+        "searchable": false,
+        "targets": "productName",
+        "render": function (data, type, row) {
+          return '<td>' + row.Product.model + '</td>';
         }
       },
 
@@ -211,7 +227,7 @@
       // },
       
       {
-        "targets"  : 8,
+        "targets"  : "operate",
         "orderable": false,
         "searchable": false,
         "render": function ( data, type, row ) {
