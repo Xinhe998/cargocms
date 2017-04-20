@@ -113,8 +113,8 @@ const styles = {
           <IconMenu
             style={styles.iconMenu}
             iconButtonElement={
-              <IconButton touch={true}>
-                <NavigationExpandMoreIcon style={styles.white} />
+              <IconButton touch={true} >
+                <NavigationExpandMoreIcon style={styles.white} color='white'/>
               </IconButton>
             }
           >

@@ -1,0 +1,98 @@
+
+<div class="container-fluid b2b-product-detail">
+  
+  <div class="row">
+    <div class="col-md-6">
+      <img class="product-image-cover" src="http://localhost:5001/assets/b2b/img/product/P00076.jpg" alt="">
+    </div>
+    <div class="col-md-6 b2b-product-detail-content" data-id="<%= data.item.id %>">
+      <h3 class="origin"><%= data.item.origin %></h3>
+      <h1 class="name"><%= data.item.model %></h1>
+      <h2 class="price">
+        $ <span>
+        <% if(data.item.ProductOptions.length > 0) { %>
+          <%= data.item.ProductOptionValues[0].price %>
+        <% } else { %>
+          <%= data.item.price %>
+        <% } %>
+        </span>
+      </h2>
+      
+      <div class="order-options">
+        <% for(var key in data.item.ProductOptions) { %>
+          <div class="radio">
+            <label>
+              <input type="radio" name="orderType" value="<%= data.item.ProductOptions[key].id %>" data-price="<%= data.item.ProductOptionValues[key].price %>" checked="checked">
+              <%= data.item.ProductOptions[key].value %>
+            </label>
+          </div>
+        <% } %>
+      </div>
+      
+      <div class="row order-input">
+        
+        <div class="col-sm-4">
+          <input class="form-control" type="number" value="0" min="0" max="<%= data.item.quantity %>" />
+        </div>
+        
+        <div class="col-sm-8">
+          <a class="btn btn-lg btn-block btn-primary btn-border-circle add-to-cart" role="button">加入購物車</a>
+        </div>
+        
+      </div>
+
+      <div class="b2b-tabs">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">商品介紹</a></li>
+          <li role="presentation"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">產品規格</a></li>
+          <li role="presentation"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab">注意事項</a></li>
+          <li role="presentation"><a href="#story" aria-controls="story" role="tab" data-toggle="tab">品牌故事</a></li>
+          
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="profile">
+            <%= data.item.ProductDescription.description %>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="detail">
+            <ol>
+              <li>重量： <%= data.item.weight %> 克</li>
+              <li>長度： <%= data.item.length %> 公分</li>
+              <li>寬度： <%= data.item.width %> 公分</li>
+              <li>高度： <%= data.item.height %> 公分</li>
+            </ol>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="notice"><%= data.item.precautions %></div>
+          <div role="tabpanel" class="tab-pane" id="story">...</div>
+        </div>
+      </div>
+      
+
+      
+    </div>
+  </div>
+  
+</div>
+
+<% LayoutUtils.addScriptBlock(`
+  $(function(){
+    $('.order-input input[type="number"]').bootstrapNumber();
+
+    var changePrice = function () {
+      var options = $('input[name=orderType]');
+      for (var key in options) {
+        var option = options[key];
+        if (option.checked) {
+          var price = option.getAttribute('data-price');
+          $('.price > span').text(price);
+          break;
+        }
+      }
+    };
+    changePrice();
+
+    $('input[name=orderType]').on('click', changePrice);
+  });
+`); %>

@@ -42,6 +42,7 @@ var appModel = {
       Categories:[],
       categoriesId: [],
       categoriesNameArray:[],
+      suppliersId: [],
     },
     items: [],
     option: {
@@ -69,6 +70,11 @@ appMain.showPageHidden = function(){
 appMain.addCategory = function (event) {
   var category = $('select[name=categoriesId]').val();
   appMain.data.item.categoriesId = category;
+};
+
+appMain.addSupplier = function (event) {
+  var supplier = $('select[name=suppliersId]').val();
+  appMain.data.item.suppliersId = supplier;
 };
 
 appMain.loadCategory = function () {

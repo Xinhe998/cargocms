@@ -13,6 +13,11 @@ module.exports = {
   "api/admin/ProductController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
+
+  "api/admin/ProductOptionController": {
+    '*': ['passport', 'sessionAuth', 'isAdmin'],
+  },
+
   "api/admin/SupplierController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
@@ -54,6 +59,10 @@ module.exports = {
 
   "api/OrderController": {
     '*': ['passport', 'sessionAuth', 'validEmail'],
+  },
+
+  "api/ConfirmOrderController": {
+    '*': ['passport', 'sessionAuth'],
   },
 
   'b2b/MainController': {
