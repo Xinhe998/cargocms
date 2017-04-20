@@ -1,0 +1,182 @@
+var COMMON = {
+  DOUBLE_CLICK_TIME_PERIOD: 250,
+  DEFAULT_INDEX: -1,
+  DEFAULT_AVATAR: "/assets/admin/img/avatars/default.png",
+};
+
+var itemBeforeEdit = {};
+var prefix = 'admin/';
+var modelName = "confirmorder";
+var appModel = {
+  modelName: modelName,
+  prefix: prefix,
+  data: {
+    item: {
+      id: '',
+      orderNumber: '',
+      invoiceNo: '',
+      invoicePrefix: '',
+      firstname: '',
+      lastname: '',
+      email: '',
+      telephone: '',
+      fax: '',
+      paymentFirstname: '',
+      paymentLastname: '',
+      paymentAddress1: '',
+      paymentCity: '',
+      paymentPostcode: '',
+      paymentMethod: '',
+      paymentCode: '',
+      shippingFirstname: '',
+      shippingLastname: '',
+      shippingEmail: '',
+      shippingTelephone: '',
+      shippingAddress1: '',
+      shippingCity: '',
+      shippingPostcode: '',
+      shippingMethod: '',
+      shippingCode: '',
+      comment: '',
+      total: '',
+      tax: '',
+      totalIncludeTax: '',
+      tracking: '',
+      ip: '',
+      forwardedIp: '',
+      userAgent: '',
+      OrderProducts: [],
+    },
+    items: [],
+    option: {
+      defaultSort: [[ 30, 'desc' ]],
+      suppliersList: [],
+    }
+  },
+  view: {
+    table: {
+      selectIndex: COMMON.DEFAULT_INDEX,
+    },
+  }
+}
+
+/* TABLETOOLS */
+
+<%- include ../default/vue.ejs %>
+// 需要新增函式可以對 appMain 進行定義，如：
+// appMain.log = function () {console.log("123")}
+appMain.hiddenEditBtn = function () {
+  $('.btn.btn-primary').remove();
+};
+
+appMain.formatOrderProductList = function () {
+  var orderProductList = []
+  for (var key in appMain.data.item.OrderProducts) {
+    var orderProductData = appMain.data.item.OrderProducts[key];
+    var orderProduct = {
+      orderProductId: orderProductData.id,
+      name: orderProductData.name,
+      quantity: orderProductData.quantity,
+      formatPrice: orderProductData.formatPrice,
+      formatTotal: orderProductData.formatTotal,
+      supplierId: '',
+    }
+    orderProductList.push(orderProduct);
+  }
+
+  appMain.data.item.OrderProducts = orderProductList;
+};
+
+appMain.suppliersList = function () {
+
+  $.get('/api/admin/supplier', ajaxSuccess);
+
+  function ajaxSuccess(result) {
+    if (result.success) {
+      appModel.data.option.suppliersList = result.data.items;
+    }
+  } // end ajaxSuccess
+}
+
+appMain.editDisabled = function(){
+  $('label.fn-edit-disabled > input').attr('disabled', true);
+  $('label.fn-edit-disabled').addClass('state-disabled');
+}
+
+appMain.createHide = function () {
+  $('.fn-create-hide').hide();
+};
+
+appMain.checkedOrder = function(){
+  var orderId = appMain.data.item.id;
+  if(appMain.data.item.tracking === '訂單建立'){
+    var checkBtn = '<button type="button" class="btn btn-success pull-left">確認訂單</button>';
+    $(checkBtn).prependTo('footer');
+
+    $('.btn-success').on('click', function(){
+
+      var checkOrderProductHaveSupplier = true;
+      var orderProducts = appMain.data.item.OrderProducts;
+      for (var key in orderProducts) {
+        if (!orderProducts[key].supplierId) {
+          checkOrderProductHaveSupplier = false;
+          break;
+        }
+      }
+
+      if (!checkOrderProductHaveSupplier) {
+        messageApp.show({
+          desc: '請確認每項訂單產品的供應商',
+          type: 'error'
+        });
+      } else {
+        $.SmartMessageBox({
+          title : "提醒",
+          content:'是否確認此訂單 ? ',
+          buttons : "[確認][取消]"
+        },function(ButtonPress) {
+            if(ButtonPress === "取消"){
+              return 0;
+            }
+
+            var ajaxSuccess = function (result) {
+              location.href = '/admin/#/admin/' + 'order';
+              messageApp.show({
+              desc: '確認訂單成功！',
+              type: 'success'
+              });
+            }; // end ajaxSuccess
+
+          var ajaxError = function (result) {
+            messageApp.show({
+              desc: '確認訂單失敗！errorMessage: ' + result.responseJSON.message,
+              type: 'error'
+            });
+          };
+
+          $.ajax({
+            url: '/api/' + prefix + 'order/confirm' + '/' + orderId,
+            type: 'PUT',
+            dataType: 'json',
+            data: {
+              tracking:'確認訂單',
+              confirmOrderData: orderProducts
+            },
+            xhrFields: {
+            withCredentials: true,
+            },
+            success: ajaxSuccess,
+            error: ajaxError,
+          }).done(function(result){
+            defaultTable.api().ajax.reload(null, false);
+          });
+          }
+        );
+      }
+    });
+  }
+}
+
+appMain.DataTableInitComplete = function() {
+  $('.loading-wrapper').removeClass('active');
+}

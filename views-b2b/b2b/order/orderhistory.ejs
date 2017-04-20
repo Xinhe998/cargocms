@@ -20,6 +20,7 @@
       <thead>
         <tr>
           <th></th>
+          <th>訂購日期</th>
           <th>訂單編號</th>
           <th class="hidden-xs">收件人</th>
           <th>訂單金額</th>
@@ -30,15 +31,16 @@
         <% for( key in data.items ) { %>
           <tr data-toggle="collapse" data-target="#<%= data.items[key].orderNumber %>" class="accordion-toggle" aria-expanded="false">
             <td></td>
+            <td><%= data.items[key].createdDateTime.dateTime %></td>
             <td><%= data.items[key].orderNumber %></td>
             <td class="hidden-xs"><%= data.items[key].shippingLastname + data.items[key].shippingFirstname%></td>
             <td>$ <%= data.items[key].formatTotal %></td>
             <td><%= __(`${data.items[key].OrderStatus.name}`) %></td>
           </tr>
           <tr class="order-content">
-            <td colspan="5">
+            <td colspan="6">
               <div id="<%= data.items[key].orderNumber %>" class="collapse">
-                <table class="table table-striped order-products" >
+                <table class="table order-products" >
                   <thead>
                     <tr>
                       <th>品名</th>
