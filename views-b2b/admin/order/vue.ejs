@@ -113,6 +113,10 @@ appMain.checkedOrder = function(){
           }; // end ajaxSuccess
 
          var ajaxError = function (result) {
+           setTimeout(function(){
+             location.replace('/admin/login');
+           },800);
+
            messageApp.show({
              desc: '確認訂單失敗！errorMessage: ' + result.responseJSON.message,
              type: 'error'
@@ -202,8 +206,7 @@ appMain.DataTableInitComplete = function() {
       var orderId = $(that).attr("data-id");
       var orderTotal = $(that).attr("data-total");
       var orderProduct = $(that).attr("data-order");
- 
-      window.location.href = '#/admin/confirmorder/' + orderId;
 
+      window.location.href = '#/admin/confirmorder/' + orderId;
   });
 }
