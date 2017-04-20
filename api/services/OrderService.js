@@ -231,9 +231,13 @@ module.exports = {
       const orderProducts = await sails.models[modelName].findAll(query);
       let orderProductTable = '';
       for (const p of orderProducts) {
+        let productName = p.name;
+        if (p.option) {
+          productName = productName + `(${p.option})`;
+        }
         orderProductTable += `
         <tr>
-          <td>${p.name}</td>
+          <td>${productName}</td>
           <td>${p.quantity}</td>
           <td>${p.formatPrice}</td>
           <td>${p.formatTotal}</td>
