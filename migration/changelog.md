@@ -112,3 +112,6 @@
 
 ### OrderProduct 欄位修改
 * 新增 option 欄位
+
+### SupplierShipOrderProduct 欄位修改
+* 新增 option 欄位

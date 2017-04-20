@@ -118,7 +118,7 @@ module.exports = {
           orderProductCreateData.price = productOption.ProductOptionValue.price;
           // orderProductCreateData.quantity = subtractQuantity;
           orderProductCreateData.tax   = orderProductCreateData.total * 0.05;
-          orderProductCreateData.comment = productOption.value;
+          orderProductCreateData.option = productOption.value;
         }
 
         if (product.subtract) {
@@ -212,4 +212,54 @@ module.exports = {
       throw e;
     }
   },
+
+  stringOrderProduct: async ({modelName, orderId }) => {
+    try {
+      let query = {
+        where: {
+          OrderId: orderId
+        }
+      };
+      if (modelName === 'suppliershiporderproduct'){
+        query = {
+          where: {
+            SupplierShipOrderId: orderId
+          }
+        };
+      }
+
+      const orderProducts = await sails.models[modelName].findAll(query);
+      let orderProductTable = '';
+      for (const p of orderProducts) {
+        let productName = p.name;
+        if (p.option) {
+          productName = productName + `(${p.option})`;
+        }
+        orderProductTable += `
+        <tr>
+          <td>${productName}</td>
+          <td>${p.quantity}</td>
+          <td>${p.formatPrice}</td>
+          <td>${p.formatTotal}</td>
+        </tr>
+        `;
+      }
+      orderProductTable = `
+      <table>
+      <thead>
+        <tr>
+          <th>名稱</th><th>數量</th><th>單價</th><th>小計</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${orderProductTable}
+      </tbody>
+      </table>`;
+
+      return orderProductTable;
+    } catch (e) {
+      sails.log.error(e);
+      throw e;
+    }
+  }
 }
