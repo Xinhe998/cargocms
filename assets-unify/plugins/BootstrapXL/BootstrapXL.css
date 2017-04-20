@@ -6,7 +6,18 @@
 *   Site: WebVakman.nl
 *
 */
-
+@media (min-width: 1920px) {
+    .wrapper {
+        width: 1920px;
+        margin: 0px auto !important;
+    }
+    .b2b-side-nav {
+        left: auto !important;
+    }
+    .gray-bg {
+        width: 1653px !important;
+    }
+}
 @media (min-width: 1200px) and (max-width: 1599px) {
     .hidden-lg {
         display: none !important;
