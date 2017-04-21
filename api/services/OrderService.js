@@ -6,18 +6,23 @@ module.exports = {
     try{
       const products = JSON.parse(data.products);
       let totalPrice = 0;
+      let totalTaxRate = 0;
       for(let p of products){
         let product = await Product.findById(p.id);
+        sails.log(JSON.stringify(p));
         if (p.optionId) {
           let productOptionValue = await ProductOptionValue.findOne({ where:{ ProductOptionId: p.optionId }});
+          let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
+          totalTaxRate += Math.round(Number(productOptionValue.price) * Number(p.quantity) * Number(productTaxRate.taxRate));
           totalPrice += Number(productOptionValue.price) * Number(p.quantity);
         } else {
+          let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
+          totalTaxRate += Math.round(Number(product.price) * Number(p.quantity) * Number(productTaxRate.taxRate));
           totalPrice += Number(product.price) * Number( p.quantity );
         }
       }
-      const taxrate = sails.config.taxrate || 0;
       data.total = totalPrice;
-      data.tax   = Math.round(totalPrice * taxrate);
+      data.tax   = totalTaxRate;
       data.totalIncludeTax = data.total + data.tax;
 
       data.orderNumber = await OrderService.orderNumberGenerator({modelName: 'order', userId: data.UserId, product: data.porducts})
@@ -93,14 +98,15 @@ module.exports = {
           include: ProductDescription
         });
 
+        let texMoney = Math.round((product.price * p.quantity) * product.taxRate);
         const orderProductCreateData = {
           ProductId: product.id,
           name: product.ProductDescription.name,
           model: product.model,
           quantity: p.quantity,
           price: product.price,
-          total: (product.price * p.quantity),
-          tax: (product.price * p.quantity) * 0.05,
+          total: (product.price * p.quantity) - texMoney,
+          tax: texMoney,
           OrderId: order.id,
         };
 
@@ -117,7 +123,7 @@ module.exports = {
           orderProductCreateData.total = Number(p.quantity) * Number(productOption.ProductOptionValue.price);
           orderProductCreateData.price = productOption.ProductOptionValue.price;
           // orderProductCreateData.quantity = subtractQuantity;
-          orderProductCreateData.tax   = orderProductCreateData.total * 0.05;
+          orderProductCreateData.tax   = totalTaxRate;
           orderProductCreateData.option = productOption.value;
         }
 
