@@ -168,7 +168,7 @@
     <section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
       <label class="label">稅金</label>
       <label class="input state-disabled">
-        <input id="tax" value="{{ Math.round(data.item.price - data.item.price/(1+parseFloat(data.item.taxRate))) }}" readonly>
+        <input id="tax" value="{{ Math.round(Number(data.item.price) - Number(data.item.price)/(1+parseFloat(data.item.taxRate))) }}" readonly>
       </label>
     </section>
     <!--

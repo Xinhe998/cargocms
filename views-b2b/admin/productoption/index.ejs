@@ -43,10 +43,12 @@
         價格影響
       </th>
       -->
+      <!--
       <th data-hide=""
       data-class="" class="no-sort points">
         點數
       </th>
+      -->
       <!--
       <th data-hide=""
       data-class="" class="no-sort pointsPrefix">
@@ -126,7 +128,7 @@
 
       // { "data": null }, 
 
-      { "data": null }, //points
+      // { "data": null }, //points
 
       // { "data": null }, 
 
@@ -185,7 +187,7 @@
         "orderable": false,
         "targets": "price",
         "render": function (data, type, row) {
-          return '<td>' + row.ProductOptionValue.price + '</td>';
+          return '<td>$' + row.ProductOptionValue.formatPrice + '</td>';
         }
       },
 
@@ -197,14 +199,14 @@
       //   }
       // },
 
-      {
-        "searchable": false,
-        "orderable": false,
-        "targets": "points",
-        "render": function (data, type, row) {
-          return '<td>' + row.ProductOptionValue.points + '</td>';
-        }
-      },
+      // {
+      //   "searchable": false,
+      //   "orderable": false,
+      //   "targets": "points",
+      //   "render": function (data, type, row) {
+      //     return '<td>' + row.ProductOptionValue.points + '</td>';
+      //   }
+      // },
 
       // {
       //   "searchable": false,
