@@ -6,13 +6,13 @@
       
         
         <th data-hide="phone,tablet"
-        data-class="" class="no-sort">
+        data-class="" class="no-sort name">
           分類
         </th>
       
         
         <th data-hide=""
-        data-class="" class="no-sort">
+        data-class="" class="no-sort key">
           小分類
         </th>
       
@@ -24,13 +24,13 @@
       
         
         <th data-hide=""
-        data-class="" class="no-sort">
+        data-class="" class="no-sort value">
           數值
         </th>
       
         
         <th data-hide=""
-        data-class="" class="no-sort">
+        data-class="" class="no-sort type">
           類型
         </th>
       
@@ -97,7 +97,6 @@
 
     // server only
     var columnDefs = [
-      
         
       
         
@@ -135,5 +134,6 @@
       appMain.hidenSearch();
       appMain.hideIndex();
     });
+      appMain.taxrateOnly();
   };
 </script>
