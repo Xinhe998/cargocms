@@ -2,8 +2,6 @@
 
 <div class="container-fluid b2b-product-detail">
 
-  <% include ../../lib/login.inc.ejs %>
-  
   <div class="row">
     <div class="flexslider col-md-6">
       <ul class="slides">
@@ -30,12 +28,14 @@
       
       <div class="order-options">
         <% for(var key in data.item.ProductOptions) { %>
-          <div class="radio">
-            <label>
-              <input type="radio" name="orderType" value="<%= data.item.ProductOptions[key].id %>" data-option="<%= data.item.ProductOptions[key].value %>" data-price="<%= data.item.ProductOptionValues[key].price %>" checked="checked">
-              <%= data.item.ProductOptions[key].value %>
-            </label>
-          </div>
+          <% if (data.item.ProductOptions[key].required) { %>
+            <div class="radio">
+              <label>
+                <input type="radio" name="orderType" value="<%= data.item.ProductOptions[key].id %>" data-option="<%= data.item.ProductOptions[key].value %>" data-price="<%= data.item.ProductOptionValues[key].price %>" checked="checked">
+                <%= data.item.ProductOptions[key].value %>
+              </label>
+            </div>
+          <% } %>
         <% } %>
       </div>
       

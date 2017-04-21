@@ -64,7 +64,7 @@
               <li v-for="cart in carts">
                 <a href="#">
                   <i v-on:click.stop="removeProduct(cart.id, $event)" class="fa fa-times" aria-hidden="true"></i>
-                  <span>{{cart.name}} * {{cart.quantity}}</span>
+                  <span>{{cart.name}} {{ cart.optionValue ? '('+ cart.optionValue +')' : ''}} * {{cart.quantity}}</span>
                 </a>
               </li>
               <li v-show="carts.length > 0" role="separator" class="divider"></li>
