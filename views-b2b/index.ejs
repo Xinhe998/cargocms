@@ -52,9 +52,11 @@
       </div>
     <% } else { %>
       <% for(var p = 0, len = data.items.length; p < len; p++) { %>
-        <a class="col-sm-4 col-md-3 col-xl-2 product" data-id="<%= data.items[p].id %>" href="/product/<%= data.items[p].id %>">
+      <div class="col-sm-4 col-md-3 col-xl-2 product" >
+        <a data-id="<%= data.items[p].id %>" href="/product/<%= data.items[p].id %>">
           <div class="product-img" style="background-image: url('<%= data.items[p].image%>');"></div>
           <h1 class="product-name" title="<%= data.items[p].model %>" data-toggle="tooltip" data-placement="bottom"><%= data.items[p].model %></h1>
+        </a>
           <span class="promotion-label">限量優惠</span>
           <p class="product-price">
     				<i class="fa fa-dollar"></i><span><%= data.items[p].price %></span><small>起</small>
@@ -75,7 +77,7 @@
               <label style="float: right;margin: 9px 0 0 8px;font-size: 1.2em;">包</label>
               <input class="form-control" type="number" value="0" min="0" max="<%= data.items[p].quantity %>" />
               -->
-              <button style="float: center;margin: 9px 8px 0 0;font-size: 1.2em;">點擊立即訂購</button>
+              <a href="/product/<%= data.items[p].id %>" style="margin: 9px 8px 0 0;" class="btn btn-default col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">訂購</a>
             <% } else { %>
               <div>
                 <label class="control-label outOfStock">此商品已售完</label>
@@ -83,7 +85,8 @@
               </div>
             <% } %>
           </div>
-        </a>
+        
+        </div>
       <% } %>
     <% } %>
 
