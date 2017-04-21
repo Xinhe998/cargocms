@@ -35,7 +35,7 @@ module.exports.init = async () => {
       { href: '/admin/suppliershiporderhistory', title: '供應商出貨單歷程', sequence: 50, ParentMenuItemId: 5},
 
       { href: '/admin/config?paymentSetting', title: 'ATM設定', sequence: 20, ParentMenuItemId: 6},
-      { href: '/admin/config?taxrate', title: '稅率設定', sequence: 30, ParentMenuItemId: 6},
+      { href: '/admin/config?taxrate', title: '結帳設定', sequence: 30, ParentMenuItemId: 6},
 
 
     ]
