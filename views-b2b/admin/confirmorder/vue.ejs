@@ -79,6 +79,7 @@ appMain.formatOrderProductList = function () {
       quantity: orderProductData.quantity,
       formatPrice: orderProductData.formatPrice,
       formatTotal: orderProductData.formatTotal,
+      option: orderProductData.option,
       supplierId: '',
     }
     orderProductList.push(orderProduct);
@@ -180,3 +181,17 @@ appMain.checkedOrder = function(){
 appMain.DataTableInitComplete = function() {
   $('.loading-wrapper').removeClass('active');
 }
+
+appMain.cancel = function (event, getQuery) {
+  var callbackUrl = $('#main-form').data('callback') || '';
+  var url = '/admin/#/admin/' + 'order';
+  if(getQuery !== '') {
+    getQuery = '?' + getQuery;
+  } 
+  if (callbackUrl!== '') {
+    url = '/admin/#/admin' + callbackUrl + getQuery;
+  }
+  appMain.onLeavePageEdit(function() {
+    location.href = url + getQuery;
+  });
+},

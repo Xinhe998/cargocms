@@ -92,6 +92,8 @@ module.exports = {
           supplierShipOrderTotalList[productSupplierId] = 0;
         }
 
+        let supplierName = await Supplier.findById(productSupplierId);
+
         supplierOrderProduts[productSupplierId].push(
           {
             SupplierShipOrderId: 0,
@@ -104,6 +106,9 @@ module.exports = {
             tax: orderProduct.tax,
             status: 'NEW',
             option: orderProduct.option,
+            // for OrderProduct Update supplierName
+            supplierName: supplierName.name,
+            orderProductId: orderProduct.id,
           }
         );
 
@@ -191,6 +196,16 @@ module.exports = {
         for (let shipOrderProduct of supplierOrderProduts[supplier]) {
           shipOrderProduct.SupplierShipOrderId = newSupplierShipOrder.id;
           await SupplierShipOrderProduct.create(shipOrderProduct, {transaction});
+          // 更新 OrderProduct 的 supplierName
+          await OrderProduct.update({
+              supplierName: shipOrderProduct.supplierName
+            }, {
+              where: {
+                id: shipOrderProduct.orderProductId
+              },
+              transaction
+            }
+          );
         }
       }
 

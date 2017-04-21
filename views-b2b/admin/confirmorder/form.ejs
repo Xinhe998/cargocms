@@ -87,9 +87,10 @@
           </thead>
           <tbody>
             <tr v-for="orderProduct in data.item.OrderProducts">
-              <td class="col-xs-3">{{ orderProduct.name }}</td>
+              <td class="col-xs-3">{{ orderProduct.name }} {{ orderProduct.option ? '('+ orderProduct.option +')' : ''}}</td>
               <td class="col-xs-3">
                 <select v-model="orderProduct.supplierId">
+                  <option value='' seleted>請選擇供應商</option>
                   <option v-for="supplier in data.option.suppliersList" v-bind:value="supplier.id">
                     {{supplier.name}}
                   </option>

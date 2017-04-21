@@ -22,7 +22,7 @@
         <% for(var key in data.item.ProductOptions) { %>
           <div class="radio">
             <label>
-              <input type="radio" name="orderType" value="<%= data.item.ProductOptions[key].id %>" data-price="<%= data.item.ProductOptionValues[key].price %>" checked="checked">
+              <input type="radio" name="orderType" value="<%= data.item.ProductOptions[key].id %>" data-option="<%= data.item.ProductOptions[key].value %>" data-price="<%= data.item.ProductOptionValues[key].price %>" checked="checked">
               <%= data.item.ProductOptions[key].value %>
             </label>
           </div>
