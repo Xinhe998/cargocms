@@ -42,7 +42,7 @@ function DialogPrint(props) {
         open={props.open}
         onRequestClose={props.close}
       >
-       確定要列印出貨單嗎？
+       確定要列印出貨明細嗎？
       </Dialog>
     </div>
   );

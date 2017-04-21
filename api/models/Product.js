@@ -78,6 +78,12 @@ module.exports = {
       defaultValue: '0.0000',
     },
 
+    taxRate: {
+      type: Sequelize.FLOAT,
+      allowNull: false,
+      defaultValue: sails.config.taxrate,
+    },
+
     points: {
       type: Sequelize.INTEGER(8),
       allowNull: false,

@@ -157,6 +157,20 @@
         <b class="tooltip tooltip-bottom-right">請輸入最小存量</b></label>
       </label>
     </section>
+
+    <section class="col col-lg-1 col-md-1 col-sm-1 col-xs-1">
+      <label class="label">稅率</label>
+      <label class="input state-disabled">
+        <input type="number" name="length" step="0.01" placeholder="" v-model="data.item.taxRate" disabled>
+        <b class="tooltip tooltip-bottom-right">請輸入稅率</b></label>
+      </label>
+    </section>
+    <section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
+      <label class="label">稅金</label>
+      <label class="input state-disabled">
+        <input id="tax" value="{{ Math.round(data.item.price - data.item.price/(1+parseFloat(data.item.taxRate))) }}" readonly>
+      </label>
+    </section>
     <!--
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">排序</label>
@@ -275,7 +289,6 @@
   </div>
 
 
-
   <div class="row notForCreate">
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">建立時間</label>
@@ -389,4 +402,5 @@ var formMessages = {
     required : '請選取產品供應商'
   }
 }
+$('#tax').parent().addClass('tate-disabled');
 </script>
