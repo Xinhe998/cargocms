@@ -185,13 +185,13 @@ appMain.DataTableInitComplete = function() {
 appMain.cancel = function (event, getQuery) {
   var callbackUrl = $('#main-form').data('callback') || '';
   var url = '/admin/#/admin/' + 'order';
-  if(getQuery !== '') {
-    getQuery = '?' + getQuery;
-  } 
-  if (callbackUrl!== '') {
-    url = '/admin/#/admin' + callbackUrl + getQuery;
-  }
+  // if(getQuery !== '') {
+  //   getQuery = '?' + getQuery;
+  // } 
+  // if (callbackUrl!== '') {
+  //   url = '/admin/#/admin' + callbackUrl + getQuery;
+  // }
   appMain.onLeavePageEdit(function() {
-    location.href = url + getQuery;
+    location.href = url;
   });
 },
