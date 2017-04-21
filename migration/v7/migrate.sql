@@ -14,3 +14,5 @@ ALTER TABLE `Products` DROP `SupplierId`;
 
 ALTER TABLE `OrderProducts` ADD `option` text;
 ALTER TABLE `SupplierShipOrderProducts` ADD `option` text;
+
+ALTER TABLE `Products` ADD `taxRate` float;
