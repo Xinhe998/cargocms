@@ -15,6 +15,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
+        <li><a href="/questions">購物說明</a></li>
         <% if (!req.session.authenticated) { %>
           <% var loginBackUrl = req.url;%>
           <% if(loginBackUrl === '/register' || loginBackUrl === '/') { %>
@@ -22,7 +23,6 @@
           <% } else { %>
           <%   loginBackUrl = '?url=' + loginBackUrl %>
           <% } %>
-
           <% if(req.path === '/forgot' || req.path === '/login' || req.path === '/update/password') { %>
             <li class="<%= (req.path=='/login')?'active':'' %>"><a id="login" href="/login" class="login-btn">登入</a></li>
           <% } else { %>
