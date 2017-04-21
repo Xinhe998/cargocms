@@ -79,8 +79,25 @@ module.exports.init = async () => {
         PostId: post.id
       });
 
-      done();
+      // done();
 
+      const atm = await Post.create({
+        title: '付款',
+        content: '有哪些付款方式？',
+        abstract: '有哪些付款方式？',
+        alias: 'payment',
+        type: 'internal-event'
+      });
+
+      await Event.create({
+        title: '下完訂單後，我該如何付款？',
+        description: '請將您的訂單款項使用 ATM 轉帳至 [郵局 700 0000000 1234567]<br/>匯款完成後再與客服人員聯繫，謝謝。',
+        sellStartDate: '2017-01-01 00:00:00',
+        sellEndDate: '2017-01-01 00:00:00',
+        eventStartDate: '2017-01-01 00:00:00',
+        eventEndDate: '2017-01-01 00:00:00',
+        PostId: atm.id
+      });
     }
 
   } catch (e) {
