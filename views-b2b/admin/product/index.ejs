@@ -27,14 +27,13 @@
       <th width="" class="subtract" data-hide="always">賣出時減少</th>
       <th width="8%" class="">最小存量</th>
       <th width="8%" class="" data-hide="phone">排序</th>
-      <th width="8%" class="" data-hide="phone">公開狀態</th>
+      <th width="8%" class="publish" data-hide="phone">公開狀態</th>
       <th width="8%" class="" data-hide="phone">瀏覽數</th>
-      <th width="" class="" data-hide="always">建立時間</th>
-      <th width="" class="" data-hide="always">更新時間</th>
+      <th width="" class="createdAt" data-hide="always">建立時間</th>
+      <th width="" class="updatedAt" data-hide="always">更新時間</th>
 
       <!-- <th width="" class="supplier" data-hide="always" style="display:none">供應商</th> -->
       <!-- <th width="" class="category" data-hide="always" style="display:none">產品分類</th> -->
-			<th width="10%" data-hide="phone,tablet">操作</th>
 			<th width="10%" class="operate" data-hide="phone,tablet">操作</th>
 		</tr>
 	</thead>
@@ -133,16 +132,29 @@
           return '<td> $' + row.formatPrice + '</td>';
         }
       },
+
       {
         "searchable": false,
-        "targets": 17,
+        "orderable": true,
+        "targets": "publish",
+        "render": function (data, type, row) {
+          if (row.publish) {
+            return '<td><i class="fa fw fa-check"></i></td>';
+          }
+          return '<td><i class="fa fw fa-close"></i></td>';
+        }
+      },
+
+      {
+        "searchable": false,
+        "targets": 'createdAt',
         "render": function (data, type, row) {
           return '<td>' + row.createdDateTime.dateTime + '</td>';
         }
       },
       {
         "searchable": false,
-        "targets": 18,
+        "targets": 'updatedAt',
         "render": function (data, type, row) {
           return '<td>' + row.updatedDateTime.dateTime + '</td>';
         }
