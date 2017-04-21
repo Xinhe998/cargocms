@@ -61,7 +61,23 @@ import {
 
   handleDialogPrintOpen = (event) => {
     this.stopPropagation(event);
-    window.print();
+    let whichClick = this.props.shipOrderNumber;
+    let allExpened = document.getElementsByClassName("cardbody-expened");
+    let printHhiddenObject = [];
+    for(let item = 0, allExpenedLength = allExpened.length; item < allExpenedLength; item++) {
+      if(allExpened[item].innerText.indexOf(whichClick) !== 0) {
+        printHhiddenObject.push(allExpened[item].parentNode.parentNode.parentNode);
+      }
+    }
+    if(printHhiddenObject) {
+      for(let item of printHhiddenObject) {
+        item.style.display = "none";
+      }
+      window.print();
+      for(let item of printHhiddenObject) {
+        item.style.display = "inline";
+      }
+    }
     // const state = this.state.dialogPrintOpen;
     // this.setState({
     //   dialogPrintOpen: !state,
@@ -104,7 +120,7 @@ import {
           input={true}
         />
         <DialogShip
-          content={'確定要列印出貨單嗎？'}
+          content={'確定要列印出貨明細嗎？'}
           modal={false}
           leftOnPress={this.handleDialogPrintClose}
           rightOnPress={this.handleDialogPrintOpen}

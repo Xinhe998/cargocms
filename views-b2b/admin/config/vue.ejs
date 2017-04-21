@@ -13,10 +13,10 @@ var appModel = {
   data: {
     item: {
       name: '',
-      key: '',
+      key: ' ',
       description: '',
       value: '',
-      type: '',
+      type: 'text',
 
     },
     items: [],
@@ -28,6 +28,13 @@ var appModel = {
     },
   }
 }
+  function getconfig() {
+    var query = location.hash.split('/').reverse()[0].split('?')[1];
+    if(typeof query === 'undefined') {
+      query = '';
+    }
+    return query;
+  }
 
 /* TABLETOOLS */
 
@@ -189,7 +196,14 @@ appMain.hideIndex = function() {  // 暫時權限擋連結
     window.location.href = '/admin/#/admin/dashboard'; 
   }
 }
-
+appMain.taxrateOnly = function() {
+  if(getconfig() === 'taxrate') {
+    $('.key').attr('data-hide', 'always');
+    $('.type').attr('data-hide', 'always');
+    document.getElementsByClassName('name')[0].innerHTML = '名稱';
+    document.getElementsByClassName('value')[0].innerHTML = '稅率';
+  }
+}
 
 
 
