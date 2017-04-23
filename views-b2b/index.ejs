@@ -42,7 +42,7 @@
 				<button type="button" class="btn btn-gray btn-lg btn-block">登入系統</button>
 			</form>
 		</div>-->
-	</div>
+  </div>
 	<div class="row b2b-content b2b-content-body">
 
     <% if (!data.items || data.items.length == 0) { %>
@@ -81,6 +81,7 @@
               </div>
             <% } %>
           </div>
+          <div class="product-tax" style="display: none;"><%- data.items[p].taxRate %></div>
         </a>
       <% } %>
     <% } %>

@@ -9,21 +9,26 @@ module.exports = {
       let totalTaxRate = 0;
       for(let p of products){
         let product = await Product.findById(p.id);
-        sails.log(JSON.stringify(p));
         if (p.optionId) {
           let productOptionValue = await ProductOptionValue.findOne({ where:{ ProductOptionId: p.optionId }});
           let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
-          totalTaxRate += Math.round(Number(productOptionValue.price) * Number(p.quantity) * Number(productTaxRate.taxRate));
-          totalPrice += Number(productOptionValue.price) * Number(p.quantity);
+          let price = Number(productOptionValue.price) * Number(p.quantity);
+          let noTaxPrice = Math.round(price / (1 + Number(productTaxRate.taxRate)));
+          let tax = price - noTaxPrice;
+          totalTaxRate += tax;
+          totalPrice += price;
         } else {
           let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
-          totalTaxRate += Math.round(Number(product.price) * Number(p.quantity) * Number(productTaxRate.taxRate));
-          totalPrice += Number(product.price) * Number( p.quantity );
+          let price = Number(product.price) * Number(p.quantity);
+          let noTaxPrice = Math.round(price / (1 + Number(productTaxRate.taxRate)));
+          let tax = price - noTaxPrice;
+          totalTaxRate += tax;
+          totalPrice += price;
         }
       }
-      data.total = totalPrice;
+      data.total = totalPrice - totalTaxRate;
       data.tax   = totalTaxRate;
-      data.totalIncludeTax = data.total + data.tax;
+      data.totalIncludeTax = data.total + totalTaxRate;
 
       data.orderNumber = await OrderService.orderNumberGenerator({modelName: 'order', userId: data.UserId, product: data.porducts})
       sails.log.info('產生訂單編號:',data.orderNumber);
@@ -98,15 +103,19 @@ module.exports = {
           include: ProductDescription
         });
 
-        let texMoney = Math.round((product.price * p.quantity) * product.taxRate);
+        let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
+        let price = Number(product.price) * Number(p.quantity);
+        let noTaxPrice = Math.round(price / (1 + Number(productTaxRate.taxRate)));
+        let tax = price - noTaxPrice;
+
         const orderProductCreateData = {
           ProductId: product.id,
           name: product.ProductDescription.name,
           model: product.model,
           quantity: p.quantity,
           price: product.price,
-          total: (product.price * p.quantity) - texMoney,
-          tax: texMoney,
+          total: noTaxPrice,
+          tax: tax,
           OrderId: order.id,
         };
 

@@ -122,7 +122,7 @@
     <table class="table product-list" style="margin-top: 3.2em;">
       <thead>
         <tr>
-          <th></th><th>品名</th><th>單價</th><th>數量</th><th>小計</th>
+          <th></th><th>品名</th><th>單價</th><th>數量</th><th>小計(未稅)</th><th>稅金</th>
         </tr>
       </thead>
       <tbody>
@@ -130,12 +130,12 @@
           <td><i v-on:click.stop="removeProduct(cart.id, $event)" class="fa fa-times btn" aria-hidden="true"></i></td>
           <td>{{cart.name}}</td>
           <td>$ {{cart.price | moneyNum}}</td>
-          <td>{{cart.quantity}}</td>
-          <td>$ {{parseFloat(cart.price) * parseFloat(cart.quantity) | moneyNum }}</td>
+          <td>{{cart.quantity | moneyNum}}</td>
+          <td>$ {{cart.noTaxPrice | moneyNum}}</td>
+          <td>{{cart.taxPrice | moneyNum}}</td>
         </tr>
       </tbody>
     </table>
-
     <input name="products" type="hidden" v-bind:value=JSON.stringify(carts)>
     <input name="token" type="hidden" value=<%= token %>>
 
@@ -145,10 +145,10 @@
         <th>合計</th><td>$ {{priceSum | moneyNum}}</td>
       </tr>
       <tr>
-        <th>營業稅</th><td>$ {{ Math.round(priceSum * 0.05) | moneyNum }}</td>
+        <th>營業稅</th><td>$ {{ taxPrice | moneyNum }}</td>
       </tr>
       <tr>
-        <th>總計</th><td>$ {{priceSum + Math.round(priceSum * 0.05) | moneyNum}}</td>
+        <th>總計</th><td>$ {{priceSum + taxPrice | moneyNum}}</td>
       </tr>
     </table>
     <div class="col-xs-12">
