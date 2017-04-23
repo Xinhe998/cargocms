@@ -83,14 +83,15 @@
   <table class="table" style="margin-top: 3.2em;">
     <thead>
       <tr>
+
         <th>品名</th><th>選項</th><th>單價</th><th>數量</th><th>小計(未稅)</th><th>稅金</th>
+
       </tr>
     </thead>
     <tbody>
       <% for(var i = 0, len = data.product.length; i < len; i++) { %>
         <tr>
-          <td><%= data.product[i].model %></td>
-          <td><%= data.product[i].option || '' %></td>
+          <td><%= data.product[i].model %><%= data.product[i].option ? '('+ data.product[i].option +')': '' %> </td>
           <td>$ <%= data.product[i].formatPrice %></td>
           <td><%= data.product[i].quantity %></td>
           <td>$ <%= data.product[i].formatTotal %></td>

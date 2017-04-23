@@ -68,4 +68,52 @@ appMain.loadProduct = function () {
       appModel.data.option.productList = result.data.items;
     }
   } // end ajaxSuccess
+};
+
+appMain.customSearch = function(data) {
+  appModel.pagingQuery.columns.push({
+    data: 'productName',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'Product',
+      column: 'model',
+    }
+  });
+  appModel.pagingQuery.columns.push({
+    data: 'price',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'ProductOptionValue',
+      column: 'price',
+    }
+  });
+  appModel.pagingQuery.columns.push({
+    data: 'weight',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'ProductOptionValue',
+      column: 'weight',
+    }
+  });
+  appModel.pagingQuery.columns.push({
+    data: 'points',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'ProductOptionValue',
+      column: 'points',
+    }
+  });
+  appModel.pagingQuery.columns.push({
+    data: 'quantity',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'ProductOptionValue',
+      column: 'quantity',
+    }
+  });
 }

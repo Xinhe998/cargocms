@@ -50,6 +50,7 @@ module.exports = {
 
   },
   associations: function() {
+    ProductOption.belongsTo(Product);
     ProductOption.hasOne(ProductOptionValue);
     ProductOption.belongsTo(Option);
   },
