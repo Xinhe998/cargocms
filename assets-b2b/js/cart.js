@@ -38,10 +38,10 @@ function storeToCart(product) {
   localStorage.cart = JSON.stringify(cart);
 }
 
-function removeFromCart(productId) {
+function removeFromCart(product) {
   var cart = JSON.parse(localStorage.cart || '[]');
   cart = $(cart).filter(function (i, e) {
-    if(e.id == productId) return false;
+    if(e.id == product.id && e.optionId === product.optionId) return false;
     else return true;
   }).toArray();
   localStorage.cart = JSON.stringify(cart);

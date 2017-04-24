@@ -127,7 +127,7 @@
       </thead>
       <tbody>
         <tr v-for="cart in carts">
-          <td><i v-on:click.stop="removeProduct(cart.id, $event)" class="fa fa-times btn" aria-hidden="true"></i></td>
+          <td><i v-on:click.stop="removeProduct(cart, $event)" class="fa fa-times btn" aria-hidden="true"></i></td>
           <td>{{cart.name}} {{ cart.optionValue ? '('+ cart.optionValue +')' : '' }}</td>
           <td>$ {{cart.price | moneyNum}}</td>
           <td>{{cart.quantity}}</td>
