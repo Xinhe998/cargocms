@@ -23,7 +23,7 @@ function storeToCart(product) {
   var cart = JSON.parse(localStorage.cart || '[]');
   var replace = false;
   cart = $(cart).map(function (i, e) {
-    if (e.id === product.id) {
+    if (e.id === product.id && e.optionId === product.optionId) {
       replace = true;
       return product;
     } else return e;
