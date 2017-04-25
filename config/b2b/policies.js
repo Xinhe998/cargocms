@@ -18,6 +18,10 @@ module.exports = {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
 
+  "api/admin/ProductImageController": {
+    '*': ['passport', 'sessionAuth', 'isAdmin'],
+  },
+
   "api/admin/SupplierController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },

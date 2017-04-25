@@ -24,7 +24,9 @@
           <th>訂單編號</th>
           <th class="hidden-xs">收件人</th>
           <th>訂單金額</th>
+          <th class="hidden-xs">發票</th>
           <th>訂單狀態</th>
+          <th class="hidden-xs">運送代碼</th>
         </tr>
       </thead>
       <tbody>
@@ -35,10 +37,12 @@
             <td><%= data.items[key].orderNumber %></td>
             <td class="hidden-xs"><%= data.items[key].shippingLastname + data.items[key].shippingFirstname%></td>
             <td>$ <%= data.items[key].formatTotal %></td>
+            <td class="hidden-xs"><%= data.items[key].invoicePrefix %>-<%= data.items[key].invoiceNo %></td>
             <td><%= __(`${data.items[key].OrderStatus.name}`) %></td>
+            <td class="hidden-xs"><%= data.items[key].shippingCode %></td>
           </tr>
           <tr class="order-content">
-            <td colspan="6">
+            <td colspan="8">
               <div id="<%= data.items[key].orderNumber %>" class="collapse">
                 <table class="table order-products" >
                   <thead>
