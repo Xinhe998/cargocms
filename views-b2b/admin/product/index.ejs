@@ -17,10 +17,11 @@
       <th width="8%" class="">數量</th>
       <th width="" class="image" data-hide="phone">圖片</th>
       <th width="" class="shipping" data-hide="always">是否可運送</th>
-      <th width="8%" class="" data-hide="">價格</th>
+      <th width="8%" class="price" data-hide="">價格</th>
 			<th width="" class="" data-hide="always">點數</th>
       <th width="" class="" data-hide="always">釋出日期</th>
       <th width="" class="" data-hide="always">重量</th>
+      <th width="" class="origin" data-hide="always">產地</th>
       <!--
       <th width="" class="" data-hide="always">長度</th>
       <th width="" class="" data-hide="always">寬度</th>
@@ -106,6 +107,7 @@
       { "data": "points"},
       { "data": "dateAvailable"},
       { "data": "weight"},
+      { "data": "origin"},
       // { "data": "length"},
       // { "data": "width"},
       // { "data": "height"},
@@ -129,7 +131,7 @@
       },
       {
         "searchable": false,
-        "targets": 5,
+        "targets": "price",
         "render": function (data, type, row) {
           return '<td> $' + row.formatPrice + '</td>';
         }

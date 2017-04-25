@@ -159,6 +159,26 @@
       </label>
     </section>
 
+    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>產地</label>
+      <label class="input state-disabled">
+        <input type="text" name="origin" placeholder="" v-model="data.item.origin" disabled>
+        <b class="tooltip tooltip-bottom-right">請輸入產地</b></label>
+      </label>
+    </section>
+
+    <!--
+    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      <label class="label">排序</label>
+      <label class="input state-disabled">
+        <input type="number" name="sortOrder" placeholder="" v-model="data.item.sortOrder" disabled>
+        <b class="tooltip tooltip-bottom-right">排序</b></label>
+      </label>
+    </section>
+    -->
+  </div>
+
+  <div class="row">
     <section class="col col-lg-1 col-md-1 col-sm-1 col-xs-1">
       <label class="label">稅率</label>
       <label class="input state-disabled">
@@ -172,15 +192,6 @@
         <input id="tax" value="{{ Math.round(Number(data.item.price) - Number(data.item.price)/(1+parseFloat(data.item.taxRate))) }}" readonly>
       </label>
     </section>
-    <!--
-    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label">排序</label>
-      <label class="input state-disabled">
-        <input type="number" name="sortOrder" placeholder="" v-model="data.item.sortOrder" disabled>
-        <b class="tooltip tooltip-bottom-right">排序</b></label>
-      </label>
-    </section>
-    -->
   </div>
 
   <!--
@@ -346,7 +357,10 @@ var formRules = {
   },
   SupplierId : {
     required : true
-  }
+  },
+  origin: {
+    required : true
+  },
   // sku : {
   //   required : true
   // },
@@ -401,7 +415,10 @@ var formMessages = {
   },
   SupplierId : {
     required : '請選取產品供應商'
-  }
+  },
+  origin: {
+    required : '請輸入產地'
+  },
 }
 $('#tax').parent().addClass('tate-disabled');
 </script>
