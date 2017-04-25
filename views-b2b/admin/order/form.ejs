@@ -113,8 +113,6 @@
         <input type="text" name="paymentCode" placeholder="" v-model="data.item.paymentCode" disabled>
         <b class="tooltip tooltip-bottom-right">付款代碼</b></label>
     </section>
-
-
   </div>
 
   <div class="row hidden">
@@ -312,12 +310,12 @@
 </fieldset>
 <script>
 var formRules = {
-  invoiceNo: {
-    required: true
-  },
-  invoicePrefix: {
-    required: true
-  },
+  // invoiceNo: {
+  //   required: true
+  // },
+  // invoicePrefix: {
+  //   required: true
+  // },
   firstname: {
     required: true
   },
@@ -334,27 +332,27 @@ var formRules = {
   fax: {
     required: true
   },
-  paymentFirstname: {
-    required: true
-  },
-  paymentLastname: {
-    required: true
-  },
-  paymentAddress1: {
-    required: true
-  },
-  paymentCity: {
-    required: true
-  },
-  paymentPostcode: {
-    required: true
-  },
-  paymentMethod: {
-    required: true
-  },
-  paymentCode: {
-    required: true
-  },
+  // paymentFirstname: {
+  //   required: true
+  // },
+  // paymentLastname: {
+  //   required: true
+  // },
+  // paymentAddress1: {
+  //   required: true
+  // },
+  // paymentCity: {
+  //   required: true
+  // },
+  // paymentPostcode: {
+  //   required: true
+  // },
+  // paymentMethod: {
+  //   required: true
+  // },
+  // paymentCode: {
+  //   required: true
+  // },
   shippingFirstname: {
     required: true
   },
@@ -373,37 +371,37 @@ var formRules = {
   shippingMethod: {
     required: true
   },
-  shippingCode: {
-    required: true
-  },
-  comment: {
-    required: true
-  },
+  // shippingCode: {
+  //   required: true
+  // },
+  // comment: {
+  //   required: true
+  // },
   total: {
     required: true
   },
   tracking: {
     required: true
   },
-  AllpayId: {
-    required: true,
-    digits: true
-  },
-  UserId: {
-    required: true,
-    digits: true
-  }
+  // AllpayId: {
+  //   required: true,
+  //   digits: true
+  // },
+  // UserId: {
+  //   required: true,
+  //   digits: true
+  // }
 }
 
 // Messages for form validation
 var formMessages = {
 
-  invoiceNo: {
-    required: "請給予發票號碼"
-  },
-  invoicePrefix: {
-    required: "請給予發票開頭"
-  },
+  // invoiceNo: {
+  //   required: "請給予發票號碼"
+  // },
+  // invoicePrefix: {
+  //   required: "請給予發票開頭"
+  // },
   firstname: {
     required: "請給予名字"
   },
@@ -419,27 +417,27 @@ var formMessages = {
   fax: {
     required: "請給予傳真號碼"
   },
-  paymentFirstname: {
-    required: "請給予付款名字"
-  },
-  paymentLastname: {
-    required: "請給予付款姓氏"
-  },
-  paymentAddress1: {
-    required: "請給予付款地址"
-  },
-  paymentCity: {
-    required: "請給予付款縣市"
-  },
-  paymentPostcode: {
-    required: "請給予付款郵遞區號"
-  },
-  paymentMethod: {
-    required: "請給予付款方式"
-  },
-  paymentCode: {
-    required: "請給予付款代碼"
-  },
+  // paymentFirstname: {
+  //   required: "請給予付款名字"
+  // },
+  // paymentLastname: {
+  //   required: "請給予付款姓氏"
+  // },
+  // paymentAddress1: {
+  //   required: "請給予付款地址"
+  // },
+  // paymentCity: {
+  //   required: "請給予付款縣市"
+  // },
+  // paymentPostcode: {
+  //   required: "請給予付款郵遞區號"
+  // },
+  // paymentMethod: {
+  //   required: "請給予付款方式"
+  // },
+  // paymentCode: {
+  //   required: "請給予付款代碼"
+  // },
   shippingFirstname: {
     required: "請給予運送名字"
   },
@@ -458,12 +456,12 @@ var formMessages = {
   shippingMethod: {
     required: "請給予運送方式"
   },
-  shippingCode: {
-    required: "請給予運送代碼"
-  },
-  comment: {
-    required: "請給予附註"
-  },
+  // shippingCode: {
+  //   required: "請給予運送代碼"
+  // },
+  // comment: {
+  //   required: "請給予附註"
+  // },
   total: {
     required: "請給予總數"
   },
@@ -471,13 +469,13 @@ var formMessages = {
     required: "請給予追蹤代碼"
   },
 
-  AllpayId: {
-    required: "請給予支付ID",
-    digits: "請輸入整數"
-  },
-  UserId: {
-    required: "請給予會員ID",
-    digits: "請輸入整數"
-  },
+  // AllpayId: {
+  //   required: "請給予支付ID",
+  //   digits: "請輸入整數"
+  // },
+  // UserId: {
+  //   required: "請給予會員ID",
+  //   digits: "請輸入整數"
+  // },
 }
 </script>
