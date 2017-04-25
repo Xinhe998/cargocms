@@ -54,11 +54,11 @@ module.exports = {
   },
 
   "b2b/OrderController": {
-    'orderForm': ['passport', 'sessionAuth'],
+    'orderForm': ['passport', 'sessionAuth', 'validEmail'],
   },
 
   "api/OrderController": {
-    '*': ['passport', 'sessionAuth'],
+    '*': ['passport', 'sessionAuth', 'validEmail'],
   },
 
   "api/ConfirmOrderController": {
