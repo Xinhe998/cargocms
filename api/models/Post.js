@@ -41,7 +41,7 @@ module.exports = {
             desc = '部落格';
             break;
           case 'internal-event':
-            desc = 'Q&A';
+            desc = 'Q&A 類別';
             break;
           case 'external-event':
             desc = '外部活動';

@@ -10,19 +10,16 @@ function getProductInfo(productDom) {
     })
   }
   if(!number) number = 0;
-  var price = Number(productDom.find('.product-price span').text());
-  var quantity = Number(number);
-  var tax = Number(productDom.find('.product-tax').text());
-  var totalPrice = price * quantity;
-  var totalPriceNoTax = Math.round(totalPrice / (1+Number(tax)));
-  tax = totalPrice - totalPriceNoTax;
+  let price = Number(productDom.find('.product-price span').text());
+  let taxRate = productDom.find('.product-tax').text();
+  let noTaxPrice = Math.round(price*Number(number) / (1 + parseFloat(taxRate)));
   var product = {
     id: productDom.data('id'),
     name: productDom.find('> h1').text(),
-    price,
-    quantity,
-    noTaxPrice: totalPriceNoTax,
-    taxPrice: tax,
+    price: productDom.find('.product-price span').text(),
+    quantity: number,
+    //noTaxPrice: noTaxPrice,
+    tax: price - noTaxPrice,
   };
   return product;
 }
@@ -102,13 +99,11 @@ $(function () {
   $('.b2b-product-detail-content .add-to-cart').click(function(event) {
     var options = $('input[name=orderType]');
     var optionId = null;
-    var optionValue = null;
     if (options.length > 0) {
       for (var key in options) {
         var option = options[key];
         if (option.checked) {
           optionId = option.value;
-          optionValue = option.getAttribute('data-option');
           break;
         }
       }
@@ -119,7 +114,6 @@ $(function () {
       price: $('.b2b-product-detail-content .price span').text(),
       quantity: parseInt($('.b2b-product-detail-content .order-input input').val()),
       optionId: optionId,
-      optionValue: optionValue,
     };
     if (isNaN(product.quantity)) product.quantity = 0;
     storeToCart(product);
@@ -162,14 +156,17 @@ var OrderForm = new Vue({
     priceSum: function () {
       var sum = 0;
       $(this.carts).each(function(index, el) {
-        sum += el.noTaxPrice;
+        var totalPrice = (parseFloat(el.price) * parseFloat(el.quantity));
+        sum += Math.round(totalPrice - (totalPrice * (1- parseFloat(el.tax)));
       });
       return sum;
     },
-    taxPrice: function () {
+    taxSum: function () {
       var sum = 0;
       $(this.carts).each(function(index, el) {
-        sum += el.taxPrice;
+        var totalPrice = (parseFloat(el.price) * parseFloat(el.quantity));
+        var taxPrice = totalPrice - Math.round(totalPrice * parseFloat(el.tax));
+        sum += parseInt(totalPrice) - parseInt(taxPrice);
       });
       return sum;
     }

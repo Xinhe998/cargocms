@@ -68,7 +68,7 @@ module.exports = {
         }
       }
     },
-    
+
     formatTotal: {
       type: Sequelize.VIRTUAL,
       get: function(){
@@ -107,6 +107,7 @@ module.exports = {
     SupplierShipOrderProduct.belongsTo(Product);
   },
   options: {
+    paranoid: true,
     classMethods: {},
     instanceMethods: {},
     hooks: {}

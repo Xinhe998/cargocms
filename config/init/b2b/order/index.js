@@ -93,6 +93,24 @@ module.exports.init = async () => {
         "UserId": user.id,
         "OrderStatusId": orderStatus.id
       });
+
+      const product = await Product.findById(1);
+      const productDescription = await ProductDescription.findOne({
+        where: {
+          ProductId: product.id
+        }
+      });
+
+      const orderProduct = await OrderProduct.create({
+        name: productDescription.name,
+        model: product.model,
+        quantity: 10,
+        price: product.price,
+        total: product.price * 10,
+        tax: (product.price * 10) * 0.05,
+        OrderId: order.id,
+        ProductId: product.id,
+      });
     }
   } catch (e) {
     console.error(e);

@@ -18,7 +18,8 @@ const defaultProps = {
       OrderProductId: 1,
       SupplierShipOrderId: 3,
       formatPrice: '1,234',
-      formatTotal: '1,234'
+      formatTotal: '1,234',
+      option: '3 公斤',
     },
   ],
   orderDate: {
@@ -181,7 +182,7 @@ function ShipCardDetail(props) {
               {
                 props.orderDetail.map((item, i) => (
                   <tr key={i}>
-                    <td>{item.name}</td>
+                    <td>{item.name} {item.option ? '('+ item.option +')': '' }</td>
                     <td>{item.quantity} 盒</td>
                     <td>$ {item.formatPrice}</td>
                     <td>$ {item.formatTotal}</td>

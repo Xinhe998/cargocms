@@ -6,19 +6,29 @@ module.exports = {
     try{
       const products = JSON.parse(data.products);
       let totalPrice = 0;
+      let totalTaxRate = 0;
       for(let p of products){
         let product = await Product.findById(p.id);
         if (p.optionId) {
           let productOptionValue = await ProductOptionValue.findOne({ where:{ ProductOptionId: p.optionId }});
-          totalPrice += Number(productOptionValue.price) * Number(p.quantity);
+          let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
+          let price = Number(productOptionValue.price) * Number(p.quantity);
+          let noTaxPrice = Math.round(price / (1 + Number(productTaxRate.taxRate)));
+          let tax = price - noTaxPrice;
+          totalTaxRate += tax;
+          totalPrice += price;
         } else {
-          totalPrice += Number(product.price) * Number( p.quantity );
+          let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
+          let price = Number(product.price) * Number(p.quantity);
+          let noTaxPrice = Math.round(price / (1 + Number(productTaxRate.taxRate)));
+          let tax = price - noTaxPrice;
+          totalTaxRate += tax;
+          totalPrice += price;
         }
       }
-      const taxrate = sails.config.taxrate || 0;
-      data.total = totalPrice;
-      data.tax   = Math.round(totalPrice * taxrate);
-      data.totalIncludeTax = data.total + data.tax;
+      data.total = totalPrice - totalTaxRate;
+      data.tax   = totalTaxRate;
+      data.totalIncludeTax = data.total + totalTaxRate;
 
       data.orderNumber = await OrderService.orderNumberGenerator({modelName: 'order', userId: data.UserId, product: data.porducts})
       sails.log.info('產生訂單編號:',data.orderNumber);
@@ -93,6 +103,7 @@ module.exports = {
           include: ProductDescription
         });
 
+
         if (!product || !product.ProductDescription) {
           throw new Error(`產品資訊不正確，無法建立產品訂單，產品 ID: ${p.id}`);
         }
@@ -104,14 +115,19 @@ module.exports = {
           await productUpdate.save({ transaction });
         }
 
+        let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
+        let price = Number(product.price) * Number(p.quantity);
+        let noTaxPrice = Math.round(price / (1 + Number(productTaxRate.taxRate)));
+        let tax = price - noTaxPrice;
+
         const orderProductCreateData = {
           ProductId: product.id,
           name: product.ProductDescription.name,
           model: product.model,
           quantity: p.quantity,
           price: product.price,
-          total: (product.price * p.quantity),
-          tax: (product.price * p.quantity) * 0.05,
+          total: noTaxPrice,
+          tax: tax,
           OrderId: order.id,
         };
 
@@ -128,7 +144,7 @@ module.exports = {
           orderProductCreateData.total = Number(p.quantity) * Number(productOption.ProductOptionValue.price);
           orderProductCreateData.price = productOption.ProductOptionValue.price;
           // orderProductCreateData.quantity = subtractQuantity;
-          orderProductCreateData.tax   = orderProductCreateData.total * 0.05;
+          orderProductCreateData.tax   = totalTaxRate;
           orderProductCreateData.option = productOption.value;
         }
 

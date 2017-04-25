@@ -41,6 +41,11 @@ module.exports = {
       defaultValue: null,
     },
 
+    supplierName: {
+			type: Sequelize.STRING(32),
+			defaultValue: ''
+		},
+
     createdDateTime:{
       type: Sequelize.VIRTUAL,
       get: function(){
@@ -100,6 +105,7 @@ module.exports = {
     OrderProduct.belongsTo(Order);
   },
   options: {
+    paranoid: true,
     classMethods: {},
     instanceMethods: {},
     hooks: {}

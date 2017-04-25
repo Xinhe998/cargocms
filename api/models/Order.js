@@ -405,6 +405,7 @@ module.exports = {
     Order.belongsTo(OrderPayment);
   },
   options: {
+    paranoid: true,
     classMethods: {},
     instanceMethods: {},
     hooks: {

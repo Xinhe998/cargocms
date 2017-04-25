@@ -214,6 +214,7 @@ module.exports = {
 
   },
   options: {
+    paranoid: true,
     // tableName: 'Users',
     classMethods: {
       findOneWithPassport: async function({id}) {
