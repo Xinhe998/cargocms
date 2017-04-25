@@ -13,6 +13,9 @@ module.exports = {
             where: {
               id: categoryId
             }
+          }, {
+            model: ProductDescription,
+            required: true,
           }
         ]
       };

@@ -103,6 +103,18 @@ module.exports = {
           include: ProductDescription
         });
 
+
+        if (!product || !product.ProductDescription) {
+          throw new Error(`產品資訊不正確，無法建立產品訂單，產品 ID: ${p.id}`);
+        }
+
+        if (product.subtract) {
+          let productUpdate = await Product.findById(product.id);
+          productUpdate.quantity = Number(product.quantity) - Number(p.quantity);
+          if (productUpdate.quantity < 0) throw new Error(`產品ID: ${productUpdate.id}，庫存量不足`);
+          await productUpdate.save({ transaction });
+        }
+
         let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
         let price = Number(product.price) * Number(p.quantity);
         let noTaxPrice = Math.round(price / (1 + Number(productTaxRate.taxRate)));

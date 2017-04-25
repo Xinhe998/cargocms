@@ -27,6 +27,11 @@ module.exports = async function(req, res, next) {
 
       if (req.path !== '/api/user/edit' && modelUser.verificationEmailToken) {
         req.flash('info', '請先驗證完您的 Email 才能使用此功能');
+
+        if(req.wantsJSON) {
+          return res.forbidden('請先驗證完您的 Email 才能使用此功能');
+        }
+
         return res.redirect('/edit/me');
       }
     }
