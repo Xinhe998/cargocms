@@ -55,8 +55,9 @@ module.exports = {
         where: { $or: [ {username}, {email} ] }
       });
 
-      if (findExistUser)
-        throw new Error(`user ${findExistUser.username} exist!`);
+      if (findExistUser) {
+        throw new Error(`username: ${username} or Email: ${email} exist!`);
+      }
 
       let user = await User.create({
         username,

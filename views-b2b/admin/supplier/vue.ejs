@@ -12,16 +12,12 @@ var appModel = {
   prefix: prefix,
   data: {
     item: {
-          name: '',
-
-          email: '',
-
-          telephone: '',
-
-          fax: '',
-
-          address: '',
-
+      name: '',
+      email: '',
+      telephone: '',
+      fax: '',
+      address: '',
+      taxId: '',
     },
     items: [],
     option: {}
@@ -38,3 +34,6 @@ var appModel = {
 <%- include ../default/vue.ejs %>
 // 需要新增函式可以對 appMain 進行定義，如：
 // appMain.log = function () {console.log("123")}
+appMain.showPageHide = function () {
+  $('.fn-show-hidden').hide();
+}

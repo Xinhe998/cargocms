@@ -50,3 +50,12 @@ appMain.editDisabled = function(){
 appMain.createHide = function () {
   $('.fn-create-hide').hide();
 }
+
+appMain.setBackUrl = function() {
+  var backUrl = '<%= req.query.url ? req.query.url : '' %>';
+  //remove '/admin'
+  if (backUrl) {
+    backUrl = backUrl.replace('/admin', '');
+    $('#main-form').data('callback', backUrl);
+  }
+}
