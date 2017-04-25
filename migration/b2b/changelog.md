@@ -31,3 +31,15 @@
 ### Order, OrderProducts, SupplierShipOrder, SupplierShipOrderProduct 增加欄位
 * 增加 deletedAt，搭配 model paranoid 選項
 
+## v4
+
+### 修改 Product 與 Supplier 關聯為多對多
+* Product 表格移除 SupplierId 欄位
+* 新增 ProductSupplier 表格
+
+### OrderProduct 欄位修改
+* 新增 option 欄位
+* 新增 supplierName 欄位
+
+### SupplierShipOrderProduct 欄位修改
+* 新增 option 欄位
