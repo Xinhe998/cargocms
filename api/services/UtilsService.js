@@ -72,5 +72,13 @@ module.exports = {
     } catch (e) {
       throw e;
     }
+  },
+
+  lineBreaks: function (text) {
+    try{
+      return text.replace(/[\r\n|\n]/g,"<br/>").split('<br/>');
+    } catch (e) {
+      throw e;
+    }
   }
 }
