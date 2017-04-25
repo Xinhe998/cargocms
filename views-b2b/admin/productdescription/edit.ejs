@@ -10,6 +10,9 @@
 		appMain.$mount("#main-edit");
     appMain.loadItem( function(){
       appMain.onEnterPageEdit();
+      appMain.enableText();
+      appMain.enableSelect();
+      appMain.loadProduct();
     });
 		appMain.setupForm("edit");
 	};
