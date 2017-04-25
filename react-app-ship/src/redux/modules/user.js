@@ -1,15 +1,15 @@
-import Lang from 'lodash';
 import {
-  // replace,
   push,
 } from 'react-router-redux';
+import Lang from 'lodash';
+import { handleResponse } from '../utils/errorHandler';
+import log from '../utils/logs';
 import {
   getData,
   postData,
   setHeader,
 } from '../utils/fetchApi';
-import log from '../utils/logs';
-import { handleResponse } from '../utils/errorHandler';
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -103,21 +103,25 @@ export function requestLogIn(username: String, password: String) {
       identifier: username,
       password,
     });
-    console.log('fetchResult=>', fetchResult);
+    log.info('fetchResult=>', fetchResult);
     // success
-    if (fetchResult.status) {
-      if (fetchResult.data.success) {
-        const hasJwtToken = !Lang.isUndefined(fetchResult.data.jwtToken);
-        if (hasJwtToken) {
-          const jwtToken = fetchResult.data.jwtToken;
-          dispatch(deliverJwtToken(jwtToken));
-          const jwtHeader = await setHeader('jwt-token', jwtToken);
-          if (jwtHeader === jwtToken) {
-            dispatch(push('/ship'));
-          } else {
-            log.error('[Error] set JWT Token failed!');
-          }
+    const result = fetchResult.data;
+    if (fetchResult.status && result.data) {
+      const hasJwtToken = !Lang.isUndefined(result.data.jwtToken);
+      if (hasJwtToken) {
+        const jwtToken = result.data.jwtToken;
+        dispatch(deliverJwtToken(jwtToken));
+        const jwtHeader = await setHeader('jwt-token', jwtToken);
+        if (jwtHeader === jwtToken) {
+          dispatch(push('/ship'));
+        } else {
+          log.error('[Error] set JWT Token failed!');
         }
+      } else {
+        dispatch(handleResponse({
+          response: { status: 500 },
+          message: 'Token missing！',
+        }));
       }
     // error
     } else {
