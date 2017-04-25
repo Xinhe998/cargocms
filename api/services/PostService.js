@@ -79,6 +79,7 @@ module.exports = {
         const deleteEventPost = [];
         deleteEventPost.push(
           Event.update({PostId: null}, {
+            PostId: postId,
             where: {
               id: { $notIn: id }
             }

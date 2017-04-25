@@ -6,14 +6,29 @@ module.exports = {
     try{
       const products = JSON.parse(data.products);
       let totalPrice = 0;
+      let totalTaxRate = 0;
       for(let p of products){
         let product = await Product.findById(p.id);
-        totalPrice += Number(product.price) * Number( p.quantity );
+        if (p.optionId) {
+          let productOptionValue = await ProductOptionValue.findOne({ where:{ ProductOptionId: p.optionId }});
+          let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
+          let price = Number(productOptionValue.price) * Number(p.quantity);
+          let noTaxPrice = Math.round(price / (1 + Number(productTaxRate.taxRate)));
+          let tax = price - noTaxPrice;
+          totalTaxRate += tax;
+          totalPrice += price;
+        } else {
+          let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
+          let price = Number(product.price) * Number(p.quantity);
+          let noTaxPrice = Math.round(price / (1 + Number(productTaxRate.taxRate)));
+          let tax = price - noTaxPrice;
+          totalTaxRate += tax;
+          totalPrice += price;
+        }
       }
-      const taxrate = sails.config.taxrate || 0;
-      data.total = totalPrice;
-      data.tax   = Math.round(totalPrice * taxrate);
-      data.totalIncludeTax = data.total + data.tax;
+      data.total = totalPrice - totalTaxRate;
+      data.tax   = totalTaxRate;
+      data.totalIncludeTax = data.total + totalTaxRate;
 
       data.orderNumber = await OrderService.orderNumberGenerator({modelName: 'order', userId: data.UserId, product: data.porducts})
       sails.log.info('產生訂單編號:',data.orderNumber);
@@ -88,24 +103,49 @@ module.exports = {
           include: ProductDescription
         });
 
-        if (product.subtract) {
-          let productUpdate = await Product.findById(product.id);
-          productUpdate.quantity = Number(product.quantity) - Number(p.quantity);
-          if (productUpdate.quantity < 0) throw new Error(`產品ID: ${productUpdate.id}，庫存量不足`);
-          await productUpdate.save({ transaction });
-        }
+        let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
+        let price = Number(product.price) * Number(p.quantity);
+        let noTaxPrice = Math.round(price / (1 + Number(productTaxRate.taxRate)));
+        let tax = price - noTaxPrice;
 
-        await OrderProduct.create({
+        const orderProductCreateData = {
           ProductId: product.id,
           name: product.ProductDescription.name,
           model: product.model,
           quantity: p.quantity,
           price: product.price,
-          total: (product.price * p.quantity),
-          tax: (product.price * p.quantity) * 0.05,
+          total: noTaxPrice,
+          tax: tax,
           OrderId: order.id,
-        }, { transaction });
+        };
 
+        let subtractQuantity = Number(p.quantity);
+        if (p.optionId) {
+          const productOption = await ProductOption.findOne({
+            where: {
+              id: p.optionId
+            },
+            include: [ProductOptionValue]
+          }); 
+          subtractQuantity = Number(productOption.ProductOptionValue.quantity) * Number(p.quantity);
+
+          orderProductCreateData.total = Number(p.quantity) * Number(productOption.ProductOptionValue.price);
+          orderProductCreateData.price = productOption.ProductOptionValue.price;
+          // orderProductCreateData.quantity = subtractQuantity;
+          orderProductCreateData.tax   = totalTaxRate;
+          orderProductCreateData.option = productOption.value;
+        }
+
+        if (product.subtract) {
+          let productUpdate = await Product.findById(product.id);
+          productUpdate.quantity = Number(product.quantity) - Number(subtractQuantity);
+          if (productUpdate.quantity < 0) 
+            throw new Error(`產品ID: ${productUpdate.id}，庫存量不足`);
+          
+          await productUpdate.save({ transaction });
+        }
+        
+        await OrderProduct.create(orderProductCreateData, { transaction });
       }
 
       const orderHistory = await OrderHistory.create({
@@ -187,4 +227,54 @@ module.exports = {
       throw e;
     }
   },
+
+  stringOrderProduct: async ({modelName, orderId }) => {
+    try {
+      let query = {
+        where: {
+          OrderId: orderId
+        }
+      };
+      if (modelName === 'suppliershiporderproduct'){
+        query = {
+          where: {
+            SupplierShipOrderId: orderId
+          }
+        };
+      }
+
+      const orderProducts = await sails.models[modelName].findAll(query);
+      let orderProductTable = '';
+      for (const p of orderProducts) {
+        let productName = p.name;
+        if (p.option) {
+          productName = productName + `(${p.option})`;
+        }
+        orderProductTable += `
+        <tr>
+          <td>${productName}</td>
+          <td>${p.quantity}</td>
+          <td>${p.formatPrice}</td>
+          <td>${p.formatTotal}</td>
+        </tr>
+        `;
+      }
+      orderProductTable = `
+      <table>
+      <thead>
+        <tr>
+          <th>名稱</th><th>數量</th><th>單價</th><th>小計</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${orderProductTable}
+      </tbody>
+      </table>`;
+
+      return orderProductTable;
+    } catch (e) {
+      sails.log.error(e);
+      throw e;
+    }
+  }
 }

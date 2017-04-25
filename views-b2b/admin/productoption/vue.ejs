@@ -1,0 +1,119 @@
+var COMMON = {
+  DOUBLE_CLICK_TIME_PERIOD: 250,
+  DEFAULT_INDEX: -1,
+  DEFAULT_AVATAR: "/assets/admin/img/avatars/default.png",
+};
+
+var itemBeforeEdit = {};
+var prefix = 'admin/';
+var modelName = "productoption";
+var appModel = {
+  modelName: modelName,
+  prefix: prefix,
+  data: {
+    item: {
+      value: '',
+      required: true,
+      ProductId: '',
+      OptionId: null,
+      ProductOptionValue: {
+        quantity: '',
+        subtract: true,
+        price: 0,
+        pricePrefix: '=',
+        points: 0,
+        pointsPrefix: '=',
+        weight: 0,
+        weightPrefix: '=',
+      }
+    },
+    items: [],
+    option: {
+      productList: [],
+    }
+  },
+  view: {
+    table: {
+      selectIndex: COMMON.DEFAULT_INDEX,
+    },
+  }
+}
+
+/* TABLETOOLS */
+
+<%- include ../default/vue.ejs %>
+// 需要新增函式可以對 appMain 進行定義，如：
+// appMain.log = function () {console.log("123")}
+
+appMain.editDisabled = function(){
+  $('label.fn-edit-disabled > input').attr('disabled', true);
+  $('label.fn-edit-disabled').addClass('state-disabled');
+};
+
+appMain.createHide = function () {
+  $('.fn-create-hide').hide();
+};
+
+appMain.enableSelect = function () {
+	$('select').attr('disabled', false);
+	$('.select').removeClass('state-disabled');
+}
+
+appMain.loadProduct = function () {
+
+  $.get('/api/admin/product', ajaxSuccess);
+
+  function ajaxSuccess(result) {
+    if (result.success) {
+      appModel.data.option.productList = result.data.items;
+    }
+  } // end ajaxSuccess
+};
+
+appMain.customSearch = function(data) {
+  appModel.pagingQuery.columns.push({
+    data: 'productName',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'Product',
+      column: 'model',
+    }
+  });
+  appModel.pagingQuery.columns.push({
+    data: 'price',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'ProductOptionValue',
+      column: 'price',
+    }
+  });
+  appModel.pagingQuery.columns.push({
+    data: 'weight',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'ProductOptionValue',
+      column: 'weight',
+    }
+  });
+  appModel.pagingQuery.columns.push({
+    data: 'points',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'ProductOptionValue',
+      column: 'points',
+    }
+  });
+  appModel.pagingQuery.columns.push({
+    data: 'quantity',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'ProductOptionValue',
+      column: 'quantity',
+    }
+  });
+}

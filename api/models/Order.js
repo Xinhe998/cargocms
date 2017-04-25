@@ -184,6 +184,10 @@ module.exports = {
       type: Sequelize.STRING(128),
       allowNull: false,
     },
+    deliveryNumber: {
+      type: Sequelize.STRING(128),
+      allowNull: true,
+    },
     comment: {
       type: Sequelize.TEXT,
       allowNull: false,
@@ -401,6 +405,7 @@ module.exports = {
     Order.belongsTo(OrderPayment);
   },
   options: {
+    paranoid: true,
     classMethods: {},
     instanceMethods: {},
     hooks: {

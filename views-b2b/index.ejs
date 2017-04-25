@@ -19,13 +19,7 @@
     height: 100%;
     z-index: -1;"></div>
   <% include lib/login.inc.ejs %>
-	<div class="row b2b-content b2b-content-header" style="
-    background: url(http://i.imgur.com/Z2K6d9T.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 13%;
-    margin-top: -20px;"
-  >
+	<div class="row b2b-content b2b-content-header">
 		<div class="col-md-12">
 			<h1 style="
       height: 161px;
@@ -48,7 +42,7 @@
 				<button type="button" class="btn btn-gray btn-lg btn-block">登入系統</button>
 			</form>
 		</div>-->
-	</div>
+  </div>
 	<div class="row b2b-content b2b-content-body">
 
     <% if (!data.items || data.items.length == 0) { %>
@@ -58,9 +52,11 @@
       </div>
     <% } else { %>
       <% for(var p = 0, len = data.items.length; p < len; p++) { %>
-        <div class="col-sm-4 col-md-3 product" data-id="<%= data.items[p].id %>">
+      <div class="col-sm-4 col-md-3 col-xl-2 product" >
+        <a data-id="<%= data.items[p].id %>" href="/product/<%= data.items[p].id %>">
           <div class="product-img" style="background-image: url('<%= data.items[p].image%>');"></div>
           <h1 class="product-name" title="<%= data.items[p].model %>" data-toggle="tooltip" data-placement="bottom"><%= data.items[p].model %></h1>
+        </a>
           <span class="promotion-label">限量優惠</span>
           <p class="product-price">
     				<i class="fa fa-dollar"></i><span><%= data.items[p].price %></span><small>起</small>
@@ -76,10 +72,12 @@
               <div>
                 <label class="control-label">目前庫存 <%= data.items[p].quantity %>包</label>
               </div>
-
+              <!--
               <label style="float: left;margin: 9px 8px 0 0;font-size: 1.2em;">訂購</label>
               <label style="float: right;margin: 9px 0 0 8px;font-size: 1.2em;">包</label>
               <input class="form-control" type="number" value="0" min="0" max="<%= data.items[p].quantity %>" />
+              -->
+              <a href="/product/<%= data.items[p].id %>" style="margin: 9px 8px 0 0;" class="btn btn-default col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">訂購</a>
             <% } else { %>
               <div>
                 <label class="control-label outOfStock">此商品已售完</label>
@@ -87,7 +85,8 @@
               </div>
             <% } %>
           </div>
-        </div>
+          <div class="product-tax" style="display: none;"><%- data.items[p].taxRate %></div>
+        </a>
       <% } %>
     <% } %>
 

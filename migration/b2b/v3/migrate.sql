@@ -1,3 +1,4 @@
+
 INSERT INTO `MenuItems` (`id`, `icon`, `href`, `title`, `sequence`, `createdAt`, `updatedAt`, `ParentMenuItemId`)
 VALUES
 	(1, 'home', '/admin/dashboard', '控制台', 0, '2017-02-22 11:21:00', '2017-02-22 11:21:00', NULL),
@@ -16,3 +17,10 @@ VALUES
 	(14, NULL, '/admin/orderhistory', '訂單歷程', 40, '2017-02-22 11:21:00', '2017-02-22 11:21:00', 4),
 	(15, NULL, '/admin/supplier', '供應商清單', 20, '2017-02-22 11:21:00', '2017-02-22 11:21:00', 5),
 	(16, NULL, '/admin/suppliershiporderhistory', '供應商出貨單歷程', 50, '2017-02-22 11:21:00', '2017-02-22 11:21:00', 5);
+
+ALTER TABLE Users add `deletedAt` datetime DEFAULT NULL;
+ALTER TABLE Orders add `deletedAt` datetime DEFAULT NULL;
+ALTER TABLE OrderProducts add `deletedAt` datetime DEFAULT NULL;
+ALTER TABLE SupplierShipOrders add `deletedAt` datetime DEFAULT NULL;
+ALTER TABLE SupplierShipOrderProducts add `deletedAt` datetime DEFAULT NULL;
+

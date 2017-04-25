@@ -22,10 +22,10 @@ module.exports = {
       type: Sequelize.DECIMAL(15, 4),
       defaultValue: '0.0000',
       allowNull: false,
-      set: function() {
-        this.setDataValue
-        return this.setDataValue('total', this.getDataValue('quantity') * this.getDataValue('price'));
-      }
+      // set: function() {
+      //   this.setDataValue
+      //   return this.setDataValue('total', this.getDataValue('quantity') * this.getDataValue('price'));
+      // }
     },
     tax: {
       type: Sequelize.DECIMAL(15, 4),
@@ -36,6 +36,15 @@ module.exports = {
     //   type: Sequelize.INTEGER(8),
     //   allowNull: false,
     // },
+    option: {
+      type: Sequelize.TEXT,
+      defaultValue: null,
+    },
+
+    supplierName: {
+			type: Sequelize.STRING(32),
+			defaultValue: ''
+		},
 
     createdDateTime:{
       type: Sequelize.VIRTUAL,
@@ -96,6 +105,7 @@ module.exports = {
     OrderProduct.belongsTo(Order);
   },
   options: {
+    paranoid: true,
     classMethods: {},
     instanceMethods: {},
     hooks: {}

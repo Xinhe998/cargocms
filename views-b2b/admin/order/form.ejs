@@ -259,19 +259,23 @@
     <section class="col col-lg-12 col-xs-12">
       <label class="label">訂購產品</label>
       <label class="table state-disabled fn-edit-disabled">
-      <div v-for="(supplier ,orderProducts) in data.option.orderProductList" class="margin-buttom-20">
+      <div class="margin-buttom-20">
         <table class="table">
           <thead>
             <tr>
-              <th>{{ supplier }}</th>
+              <th>產品名稱</th>
+              <th>供應商</th>
               <th>數量</th>
               <th>價格</th>
               <th>合計</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="orderProduct in orderProducts">
-              <td class="col-xs-6"><a href="/admin/#/admin/orderproduct/show/{{orderProduct.id}}?url=<%= req.path %>">{{ orderProduct.name }}</a></td>
+            <tr v-for="orderProduct in data.item.OrderProducts">
+              <td class="col-xs-3">{{ orderProduct.name }} {{ orderProduct.option ? '('+ orderProduct.option +')': ''}}</td>
+              <td class="col-xs-3">
+                {{ orderProduct.supplierName }}
+              </td>
               <td class="col-xs-2">{{ orderProduct.quantity }}</td>
               <td class="col-xs-2">{{ orderProduct.formatPrice }}</td>
               <td class="col-xs-2">{{ orderProduct.formatTotal }}</td>

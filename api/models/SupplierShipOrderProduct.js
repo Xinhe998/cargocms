@@ -36,6 +36,11 @@ module.exports = {
     //   type: Sequelize.INTEGER(8),
     //   allowNull: false,
     // },
+    option: {
+      type: Sequelize.TEXT,
+      defaultValue: null,
+    },
+
     status: {
       type: Sequelize.ENUM('NEW','PAID','PROCESSING','SHIPPED','DELIVERED','CANCELLED','COMPLETED', 'SUBMITTED','DENIED','CANCELED REVERSAL','FAILED','REFUNDED','REVERSED','CHARGEBACK','PENDING','VOIDED','PROCESSED','EXPIRED'),
       allowNull: false,
@@ -63,7 +68,7 @@ module.exports = {
         }
       }
     },
-    
+
     formatTotal: {
       type: Sequelize.VIRTUAL,
       get: function(){
@@ -102,6 +107,7 @@ module.exports = {
     SupplierShipOrderProduct.belongsTo(Product);
   },
   options: {
+    paranoid: true,
     classMethods: {},
     instanceMethods: {},
     hooks: {}

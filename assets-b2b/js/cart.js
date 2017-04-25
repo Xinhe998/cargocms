@@ -10,11 +10,19 @@ function getProductInfo(productDom) {
     })
   }
   if(!number) number = 0;
+  var price = Number(productDom.find('.product-price span').text());
+  var quantity = Number(number);
+  var tax = Number(productDom.find('.product-tax').text());
+  var totalPrice = price * quantity;
+  var totalPriceNoTax = Math.round(totalPrice / (1+Number(tax)));
+  tax = totalPrice - totalPriceNoTax;
   var product = {
     id: productDom.data('id'),
     name: productDom.find('> h1').text(),
-    price: productDom.find('.product-price span').text(),
-    quantity: number,
+    price,
+    quantity,
+    noTaxPrice: totalPriceNoTax,
+    taxPrice: tax,
   };
   return product;
 }
@@ -49,10 +57,15 @@ function removeFromCart(productId) {
 
 function updateCartInput() {
   $('.product .form-group input').val(0);
+  $('.b2b-product-detail-content .order-input input').val(0);
+
   var cart = JSON.parse(localStorage.cart || '[]');
   $(cart).each(function(index, el) {
     var productDom = $('.product[data-id="' + el.id + '"]');
     $('.form-group input', productDom).val(el.quantity);
+    if (el.id == $('.b2b-product-detail-content').data('id')) {
+      $('.b2b-product-detail-content .order-input input').val(el.quantity)
+    }
   });
   if (cart.length > 0) {
     $('li#cart > a').css('color', 'red');
@@ -72,6 +85,10 @@ $(function () {
   });
 
   $('.product input[type="number"]').bootstrapNumber();
+  $('.product .input-group').click(function (e) {
+    e.preventDefault();
+  });
+
   $('.product .input-group input').change(function(event) {
     var product = getProductInfo($(this).closest('.product'));
     storeToCart(product);
@@ -79,6 +96,32 @@ $(function () {
   });
   $('.product .input-group button').click(function(event) {
     var product = getProductInfo($(this).closest('.product'));
+    storeToCart(product);
+    $(window).trigger('modifyCart');
+  });
+  $('.b2b-product-detail-content .add-to-cart').click(function(event) {
+    var options = $('input[name=orderType]');
+    var optionId = null;
+    var optionValue = null;
+    if (options.length > 0) {
+      for (var key in options) {
+        var option = options[key];
+        if (option.checked) {
+          optionId = option.value;
+          optionValue = option.getAttribute('data-option');
+          break;
+        }
+      }
+    }
+    var product = {
+      id: $('.b2b-product-detail-content').data('id'),
+      name: $('.b2b-product-detail-content .name').text(),
+      price: $('.b2b-product-detail-content .price span').text(),
+      quantity: parseInt($('.b2b-product-detail-content .order-input input').val()),
+      optionId: optionId,
+      optionValue: optionValue,
+    };
+    if (isNaN(product.quantity)) product.quantity = 0;
     storeToCart(product);
     $(window).trigger('modifyCart');
   });
@@ -119,7 +162,14 @@ var OrderForm = new Vue({
     priceSum: function () {
       var sum = 0;
       $(this.carts).each(function(index, el) {
-        sum += el.price * el.quantity;
+        sum += el.noTaxPrice;
+      });
+      return sum;
+    },
+    taxPrice: function () {
+      var sum = 0;
+      $(this.carts).each(function(index, el) {
+        sum += el.taxPrice;
       });
       return sum;
     }

@@ -156,6 +156,20 @@
         <b class="tooltip tooltip-bottom-right">請輸入最小存量</b></label>
       </label>
     </section>
+
+    <section class="col col-lg-1 col-md-1 col-sm-1 col-xs-1">
+      <label class="label">稅率</label>
+      <label class="input state-disabled">
+        <input type="number" name="length" step="0.01" placeholder="" v-model="data.item.taxRate" disabled>
+        <b class="tooltip tooltip-bottom-right">請輸入稅率</b></label>
+      </label>
+    </section>
+    <section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
+      <label class="label">稅金</label>
+      <label class="input state-disabled">
+        <input id="tax" value="{{ Math.round(Number(data.item.price) - Number(data.item.price)/(1+parseFloat(data.item.taxRate))) }}" readonly>
+      </label>
+    </section>
     <!--
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">排序</label>
@@ -165,14 +179,6 @@
       </label>
     </section>
     -->
-
-    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4 notForCreate">
-      <label class="label">產品供應商</label>
-      <label class="input state-disabled">
-        <input type="text" name="supplierName" placeholder="" v-model="data.item.Supplier.name" disabled>
-        <b class="tooltip tooltip-bottom-right">產品供應商</b></label>
-      </label>
-    </section>
   </div>
 
   <!--
@@ -224,6 +230,13 @@
   -->
 
   <div class="row">
+    <section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 notForCreate">
+      <label class="label">供應商列表</label>
+      <label class="textarea state-disabled">
+        <textarea rows="2" v-model="data.item.suppliersNameArray" disabled>
+        </textarea>
+      </label>
+    </section>
 
     <section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 notForCreate">
       <label class="label"><span class="text-danger fn-show-hidden">*</span>產品分類</label>
@@ -254,9 +267,8 @@
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4 fn-show-hidden">
       <label class="label"><span class="text-danger fn-show-hidden">*</span>產品供應商</label>
       <label class="select state-disabled">
-        <select class="form-control" name="SupplierId" title="選擇產品供應商" v-model="data.item.SupplierId">
-          <option value="" disabled selected>請選擇供應商</option>
-          <option v-for=" supplier in data.option.supplierList" v-bind:value="supplier.id">
+        <select style="height: 60px;" class="form-control" multiple="multiple" name="suppliersId" title="選擇產品供應商" v-model="data.item.suppliersId">
+          <option v-for=" supplier in data.option.supplierList" v-bind:value="supplier.id" @click="addSupplier">
             {{supplier.name}}
           </option>
         </select>
@@ -266,7 +278,7 @@
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4 fn-show-hidden">
       <label class="label"><span class="text-danger fn-show-hidden">*</span>產品分類</label>
       <label class="select state-disabled">
-        <select style="height: 60px;"class="form-control" multiple="multiple" name="categoriesId" title="選擇產品分類" v-model="data.item.categoriesId">
+        <select style="height: 60px; "class="form-control" multiple="multiple" name="categoriesId" title="選擇產品分類" v-model="data.item.categoriesId">
           <option v-for=" category in data.option.categoryList" v-bind:value="category.id" @click="addCategory">
             {{category.CategoryDescription.name}}
           </option>
@@ -274,7 +286,6 @@
       </label>
     </section>
   </div>
-
 
 
   <div class="row notForCreate">
@@ -390,4 +401,5 @@ var formMessages = {
     required : '請選取產品供應商'
   }
 }
+$('#tax').parent().addClass('tate-disabled');
 </script>

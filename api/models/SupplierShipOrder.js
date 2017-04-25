@@ -356,6 +356,7 @@ module.exports = {
     SupplierShipOrder.hasMany(SupplierShipOrderHistory);
 	},
 	options: {
+    paranoid: true,
 		classMethods: {},
 		instanceMethods: {},
 		hooks: {

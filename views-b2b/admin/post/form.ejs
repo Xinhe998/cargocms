@@ -36,9 +36,9 @@ div.note-editable.panel-body ol, div.note-editable.panel-body ul{
       <label class="label">內容類型</label>
       <label class="select">
         <select v-model="data.item.type">
-          <option value="blog" selected>部落格</option>
-          <option value="internal-event">活動</option>
-          <option value="external-event">外部活動</option>
+          <!-- <option value="blog" selected>部落格</option> -->
+          <option value="internal-event" selected>Q&A 類別</option>
+          <!-- <option value="external-event">外部活動</option> -->
         </select> <i></i> </label>
     </section>
 
@@ -61,17 +61,18 @@ div.note-editable.panel-body ol, div.note-editable.panel-body ul{
   </section>
 
   <section v-show="data.item.type === 'internal-event'">
-    <label class="label">活動票卷
-      <button type="button" class="btn btn-default btn-sm" style="margin: 10px;"
-      v-on:click="onCreateNewEvet()" >新增清單內沒有的票卷</button  >
-    </label>
+
+    <!-- <label class="label">Q&A 內容</label> -->
+    <button type="button" class="btn btn-default btn-sm" style="margin: 10px 0;"
+    v-on:click="onCreateNewEvet()" >新增 Q&A</button  >
+
     <div class="row" v-for="event in data.item.eventId">
       <section class="col col-lg-10 col-xs-10">
         <label class="select">
           <select v-model="data.item.eventId[$index].id">
             <option value="0"></option>
             <option v-for="info in data.option.allevent" v-bind:value="info.id">
-              {{ info.title }} - {{ info.limit }}張 - {{info.price}}元
+              {{ info.title }}
             </option>
           </select> <i></i>
         </label>

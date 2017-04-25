@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
+import _ from 'lodash';
 
 module.exports = {
   findAll: async () => {
@@ -80,7 +81,6 @@ module.exports = {
         UserId: user.id
       });
 
-
       rolesArray = rolesArray.map(function(data) {
         return { authority: data}
       });
@@ -120,7 +120,8 @@ module.exports = {
     try {
       sails.log.info('update user service=>', user);
 
-      const supplierId = user.Supplier.id ? user.Supplier.id : null;
+      // const supplierId = user.Supplier.id ? user.Supplier.id : null;
+      const supplierId = _.get(user, 'Supplier.id', null);
 
       let updatedUser = await User.findOne({
         where: {
@@ -154,20 +155,21 @@ module.exports = {
           updatedUser.birthday = user.birthday;
         }
 
+        const rolesArray = []
 
+        user.rolesArray = _.get(user, 'rolesArray', []);
         if (supplierId) {
-          user.rolesArray.push('supplier');
-        } else {
-          user.rolesArray = user.rolesArray.map( function(data) {
-            if(data !== 'supplier'){
-              return data;
-            }
+          rolesArray.push({
+            authority: 'supplier'
           });
         }
 
-        const rolesArray = user.rolesArray.map( function(data) {
-          return { authority: data };
+        user.rolesArray.forEach( function(data) {
+          if(data !== 'supplier'){
+            rolesArray.push({ authority: data });
+          }
         });
+
         const userRoles = await Role.findAll({
           where: {
             '$or': rolesArray

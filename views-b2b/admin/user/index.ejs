@@ -133,7 +133,6 @@
         "targets" : 12,
         "render": function(data, type, row) {
           var roles = row.rolesArray;
-          console.log("roles ==>", row.rolesArray);
           if (roles.indexOf('admin') !== -1) {
             return '<td>管理者</td>'
           } else if(roles.indexOf('supplier') !== -1) {

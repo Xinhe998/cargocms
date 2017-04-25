@@ -87,5 +87,7 @@ module.exports = {
   },
 
   taxrate : 0.05,
-
+  paymentSetting: {
+    ATM: '000123123456',
+  }
 };
