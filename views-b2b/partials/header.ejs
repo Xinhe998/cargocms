@@ -114,6 +114,7 @@
       closeOnCancel: true,
     }, function(isConform){
       if(isConform){
+        $('form.reg-page').attr('action', '/auth/local?url=/order/form');
         $('.login-btn').trigger('click');
       } else {
         swal.close();

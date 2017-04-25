@@ -3,7 +3,7 @@ module.exports = {
   // appUrl: 'http://cargo-dev.trunksys.com/',
   // port: 5001,
   urls: {
-    afterSignIn: '/lab'
+    afterSignIn: '/'
   },
   offAuth: false,
   passport: {

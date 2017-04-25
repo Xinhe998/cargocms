@@ -107,6 +107,7 @@ a.btn-facebook-inversed {
       $('#login-content').fadeIn();
     });
     $('#login-blackcontent').click(function(){
+      $('form.reg-page').attr('action', '/auth/local?url=/');
       $('#login-content').fadeOut();
     });
     $(".reg-page").validate({
