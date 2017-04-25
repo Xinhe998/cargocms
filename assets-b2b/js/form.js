@@ -26,6 +26,7 @@ $(document).ready(function() {
 				shippingTelephone: values['shippingTelephone'],
 				shippingAddress1: values['shippingAddress1'],
 				shippingMethod: values['shippingMethod'],
+				paymentMethod: values['paymentMethod'],
 				county: values['county'],
 				district: values['district'],
 				zipcode: values['zipcode'],
