@@ -64,6 +64,14 @@
       text-align: left;
     }
   }
+  .paid {
+    clear:right;
+    display:inline-block;
+    margin:1.6em 0 3em;
+    a {
+      margin-right: 1em;
+    }
+  }
 }
 em.invalid{
   color: #a94442;
