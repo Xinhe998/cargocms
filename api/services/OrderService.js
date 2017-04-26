@@ -143,8 +143,7 @@ module.exports = {
 
           orderProductCreateData.total = Number(p.quantity) * Number(productOption.ProductOptionValue.price);
           orderProductCreateData.price = productOption.ProductOptionValue.price;
-          // orderProductCreateData.quantity = subtractQuantity;
-          orderProductCreateData.tax   = totalTaxRate;
+          orderProductCreateData.tax   = orderProductCreateData.total - ( Math.round(orderProductCreateData.total / (1 + Number(productTaxRate.taxRate))));
           orderProductCreateData.option = productOption.value;
         }
 
