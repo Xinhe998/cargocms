@@ -6,52 +6,21 @@ var COMMON = {
 
 var itemBeforeEdit = {};
 var prefix = 'admin/';
-var modelName = "product";
+var modelName = "productimage";
 var appModel = {
   modelName: modelName,
   prefix: prefix,
   data: {
     item: {
       id: '',
-      model: '',
-      sku: '',
-      upc: '',
-      ean:'',
-      jan:'',
-      isbn:'',
-      mpn:'',
-      location:'',
-      quantity:'',
-      image:'',
-      shipping: true,
-      price:'',
-      taxRate:'',
-      points:'',
-      dateAvailable:'',
-      weight:'',
-      length:'',
-      width:'',
-      height:'',
-      subtract: true,
-      minimum:'',
-      sortOrder: 0,
-      publish:'',
-      viewed: 0,
-      // SupplierId:'',
-      ProductDescription: {},
-      Supplier: {},
-      Categories:[],
-      categoriesId: [],
-      categoriesNameArray:[],
-      suppliersId: [],
-      tax: 0,
-      origin: '',
+      image: '',
+      ProductId: '',
+      ImageId: '',
     },
     items: [],
     option: {
       defaultSort: [[ 0, 'desc' ]],
-      categoryList: [],
-      supplierList: [],
+      productList: [],
     }
   },
   view: {
@@ -66,49 +35,20 @@ var appModel = {
 <%- include ../default/vue.ejs %>
 // 需要新增函式可以對 appMain 進行定義，如：
 // appMain.log = function () {console.log("123")}
-appMain.computeTax = function () {
-  if (appMain.data.item.price && appMain.data.item.taxRate) {
-    appMain.data.item.tax = Math.round(Number(appMain.data.item.price) - Number(appMain.data.item.price)/(1 + parseFloat(appMain.data.item.taxRate)))
-  } else {
-    appMain.data.item.tax = 0;
-  }
-};
-
 appMain.showPageHidden = function(){
   $('.fn-show-hidden').hide();
-};
+}
 
-appMain.addCategory = function (event) {
-  var category = $('select[name=categoriesId]').val();
-  appMain.data.item.categoriesId = category;
-};
+appMain.loadProduct = function () {
 
-appMain.addSupplier = function (event) {
-  var supplier = $('select[name=suppliersId]').val();
-  appMain.data.item.suppliersId = supplier;
-};
-
-appMain.loadCategory = function () {
-
-  $.get('/api/admin/category', ajaxSuccess);
+  $.get('/api/admin/product', ajaxSuccess);
 
   function ajaxSuccess(result) {
     if (result.success) {
-      appModel.data.option.categoryList = result.data.items;
+      appModel.data.option.productList = result.data.items;
     }
   } // end ajaxSuccess
-}
-
-appMain.loadSupplier = function () {
-
-  $.get('/api/admin/supplier', ajaxSuccess);
-
-  function ajaxSuccess(result) {
-    if (result.success) {
-      appModel.data.option.supplierList = result.data.items;
-    }
-  } // end ajaxSuccess
-}
+};
 
 appMain.enableText = function () {
   $('textarea').attr('disabled', false);
@@ -117,18 +57,6 @@ appMain.enableText = function () {
 appMain.enableSelect = function () {
 	$('select').attr('disabled', false);
 	$('.select').removeClass('state-disabled');
-
-  // totalRepeat label add disable class
-  $(".notForCreate > section:nth-child(1) > label:nth-child(2)").addClass("state-disabled");
-  // ScentName label add disabled class
-  $("#main-form > fieldset > section:nth-child(2) > label.input").addClass("state-disabled");
-
-  $("input[name=totalRepeat]").attr("disabled", true);
-  $("input[name=scentName]").attr("disabled", true);
-
-  $('.onoffswitch-checkbox').attr('disabled', false);
-
-  $('.notForCreate').hide();
 }
 
 appMain.setupForm = function (type) {
@@ -168,6 +96,18 @@ appMain.setupForm = function (type) {
         appMain.update();
         return false;
       }
+    }
+  });
+}
+
+appMain.customSearch = function(data) {
+  appModel.pagingQuery.columns.push({
+    data: 'productName',
+    searchable: true,
+    findInclude: true,
+    search: {
+      model: 'Product',
+      column: 'model',
     }
   });
 }

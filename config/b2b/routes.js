@@ -36,6 +36,12 @@ module.exports = {
   'put /api/admin/productoption/:id': 'api/admin/ProductOptionController.update',
   'delete /api/admin/productoption/:id': 'api/admin/ProductOptionController.destroy',
 
+  'get /api/admin/productimage': 'api/admin/ProductImageController.find',
+  'get /api/admin/productimage/:id': 'api/admin/ProductImageController.findOne',
+  'post /api/admin/productimage': 'api/admin/ProductImageController.create',
+  'put /api/admin/productimage/:id': 'api/admin/ProductImageController.update',
+  'delete /api/admin/productimage/:id': 'api/admin/ProductImageController.destroy',
+
   'get /admin/confirmorder/:id': 'admin/ConfirmOrderController.show',
   'get /api/admin/confirmorder/:id': 'api/admin/ConfirmOrderController.findOne',
   'put /api/admin/order/confirm/:id': 'api/admin/ConfirmOrderController.confirm',

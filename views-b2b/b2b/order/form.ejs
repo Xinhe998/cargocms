@@ -108,6 +108,15 @@
           </div>
 
           <hr />
+          
+          <div class="form-group">
+            <label for=""><span class="column-require">*</span>選擇付款方式</label>
+            <select class="form-control" name="paymentMethod">
+              <option value="ATM轉帳">ATM轉帳</option>
+              <option value="貨到付款">貨到付款</option>
+            </select>
+          </div>
+
           <span>* 產品運送方式皆採用 <strong>低溫宅配</strong></span>
           <div class="form-group hidden">
             <label for=""><span class="column-require">*</span>選擇運送方式</label>
@@ -127,7 +136,7 @@
       </thead>
       <tbody>
         <tr v-for="cart in carts">
-          <td><i v-on:click.stop="removeProduct(cart.id, $event)" class="fa fa-times btn" aria-hidden="true"></i></td>
+          <td><i v-on:click.stop="removeProduct(cart, $event)" class="fa fa-times btn" aria-hidden="true"></i></td>
           <td>{{cart.name}} {{ cart.optionValue ? '('+ cart.optionValue +')' : '' }}</td>
           <td>$ {{cart.price | moneyNum}}</td>
           <td>{{cart.quantity | moneyNum}}</td>

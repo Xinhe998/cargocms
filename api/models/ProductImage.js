@@ -42,6 +42,7 @@ module.exports = {
   },
   associations: function() {
     ProductImage.belongsTo(Image);
+    ProductImage.belongsTo(Product);
   },
   options: {
     classMethods: {

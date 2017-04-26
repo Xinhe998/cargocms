@@ -14,10 +14,28 @@ module.exports = {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
+    
+    shippingData: {
+      type: Sequelize.STRING(255),
+      defaultValue: '',
+    },
 
     description: {
       type: Sequelize.TEXT,
       allowNull: false,
+    },
+
+    specification: {
+      type: Sequelize.TEXT,
+    },
+
+    story: {
+      type: Sequelize.TEXT,
+    },
+
+    precautions: {
+      type: Sequelize.STRING(255),
+      allowNull: true,
     },
 
     tag: {
