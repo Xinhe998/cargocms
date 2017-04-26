@@ -19,7 +19,7 @@ function getProductInfo(productDom) {
   var product = {
     id: productDom.data('id'),
     name: productDom.find('> h1').text(),
-    prict: price,
+    price: price,
     quantity: quantity,
     noTaxPrice: totalPriceNoTax,
     taxPrice: tax,
