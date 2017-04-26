@@ -160,14 +160,14 @@
     <section class="col col-lg-1 col-md-1 col-sm-1 col-xs-1">
       <label class="label">稅率</label>
       <label class="input state-disabled">
-        <input type="number" name="length" step="0.01" placeholder="" v-model="data.item.taxRate" disabled>
+        <input type="number" name="length" step="0.01" placeholder="" v-model="data.item.taxRate" v-on:click="computeTax()" disabled>
         <b class="tooltip tooltip-bottom-right">請輸入稅率</b></label>
       </label>
     </section>
     <section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
       <label class="label">稅金</label>
       <label class="input state-disabled">
-        <input id="tax" value="{{ Math.round(Number(data.item.price) - Number(data.item.price)/(1+parseFloat(data.item.taxRate))) }}" readonly>
+        <input id="tax" v-model="data.item.tax" readonly>
       </label>
     </section>
     <!--

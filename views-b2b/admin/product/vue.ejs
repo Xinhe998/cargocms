@@ -37,13 +37,14 @@ var appModel = {
       sortOrder: 0,
       publish:'',
       viewed: 0,
-      SupplierId:'',
+      // SupplierId:'',
       ProductDescription: {},
       Supplier: {},
       Categories:[],
       categoriesId: [],
       categoriesNameArray:[],
       suppliersId: [],
+      tax: 0,
     },
     items: [],
     option: {
@@ -64,9 +65,17 @@ var appModel = {
 <%- include ../default/vue.ejs %>
 // 需要新增函式可以對 appMain 進行定義，如：
 // appMain.log = function () {console.log("123")}
+appMain.computeTax = function () {
+  if (appMain.data.item.price && appMain.data.item.taxRate) {
+    appMain.data.item.tax = Math.round(Number(appMain.data.item.price) - Number(appMain.data.item.price)/(1 + parseFloat(appMain.data.item.taxRate)))
+  } else {
+    appMain.data.item.tax = 0;
+  }
+};
+
 appMain.showPageHidden = function(){
   $('.fn-show-hidden').hide();
-}
+};
 
 appMain.addCategory = function (event) {
   var category = $('select[name=categoriesId]').val();
