@@ -55,7 +55,7 @@ module.exports = {
       data.paymentAddress1 = '',
       data.paymentCity = '',
       data.paymentPostcode = '',
-      data.paymentMethod = '',
+      // data.paymentMethod = '',
       data.paymentCode = '',
       data.customField = '';
       data.paymentCompany = '';
@@ -143,8 +143,7 @@ module.exports = {
 
           orderProductCreateData.total = Number(p.quantity) * Number(productOption.ProductOptionValue.price);
           orderProductCreateData.price = productOption.ProductOptionValue.price;
-          // orderProductCreateData.quantity = subtractQuantity;
-          orderProductCreateData.tax   = totalTaxRate;
+          orderProductCreateData.tax   = orderProductCreateData.total - ( Math.round(orderProductCreateData.total / (1 + Number(productTaxRate.taxRate))));
           orderProductCreateData.option = productOption.value;
         }
 

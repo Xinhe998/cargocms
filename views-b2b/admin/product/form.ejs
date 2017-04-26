@@ -116,6 +116,7 @@
     </section>
   </div>
 -->
+  <!--
   <div class="row">
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label"><span class="text-danger fn-show-hidden">*</span>長度</label>
@@ -139,6 +140,7 @@
       </label>
     </section>
   </div>
+  -->
 
   <div class="row">
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -157,19 +159,14 @@
       </label>
     </section>
 
-    <section class="col col-lg-1 col-md-1 col-sm-1 col-xs-1">
-      <label class="label">稅率</label>
+    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>產地</label>
       <label class="input state-disabled">
-        <input type="number" name="length" step="0.01" placeholder="" v-model="data.item.taxRate" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入稅率</b></label>
+        <input type="text" name="origin" placeholder="" v-model="data.item.origin" disabled>
+        <b class="tooltip tooltip-bottom-right">請輸入產地</b></label>
       </label>
     </section>
-    <section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
-      <label class="label">稅金</label>
-      <label class="input state-disabled">
-        <input id="tax" value="{{ Math.round(Number(data.item.price) - Number(data.item.price)/(1+parseFloat(data.item.taxRate))) }}" readonly>
-      </label>
-    </section>
+
     <!--
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label">排序</label>
@@ -179,6 +176,22 @@
       </label>
     </section>
     -->
+  </div>
+
+  <div class="row">
+    <section class="col col-lg-1 col-md-1 col-sm-1 col-xs-1">
+      <label class="label">稅率</label>
+      <label class="input state-disabled">
+        <input type="number" name="length" step="0.01" placeholder="" v-model="data.item.taxRate" v-on:click="computeTax()" disabled>
+        <b class="tooltip tooltip-bottom-right">請輸入稅率</b></label>
+      </label>
+    </section>
+    <section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
+      <label class="label">稅金</label>
+      <label class="input state-disabled">
+        <input id="tax" v-model="data.item.tax" readonly>
+      </label>
+    </section>
   </div>
 
   <!--
@@ -327,15 +340,15 @@ var formRules = {
   price : {
     required : true
   },
-  length : {
-    required : true
-  },
-  width : {
-    required : true
-  },
-  height : {
-    required : true
-  },
+  // length : {
+  //   required : true
+  // },
+  // width : {
+  //   required : true
+  // },
+  // height : {
+  //   required : true
+  // },
   weight : {
     required : true
   },
@@ -344,7 +357,10 @@ var formRules = {
   },
   SupplierId : {
     required : true
-  }
+  },
+  origin: {
+    required : true
+  },
   // sku : {
   //   required : true
   // },
@@ -382,15 +398,15 @@ var formMessages = {
   price : {
     required : '請給予價格'
   },
-  length : {
-    required : '請給予長度'
-  },
-  width : {
-    required : '請給予寬度'
-  },
-  height : {
-    required : '請給予高度'
-  },
+  // length : {
+  //   required : '請給予長度'
+  // },
+  // width : {
+  //   required : '請給予寬度'
+  // },
+  // height : {
+  //   required : '請給予高度'
+  // },
   weight : {
     required : '請給予重量'
   },
@@ -399,7 +415,10 @@ var formMessages = {
   },
   SupplierId : {
     required : '請選取產品供應商'
-  }
+  },
+  origin: {
+    required : '請輸入產地'
+  },
 }
 $('#tax').parent().addClass('tate-disabled');
 </script>

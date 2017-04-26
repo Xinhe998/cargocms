@@ -7,12 +7,44 @@
         <input type="text" name="name" placeholder="名稱" v-model="data.item.name" disabled>
         <b class="tooltip tooltip-bottom-right">名稱</b></label>
     </section>
+    <section class="col col-lg-6 col-xs-6">
+      <label class="label">出貨日期</label>
+      <label class="input state-disabled">
+        <input type="text" name="shippingData" placeholder="" v-model="data.item.shippingData" disabled>
+        <b class="tooltip tooltip-bottom-right">出貨日期</b></label>
+    </section>
+    
+  </div>
 
+  <div class="row">
     <section class="col col-lg-6 col-xs-6">
       <label class="label">描述</label>
       <label class="input state-disabled">
-        <input type="text" name="description" placeholder="描述" v-model="data.item.description" disabled>
+        <textarea class="form-control" name="description" placeholder="" v-model="data.item.description" rows="3" disabled></textarea>
         <b class="tooltip tooltip-bottom-right">描述</b></label>
+    </section>
+
+    <section class="col col-lg-6 col-xs-6">
+      <label class="label">規格</label>
+      <label class="input state-disabled">
+        <textarea class="form-control" name="specification" placeholder="" v-model="data.item.specification" rows="3" disabled></textarea>
+        <b class="tooltip tooltip-bottom-right">規格</b></label>
+    </section>
+  </div>
+
+  <div class="row">
+    <section class="col col-lg-6 col-xs-6">
+      <label class="label">品牌故事</label>
+      <label class="input state-disabled">
+        <textarea class="form-control" name="story" placeholder="" v-model="data.item.story" rows="3" disabled></textarea>
+        <b class="tooltip tooltip-bottom-right">品牌故事</b></label>
+    </section>
+
+    <section class="col col-lg-6 col-xs-6">
+      <label class="label">注意事項</label>
+      <label class="input state-disabled">
+        <textarea class="form-control" name="precautions" placeholder="" v-model="data.item.precautions" rows="3" disabled></textarea>
+        <b class="tooltip tooltip-bottom-right">注意事項</b></label>
     </section>
   </div>
 
@@ -54,6 +86,18 @@
       <label class="input state-disabled">
         <input type="text" name="ProductId" placeholder="產品 ID" v-model="data.item.ProductId" disabled>
         <b class="tooltip tooltip-bottom-right">產品 ID</b></label>
+    </section>
+
+    <section class="fn-show-hidden col col-lg-6 col-xs-6">
+      <label class="label">產品名稱</label>
+      <label class="select state-disabled">
+        <select class="form-control" name="ProductId" title="選擇產品" v-model="data.item.ProductId" disabled>
+          <option value="" disabled selected>請選擇</option>
+          <option v-for="product in data.option.productList" v-bind:value="product.id">
+            {{product.model}}
+          </option>
+        </select>
+      </label>
     </section>
   </div>
 

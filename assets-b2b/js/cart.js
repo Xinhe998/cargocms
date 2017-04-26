@@ -19,7 +19,7 @@ function getProductInfo(productDom) {
   var product = {
     id: productDom.data('id'),
     name: productDom.find('> h1').text(),
-    prict: price,
+    price: price,
     quantity: quantity,
     noTaxPrice: totalPriceNoTax,
     taxPrice: tax,
@@ -31,7 +31,7 @@ function storeToCart(product) {
   var cart = JSON.parse(localStorage.cart || '[]');
   var replace = false;
   cart = $(cart).map(function (i, e) {
-    if (e.id === product.id) {
+    if (e.id === product.id && e.optionId === product.optionId) {
       replace = true;
       return product;
     } else return e;
@@ -46,10 +46,10 @@ function storeToCart(product) {
   localStorage.cart = JSON.stringify(cart);
 }
 
-function removeFromCart(productId) {
+function removeFromCart(product) {
   var cart = JSON.parse(localStorage.cart || '[]');
   cart = $(cart).filter(function (i, e) {
-    if(e.id == productId) return false;
+    if(e.id == product.id && e.optionId === product.optionId) return false;
     else return true;
   }).toArray();
   localStorage.cart = JSON.stringify(cart);
