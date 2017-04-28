@@ -14,13 +14,13 @@ function getProductInfo(productDom) {
   var quantity = Number(number);
   var tax = Number(productDom.find('.product-tax').text());
   var totalPrice = price * quantity;
-  var totalPriceNoTax = Math.round(totalPrice / (1+Number(tax)));
+  var totalPriceNoTax = Math.round(totalPrice / (1 + Number(tax)));
   tax = totalPrice - totalPriceNoTax;
   var product = {
     id: productDom.data('id'),
     name: productDom.find('> h1').text(),
-    price,
-    quantity,
+    price: price,
+    quantity: quantity,
     noTaxPrice: totalPriceNoTax,
     taxPrice: tax,
   };
@@ -31,7 +31,7 @@ function storeToCart(product) {
   var cart = JSON.parse(localStorage.cart || '[]');
   var replace = false;
   cart = $(cart).map(function (i, e) {
-    if (e.id === product.id) {
+    if (e.id === product.id && e.optionId === product.optionId) {
       replace = true;
       return product;
     } else return e;
@@ -46,10 +46,10 @@ function storeToCart(product) {
   localStorage.cart = JSON.stringify(cart);
 }
 
-function removeFromCart(productId) {
+function removeFromCart(product) {
   var cart = JSON.parse(localStorage.cart || '[]');
   cart = $(cart).filter(function (i, e) {
-    if(e.id == productId) return false;
+    if(e.id == product.id && e.optionId === product.optionId) return false;
     else return true;
   }).toArray();
   localStorage.cart = JSON.stringify(cart);
@@ -113,13 +113,21 @@ $(function () {
         }
       }
     }
+    var tax = Number($('.product-tax').text());
+    var price = Number($('.b2b-product-detail-content .price span').text());
+    var quantity = parseInt($('.b2b-product-detail-content .order-input input').val());
+    var totalPrice = price * quantity;
+    var totalPriceNoTax = Math.round(totalPrice / (1 + Number(tax)));
+    tax = totalPrice - totalPriceNoTax;
     var product = {
       id: $('.b2b-product-detail-content').data('id'),
       name: $('.b2b-product-detail-content .name').text(),
-      price: $('.b2b-product-detail-content .price span').text(),
-      quantity: parseInt($('.b2b-product-detail-content .order-input input').val()),
+      price: price,
+      quantity: quantity,
       optionId: optionId,
       optionValue: optionValue,
+      noTaxPrice: totalPriceNoTax,
+      taxPrice: tax,
     };
     if (isNaN(product.quantity)) product.quantity = 0;
     storeToCart(product);

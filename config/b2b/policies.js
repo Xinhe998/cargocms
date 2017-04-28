@@ -18,6 +18,10 @@ module.exports = {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
 
+  "api/admin/ProductImageController": {
+    '*': ['passport', 'sessionAuth', 'isAdmin'],
+  },
+
   "api/admin/SupplierController": {
     '*': ['passport', 'sessionAuth', 'isAdmin'],
   },
@@ -54,11 +58,11 @@ module.exports = {
   },
 
   "b2b/OrderController": {
-    'orderForm': ['passport', 'sessionAuth'],
+    'orderForm': ['passport', 'sessionAuth', 'validEmail'],
   },
 
   "api/OrderController": {
-    '*': ['passport', 'sessionAuth'],
+    '*': ['passport', 'sessionAuth', 'validEmail'],
   },
 
   "api/ConfirmOrderController": {

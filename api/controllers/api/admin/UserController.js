@@ -157,4 +157,27 @@ module.exports = {
     }
   },
 
+  activate: async (req, res) => {
+    try{
+      const { id } = req.params;
+      const enabledUser = await User.findOne({
+        where: {
+          id: id
+        },
+        paranoid: false
+      });
+
+      // enabledUser.deletedAt = null;
+      enabledUser.setDataValue('deletedAt', null);
+      await enabledUser.save();
+
+      res.ok({
+        message: 'Enabled User Success.',
+        data: enabledUser,
+      })
+    } catch (e) {
+      res.serverError(e);
+    }
+  },
+
 }

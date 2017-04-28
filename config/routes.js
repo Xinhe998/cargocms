@@ -35,6 +35,7 @@ var defaultConfig = {
   'post /api/admin/user': 'api/admin/UserController.create',
   'put /api/admin/user/:id': 'api/admin/UserController.update',
   'delete /api/admin/user/:id': 'api/admin/UserController.destroy',
+  'put /api/admin/user/activate/:id': 'api/admin/UserController.activate',
 
   'get /api/admin/post': 'api/admin/PostController.find',
   'get /api/admin/post/:id': 'api/admin/PostController.findOne',

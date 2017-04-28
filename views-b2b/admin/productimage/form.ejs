@@ -1,0 +1,64 @@
+
+
+<fieldset>
+  <section>
+    <img src="{{data.item.image}}" alt="" class="img-responsive">
+  </section>
+  <section>
+    <label class="label">產品圖片</label>
+    <%- include ../image/upload.ejs %>
+  </section>
+
+  <div class="row">
+    <section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 hidden">
+      <label class="label">Image</label>
+      <label class="input state-disabled">
+        <input type="text" name="image" placeholder="" v-model="data.item.image" disabled>
+        <b class="tooltip tooltip-bottom-right">請輸入Image</b></label>
+    </section>
+    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      <label class="label">產品ID</label>
+      <label class="input state-disabled">
+        <input type="number" name="ProductId" placeholder="" v-model="data.item.ProductId" disabled>
+        <b class="tooltip tooltip-bottom-right">請輸入產品ID</b></label>
+    </section>
+    <section class="col col-lg-8 col-md-8 col-sm-8 col-xs-8 fn-show-hidden">
+      <label class="label">產品</label>
+      <label class="select state-disabled">
+        <select class="form-control" name="ProductId" title="選擇產品" v-model="data.item.ProductId" disabled>
+          <option value="" disabled selected>請選擇</option>
+          <option v-for="product in data.option.productList" v-bind:value="product.id">
+            {{product.model}}
+          </option>
+        </select><i></i>
+      </label>
+  </section>
+  </div>
+  
+
+</fieldset>
+<script>
+var formRules = {
+  image : {
+    required : true
+  },
+  ProductId : {
+    required : true
+  },
+  
+}
+
+// Messages for form validation
+var formMessages = {
+  model : {
+    required : '請給予名稱'
+  },
+  ImageId : {
+    required : '請給予 image'
+  },
+  quantity : {
+    required : '請給予產品Id'
+  },
+}
+$('#tax').parent().addClass('tate-disabled');
+</script>

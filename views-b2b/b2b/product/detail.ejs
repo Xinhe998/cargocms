@@ -14,6 +14,7 @@
     </div>
 
     <div class="col-md-6 b2b-product-detail-content" data-id="<%= data.item.id %>">
+      <div class="product-tax" style="display: none;"><%- data.item.taxRate %></div>
       <h3 class="origin"><%= data.item.origin %></h3>
       <h1 class="name"><%= data.item.model %></h1>
       <h2 class="price">
@@ -38,7 +39,11 @@
           <% } %>
         <% } %>
       </div>
-      
+
+      <div class="order-ship-time">
+          出貨期間： <%= data.item.ProductDescription.shippingData %>
+      </div>
+
       <div class="row order-input">
         
         <div class="col-sm-4">
@@ -58,24 +63,34 @@
           <li role="presentation"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">產品規格</a></li>
           <li role="presentation"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab">注意事項</a></li>
           <li role="presentation"><a href="#story" aria-controls="story" role="tab" data-toggle="tab">品牌故事</a></li>
-          
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="profile">
-            <%= data.item.ProductDescription.description %>
+            <% var description = UtilsService.lineBreaks(data.item.ProductDescription.description)%>
+            <% description.forEach(function( line ){ %>
+              <%= line %><br/>
+            <% }); %>
           </div>
           <div role="tabpanel" class="tab-pane" id="detail">
-            <ol>
-              <li>重量： <%= data.item.weight %> 克</li>
-              <li>長度： <%= data.item.length %> 公分</li>
-              <li>寬度： <%= data.item.width %> 公分</li>
-              <li>高度： <%= data.item.height %> 公分</li>
-            </ol>
+            <% var specification = UtilsService.lineBreaks(data.item.ProductDescription.specification)%>
+            <% specification.forEach(function( line ){ %>
+              <%= line %><br/>
+            <% }); %>
           </div>
-          <div role="tabpanel" class="tab-pane" id="notice"><%= data.item.precautions %></div>
-          <div role="tabpanel" class="tab-pane" id="story">...</div>
+          <div role="tabpanel" class="tab-pane" id="notice">
+            <% var precautions = UtilsService.lineBreaks(data.item.ProductDescription.precautions)%>
+            <% precautions.forEach(function( line ){ %>
+              <%= line %><br/>
+            <% }); %>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="story">
+            <% var story = UtilsService.lineBreaks(data.item.ProductDescription.story)%>
+            <% story.forEach(function( line ){ %>
+              <%= line %><br/>
+            <% }); %>
+          </div>
         </div>
       </div>
       

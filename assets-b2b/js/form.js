@@ -26,6 +26,7 @@ $(document).ready(function() {
 				shippingTelephone: values['shippingTelephone'],
 				shippingAddress1: values['shippingAddress1'],
 				shippingMethod: values['shippingMethod'],
+				paymentMethod: values['paymentMethod'],
 				county: values['county'],
 				district: values['district'],
 				zipcode: values['zipcode'],
@@ -35,11 +36,27 @@ $(document).ready(function() {
 			}
 		};
 		var catchDone = function(result) {
+      localStorage.cart = [];
       window.location.replace('/orderinfo/' + result.data.item.orderNumber);
 		};
-		var catchFail = function(result) {
-			swal('錯誤', '建立訂單時出現問題，請稍候再試。', 'error');
+		var catchFail = function(result, textStatus, errorThrown) {
+
+      let message = '建立訂單時出現問題，請稍候再試。'
+      if (result.status === 403) {
+        let responseText = JSON.parse(result.responseText);
+        message = responseText.message;
+      }
+			swal({
+        title: '錯誤',
+        text: message,
+        type: 'error',
+      },function(confirm){
+        if (result.status === 403) {
+          location.reload();
+        }
+      });
 		};
+
 		$.ajax(ajaxConfig).done(catchDone).fail(catchFail);
 	};
 
@@ -51,6 +68,16 @@ $(document).ready(function() {
 		if (!$('#order').valid()) {
 			return false;
 		}
+
+    if (localStorage.cart.length === 0) {
+      swal({
+        title: '提醒',
+        text: '您的購物車內是空的，請選購商品。',
+        type: 'info',
+      },function (confirm) {
+        window.location.href = '/';
+      });
+    }
 
 		swal({
 			title: "確認",
@@ -68,7 +95,7 @@ $(document).ready(function() {
 					return false;
 				} else {
 					$form.data('submitted', true);
-					localStorage.cart = [];
+					// localStorage.cart = [];
 					submitData($form);
 					return true;
 				}

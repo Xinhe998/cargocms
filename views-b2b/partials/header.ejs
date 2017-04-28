@@ -33,7 +33,7 @@
               <ul class="dropdown-menu b2b-cart">
                 <li v-for="cart in carts">
                   <a href="#">
-                    <i v-on:click.stop="removeProduct(cart.id, $event)" class="fa fa-times" aria-hidden="true"></i>
+                    <i v-on:click.stop="removeProduct(cart, $event)" class="fa fa-times" aria-hidden="true"></i>
                     <span>{{cart.name}} {{ cart.optionValue ? '('+ cart.optionValue +')' : ''}} * {{cart.quantity}}</span>
                   </a>
                 </li>
@@ -52,7 +52,7 @@
             <ul class="dropdown-menu">
 
               <li><a href="/orderhistory">訂單紀錄</a></li>
-              <li><a href="/payment">付款資訊</a></li>
+              <li><a href="/questions/payment">付款資訊</a></li>
               <li><a href="/edit/me">修改資料</a></li>
               <li role="separator" class="divider"></li>
 
@@ -64,7 +64,7 @@
             <ul class="dropdown-menu b2b-cart">
               <li v-for="cart in carts">
                 <a href="#">
-                  <i v-on:click.stop="removeProduct(cart.id, $event)" class="fa fa-times" aria-hidden="true"></i>
+                  <i v-on:click.stop="removeProduct(cart, $event)" class="fa fa-times" aria-hidden="true"></i>
                   <span>{{cart.name}} {{ cart.optionValue ? '('+ cart.optionValue +')' : ''}} * {{cart.quantity}}</span>
                 </a>
               </li>

@@ -58,7 +58,8 @@ module.exports = {
           }
         });
         // if (!user.verificationEmailToken) throw Error('請點擊 Email 驗證連結');
-        if (!user.verificationEmailToken){
+
+        if (!user || !user.verificationEmailToken){
           message = '此驗證連結已失效';
           sails.log.error('此驗證連結已失效');
         } else {
@@ -72,7 +73,6 @@ module.exports = {
             // res.send(req.session);
           }
 
-          req.flash('info', '您更新了 Email ，請至新信箱點擊認證連結');
           message = 'E-Mail 驗證成功';
           valid = true;
         }

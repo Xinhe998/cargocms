@@ -228,6 +228,7 @@ module.exports = {
               where: { provider: 'local' },
               required: false
           }],
+          paranoid: false,
         });
       },
       deleteById: async (id) => {

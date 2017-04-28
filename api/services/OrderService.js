@@ -55,7 +55,7 @@ module.exports = {
       data.paymentAddress1 = '',
       data.paymentCity = '',
       data.paymentPostcode = '',
-      data.paymentMethod = '',
+      // data.paymentMethod = '',
       data.paymentCode = '',
       data.customField = '';
       data.paymentCompany = '';
@@ -103,6 +103,18 @@ module.exports = {
           include: ProductDescription
         });
 
+
+        if (!product || !product.ProductDescription) {
+          throw new Error(`產品資訊不正確，無法建立產品訂單，產品 ID: ${p.id}`);
+        }
+
+        if (product.subtract) {
+          let productUpdate = await Product.findById(product.id);
+          productUpdate.quantity = Number(product.quantity) - Number(p.quantity);
+          if (productUpdate.quantity < 0) throw new Error(`產品ID: ${productUpdate.id}，庫存量不足`);
+          await productUpdate.save({ transaction });
+        }
+
         let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
         let price = Number(product.price) * Number(p.quantity);
         let noTaxPrice = Math.round(price / (1 + Number(productTaxRate.taxRate)));
@@ -131,8 +143,7 @@ module.exports = {
 
           orderProductCreateData.total = Number(p.quantity) * Number(productOption.ProductOptionValue.price);
           orderProductCreateData.price = productOption.ProductOptionValue.price;
-          // orderProductCreateData.quantity = subtractQuantity;
-          orderProductCreateData.tax   = totalTaxRate;
+          orderProductCreateData.tax   = orderProductCreateData.total - ( Math.round(orderProductCreateData.total / (1 + Number(productTaxRate.taxRate))));
           orderProductCreateData.option = productOption.value;
         }
 

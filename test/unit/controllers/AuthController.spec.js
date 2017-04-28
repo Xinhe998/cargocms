@@ -73,7 +73,7 @@ describe('about Auth Controller operation.', function() {
     let user;
     before(async (done) => {
       try {
-        let testuser = {
+        const testuser = {
           email: 'jwtuser@gmail.com',
           username: 'jwtuser'
         }
@@ -87,18 +87,20 @@ describe('about Auth Controller operation.', function() {
 
     it('login should be success.', async (done) => {
       try {
-        let loginInfo = {
+        const loginInfo = {
           identifier: 'jwtuser@gmail.com',
           password: 'jwtuser'
-        }
+        };
         const result = await request(sails.hooks.http.app)
         .post('/auth/local')
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
         .send(loginInfo);
-        console.log('result=>', result);
+        const resultObj = JSON.parse(result.text);
+        console.log('result=>', resultObj);
         result.status.should.be.equal(200);
-        // result.jwtToken.should.not.eq('');
+        resultObj.success.should.be.equal(true);
+        resultObj.data.jwtToken.should.not.equal('');
         done();
       } catch (e) {
         done(e);

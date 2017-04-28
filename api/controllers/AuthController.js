@@ -136,7 +136,6 @@ module.exports = {
         req.session.authenticated = true;
         const userAgent = req.headers['user-agent'];
         user.loginSuccess({ userAgent });
-        console.log('user=>', user);
 
         // check action
         const action = req.param('action');
@@ -151,16 +150,21 @@ module.exports = {
         }
 
         // make respond depends on dataType
+        let url = req.query.url;
+        if (!url && req.body) url = req.body.url;
+        url = url || sails.config.urls.afterSignIn;
+        // console.log('url=>', url);
         if (req.wantsJSON) {
           const jwtToken = AuthService.getSessionEncodeToJWT(req);
           return res.ok({
-            jwtToken,
+            success: true,
+            message: '',
+            data: { 
+              jwtToken,
+              url,
+            }
           });
         } else {
-          let url = req.query.url;
-          if (!url && req.body) url = req.body.url;
-          url = url || sails.config.urls.afterSignIn;
-          // console.log('url=>', url);
           return res.redirect(url);
         }
       }; // end loginCallback

@@ -51,12 +51,13 @@ module.exports = {
   },
 
   getSessionEncodeToJWT: function(req) {
-    const user = AuthService.getSessionUser(req);
+    const user = AuthService.getSessionUser(req).toJSON();
     const isWebView = AuthService.isWebView(req.headers['user-agent']);
     let jwtToken = '';
     if ((req.session.needJwt || isWebView ) && user ) {
       try {
-        jwtToken = jwt.sign(JSON.stringify(user), 'secret');
+        console.log('user=>', user)
+        jwtToken = jwt.sign((user), 'secret');
       } catch (e) {
         console.log(e);
         throw new Error(e);

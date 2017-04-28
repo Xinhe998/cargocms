@@ -102,17 +102,3 @@
 ### Feed 欄位變動
 * 修改 fullPicture 欄位 型態 STRING 修改為 TEXT
 * type 欄位等於 'status'，將 publish欄位 修改為 false
-
-
-## v7
-
-### 修改 Product 與 Supplier 關聯為多對多
-* Product 表格移除 SupplierId 欄位
-* 新增 ProductSupplier 表格
-
-### OrderProduct 欄位修改
-* 新增 option 欄位
-* 新增 supplierName 欄位
-
-### SupplierShipOrderProduct 欄位修改
-* 新增 option 欄位
