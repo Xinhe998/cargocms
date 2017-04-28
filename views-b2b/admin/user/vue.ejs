@@ -29,17 +29,17 @@ var appModel = {
       password: '',
       Roles: [],
       rolesArray: [],
-      Passports: [
-        {
-          password: ""
-        }
-      ],
+      Passports: [{
+        password: ""
+      }],
       Supplier: {}
     },
     items: [],
     option: {
       passwordConfirm: '',
-      defaultSort: [[ 11, 'desc' ]],
+      defaultSort: [
+        [11, 'desc']
+      ],
       supplierList: [],
     }
   },
@@ -57,15 +57,15 @@ var appModel = {
 // appMain.log = function () {console.log("123")}
 appMain.addressColumn = function() {
   $('#twzipcode').twzipcode({});
-	$('#twzipcode input').addClass('form-control');
-	$('#twzipcode select').addClass('form-control');
+  $('#twzipcode input').addClass('form-control');
+  $('#twzipcode select').addClass('form-control');
 
   $("[name=userCity]").val($("[name=city]").val());
   $("[name=userCity]").change();
   $("[name=userDistrict]").val($("[name=district]").val());
   $("[name=userPostCode]").val($("[name=postCode]").val());
 
-  $('#twzipcode select').on('change', function(){
+  $('#twzipcode select').on('change', function() {
     $("[name=city]").val($("[name=userCity]").val());
     $("[name=district]").val($("[name=userDistrict]").val());
     $("[name=postCode]").val($("[name=userPostCode]").val());
@@ -84,14 +84,14 @@ appMain.addRoles = function() {
 }
 
 appMain.supplierRole = function() {
-  if ( $('input[name=supplier]').prop('checked') ) {
+  if ($('input[name=supplier]').prop('checked')) {
     $('select[name=supplier]').prop('disabled', false);
   } else {
     $('select[name=supplier]').prop('disabled', true);
   }
 
-  $("input[name=supplier]").on('change', function (event) {
-    if ( $('input[name=supplier]').prop('checked') ) {
+  $("input[name=supplier]").on('change', function(event) {
+    if ($('input[name=supplier]').prop('checked')) {
       $('select[name=supplier]').prop('disabled', false);
       $('select[name=supplier] option:first-child').prop('disabled', true);
       // $('select[name=supplier] option:nth-child(2)').prop('selected', true);
@@ -104,44 +104,44 @@ appMain.supplierRole = function() {
   });
 }
 
-appMain.loadSupllier = function () {
-  $.get('/api/admin/supplier', ajaxSuccess);
-  function ajaxSuccess(result) {
-    if (result.success) {
-      appModel.data.option.supplierList = result.data.items;
-    }
-  } // end ajaxSuccess
-},
+appMain.loadSupllier = function() {
+    $.get('/api/admin/supplier', ajaxSuccess);
 
-appMain.DateOfBirthday = function () {
-  $('input[name="birthday"]').datepicker({
-    changeYear: true,
-    yearRange: "-100:+0",
-    dateFormat: 'yy-mm-dd',
-    prevText: '<i class="fa fa-angle-left"></i>',
-    nextText: '<i class="fa fa-angle-right"></i>'
-  });
-}
+    function ajaxSuccess(result) {
+      if (result.success) {
+        appModel.data.option.supplierList = result.data.items;
+      }
+    } // end ajaxSuccess
+  },
 
-appMain.DataTableInitComplete = function() {
-  var exportBtn = '<a class="DTTT_button DTTT_button_text" id="ToolTables_main-table_custom_0" title="匯出壽星" tabindex="0" aria-controls="main-table"><span>匯出壽星</span></a>'
-  $(exportBtn).prependTo('.DTTT_container');
+  appMain.DateOfBirthday = function() {
+    $('input[name="birthday"]').datepicker({
+      changeYear: true,
+      yearRange: "-100:+0",
+      dateFormat: 'yy-mm-dd',
+      prevText: '<i class="fa fa-angle-left"></i>',
+      nextText: '<i class="fa fa-angle-right"></i>'
+    });
+  };
+
+appMain.addUserBdayExportButton = function() {
+  var newBtn = '<a class="DTTT_button DTTT_button_text" id="ToolTables_main-table_custom_0" title="匯出壽星" tabindex="0" aria-controls="main-table"><span>匯出壽星</span></a>';
+  $(newBtn).prependTo('.DTTT_container');
 
   $('#ToolTables_main-table_custom_0').on('click', function() {
     var download = function(url, data, id) {
-      $.post( url, data)
-      .done(function( result ) {
-        $('<iframe>', { id: id, src: '/api/admin/download?fileName=' + result.data }).hide().appendTo('body');
-      })
-      .fail(function( result ) {
-        console.log(result);
-      });
+      $.post(url, data)
+        .done(function(result) {
+          $('<iframe>', { id: id, src: '/api/admin/download?fileName=' + result.data }).hide().appendTo('body');
+        })
+        .fail(function(result) {
+          console.log(result);
+        });
     }
-
     $.SmartMessageBox({
-      title : "壽星資料",
-      content :"請選擇要匯出的月份：<br/>" +
-      "<select id='birthdayMonth' class='form-control'>" +
+      title: "壽星資料",
+      content: "請選擇要匯出的月份：<br/>" +
+        "<select id='birthdayMonth' class='form-control'>" +
         "<option value='1' >1 月</option>" +
         "<option value='2' >2 月</option>" +
         "<option value='3' >3 月</option>" +
@@ -154,18 +154,41 @@ appMain.DataTableInitComplete = function() {
         "<option value='10' >10月</option>" +
         "<option value='11' >11月</option>" +
         "<option value='12' >12月</option>" +
-      "</select> <br/>",
-      buttons : "[取消][匯出壽星資料]"
+        "</select> <br/>",
+      buttons: "[取消][匯出壽星資料]"
     }, function(ButtonPress) {
-      if(ButtonPress === '匯出壽星資料') {
+      if (ButtonPress === '匯出壽星資料') {
         var month = $("#birthdayMonth").val();
-        download('/api/admin/' + modelName + '/exportBirthday', { month: month} , 'exportExcel');
+        download('/api/admin/' + modelName + '/exportBirthday', { month: month }, 'exportExcel');
       }
     });
     var dateMonth = new Date();
     dateMonth = (dateMonth.getMonth() + 1).toString()
     $("#birthdayMonth").val(dateMonth);
   });
+};
 
+appMain.addFilterDeactivateUserButton = function() {
+  var newBtn = '<a class="DTTT_button DTTT_button_text" id="ToolTables_main-table_custom_1" title="已停用使用者" tabindex="1" aria-controls="main-table"><span>已停用使用者</span></a>';
+  $(newBtn).prependTo('.DTTT_container');
+
+  $('#ToolTables_main-table_custom_1').on('click', function() {
+      appMain.loadItems(appMain.renderTable, 'deactivate=true');
+  });
+};
+
+appMain.addFilterActivateUserButton = function() {
+  var newBtn = '<a class="DTTT_button DTTT_button_text" id="ToolTables_main-table_custom_2" title="全部使用者" tabindex="2" aria-controls="main-table"><span>全部使用者</span></a>';
+  $(newBtn).prependTo('.DTTT_container');
+
+  $('#ToolTables_main-table_custom_2').on('click', function() {
+      appMain.loadItems(appMain.renderTable);
+  });
+};
+
+appMain.DataTableInitComplete = function() {
+  appMain.addUserBdayExportButton();
+  appMain.addFilterDeactivateUserButton();
+  appMain.addFilterActivateUserButton();
   $('.loading-wrapper').removeClass('active');
 }
