@@ -104,10 +104,7 @@ appMain.supplierRole = function() {
   });
 }
 
-<<<<<<< HEAD
-appMain.loadSupllier = function() {
-    $.get('/api/admin/supplier', ajaxSuccess);
-=======
+
 appMain.loadSupllier = function () {
   $.get('/api/admin/supplier', ajaxSuccess);
   function ajaxSuccess(result) {
@@ -126,24 +123,6 @@ appMain.DateOfBirthday = function () {
     nextText: '<i class="fa fa-angle-right"></i>'
   });
 }
->>>>>>> f8b05db7bede8e01e832a5d2d1e25961f699647d
-
-    function ajaxSuccess(result) {
-      if (result.success) {
-        appModel.data.option.supplierList = result.data.items;
-      }
-    } // end ajaxSuccess
-  },
-
-  appMain.DateOfBirthday = function() {
-    $('input[name="birthday"]').datepicker({
-      changeYear: true,
-      yearRange: "-100:+0",
-      dateFormat: 'yy-mm-dd',
-      prevText: '<i class="fa fa-angle-left"></i>',
-      nextText: '<i class="fa fa-angle-right"></i>'
-    });
-  };
 
 appMain.addUserBdayExportButton = function() {
   var newBtn = '<a class="DTTT_button DTTT_button_text" id="ToolTables_main-table_custom_0" title="匯出壽星" tabindex="0" aria-controls="main-table"><span>匯出壽星</span></a>';
