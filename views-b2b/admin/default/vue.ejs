@@ -119,9 +119,9 @@ var defaultVueMathod = {
 		}; // end ajaxSuccess
 
     var ajaxError = function (result) {
-      let message = '讀取資料時發生錯誤。請稍候再試。';
+      var message = '讀取資料時發生錯誤。請稍候再試。';
       if (result.status === 403) {
-        let responseText = JSON.parse(result.responseText);
+        var responseText = JSON.parse(result.responseText);
         message = responseText.message;
       }
       var msg = {
@@ -196,24 +196,30 @@ var defaultVueMathod = {
 			messageApp.confirm(msgInfo, action);
 		} else return cb();
 	},
-	loadItems: function (cb) {
+	loadItems: function (cb, extraQuery) {
     $(".loading-wrapper").addClass('active');
 		window.onbeforeunload = null;
 		if (serverSidePaging) {
-			if (typeof cb !== 'undefined') setTimeout(cb, 0);
+			if (typeof cb !== 'undefined') setTimeout(cb(extraQuery), 0);
 			return;
 		}
-
+    var ajaxConfig = {
+      url: '/api/' + prefix + modelName + '?' + extraQuery,
+      // url: '/api/' + prefix + modelName + '?deactivate=true',
+      method: 'get',
+      dataType: 'json',
+    };
+    console.error('ajaxConfig.url', ajaxConfig.url);
 		var ajaxSuccess = function (result) {
-				console.log('result=>', result);
-				appModel.data.items = result.data.items;
-				if (typeof cb !== 'undefined') setTimeout(cb, 0);
-			} // end ajaxSuccess
+      console.log('result=>', result);
+      appModel.data.items = result.data.items;
+      if (typeof cb !== 'undefined') setTimeout(cb, 0);
+    }; // end ajaxSuccess
 
     var ajaxError = function (result) {
-      let message = '讀取資料時發生錯誤。請稍候再試。';
+      var message = '讀取資料時發生錯誤。請稍候再試。';
       if (result.status === 403) {
-        let responseText = JSON.parse(result.responseText);
+        var responseText = JSON.parse(result.responseText);
         message = responseText.message;
       }
       var msg = {
@@ -228,16 +234,8 @@ var defaultVueMathod = {
         location.href = '/admin';
       }
       messageApp.confirm(msg, action);
-
-    }
-    const ajaxConfig = {
-      url: '/api/' + prefix + modelName,
-      method: 'get',
-      dataType: 'json',
-    }
+    };
     $.ajax(ajaxConfig).done(ajaxSuccess).fail(ajaxError);
-
-		// $.get('/api/' + prefix + modelName, ajaxSuccess);
 	},
 	renderTable: function (getQuery) {
 		/* BASIC ;*/
@@ -256,7 +254,7 @@ var defaultVueMathod = {
 		var option = appModel.data.option;
 		var customAjax = option.ajax || {};
 		var url = customAjax.url || '/api/' + prefix + modelName;
-		url = url + "?serverSidePaging=" + serverSidePaging;
+		url = url + "?serverSidePaging=" + serverSidePaging + '&' + getQuery.replace('?','');
 		var ajax = {
 	    "url": url,
 	    "type": customAjax.method || 'get',
@@ -271,9 +269,9 @@ var defaultVueMathod = {
 	      return data
 	    },
       "error": function(result) {
-        let message = '讀取資料時發生錯誤。請稍候再試。';
+        var message = '讀取資料時發生錯誤。請稍候再試。';
         if (result.status === 403) {
-          let responseText = JSON.parse(result.responseText);
+          var responseText = JSON.parse(result.responseText);
           message = responseText.message;
         }
 
@@ -460,10 +458,12 @@ var defaultVueMathod = {
 
 		localStorage.removeItem('DataTablesResponsiveHelper_main-table');
 		localStorage.removeItem('DataTablesResponsiveHelper_main-table_admin');
+
+    $('#main-table').dataTable().fnDestroy();
 		defaultTable = $('#main-table').dataTable(defaultTableConfig);
 
 		if (!appModel.data.option.exportCSV) {
-			$('#ToolTables_main-table_0').hide()
+			$('#ToolTables_main-table_0').hide();
 		}
 		// selection
 		defaultTable.on('click', 'tr', function () {
