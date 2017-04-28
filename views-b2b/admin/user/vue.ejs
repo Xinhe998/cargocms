@@ -261,7 +261,7 @@ appMain.userEnabled = function(){
         };
 
         $.ajax({
-          url: '/api/' + prefix + modelName + '/enabled/' + userId,
+          url: '/api/' + prefix + modelName + '/activate/' + userId,
           type: 'PUT',
           dataType: 'json',
           data: {},

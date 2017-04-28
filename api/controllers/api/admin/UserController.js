@@ -147,7 +147,7 @@ module.exports = {
     }
   },
 
-  enabled: async (req, res) => {
+  activate: async (req, res) => {
     try{
       const { id } = req.params;
       const enabledUser = await User.findOne({
