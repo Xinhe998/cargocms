@@ -111,7 +111,7 @@ appMain.loadSupllier = function () {
       appModel.data.option.supplierList = result.data.items;
     }
   } // end ajaxSuccess
-},
+}
 
 appMain.DateOfBirthday = function () {
   $('input[name="birthday"]').datepicker({
@@ -168,4 +168,112 @@ appMain.DataTableInitComplete = function() {
   });
 
   $('.loading-wrapper').removeClass('active');
+}
+
+appMain.userDisabled = function () {
+  $('button.btn-danger').text('停用');
+};
+
+appMain.delete = function () {
+  var msg = {
+    title: '停用',
+    content: '確認停用此筆資料？',
+    btnArray: ['停用', '取消'],
+  };
+  var action = function (ButtonPressed) {
+    if (ButtonPressed === '停用') {
+      var ajaxSuccess = function (result) {
+        appModel.view.table.selectIndex = COMMON.DEFAULT_INDEX;
+        messageApp.show({
+          desc: `停用資料成功！`,
+          type: 'success'
+        });
+        var callbackUrl = $('#main-form').data('callback') || '';
+        var url = '/admin/#/admin/' + modelName;
+        if (callbackUrl!== '') {
+          url = '/admin/#/admin' + callbackUrl;
+        }
+        location.href = url;
+        setTimeout(function () {
+          location.href = url;
+        }, 500);
+      }; // end ajaxSuccess
+
+      var ajaxError = function (result) {
+        messageApp.show({
+          desc: '停用資料失敗！errorMessage: ' + result.responseJSON.message,
+          type: 'error'
+        });
+      };
+
+      $.ajax({
+        url: '/api/' + prefix + modelName + '/' + appModel.data.item.id,
+        type: 'DELETE',
+        dataType: 'json',
+        xhrFields: {
+          withCredentials: true
+        },
+        success: ajaxSuccess,
+        error: ajaxError,
+      });
+    }
+  };
+  messageApp.confirm(msg, action);
+};
+
+appMain.hideUserDisabledBtn = function () {
+  $('button.btn-danger').addClass('hidden');
+};
+
+appMain.userEnabled = function(){
+  var userId = appMain.data.item.id;
+  var checkBtn = '<button type="button" class="btn btn-success pull-left">啟用</button>';
+  $(checkBtn).prependTo('footer');
+
+  $('.btn-success').on('click', function(){
+    $.SmartMessageBox({
+      title : "提醒",
+      content:'是否啟用此帳號 ? ',
+      buttons : "[確認][取消]"
+    },function(ButtonPress) {
+        if(ButtonPress === "取消"){
+          return 0;
+        }
+        
+        var ajaxSuccess = function (result) {
+          location.href = '/admin/#/admin/' + modelName;
+          appMain.dismissMessageBox();
+          messageApp.show({
+          desc: '啟用成功！',
+          type: 'success'
+          });
+        }; // end ajaxSuccess
+
+        var ajaxError = function (result) {
+          setTimeout(function(){
+            location.replace('/admin/login');
+          },800);
+          appMain.dismissMessageBox();
+          messageApp.show({
+            desc: '啟用失敗！errorMessage: ' + result.responseJSON.message,
+            type: 'error'
+          });
+        };
+
+        $.ajax({
+          url: '/api/' + prefix + modelName + '/enabled/' + userId,
+          type: 'PUT',
+          dataType: 'json',
+          data: {},
+          xhrFields: {
+          withCredentials: true,
+          },
+          success: ajaxSuccess,
+          error: ajaxError,
+        }).done(function(result){
+          defaultTable.api().ajax.reload(null, false);
+        });
+      }
+    );
+  });
 }
