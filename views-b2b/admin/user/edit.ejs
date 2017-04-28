@@ -13,6 +13,13 @@
       appMain.onEnterPageEdit();
       appMain.supplierRole();
       appMain.addressColumn();
+
+      if (appMain.data.item.deletedAt) {
+        appMain.hideUserDisabledBtn();
+        appMain.userEnabled();
+      } else {
+        appMain.userDisabled();
+      }
     });
 
 
@@ -22,7 +29,7 @@
 
 		appMain.setupForm("edit");
     appMain.DateOfBirthday();
-
+    
 	};
 
 </script>
