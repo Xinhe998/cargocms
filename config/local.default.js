@@ -18,7 +18,7 @@ module.exports = {
         clientID: '',
         clientSecret: '',
         callbackURL: "http://localhost:5001/auth/facebook/callback",
-        scope: [ 'email', 'public_profile' ],
+        scope: ['email', 'public_profile'],
         profileFields: [
           'id', 'email', 'gender', 'link', 'locale',
           'name', 'timezone', 'updated_time', 'verified',
@@ -49,18 +49,16 @@ module.exports = {
     hashKey: '5294y06JbISpM5x9',
     hashIV: 'v77hoKGq4kWxNNIS',
     debug: true,
-    ReturnURL:'/api/allpay/paid',
-    ClientBackURL:'/shop/done',
-    PaymentInfoURL:'/api/allpay/paymentinfo',
-    paymentMethod:[
-      {
-        code: 'ATM',
-        name: 'ATM'
-      },{
-        code: 'Credit',
-        name: '信用卡'
-      }
-    ]
+    ReturnURL: '/api/allpay/paid',
+    ClientBackURL: '/shop/done',
+    PaymentInfoURL: '/api/allpay/paymentinfo',
+    paymentMethod: [{
+      code: 'ATM',
+      name: 'ATM'
+    }, {
+      code: 'Credit',
+      name: '信用卡'
+    }]
   },
   reCAPTCHA: {
     key: '',
@@ -99,5 +97,11 @@ module.exports = {
        */
       level: 'info'
     }
-  }
+  },
+  defaultPaymentMethods: [{
+     // type of payment
+    key: 'ATM',
+     // value of type ATM. In this case, value is ATM account number.
+    value: 'Default ATM account number'
+  }]
 }
