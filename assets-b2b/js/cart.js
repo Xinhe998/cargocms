@@ -1,15 +1,15 @@
 function getProductInfo(productDom) {
   var max = parseInt(productDom.find('input').prop('max'));
   var number = parseInt(productDom.find('input').val());
-  if (number > max ){
+  if (number > max) {
     number = max;
     swal({
-      title:'提示',
+      title: '提示',
       text: `<p>訂購數量超過庫存量。</p></br></p>可購買數量 ${max} 包</p>`,
       html: true
     })
   }
-  if(!number) number = 0;
+  if (!number) number = 0;
   var price = Number(productDom.find('.product-price span').text());
   var quantity = Number(number);
   var tax = Number(productDom.find('.product-tax').text());
@@ -27,11 +27,33 @@ function getProductInfo(productDom) {
   return product;
 }
 
+/**
+ * 單層物件比對
+ * @param {Object} a - 物件a
+ * @param {Object} b - 物件b
+ * @return {Boolean} 是否相同
+ */
+function objCompare(a, b) {
+  for (let k in a)
+    if (a[k] !== b[k])
+      return false;
+  return true;
+}
+
+/**
+ * 將產品存進購物車(localStorage)
+ * @param {Object} product - 產品物件
+ * @return {Boolean} 購物車的產品是否有改變
+ */
 function storeToCart(product) {
   var cart = JSON.parse(localStorage.cart || '[]');
   var replace = false;
-  cart = $(cart).map(function (i, e) {
+  let isChanged = false;
+  cart = $(cart).map(function(i, e) {
     if (e.id === product.id && e.optionId === product.optionId) {
+      // 如果原本購物車中的產品數量，等於儲存的產品數量，代表沒有改變購物車資料
+      isChanged = !(objCompare(product, e));
+
       replace = true;
       return product;
     } else return e;
@@ -39,17 +61,19 @@ function storeToCart(product) {
   if (!replace) {
     cart.push(product);
   }
-  cart = $(cart).filter(function (i, e) {
-    if(e.quantity == 0) return false;
+  cart = $(cart).filter(function(i, e) {
+    if (e.quantity == 0) return false;
     else return true;
   }).toArray();
   localStorage.cart = JSON.stringify(cart);
+
+  return isChanged
 }
 
 function removeFromCart(product) {
   var cart = JSON.parse(localStorage.cart || '[]');
-  cart = $(cart).filter(function (i, e) {
-    if(e.id == product.id && e.optionId === product.optionId) return false;
+  cart = $(cart).filter(function(i, e) {
+    if (e.id == product.id && e.optionId === product.optionId) return false;
     else return true;
   }).toArray();
   localStorage.cart = JSON.stringify(cart);
@@ -78,14 +102,14 @@ function updateCartInput() {
   }
 }
 
-$(function () {
+$(function() {
   updateCartInput();
-  $(window).on('modifyCart', function () {
+  $(window).on('modifyCart', function() {
     updateCartInput();
   });
 
   $('.product input[type="number"]').bootstrapNumber();
-  $('.product .input-group').click(function (e) {
+  $('.product .input-group').click(function(e) {
     e.preventDefault();
   });
 
@@ -130,8 +154,17 @@ $(function () {
       taxPrice: tax,
     };
     if (isNaN(product.quantity)) product.quantity = 0;
-    storeToCart(product);
+    const isCartChanged = storeToCart(product);
     $(window).trigger('modifyCart');
+
+    toastr.options = {
+      "positionClass": "toast-top-center"
+    }
+    if (isCartChanged)
+      toastr.info(`成功將「${product.name}」${product.optionValue} ${product.quantity} 份加進購物車`);
+    else
+      toastr.info(`「${product.name}」${product.optionValue} ${product.quantity} 份已經在購物車中囉`);
+
   });
 });
 
@@ -141,14 +174,14 @@ var Cart = new Vue({
     carts: JSON.parse(localStorage.cart || '[]'),
   },
   methods: {
-    removeProduct: function (index, event) {
+    removeProduct: function(index, event) {
       removeFromCart(index);
       $(window).trigger('modifyCart');
       this.carts = JSON.parse(localStorage.cart || '[]');
     },
   },
-  created: function () {
-    $(window).on('modifyCart', function () {
+  created: function() {
+    $(window).on('modifyCart', function() {
       this.carts = JSON.parse(localStorage.cart || '[]');
     }.bind(this));
   }
@@ -160,21 +193,21 @@ var OrderForm = new Vue({
     carts: JSON.parse(localStorage.cart || '[]'),
   },
   methods: {
-    removeProduct: function (index, event) {
+    removeProduct: function(index, event) {
       removeFromCart(index);
       $(window).trigger('modifyCart');
       this.carts = JSON.parse(localStorage.cart || '[]');
     },
   },
   computed: {
-    priceSum: function () {
+    priceSum: function() {
       var sum = 0;
       $(this.carts).each(function(index, el) {
         sum += el.noTaxPrice;
       });
       return sum;
     },
-    taxPrice: function () {
+    taxPrice: function() {
       var sum = 0;
       $(this.carts).each(function(index, el) {
         sum += el.taxPrice;
@@ -182,16 +215,16 @@ var OrderForm = new Vue({
       return sum;
     }
   },
-  created: function () {
-    $(window).on('modifyCart', function () {
+  created: function() {
+    $(window).on('modifyCart', function() {
       this.carts = JSON.parse(localStorage.cart || '[]');
     }.bind(this));
   },
 
   filters: {
-    moneyNum: function( n ){
+    moneyNum: function(n) {
       var moneyFormat = /(\d)(?=(\d{3})+(?!\d))/g;
-      return n.toString().replace( moneyFormat , "$1,");
+      return n.toString().replace(moneyFormat, "$1,");
     }
   }
 
