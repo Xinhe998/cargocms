@@ -29,13 +29,15 @@ function getProductInfo(productDom) {
 
 /**
  * 單層物件比對
- * @param {Object} a - 物件a
- * @param {Object} b - 物件b
+ * @param {Object} obj1 - 物件1
+ * @param {Object} obj2 - 物件2
  * @return {Boolean} 是否相同
  */
-function objCompare(a, b) {
-  for (let k in a)
-    if (a[k] !== b[k])
+function objCompare(obj1, obj2) {
+  var keys = Object.keys(obj1).concat(Object.keys(obj2))
+  console.log(keys)
+  for (var i in keys)
+    if (obj1[keys[i]] !== obj2[keys[i]])
       return false;
   return true;
 }
@@ -48,21 +50,21 @@ function objCompare(a, b) {
 function storeToCart(product) {
   var cart = JSON.parse(localStorage.cart || '[]');
   var replace = false;
-  let isChanged = false;
-  cart = $(cart).map(function(i, e) {
-    if (e.id === product.id && e.optionId === product.optionId) {
+  var isChanged = false;
+  cart = $(cart).map(function(i, productInCart) {
+    if (productInCart.id === product.id && productInCart.optionId === product.optionId) {
       // 如果原本購物車中的產品數量，等於儲存的產品數量，代表沒有改變購物車資料
-      isChanged = !(objCompare(product, e));
+      isChanged = !(objCompare(product, productInCart));
 
       replace = true;
       return product;
-    } else return e;
+    } else return productInCart;
   }).toArray();
   if (!replace) {
     cart.push(product);
   }
-  cart = $(cart).filter(function(i, e) {
-    if (e.quantity == 0) return false;
+  cart = $(cart).filter(function(i, productInCart) {
+    if (productInCart.quantity == 0) return false;
     else return true;
   }).toArray();
   localStorage.cart = JSON.stringify(cart);
@@ -154,7 +156,7 @@ $(function() {
       taxPrice: tax,
     };
     if (isNaN(product.quantity)) product.quantity = 0;
-    const isCartChanged = storeToCart(product);
+    var isCartChanged = storeToCart(product);
     $(window).trigger('modifyCart');
 
     toastr.options = {
