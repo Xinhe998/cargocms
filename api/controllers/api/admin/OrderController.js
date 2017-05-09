@@ -117,7 +117,7 @@ module.exports = {
       data.acceptLanguage = '';
 
       // prevent user send deletedAt and make order removed
-      delete data.deletedAt
+      delete data.deletedAt;
       
       const message = 'Update success.';
       const item = await Order.update(data ,{
