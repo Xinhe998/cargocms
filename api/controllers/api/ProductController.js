@@ -1,14 +1,15 @@
 module.exports = {
   find: async (req , res) => {
     try{
-      const {start, length, category, supplier, limit} = req.query;
+      const {start, length, category, supplier, limit, q} = req.query;
 
-      const result = await ProductService.findAll({
+      const result = await ProductService.find({
         start,
         length,
         categoryId: category,
         supplierId: supplier,
-        limit
+        limit,
+        keyword: q
       });
 
       const message = 'Get Product Success';
