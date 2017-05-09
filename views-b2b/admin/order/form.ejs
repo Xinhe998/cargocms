@@ -311,48 +311,24 @@
 
 </fieldset>
 <script>
-var formRules = {
-  firstname: {
-    required: true
-  },
-  lastname: {
-    required: true
-  },
-  email: {
-    required: true,
-    email: true,
-  },
-  telephone: {
-    required: true
-  },
-  fax: {
-    required: true
-  },
-  shippingFirstname: {
-    required: true
-  },
-  shippingLastname: {
-    required: true
-  },
-  shippingAddress1: {
-    required: true
-  },
-  shippingCity: {
-    required: true
-  },
-  shippingPostcode: {
-    required: true
-  },
-  shippingMethod: {
-    required: true
-  },
-  total: {
-    required: true
-  },
-  tracking: {
-    required: true
-  }
-}
+var formRules = {}
+const requiredFieldName =[
+  "firstname", 
+  "lastname", 
+  "email",
+  "telephone", 
+  "fax",
+  "shippingFirstname",
+  "shippingLastname", 
+  "shippingAddress1", 
+  "shippingCity", 
+  "shippingPostcode",
+  "shippingMethod", 
+  "total", 
+  "tracking"
+]
+requiredFieldName.forEach((field) => formRules[field] = {required:true})
+formRules.email.email = true
 
 // Messages for form validation
 var formMessages = {
