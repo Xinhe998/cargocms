@@ -1,11 +1,13 @@
 module.exports = {
-  find: async ({start, length, categoryId, supplierId, limit}) => {
+  find: async ({start, length, categoryId, supplierId, limit, keyword}) => {
     try{
-
       let query = {
         order: 'sortOrder ASC',
         where: {
           publish: true,
+          model:{
+            $like: (keyword) ? `%${keyword}%` : '%'
+          }
         },
         include: [
           {

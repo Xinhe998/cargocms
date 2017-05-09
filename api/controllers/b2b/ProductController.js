@@ -1,7 +1,7 @@
 module.exports = {
   index: async (req, res) => {
     try{
-      let {start, length, category, supplier, limit} = req.query;
+      let {start, length, category, supplier, limit, q} = req.query;
 
       if( !category ){
         category = 1;
@@ -12,7 +12,8 @@ module.exports = {
         length,
         categoryId: category,
         supplierId: supplier,
-        limit
+        limit,
+        keyword: q
       });
 
       let categorys = await Category.findAll({
