@@ -26,21 +26,21 @@
   <div class="row">
     <section class="col col-lg-4 col-xs-4">
       <label class="label">總價</label>
-      <label class="input state-disabled">
+      <label class="input state-disabled fn-edit-disabled">
         <input type="text" name="total" placeholder="" v-model="data.item.total" disabled>
         <b class="tooltip tooltip-bottom-right">總價</b></label>
     </section>
 
     <section class="col col-lg-4 col-xs-4">
       <label class="label">稅額</label>
-      <label class="input state-disabled">
+      <label class="input state-disabled fn-edit-disabled">
         <input type="text" name="tax" placeholder="" v-model="data.item.tax" disabled>
         <b class="tooltip tooltip-bottom-right">稅額</b></label>
     </section>
 
     <section class="col col-lg-4 col-xs-4">
       <label class="label">含稅總價</label>
-      <label class="input state-disabled">
+      <label class="input state-disabled fn-edit-disabled">
         <input type="text" name="totalIncludeTax" placeholder="" v-model="data.item.totalIncludeTax" disabled>
         <b class="tooltip tooltip-bottom-right">含稅總價</b></label>
     </section>
@@ -317,7 +317,6 @@ const requiredFieldName =[
   'lastname', 
   'email',
   'telephone', 
-  'fax',
   'shippingFirstname',
   'shippingLastname', 
   'shippingAddress1', 
@@ -343,9 +342,6 @@ var formMessages = {
   },
   telephone: {
     required: '請給予電話'
-  },
-  fax: {
-    required: '請給予傳真號碼'
   },
   shippingFirstname: {
     required: '請給予運送名字'
