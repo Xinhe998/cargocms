@@ -313,19 +313,19 @@
 <script>
 var formRules = {}
 const requiredFieldName =[
-  "firstname", 
-  "lastname", 
-  "email",
-  "telephone", 
-  "fax",
-  "shippingFirstname",
-  "shippingLastname", 
-  "shippingAddress1", 
-  "shippingCity", 
-  "shippingPostcode",
-  "shippingMethod", 
-  "total", 
-  "tracking"
+  'firstname', 
+  'lastname', 
+  'email',
+  'telephone', 
+  'fax',
+  'shippingFirstname',
+  'shippingLastname', 
+  'shippingAddress1', 
+  'shippingCity', 
+  'shippingPostcode',
+  'shippingMethod', 
+  'total', 
+  'tracking'
 ]
 requiredFieldName.forEach((field) => formRules[field] = {required:true})
 formRules.email.email = true
@@ -333,43 +333,43 @@ formRules.email.email = true
 // Messages for form validation
 var formMessages = {
   firstname: {
-    required: "請給予名字"
+    required: '請給予名字'
   },
   lastname: {
-    required: "請給予姓氏"
+    required: '請給予姓氏'
   },
   email: {
-    required: "請給予電子郵件"
+    required: '請給予電子郵件'
   },
   telephone: {
-    required: "請給予電話"
+    required: '請給予電話'
   },
   fax: {
-    required: "請給予傳真號碼"
+    required: '請給予傳真號碼'
   },
   shippingFirstname: {
-    required: "請給予運送名字"
+    required: '請給予運送名字'
   },
   shippingLastname: {
-    required: "請給予運送姓氏"
+    required: '請給予運送姓氏'
   },
   shippingAddress1: {
-    required: "請給予運送地址"
+    required: '請給予運送地址'
   },
   shippingCity: {
-    required: "請給予運送縣市"
+    required: '請給予運送縣市'
   },
   shippingPostcode: {
-    required: "請給予運送郵遞區號"
+    required: '請給予運送郵遞區號'
   },
   shippingMethod: {
-    required: "請給予運送方式"
+    required: '請給予運送方式'
   },
   total: {
-    required: "請給予總數"
+    required: '請給予總數'
   },
   tracking: {
-    required: "請給予追蹤代碼"
+    required: '請給予追蹤代碼'
   }
 }
 </script>
