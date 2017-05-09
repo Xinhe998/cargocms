@@ -163,9 +163,9 @@ $(function() {
       "positionClass": "toast-top-center"
     }
     if (isCartChanged)
-      toastr.info(`成功將「${product.name}」${product.optionValue} ${product.quantity} 份加進購物車`);
+      toastr.info('成功將「' + product.name + '」' + product.optionValue + ' ' + product.quantity + ' 份加進購物車');
     else
-      toastr.info(`「${product.name}」${product.optionValue} ${product.quantity} 份已經在購物車中囉`);
+      toastr.info('「' + product.name + '」' + product.optionValue + ' ' + product.quantity + ' 份已經在購物車中囉');
 
   });
 });
