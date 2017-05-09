@@ -466,6 +466,7 @@ var defaultVueMathod = {
 			$('#ToolTables_main-table_0').hide();
 		}
 		// selection
+    defaultTable.off('click', 'tr');
 		defaultTable.on('click', 'tr', function () {
 
 			if ($(this).hasClass('selected')) {

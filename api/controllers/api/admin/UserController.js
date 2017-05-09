@@ -89,6 +89,19 @@ module.exports = {
     const { id } = req.params;
     try {
       sails.log.info('delete user controller=>', id);
+      const checkUser = await User.findOne({
+        where: {
+          id
+        },
+        include: Role
+      });
+      const userRoles = checkUser.Roles;
+      for (const role of userRoles) {
+        if (role.authority === 'admin') {
+          throw Error('Admin account can not disabled.');
+        }
+      }
+
       const user = await User.deleteById(id);
       res.ok({
         message: 'Delete user success.',
