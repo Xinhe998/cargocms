@@ -12,13 +12,17 @@ module.exports = {
        * @property {String} query.sort - 用哪個屬性來排序 ('price'|'time')
        * @property {String} query.sortDir - 排序方向 ('asc'|'desc')
        */
-      let {start, length, category, supplier, limit, q, sort, sortDir = 'asc'} = req.query;
+      let 
+        query = req.query,
+        {start, length, category, supplier, limit, q, sort, sortDir = 'asc'} = query;
 
       if( !category ){
         category = 1;
       }
       
       // 防錯
+      if(sort.split('|').length > 1)
+        [sort, sortDir] = sort.split('|')
       sort = ['price', 'time'].Find((e) => e === sort);
       sortDir = ['asc', 'desc'].Find((e) => e === sortDir.toLowerCase());
       sort = (sort === 'time') ? 'createdAt' : sort;
@@ -49,6 +53,8 @@ module.exports = {
           data:{
             items: result,
             categorys,
+            query: Object.assign({start: '', length: '', category: '', supplier: '', limit: '', q: '', sort: '', sortDir: ''},
+            query),
           },
           errors: req.flash('error')[0],
         }

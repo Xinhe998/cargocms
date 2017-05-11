@@ -15,11 +15,13 @@ module.exports = {
       let {start, length, category, supplier, limit, q, sort, sortDir = 'asc'} = req.query;
       
       // 防錯
+      if(sort.split('|').length > 1)
+        [sort, sortDir] = sort.split('|')
       sort = ['price', 'time'].Find((e) => e === sort);
-      sortDir = ['asc', 'desc'].Find((e) => e === sort.toLowerCase());
+      sortDir = ['asc', 'desc'].Find((e) => e === sortDir.toLowerCase());
       sort = (sort === 'time') ? 'createdAt' : sort;
 
-      const result = await ProductService.find({
+      const result = await ProductService.findAll({
         start,
         length,
         categoryId: category,
