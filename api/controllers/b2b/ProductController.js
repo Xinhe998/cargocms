@@ -1,26 +1,3 @@
-if (!Array.prototype.findE) {
-  Array.prototype.findE = function(predicate) {
-    if (this === null) {
-      throw new TypeError('Array.prototype.findE called on null or undefined');
-    }
-    if (typeof predicate !== 'function') {
-      throw new TypeError('predicate must be a function');
-    }
-    var list = Object(this);
-    var length = list.length >>> 0;
-    var thisArg = arguments[1];
-    var value;
-
-    for (var i = 0; i < length; i++) {
-      value = list[i];
-      if (predicate.call(thisArg, value, i, list)) {
-        return value;
-      }
-    }
-    return undefined;
-  };
-}
-
 module.exports = {
   index: async (req, res) => {
     try{
@@ -42,8 +19,8 @@ module.exports = {
       }
       
       // 防錯
-      sort = ['price', 'time'].findE((e) => e === sort);
-      sortDir = ['asc', 'desc'].findE((e) => e === sortDir.toLowerCase());
+      sort = ['price', 'time'].Find((e) => e === sort);
+      sortDir = ['asc', 'desc'].Find((e) => e === sortDir.toLowerCase());
       sort = (sort === 'time') ? 'createdAt' : sort;
       
 

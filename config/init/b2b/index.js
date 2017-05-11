@@ -9,6 +9,7 @@ import supplier from './supplier';
 import supplierShipOrder from './suppliershiporder';
 import user from './../default/user';
 import qa from './qa';
+import polyfill from './polyfill';
 
 const importHelper = async(modelName, obj) => {
     try {
@@ -33,6 +34,9 @@ module.exports = {
         await fakeusers.init();
         await user.init();
         await qa.init();
+        
+        sails.log("=== polyfill b2b ===");
+        polyfill.init();
 
         await ImportDataService.create(importHelper);
     }
