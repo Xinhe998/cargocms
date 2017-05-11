@@ -13,10 +13,11 @@ import fs from 'fs';
 import shortid from 'shortid';
 import MailerService from 'sails-service-mailer';
 import rc from 'rc';
+import polyfill from './polyfill';
 module.exports.bootstrap = async (cb) => {
 
-
   try {
+  
     if(!sails.config.appUrl) sails.config.appUrl = "localhost:"+ sails.config.port
     if(sails.config.appUrl.endsWith('/'))
     sails.config.appUrl = sails.config.appUrl.substr(0, sails.config.appUrl.length - 1)
@@ -208,6 +209,9 @@ module.exports.bootstrap = async (cb) => {
 
     await ConfigService.sync();
     await ConfigService.load();
+
+    sails.log('=== polyfill ===');
+    polyfill.init();
 
     cb();
   } catch (e) {

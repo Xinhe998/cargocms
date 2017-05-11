@@ -42,10 +42,8 @@ module.exports = {
         });
       }
       
-      if(sortBy) {
+      if(sortBy)
         query.order.unshift((sortDir) ? [sortBy, sortDir] : sortBy);
-        console.log(query.order)
-      }
 
       if ( limit === 'true'){
         query.offset = Number(start);
