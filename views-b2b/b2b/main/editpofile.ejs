@@ -235,11 +235,12 @@
 <% LayoutUtils.addScripts('/assets/b2b/page/profile/edit.js'); %>
 <% LayoutUtils.addScripts('/assets/admin/js/libs/fine-uploader.min.js'); %>
 <% LayoutUtils.addScripts('/assets/b2b/lib/fineuploader.js'); %>
+<% const title = req.flash('title')[0]; %>
 <% const info = req.flash('info')[0]; %>
 <% if (info) { %>
 
   <% LayoutUtils.addScriptBlock(`
-    sweetAlert('提示', '${info}', 'info');
+    sweetAlert('${title || ''}', '${info}', 'success');
   `); %>
   
 <% } %>
