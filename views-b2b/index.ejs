@@ -46,16 +46,21 @@
 	<div class="row b2b-content b2b-content-body">
 	  
     <form method="GET">
-      <% const q = data.query %>
+      <% const q = data.query; %>
       <input type="hidden" name="start" value="<%= q.start %>" /> 
       <input type="hidden" name="length" value="<%= q.length %>" /> 
       <input type="hidden" name="category" value="<%= q.category %>" /> 
       <input type="hidden" name="limit" value="<%= q.limit %>" /> 
       <ol class="breadcrumb">
         <li><input name="q" type="text" class="form-control" placeholder="搜尋產品" value="<%= q.q %>"></li>
-        <li><button class="btn btn-link" name="sort" value="price|asc">價格低至高</button></li>
-        <li><button class="btn btn-link" name="sort" value="price|desc" onclick="console.log(this);">價格高至低</button></li>
-        <li><button class="btn btn-link" name="sort" value="time">最新上架</button></li>
+        <% ['price|asc|價格低至高', 'price|desc|價格高至低', 'time|asc|最新上架'].forEach((sort) => { %>
+          <% const [sortBy, sortDir, sortName] = sort.split('|'); %>
+          <% if(`${sortBy}|${sortDir}` === `${q.sort}|${q.sortDir}`) { %>
+            <li class="active"><%= sortName %></li>
+          <% } else { %>
+            <li><button class="btn btn-link" name="sort" value="<%= `${sortBy}|${sortDir}` %>"><%= sortName %></button></li>
+          <% } %>       
+        <% }) %>       
       </ol>       
     </form>
     
