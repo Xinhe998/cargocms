@@ -99,5 +99,9 @@ module.exports = {
        */
       level: 'info'
     }
-  }
+  },
+  paymentMethods: [
+    'ATM轉帳',  
+    '貨到付款'  
+  ]
 }
