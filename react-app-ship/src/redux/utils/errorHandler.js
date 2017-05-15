@@ -51,6 +51,7 @@ export function handleResponse(
       case 404:
         break;
       case 500:
+        message = '伺服器連線發生錯誤，請稍候再試！';
         break;
       default:
         break;
