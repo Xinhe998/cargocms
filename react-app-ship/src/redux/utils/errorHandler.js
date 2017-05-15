@@ -49,11 +49,13 @@ export function handleResponse(
         }
         break;
       case 404:
+        message = '找不到連線對象，請回報網站管理員。';
         break;
       case 500:
-        message = '伺服器連線發生錯誤，請稍候再試！';
+        message = '伺服器連線發生錯誤，請稍候再試。';
         break;
       default:
+        message = '發生未知錯誤，請稍候再試！';
         break;
     }
     dispatch(deliverErrorStatus(response, message));
