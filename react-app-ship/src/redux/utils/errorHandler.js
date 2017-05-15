@@ -1,5 +1,5 @@
 /* @flow */
-import Lang from 'lodash';
+import _ from 'lodash';
 import { replace } from 'react-router-redux';
 import { handleShowToast } from './toast';
 import log from './logs';
@@ -29,12 +29,13 @@ export function handleResponse(
   },
 ) {
   const response = result.response;
-  // const responseDetail = Lang.isUndefined(response.data) ?
-  //   '' : Lang.isUndefined(response.data.message) ? '' : response.data.message;
-  let message = result.message;
+  const responseDetail = _.isNil(_.findKey(response, 'message')) ? '' : response.data.message;
+  let message = '';
   return (dispatch) => {
-    log.error('[errorHandler] origin error response description: ', response.data.message);
-    log.error('[errorHandler] origin error message: ', message);
+    // if (response.data.message) {
+    //   log.error('[errorHandler] origin error response description: ', response.data.message);
+    // }
+    log.error('[errorHandler] error message: %o. (%o)', responseDetail, response.status);
     switch (response.status) {
       case 401:
         dispatch(replace('/ship/login'));
