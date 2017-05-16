@@ -1,15 +1,17 @@
 module.exports = {
-  createOrder: async (req, res) => {
+  createOrder: async(req, res) => {
     const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
-    let transaction = await sequelize.transaction({isolationLevel});
-    try{
+    let transaction = await sequelize.transaction({
+      isolationLevel
+    });
+    try {
       let data = req.body;
       const loginUser = AuthService.getSessionUser(req);
       data.UserId = loginUser.id;
 
-      if( data.firstname !== loginUser.firstName || data.lastname  !== loginUser.lastName){
+      if (data.firstname !== loginUser.firstName || data.lastname !== loginUser.lastName) {
         data.firstname = loginUser.firstName;
-        data.lastname  = loginUser.lastName;
+        data.lastname = loginUser.lastName;
       }
 
       // some data can fetch from request
@@ -22,14 +24,20 @@ module.exports = {
 
       // check Product Numbers
       const products = JSON.parse(data.products);
-      const stock = await ProductService.checkStock({transaction, products});
+      const stock = await ProductService.checkStock({
+        transaction,
+        products
+      });
       if (!stock) throw Error('訂購的產品庫存量不足！');
 
       const order = await OrderService.createOrder(transaction, data);
       transaction.commit();
 
       try {
-        const orderProductStringTable = await OrderService.stringOrderProduct({ modelName:'orderproduct' ,orderId: order.id });
+        const orderProductStringTable = await OrderService.stringOrderProduct({
+          modelName: 'orderproduct',
+          orderId: order.id
+        });
 
         let mailMessage = {};
         mailMessage.serialNumber = order.orderNumber;
@@ -80,22 +88,22 @@ module.exports = {
     }
   },
 
-  getOrderInfo: async (req, res) => {
-    try{
+  getOrderInfo: async(req, res) => {
+    try {
       const orderNumber = req.params.orderNumber;
       const order = await Order.findOne({
         where: {
           orderNumber
         },
-        include: [ User , OrderStatus ]
-       });
+        include: [User, OrderStatus]
+      });
       const loginUser = AuthService.getSessionUser(req);
       let message = '';
-      if(!order){
+      if (!order) {
         return res.notFound();
       }
 
-      if(!loginUser || loginUser.id !== order.UserId){
+      if (!loginUser || loginUser.id !== order.UserId) {
         message = '您沒有足夠權限瀏覽此網頁';
         return res.forbidden(message);
       }
@@ -108,24 +116,36 @@ module.exports = {
 
       message = 'get Order info success';
 
-      res.view('b2b/order/index',{
+      // get all payment methods from db
+      let paymentMethods = await Config.findAll({
+        where: {
+          name: 'paymentSetting'
+        }
+      })
+      
+        // if nothing in DB, use default method in config/local.js
+      if (paymentMethods.length === 0)
+        paymentMethods = JSON.parse(sails.config.defaultPaymentMethods) || [] // if nothing in config/local.js, empty methods
+
+      res.view('b2b/order/index', {
         message: message,
         data: {
           item: order,
           product: orderProduct,
+          paymentMethods: paymentMethods || []
         }
       });
 
-    } catch(e) {
+    } catch (e) {
       res.serverError(e);
     }
   },
-  getOrderHistory: async (req, res) => {
-    try{
+  getOrderHistory: async(req, res) => {
+    try {
       let user = AuthService.getSessionUser(req);
 
       let message = ''
-      if(!user){
+      if (!user) {
         message = '您沒有權限瀏覽此網頁，請先登入。';
         return res.forbidden(message);
       }
@@ -135,13 +155,15 @@ module.exports = {
           UserId: user.id
         },
         include: [OrderStatus, OrderProduct],
-        order: [['createdAt', 'DESC']],
+        order: [
+          ['createdAt', 'DESC']
+        ],
       })
 
       message = 'get order history success.';
-      res.view('b2b/order/orderhistory',{
+      res.view('b2b/order/orderhistory', {
         message,
-        data:{
+        data: {
           items
         }
       });
