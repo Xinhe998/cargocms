@@ -66,7 +66,10 @@ module.exports.bootstrap = async (cb) => {
         username: 'admin',
         email: 'admin@example.com',
         firstName: '李仁',
-        lastName: '管'
+        lastName: '管',
+        address: '凱達格蘭大道 1 號',
+        phone1: '0123456789',
+        postCode: '802',
       });
     }
 
