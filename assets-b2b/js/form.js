@@ -41,19 +41,25 @@ $(document).ready(function() {
 		};
 		var catchFail = function(result, textStatus, errorThrown) {
 
-      let message = '建立訂單時出現問題，請稍候再試。'
-      if (result.status === 403) {
-        let responseText = JSON.parse(result.responseText);
-        message = responseText.message;
+      var message = '建立訂單時出現問題，請稍候再試。'
+      switch (result.status) {
+        case 403:
+          var responseText = JSON.parse(result.responseText);
+          message = responseText.message;
+          break;
+        case 500:
+          var responseText = JSON.parse(result.responseText);
+          message = responseText.message;
+          break;
       }
 			swal({
         title: '錯誤',
         text: message,
         type: 'error',
-      },function(confirm){
-        if (result.status === 403) {
+      }, function(confirm){
+        // if (result.status === 403) {
           location.reload();
-        }
+        // }
       });
 		};
 
