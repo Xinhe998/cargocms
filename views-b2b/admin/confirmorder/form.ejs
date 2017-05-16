@@ -1,3 +1,12 @@
+<style>
+.table td {
+  text-align: right;
+}
+.table th {
+  text-align: right;
+}
+</style>
+
 <fieldset>
 
   <div class="row">
@@ -96,9 +105,9 @@
                   </option>
                 </select>
               </td>
-              <td class="col-xs-2">{{ orderProduct.quantity }}</td>
-              <td class="col-xs-2">{{ orderProduct.formatPrice }}</td>
-              <td class="col-xs-2">{{ orderProduct.formatTotal }}</td>
+              <td class="col-xs-2">  {{ orderProduct.quantity }}</td>
+              <td class="col-xs-2">$ {{ orderProduct.formatPrice }}</td>
+              <td class="col-xs-2">$ {{ orderProduct.formatTotal }}</td>
             </tr>
           </tbody>
         </table>
