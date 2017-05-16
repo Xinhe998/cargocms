@@ -16,10 +16,10 @@
         <b class="tooltip tooltip-bottom-right">請輸入名稱</b></label>
     </section>
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <label class="label"><span class="text-danger fn-show-hidden">*</span>數量</label>
+      <label class="label"><span class="text-danger fn-show-hidden">*</span>產品上架數量</label>
       <label class="input state-disabled">
         <input type="number" name="quantity" placeholder="" v-model="data.item.quantity" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入數量</b></label>
+        <b class="tooltip tooltip-bottom-right">請輸入產品上架數量</b></label>
     </section>
     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
       <label class="label"><span class="text-danger fn-show-hidden">*</span>價格</label>
@@ -401,7 +401,7 @@ var formMessages = {
     required : '請給予 ImageId'
   },
   quantity : {
-    required : '請給予數量'
+    required : '請給予產品上架數量'
   },
   price : {
     required : '請給予價格'
