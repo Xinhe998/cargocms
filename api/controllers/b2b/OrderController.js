@@ -5,12 +5,25 @@ module.exports = {
     }
 
     const token = await UtilsService.tokenGenerator();
+
+    // get all payment methods from db
+    const paymentMethodArray = [];
+    let paymentMethods = await Config.findAll({
+      where: {
+        name: 'paymentMethods'
+      }
+    });
+    paymentMethods = JSON.parse(JSON.stringify(paymentMethods));
+    paymentMethods.forEach((item) => {
+      paymentMethodArray.push(item.key);
+    });
+
     res.view(
       'b2b/order/form',
       {
         token,
         data: {
-          paymentMethods: JSON.parse(sails.config.paymentMethods)
+          paymentMethods: paymentMethodArray,
         }
       }
     );

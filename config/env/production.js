@@ -89,5 +89,11 @@ module.exports = {
   taxrate : 0.05,
   paymentSetting: {
     ATM: '000123123456',
-  }
+  },
+
+  paymentMethods: {
+    ATM: '111 222 333 444', 
+    '貨到付款': '黑貓宅急便', 
+  },
+
 };

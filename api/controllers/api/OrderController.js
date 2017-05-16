@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 module.exports = {
   createOrder: async(req, res) => {
     const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
@@ -117,22 +119,23 @@ module.exports = {
       message = 'get Order info success';
 
       // get all payment methods from db
+      const paymentMethodArray = [];
       let paymentMethods = await Config.findAll({
         where: {
-          name: 'paymentSetting'
+          name: 'paymentMethods'
         }
-      })
-      
-        // if nothing in DB, use default method in config/local.js
-      if (paymentMethods.length === 0)
-        paymentMethods = JSON.parse(sails.config.defaultPaymentMethods) || [] // if nothing in config/local.js, empty methods
+      });
+      paymentMethods = JSON.parse(JSON.stringify(paymentMethods));
+      paymentMethods.forEach((item) => {
+        paymentMethodArray.push(item.key);
+      });
 
       res.view('b2b/order/index', {
         message: message,
         data: {
           item: order,
           product: orderProduct,
-          paymentMethods: paymentMethods || []
+          paymentMethods: paymentMethodArray || []
         }
       });
 
