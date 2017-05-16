@@ -5,7 +5,7 @@ function getProductInfo(productDom) {
     number = max;
     swal({
       title: '提示',
-      text: `<p>訂購數量超過庫存量。</p></br></p>可購買數量 ${max} 包</p>`,
+      text: '<p>訂購數量超過庫存量。</p></br></p>可購買數量' + max + '包</p>',
       html: true
     })
   }
@@ -69,7 +69,7 @@ function storeToCart(product) {
   }).toArray();
   localStorage.cart = JSON.stringify(cart);
 
-  return isChanged
+  return isChanged;
 }
 
 function removeFromCart(product) {
