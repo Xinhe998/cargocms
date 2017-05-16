@@ -1,3 +1,14 @@
+<style>
+.table td {
+  text-align: right;
+  padding-right: 50px;
+}
+.table th {
+  text-align: right;
+  padding-right: 50px;
+}
+</style>
+
 <fieldset>
 
   <div class="row">
@@ -264,7 +275,7 @@
     <section class="col col-lg-12 col-xs-12">
       <label class="label">訂購產品</label>
       <label class="table state-disabled fn-edit-disabled">
-      <div class="margin-buttom-20">
+      <div class="table margin-buttom-20">
         <table class="table">
           <thead>
             <tr>
@@ -281,9 +292,9 @@
               <td class="col-xs-3">
                 {{ orderProduct.supplierName }}
               </td>
-              <td class="col-xs-2">{{ orderProduct.formatPrice }}</td>
+              <td class="col-xs-2">$ {{ orderProduct.formatPrice }}</td>
               <td class="col-xs-2">{{ orderProduct.quantity }}</td>
-              <td class="col-xs-2">{{ orderProduct.formatTotal }}</td>
+              <td class="col-xs-2">$ {{ orderProduct.formatTotal }}</td>
             </tr>
           </tbody>
         </table>
