@@ -97,7 +97,7 @@
           <td><%= data.product[i].model %><%= data.product[i].option ? '('+ data.product[i].option +')': '' %> </td>
           <td>$ <%= data.product[i].formatPrice %></td>
           <td><%= data.product[i].quantity %></td>
-          <td>$ <%= data.product[i].formatTotal %></td>
+          <td>$ <%= data.product[i].formatNoTaxTotal %></td>
           <td>$ <%= data.product[i].tax %></td>
         </tr>
       <% } %>

@@ -97,7 +97,23 @@ module.exports = {
           sails.log.error(e);
         }
       }
+    },
+    formatNoTaxTotal: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try {
+          let total = this.getDataValue('total');
+          let tax = this.getDataValue('tax');
+          if(!total || !tax){
+            return '';
+          }
+          return Number(total) - Number(tax);
+        } catch (e) {
+          sails.log.error(e);
+        }
+      }
     }
+
 
   },
   associations: () => {

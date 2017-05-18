@@ -17,9 +17,12 @@ var defaultVueMathod = {
 	cancel: function (event, getQuery) {
 		var callbackUrl = $('#main-form').data('callback') || '';
 		var url = '/admin/#/admin/' + modelName;
-    if(getQuery !== '') {
+    console.log('getQuery=>' + getQuery);
+    if(typeof getQuery === 'undefined' || getQuery === 'undefined' || getQuery === null) {
+      getQuery = '';
+    } else {
       getQuery = '?' + getQuery;
-    } 
+    }
 		if (callbackUrl!== '') {
 			url = '/admin/#/admin' + callbackUrl + getQuery;
 		}
