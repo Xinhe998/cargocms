@@ -20,9 +20,15 @@ module.exports.create = async(obj) => {
         image: obj.image || '',
         price: obj.price || Math.floor(Math.random() * 90 + 10) * 10,
     };
+  
+    // chech URL double slash
+    let imgUri = '/assets/b2b/img/product/';
+    if(host.split('').reverse().join('')[0] === '/') {
+      imgUri = imgUri.slice(1, imgUri.length);
+    }
 
     const image = await Image.create({
-        filePath: `${host}/assets/b2b/img/product/${obj.image}`,
+        filePath: `${host}${imgUri}${obj.image}`,
         type: 'image/jpeg',
         storage: 'url'
     });
