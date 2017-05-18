@@ -68,8 +68,15 @@ module.exports = {
     try {
       const { id } = req.params;
       const item = await Product.deleteById(id);
+      
+      const deleteProductImage = await ProductImage.destroy({
+        where: {
+          ProductId: id
+        }
+      });
+
       const message = 'Delete success.';
-      res.ok({ message, data: { item } });
+      res.ok({ message, data: { item, deleteProductImage } });
     } catch (e) {
       res.serverError(e);
     }
