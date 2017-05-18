@@ -70,13 +70,13 @@ appMain.showPageHidden = function(){
   $('.fn-show-hidden').hide();
 };
 
-appMain.showTax = function() {
-  var tax = $('input[name="taxRate"]').val();
-  var price = $('input[name="price"]').val();
-  if(!tax || !price) {
-    $('#tax').val(0);
+appMain.calcTax = function() {
+  if (appMain.data.item.price && appMain.data.item.taxRate) {
+    appMain.data.item.tax = Math.round(Number(appMain.data.item.price) - Number(appMain.data.item.price)/(1 + parseFloat(appMain.data.item.taxRate)))
+    return appMain.data.item.tax;
   } else {
-    $('#tax').val(Math.round(Number(price) - Number(price)/(1+parseFloat(parseFloat(tax)))));
+    appMain.data.item.tax = 0;
+    return appMain.data.item.tax;
   }
 }
 
