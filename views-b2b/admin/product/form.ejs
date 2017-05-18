@@ -190,7 +190,7 @@
     <section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
       <label class="label">稅率</label>
       <label class="input state-disabled">
-        <input type="number" name="length" step="0.01" placeholder="" v-model="data.item.taxRate" onkeyup="computeTax()" onclick="computeTax()" disabled>
+        <input type="number" name="taxRate" min="0" step="0.01" placeholder="" v-model="data.item.taxRate" onkeyup="computeTax()" onclick="computeTax()" disabled required>
         <b class="tooltip tooltip-bottom-right">請輸入稅率</b></label>
       </label>
     </section>
@@ -430,7 +430,7 @@ var formMessages = {
 }
 $('#tax').parent().addClass('tate-disabled');
 function computeTax() {
-  var tax = $('input[name="length"]').val();
+  var tax = $('input[name="taxRate"]').val();
   var price = $('input[name="price"]').val();
   if(!tax || !price) {
     $('#tax').val(0);

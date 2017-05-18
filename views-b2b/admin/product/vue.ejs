@@ -71,7 +71,7 @@ appMain.showPageHidden = function(){
 };
 
 appMain.showTax = function() {
-  var tax = $('input[name="length"]').val();
+  var tax = $('input[name="taxRate"]').val();
   var price = $('input[name="price"]').val();
   if(!tax || !price) {
     $('#tax').val(0);
