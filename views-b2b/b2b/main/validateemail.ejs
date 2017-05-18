@@ -8,6 +8,12 @@
   .btn-gray{
   	background-color: gray;
   }
+  .icon-green{
+    color: #5cb85c;
+  }
+  .icon-danger{
+    color: #d9534f;
+  }
 </style>
 
 <!--=== Content Part ===-->
@@ -18,9 +24,9 @@
 			<div class="error-v1">
 				<span class="error-v1-title">
           <% if( data.valid ){ %>
-            <i class="fa fa-check-circle" aria-hidden="true"></i>
+            <i class="fa fa-check-circle icon-green" aria-hidden="true"></i>
           <% } else { %>
-            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            <i class="fa fa-exclamation-circle icon-danger" aria-hidden="true"></i>
           <% } %>
         </span>
 				<span><%= data.message %></span>
