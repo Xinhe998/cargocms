@@ -1,13 +1,17 @@
 import moment from 'moment';
 import sh from 'shorthash';
+import _ from 'lodash';
 
 module.exports = {
   createOrder: async ( transaction ,data ) => {
     try{
-      const products = JSON.parse(data.products);
+      const orderProductList = JSON.parse(data.products);
+      console.log('====================================');
+      console.log('orderProductList=>', orderProductList);
+      console.log('====================================');
       let totalPrice = 0;
       let totalTaxRate = 0;
-      for(let p of products){
+      for(let p of orderProductList){
         let product = await Product.findById(p.id);
         if (p.optionId) {
           let productOptionValue = await ProductOptionValue.findOne({ where:{ ProductOptionId: p.optionId }});
@@ -85,7 +89,9 @@ module.exports = {
       //   data.email = data.shippingEmail;
       // }
 
-      await OrderService.updateUserData({userId: data.UserId, email: data.email, phone1: data.telephone, transaction});
+      await OrderService.updateUserData({
+        userId: data.UserId, email: data.email, phone1: data.telephone, transaction
+      });
 
       const orderStatus = await OrderStatus.findOne({
         where: {
@@ -95,66 +101,89 @@ module.exports = {
       data.OrderStatusId = orderStatus.id;
       const order = await Order.create(data, {transaction});
 
-      for(const p of products){
-        const product = await Product.findOne({
+      for(const orderedProduct of orderProductList){
+        const findProduct = await Product.findOne({
           where: {
-            id: p.id
+            id: orderedProduct.id
           },
           include: ProductDescription
         });
 
 
-        if (!product || !product.ProductDescription) {
-          throw new Error(`產品資訊不正確，無法建立產品訂單，產品 ID: ${p.id}`);
+        const hasOrderedOption = !_.isNil(orderedProduct.optionId) && !_.isEmpty(orderedProduct.optionId);
+        let findProductOption = {};
+
+        const findProductFailed = !findProduct || !findProduct.ProductDescription;
+        const findOptionFailed = hasOrderedOption && !findProductOption;
+        if (findProductFailed || findOptionFailed) {
+          throw new Error(`發生錯誤，無法建立產品訂單！產品名稱: ${orderedProduct.model}`);
         }
 
-        if (product.subtract) {
-          let productUpdate = await Product.findById(product.id);
-          productUpdate.quantity = Number(product.quantity) - Number(p.quantity);
-          if (productUpdate.quantity < 0) throw new Error(`產品ID: ${productUpdate.id}，庫存量不足`);
-          await productUpdate.save({ transaction });
-        }
-
-        let productTaxRate = await Product.findOne({ where:{ id: p.id  } });
-        let price = Number(product.price) * Number(p.quantity);
+        let productTaxRate = await Product.findOne({ where:{ id: orderedProduct.id  } });
+        let price = Number(findProduct.price) * Number(orderedProduct.quantity);
         let noTaxPrice = Math.round(price / (1 + Number(productTaxRate.taxRate)));
         let tax = price - noTaxPrice;
 
         const orderProductCreateData = {
-          ProductId: product.id,
-          name: product.ProductDescription.name,
-          model: product.model,
-          quantity: p.quantity,
-          price: product.price,
+          ProductId: findProduct.id,
+          name: findProduct.ProductDescription.name,
+          model: findProduct.model,
+          quantity: orderedProduct.quantity,
+          price: findProduct.price,
           total: noTaxPrice,
           tax: tax,
           OrderId: order.id,
         };
 
-        let subtractQuantity = Number(p.quantity);
-        if (p.optionId) {
+        if (hasOrderedOption) {
           const productOption = await ProductOption.findOne({
             where: {
-              id: p.optionId
+              id: orderedProduct.optionId
             },
             include: [ProductOptionValue]
           }); 
-          subtractQuantity = Number(productOption.ProductOptionValue.quantity) * Number(p.quantity);
+          if (productOption.ProductOptionValue.subtract) {
+            // calc product Quantity
+            const productUpdate = await Product.findById(findProduct.id);
+            const calcNewQuantity = Number(productUpdate.quantity) - Number(orderedProduct.quantity);
 
-          orderProductCreateData.total = Number(p.quantity) * Number(productOption.ProductOptionValue.price);
+            // cala productOption Quantity
+            const calcNewOptionQuantity = Number(productOption.ProductOptionValue.quantity) -  Number(orderedProduct.quantity);
+            if (calcNewOptionQuantity < findProduct.minimum || calcNewQuantity < findProduct.minimum) {
+              const now = new Date().toLocaleString();
+              const purchasableCount = Number(productOption.ProductOptionValue.quantity) - Number(findProduct.minimum);
+              const productName = findProduct.model;
+              const productOptionName = productOption.value;
+              throw new Error(`『${productName}（${productOptionName}）』庫存量不足！\n\n 該商品於 ${now} 庫存只有 ${purchasableCount} 個！`);
+            }
+            // save Quantity to product
+            productUpdate.quantity = calcNewQuantity;
+            await productUpdate.save({ transaction });
+
+            // save Quantity to productOption
+            productOption.ProductOptionValue.quantity = calcNewOptionQuantity;
+            await productOption.save({ transaction });
+          }
+          orderProductCreateData.total = Number(orderedProduct.quantity) * Number(productOption.ProductOptionValue.price);
           orderProductCreateData.price = productOption.ProductOptionValue.price;
           orderProductCreateData.tax   = orderProductCreateData.total - ( Math.round(orderProductCreateData.total / (1 + Number(productTaxRate.taxRate))));
           orderProductCreateData.option = productOption.value;
         }
 
-        if (product.subtract) {
-          let productUpdate = await Product.findById(product.id);
-          productUpdate.quantity = Number(product.quantity) - Number(subtractQuantity);
-          if (productUpdate.quantity < 0) 
-            throw new Error(`產品ID: ${productUpdate.id}，庫存量不足`);
-          
+        if (findProduct.subtract) {
+          const productUpdate = await Product.findById(findProduct.id);
+          const calcNewQuantity = Number(productUpdate.quantity) - Number(orderedProduct.quantity);
+
+          if (calcNewQuantity < findProduct.minimum) {
+            const now = new Date().toLocaleString();
+            const productName = findProduct.model;
+            const purchasableCount = Number(productUpdate.quantity) - Number(findProduct.minimum);
+            throw new Error(`『${productName}』庫存量不足！\n\n 該商品於 ${now} 庫存只有 ${purchasableCount} 個！`);
+          }
+          productUpdate.quantity = calcNewQuantity;
           await productUpdate.save({ transaction });
         }
+        
         
         await OrderProduct.create(orderProductCreateData, { transaction });
       }
@@ -163,7 +192,7 @@ module.exports = {
         OrderId: order.id,
         notify: true,
         OrderStatusId: order.OrderStatusId,
-        comment: `使用者 ID: ${order.UserId}，建立訂單 Order ID: ${order.id}，訂購產品: ${JSON.stringify(products)}`
+        comment: `使用者 ID: ${order.UserId}，建立訂單 Order ID: ${order.id}，訂購產品: ${data.products}`
       }, {transaction});
 
       return order;
