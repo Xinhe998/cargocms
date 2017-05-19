@@ -98,8 +98,8 @@ module.exports = {
       level: 'info'
     }
   },
-  defaultPaymentMethods: [{
-    key: 'ATM',
-    value: 'Default ATM account number'
-  }]
+  paymentMethods: {
+    ATM: '111 222 333 444', 
+    '貨到付款': '黑貓宅急便', 
+  }
 }
