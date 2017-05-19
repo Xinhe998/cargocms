@@ -199,6 +199,16 @@ var OrderForm = new Vue({
       removeFromCart(index);
       $(window).trigger('modifyCart');
       this.carts = JSON.parse(localStorage.cart || '[]');
+      var cartsLen = this.carts.length;
+      if(cartsLen === 0) {
+        swal({
+          title: '提醒',
+          text: '您的購物車內是空的，請回首頁選購商品。',
+          type: 'info',
+        },function () {
+          window.location.href = '/';
+        })
+      }
     },
   },
   computed: {
