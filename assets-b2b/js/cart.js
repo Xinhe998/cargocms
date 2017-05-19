@@ -83,7 +83,7 @@ function removeFromCart(product) {
 
 function updateCartInput() {
   $('.product .form-group input').val(0);
-  $('.b2b-product-detail-content .order-input input').val(0);
+  $('.b2b-product-detail-content .order-input input').val(1);
 
   var cart = JSON.parse(localStorage.cart || '[]');
   $(cart).each(function(index, el) {
