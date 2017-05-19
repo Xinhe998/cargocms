@@ -41,6 +41,7 @@ module.exports = {
         <br />收件地址為： %(shipmentAddress)s
         <br />備註： %(note)s
         <br />
+        <br />%(UseATM)s
         <br />
         <br />From %(storeName)s
         </body></html>`
