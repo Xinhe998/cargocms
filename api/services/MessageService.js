@@ -322,7 +322,6 @@ module.exports = {
       }
       const url = `${DOMAIN_HOST}${api}`
 
-      sails.log('url=>', url)
       mailSendConfig.subject = sprintf(mailSendConfig.subject, { username });
       mailSendConfig.html = sprintf(mailSendConfig.html, {
         type,

@@ -159,11 +159,26 @@ module.exports = {
         await OrderProduct.create(orderProductCreateData, { transaction });
       }
 
+      var resultComment = '';
+      const orderProducts = JSON.parse(JSON.stringify(products));
+
+
+      for (var item = 0, orderProductsLen = orderProducts.length; item < orderProductsLen; item++) {
+        for (var key in orderProducts[item]) {
+          resultComment += ` ${key}:${orderProducts[item][key]}`;
+        }
+        if(item < orderProductsLen - 1) {
+          resultComment += ',';
+        }
+      }
+
+      sails.log('resultComment=>', resultComment)
+
       const orderHistory = await OrderHistory.create({
         OrderId: order.id,
         notify: true,
         OrderStatusId: order.OrderStatusId,
-        comment: `使用者 ID: ${order.UserId}，建立訂單 Order ID: ${order.id}，訂購產品: ${JSON.stringify(products)}`
+        comment: `使用者 ID: ${order.UserId}，建立訂單 Order ID: ${order.id}，訂購產品: ${resultComment}`
       }, {transaction});
 
       return order;

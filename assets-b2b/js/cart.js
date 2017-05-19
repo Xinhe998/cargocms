@@ -151,7 +151,7 @@ $(function() {
       price: price,
       quantity: quantity,
       optionId: optionId,
-      optionValue: optionValue,
+      optionValue: optionValue || '',
       noTaxPrice: totalPriceNoTax,
       taxPrice: tax,
     };
@@ -162,7 +162,6 @@ $(function() {
     toastr.options = {
       "positionClass": "toast-top-center"
     }
-    if(product.optionValue === null) product.optionValue = '';
     if (isCartChanged)
       toastr.info('成功將「' + product.name + '」' + product.optionValue + ' ' + product.quantity + ' 份加進購物車');
     else
