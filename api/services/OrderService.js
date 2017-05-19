@@ -189,7 +189,7 @@ module.exports = {
       }
 
       var resultComment = '';
-      const orderProducts = JSON.parse(JSON.stringify(products));
+      const orderProducts = JSON.parse(JSON.stringify(orderProductList));
 
 
       for (var item = 0, orderProductsLen = orderProducts.length; item < orderProductsLen; item++) {
@@ -200,8 +200,6 @@ module.exports = {
           resultComment += ',';
         }
       }
-
-      sails.log('resultComment=>', resultComment)
 
       const orderHistory = await OrderHistory.create({
         OrderId: order.id,
