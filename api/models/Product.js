@@ -192,7 +192,7 @@ module.exports = {
       defaultValue: 0,
     },
 
-    formatPrice: {
+    regularPrice: {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{

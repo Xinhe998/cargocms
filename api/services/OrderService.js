@@ -265,8 +265,8 @@ module.exports = {
         <tr>
           <td>${productName}</td>
           <td>${p.quantity}</td>
-          <td>${p.formatPrice}</td>
-          <td>${p.formatTotal}</td>
+          <td>${p.regularPrice}</td>
+          <td>${p.regularTotal}</td>
         </tr>
         `;
       }

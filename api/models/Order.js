@@ -316,7 +316,7 @@ module.exports = {
       }
     },
 
-    formatTotal: {
+    sumTotal : {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{
@@ -331,7 +331,7 @@ module.exports = {
         }
       }
     },
-    formatTax: {
+    grandTax: {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{
@@ -346,7 +346,7 @@ module.exports = {
         }
       }
     },
-    formatTotalWithTax: {
+    grandTotal: {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{

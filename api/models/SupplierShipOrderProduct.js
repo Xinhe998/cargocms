@@ -69,7 +69,7 @@ module.exports = {
       }
     },
 
-    formatTotal: {
+    regularTotal: {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{
@@ -84,7 +84,7 @@ module.exports = {
         }
       }
     },
-    formatPrice: {
+    regularPrice: {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{

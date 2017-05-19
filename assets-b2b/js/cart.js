@@ -203,14 +203,14 @@ var OrderForm = new Vue({
     },
   },
   computed: {
-    priceSum: function() {
+    sumTotal: function() {
       var sum = 0;
       $(this.carts).each(function(index, el) {
         sum += el.noTaxPrice;
       });
       return sum;
     },
-    taxPrice: function() {
+    grandTax: function() {
       var sum = 0;
       $(this.carts).each(function(index, el) {
         sum += el.taxPrice;
