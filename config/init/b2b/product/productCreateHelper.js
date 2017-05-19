@@ -35,10 +35,18 @@ module.exports = {
         productOptionValue1, productOptionValue2, productOptionValue3, 
         optionDescription, optionValueDescription;
 
+    let ProductImageImageItem = 0;
+    const host = sails.config.appUrl;
+    let imgUri = `/assets/b2b/img/product/`;
+    if(host.split('').reverse().join('')[0] === '/') {
+      imgUri = imgUri.slice(1, imgUri.length);
+    }
+    let imgNum = 0;
     for(let p of productNames){
+      imgNum += 1;
       let imageNo = Math.floor(Math.random() * 800 ) + 1;
       let image = await Image.create({
-        filePath: `https://unsplash.it/400/320/?image=${ imageNo }`,
+        filePath: `${host}${imgUri}${categoryEng}/${categoryEng}${imgNum}.jpg`,
         type: 'image/jpeg',
         storage: 'url'
       });
@@ -93,11 +101,14 @@ module.exports = {
       // 每個 Product 建立 3 張 ProductImage
       for(let i = 0; i < 3; i++){
         imageNo += i;
+        ProductImageImageItem += 1;
         let image = await Image.create({
-          filePath: `https://unsplash.it/400/320/?image=${ imageNo }`,
+          filePath: `${host}${imgUri}info/IMG${ProductImageImageItem}.jpg`,
           type: 'image/jpeg',
           storage: 'url'
         });
+        sails.log(`=> IMG${ProductImageImageItem}.jpg`)
+
 
         productImage = await ProductImage.create({
           ProductId: product.id,

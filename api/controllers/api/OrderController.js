@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 module.exports = {
   createOrder: async(req, res) => {
     const isolationLevel = sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE;
@@ -115,7 +117,7 @@ module.exports = {
       })
 
       message = 'get Order info success';
-
+      
       res.view('b2b/order/index', {
         message: message,
         data: {

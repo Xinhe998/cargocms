@@ -67,7 +67,14 @@ module.exports.bootstrap = async (cb) => {
         username: 'admin',
         email: 'admin@example.com',
         firstName: '李仁',
-        lastName: '管'
+        lastName: '管',
+        city: '高雄市',
+        district: '苓雅區',
+        address: '凱達格蘭大道1號',
+        address2: '凱達格蘭大道2號',
+        phone1: '0123456789',
+        phone2: '0987654321',
+        postCode: '802',
       });
     }
 

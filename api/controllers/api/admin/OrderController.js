@@ -119,6 +119,10 @@ module.exports = {
       // prevent user send deletedAt and make order removed
       delete data.deletedAt;
       
+      // prevent allpayId and orderPaymnetId be updated by accidentally.
+      delete data.AllpayId;
+      delete data.OrderPaymentId;
+      
       const message = 'Update success.';
       const item = await Order.update(data ,{
         where: { id, },
