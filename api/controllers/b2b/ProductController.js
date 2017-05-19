@@ -19,7 +19,7 @@ module.exports = {
       }
       
       // 防錯
-      if(sort.split('|').length > 1)
+      if(sort && sort.split('|').length > 1)
         [sort, sortDir] = sort.split('|')
       sort = ['price', 'time'].Find((e) => e === sort);
       sortDir = ['asc', 'desc'].Find((e) => e === sortDir.toLowerCase());
@@ -44,6 +44,8 @@ module.exports = {
       // categorys = categorys.map(function( category ){
       //   return category.CategoryDescription.name;
       // });
+      
+      q = (!q) ? '' : q;
 
       res.view('index',
         {
