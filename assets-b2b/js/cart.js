@@ -83,7 +83,7 @@ function removeFromCart(product) {
 
 function updateCartInput() {
   $('.product .form-group input').val(0);
-  $('.b2b-product-detail-content .order-input input').val(0);
+  $('.b2b-product-detail-content .order-input input').val(1);
 
   var cart = JSON.parse(localStorage.cart || '[]');
   $(cart).each(function(index, el) {
@@ -139,9 +139,14 @@ $(function() {
         }
       }
     }
+    var quantity = parseInt($('.b2b-product-detail-content .order-input input').val());
+    
+    // 如果加進購物車的數量小於等於零
+    if(quantity <= 0)
+      return;
+      
     var tax = Number($('.product-tax').text());
     var price = Number($('.b2b-product-detail-content .price span').text());
-    var quantity = parseInt($('.b2b-product-detail-content .order-input input').val());
     var totalPrice = price * quantity;
     var totalPriceNoTax = Math.round(totalPrice / (1 + Number(tax)));
     tax = totalPrice - totalPriceNoTax;
