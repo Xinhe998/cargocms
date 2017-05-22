@@ -48,9 +48,11 @@
             var group = $("<div class='input-group'></div>");
             var down = $("<button type='button'>-</button>").attr('class', 'btn btn-' + settings.downClass).click(function () {
                 setText(parseInt(clone.val()) - 1);
+                checkOptionMaxValue();
             });
             var up = $("<button type='button'>+</button>").attr('class', 'btn btn-' + settings.upClass).click(function () {
                 setText(parseInt(clone.val()) + 1);
+                checkOptionMaxValue();
             });
             $("<span class='input-group-btn'></span>").append(down).appendTo(group);
             clone.appendTo(group);

@@ -1,3 +1,11 @@
+function checkOptionMaxValue() {
+  const optionMaxValue = parseInt($('input[name=orderType]:checked').attr('data-max'));
+  $('.shoppingcart').attr('max', optionMaxValue);
+  const optionValue = parseInt($('.shoppingcart').val());
+  if(optionValue > optionMaxValue) {
+    $('.shoppingcart').val(optionMaxValue);
+  }
+}
 function getProductInfo(productDom) {
   var max = parseInt(productDom.find('input').prop('max'));
   var number = parseInt(productDom.find('input').val());
