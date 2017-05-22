@@ -190,14 +190,14 @@
     <section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
       <label class="label"><span class="text-danger fn-show-hidden">*</span>稅率</label>
       <label class="input state-disabled">
-        <input type="number" name="taxRate" min="0" step="0.01" placeholder="" v-model="data.item.taxRate" v-on:keyup="calcTax()" v-on:click="calcTax()" disabled required>
+        <input type="number" name="taxRate" min="0" step="0.01" placeholder="" v-model="data.item.taxRate" disabled required>
         <b class="tooltip tooltip-bottom-right">請輸入稅率</b></label>
       </label>
     </section>
     <section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
       <label class="label">稅金</label>
       <label class="input state-disabled">
-        <input id="tax" v-model="data.item.tax" value="{{ calcTax() }}" readonly>
+        <input id="tax" v-model="data.item.tax" value="{{ calcTax }}" readonly>
       </label>
     </section>
   </div>

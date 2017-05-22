@@ -583,5 +583,15 @@ var defaultVueMathod = {
 
 window.appMain = new Vue({
 	data: appModel,
-	methods: defaultVueMathod,
+  methods: defaultVueMathod,
+  computed: {
+    calcTax: function() {
+      if(this.data.item.taxRate === '') {
+        this.data.item.taxRate = <%= data.defaultTax %>;
+      }
+      var tax = Math.round(Number(this.data.item.price) - Number(this.data.item.price)/(1 + parseFloat(this.data.item.taxRate)));
+      this.data.item.tax = tax;
+      return tax;
+    }
+  },
 });
