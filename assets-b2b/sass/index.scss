@@ -30,6 +30,7 @@
   background-size: cover;
   background-position: 50% 13%;
   margin-top: -20px;
+  box-shadow: 0 -6px 12px -3px rgba(0, 0, 0, 0.19) inset;
   @media (max-width: 1074px) {
     margin-top: 0;
   }
@@ -38,7 +39,7 @@
 .b2b-side-nav+div>.b2b-content.b2b-content-body {
   padding-top: 3em;
   padding-bottom: 1.6em;
-  background: #e6e6e6;
+  background: white;
 }
 
 .product {
@@ -90,6 +91,9 @@
       border-left: none;
       margin-left: 1px;
     }
+  }
+  .form-group .control-label {
+    font-weight: 500;
   }
   .promotion-label {
     visibility: hidden;
