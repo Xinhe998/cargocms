@@ -67,6 +67,9 @@
     @media (min-width: 1560px) {
       height: 180px;
     }
+    @media (min-width: 1600px) {
+      height: 120px;
+    }
   }
   &.product-promotion {
     .product-price {
@@ -111,6 +114,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     height: 1.3em;
+    color: #92352d;
   }
 }
 
