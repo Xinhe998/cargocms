@@ -36,7 +36,7 @@
             <td><%= data.items[key].createdDateTime.dateTime %></td>
             <td><%= data.items[key].orderNumber %></td>
             <td class="hidden-xs"><%= data.items[key].shippingLastname + data.items[key].shippingFirstname%></td>
-            <td>$ <%= data.items[key].regularTotal %></td>
+            <td>$ <%= data.items[key].totalIncludeTax %></td>
             <td class="hidden-xs"><%= data.items[key].invoicePrefix %>-<%= data.items[key].invoiceNo %></td>
             <td><%= __(`${data.items[key].OrderStatus.name}`) %></td>
             <td class="hidden-xs"><%= data.items[key].shippingCode %></td>
