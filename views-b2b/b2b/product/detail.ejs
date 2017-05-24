@@ -35,7 +35,6 @@
               <label>
                 <input type="radio" name="orderType" value="<%= data.item.ProductOptions[key].id %>" data-option="<%= data.item.ProductOptions[key].value %>" data-price="<%= data.item.ProductOptionValues[key].price %>" data-max="<%= data.item.ProductOptionValues[key].quantity %>" checked="checked" onclick="checkOptionMaxValue()">
                 <%= data.item.ProductOptions[key].value %>
-                (剩餘數量: <%= data.item.ProductOptionValues[key].quantity %>)
               </label>
             </div>
           <% } %>
@@ -43,7 +42,7 @@
       </div>
 
       <div class="order-ship-time">
-          出貨期間： <%= data.item.ProductDescription.shippingData %>
+          出貨期間： <%= data.item.ProductDescription.shippingData || '下單後即出貨' %>
       </div>
 
       <div class="row order-input">
