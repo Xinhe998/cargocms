@@ -33,8 +33,9 @@
           <% if (data.item.ProductOptions[key].required) { %>
             <div class="radio">
               <label>
-                <input type="radio" name="orderType" value="<%= data.item.ProductOptions[key].id %>" data-option="<%= data.item.ProductOptions[key].value %>" data-price="<%= data.item.ProductOptionValues[key].price %>" checked="checked">
+                <input type="radio" name="orderType" value="<%= data.item.ProductOptions[key].id %>" data-option="<%= data.item.ProductOptions[key].value %>" data-price="<%= data.item.ProductOptionValues[key].price %>" data-max="<%= data.item.ProductOptionValues[key].quantity %>" checked="checked" onclick="checkOptionMaxValue()">
                 <%= data.item.ProductOptions[key].value %>
+                (剩餘數量: <%= data.item.ProductOptionValues[key].quantity %>)
               </label>
             </div>
           <% } %>
@@ -48,7 +49,7 @@
       <div class="row order-input">
         
         <div class="col-sm-4">
-          <input class="form-control" type="number" value="0" min="0" max="<%= data.item.quantity %>" />
+          <input class="form-control order-quantity" type="number" value="0" min="0" max="<%= data.item.quantity %>" onkeyup="checkOptionMaxValue()"  />
         </div>
         
         <div class="col-sm-8">

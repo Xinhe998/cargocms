@@ -67,11 +67,11 @@ module.exports = {
         }
       }
     },
-    formatTotal: {
+    regularTotal: {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{
-          let total = this.getDataValue('total');
+          const total = this.getDataValue('total');
           if(!total){
             return '';
           }
@@ -82,11 +82,11 @@ module.exports = {
         }
       }
     },
-    formatPrice: {
+    regularPrice: {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{
-          let price = this.getDataValue('price');
+          const price = this.getDataValue('price');
           if(!price){
             return '';
           }
@@ -97,7 +97,23 @@ module.exports = {
           sails.log.error(e);
         }
       }
+    },
+    regularNoTaxTotal: {
+      type: Sequelize.VIRTUAL,
+      get: function(){
+        try {
+          const total = this.getDataValue('total');
+          const tax = this.getDataValue('tax');
+          if(!total || !tax){
+            return '';
+          }
+          return Number(total) - Number(tax);
+        } catch (e) {
+          sails.log.error(e);
+        }
+      }
     }
+
 
   },
   associations: () => {

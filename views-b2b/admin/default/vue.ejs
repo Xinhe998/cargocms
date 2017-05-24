@@ -17,9 +17,11 @@ var defaultVueMathod = {
 	cancel: function (event, getQuery) {
 		var callbackUrl = $('#main-form').data('callback') || '';
 		var url = '/admin/#/admin/' + modelName;
-    if(getQuery !== '') {
+    if(_.isNil(getQuery)) {
+      getQuery = '';
+    } else {
       getQuery = '?' + getQuery;
-    } 
+    }
 		if (callbackUrl!== '') {
 			url = '/admin/#/admin' + callbackUrl + getQuery;
 		}
@@ -240,8 +242,7 @@ var defaultVueMathod = {
 	renderTable: function (getQuery) {
 		/* BASIC ;*/
     var responsiveHelper_datatable = undefined;
-    console.log('getQuery=>' + getQuery);
-    if(typeof getQuery === 'undefined' || getQuery === 'undefined' || getQuery === null) {
+    if(_.isNil(getQuery)) {
       getQuery = '';
     } else {
       getQuery = '?' + getQuery;
@@ -578,7 +579,12 @@ var defaultVueMathod = {
 	}
 }
 
+if(typeof computed === 'undefined') {
+  var computed = {};
+}
+
 window.appMain = new Vue({
 	data: appModel,
-	methods: defaultVueMathod,
+  methods: defaultVueMathod,
+  computed: computed,
 });

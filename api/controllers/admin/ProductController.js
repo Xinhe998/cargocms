@@ -9,7 +9,8 @@ module.exports = {
   create: async (req, res) => {
     res.ok({
       view: true,
-      layout: 'admin/default/create'
+      layout: 'admin/default/create',
+      defaultTax: sails.config.taxrate,
     });
   },
   edit: async (req, res) => {

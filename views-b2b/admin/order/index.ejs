@@ -170,7 +170,7 @@
       {
         "targets": "total",
         "render": function (data, type, row) {
-          return '<td> $' + row.formatTotal + '</td>';
+          return '<td> $' + row.regularTotal + '</td>';
         }
       },
       {
@@ -182,7 +182,7 @@
       {
         "targets": "totalIncludeTax",
         "render": function (data, type, row) {
-          return '<td> $' + row.formatTotalWithTax + '</td>';
+          return '<td> $' + row.regularTotalWithTax + '</td>';
         }
       },
       {
@@ -221,7 +221,7 @@
 						'<a name="editDataButton" class="btn btn-default btn-xs" role="button" data-id="'+row.id+'">'+
 							'<i class="fa-fw fa fa-pencil-square-o text-muted"/>'+
 						'</a>'+
-            '<a name="orderConfirm" class="btn btn-default btn-xs'+( (data.status === 'NEW') ? "": " hidden ") +'" role="button" data-id="'+ row.id +'" data-total="'+ row.formatTotal +'">'+
+            '<a name="orderConfirm" class="btn btn-default btn-xs'+( (data.status === 'NEW') ? "": " hidden ") +'" role="button" data-id="'+ row.id +'" data-total="'+ row.regularTotal +'">'+
               '<i class="fa-fw fa fa-check text-muted"/>'+
             '</a>'+
 					'</div>';

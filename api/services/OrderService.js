@@ -188,11 +188,24 @@ module.exports = {
         await OrderProduct.create(orderProductCreateData, { transaction });
       }
 
+      let resultComment = '';
+      const orderProducts = JSON.parse(JSON.stringify(orderProductList));
+
+
+      for (let item = 0, orderProductsLen = orderProducts.length; item < orderProductsLen; item++) {
+        for (const key in orderProducts[item]) {
+          resultComment += ` ${key}:${orderProducts[item][key]}`;
+        }
+        if(item < orderProductsLen - 1) {
+          resultComment += ',';
+        }
+      }
+
       const orderHistory = await OrderHistory.create({
         OrderId: order.id,
         notify: true,
         OrderStatusId: order.OrderStatusId,
-        comment: `使用者 ID: ${order.UserId}，建立訂單 Order ID: ${order.id}，訂購產品: ${data.products}`
+        comment: `使用者 ID: ${order.UserId}，建立訂單 Order ID: ${order.id}，訂購產品: ${resultComment}`
       }, {transaction});
 
       return order;
@@ -294,8 +307,8 @@ module.exports = {
         <tr>
           <td>${productName}</td>
           <td>${p.quantity}</td>
-          <td>${p.formatPrice}</td>
-          <td>${p.formatTotal}</td>
+          <td>${p.regularPrice}</td>
+          <td>${p.regularTotal}</td>
         </tr>
         `;
       }

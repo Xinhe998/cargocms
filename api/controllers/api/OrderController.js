@@ -26,6 +26,11 @@ module.exports = {
 
       // check Product Numbers
       const products = JSON.parse(data.products);
+
+      if(_.isEmpty(products)) {
+        throw Error('您的購物車內是空的，請回首頁選購商品！');
+      }
+
       const stock = await ProductService.checkStock({
         transaction,
         products
@@ -51,6 +56,14 @@ module.exports = {
         mailMessage.shipmentAddress = order.shippingAddress1;
         mailMessage.note = order.comment;
         mailMessage.phone = order.telephone;
+        
+
+        if(order.paymentMethod === 'ATM') {
+          mailMessage.UseATM = `如果確認訂單無誤請盡快匯款，以利出貨流程<br />銀行名稱: ${sails.config.paymentSetting.bank}  代號: ${sails.config.paymentSetting.bankId}<br />ATM帳號: ${sails.config.paymentSetting.ATMid}`;
+        } else {
+          mailMessage.UseATM = '';
+        }
+
         // mailMessage.invoiceNo = `${order.invoicePrefix}${order.invoiceNo}`;
         let messageConfig = await MessageService.orderCreated(mailMessage);
         let mail = await Message.create(messageConfig);

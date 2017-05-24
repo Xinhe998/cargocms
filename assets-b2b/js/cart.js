@@ -1,3 +1,11 @@
+function checkOptionMaxValue() {
+  var optionMaxValue = parseInt($('input[name=orderType]:checked').attr('data-max'));
+  $('.order-quantity').attr('max', optionMaxValue);
+  var optionValue = parseInt($('.order-quantity').val());
+  if(optionValue > optionMaxValue) {
+    $('.order-quantity').val(optionMaxValue);
+  }
+}
 function getProductInfo(productDom) {
   var max = parseInt(productDom.find('input').prop('max'));
   var number = parseInt(productDom.find('input').val());
@@ -7,7 +15,7 @@ function getProductInfo(productDom) {
       title: '提示',
       text: '<p>訂購數量超過庫存量。</p></br></p>可購買數量' + max + '包</p>',
       html: true
-    })
+    });
   }
   if (!number) number = 0;
   var price = Number(productDom.find('.product-price span').text());
@@ -156,7 +164,7 @@ $(function() {
       price: price,
       quantity: quantity,
       optionId: optionId,
-      optionValue: optionValue,
+      optionValue: optionValue || '',
       noTaxPrice: totalPriceNoTax,
       taxPrice: tax,
     };
@@ -204,17 +212,27 @@ var OrderForm = new Vue({
       removeFromCart(index);
       $(window).trigger('modifyCart');
       this.carts = JSON.parse(localStorage.cart || '[]');
+      var cartsLen = this.carts.length;
+      if(cartsLen === 0) {
+        swal({
+          title: '提醒',
+          text: '您的購物車內是空的，請回首頁選購商品。',
+          type: 'info',
+        },function () {
+          window.location.href = '/';
+        })
+      }
     },
   },
   computed: {
-    priceSum: function() {
+    sumTotal: function() {
       var sum = 0;
       $(this.carts).each(function(index, el) {
         sum += el.noTaxPrice;
       });
       return sum;
     },
-    taxPrice: function() {
+    grandTax: function() {
       var sum = 0;
       $(this.carts).each(function(index, el) {
         sum += el.taxPrice;

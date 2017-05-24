@@ -58,8 +58,9 @@ $(document).ready(function() {
         type: 'error',
       }, function(confirm){
         // if (result.status === 403) {
-          location.reload();
+          // location.reload();
         // }
+        window.location.href = '/';
       });
 		};
 
@@ -74,16 +75,6 @@ $(document).ready(function() {
 		if (!$('#order').valid()) {
 			return false;
 		}
-
-    if (localStorage.cart.length === 0) {
-      swal({
-        title: '提醒',
-        text: '您的購物車內是空的，請選購商品。',
-        type: 'info',
-      },function (confirm) {
-        window.location.href = '/';
-      });
-    }
 
 		swal({
 			title: "確認",
@@ -241,3 +232,4 @@ $(document).ready(function() {
 		});
 	}
 });
+

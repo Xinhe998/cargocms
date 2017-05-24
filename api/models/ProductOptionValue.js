@@ -83,7 +83,7 @@ module.exports = {
       }
     },
 
-    formatPrice: {
+    regularPrice: {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{
