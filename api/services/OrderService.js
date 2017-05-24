@@ -188,12 +188,12 @@ module.exports = {
         await OrderProduct.create(orderProductCreateData, { transaction });
       }
 
-      var resultComment = '';
+      let resultComment = '';
       const orderProducts = JSON.parse(JSON.stringify(orderProductList));
 
 
-      for (var item = 0, orderProductsLen = orderProducts.length; item < orderProductsLen; item++) {
-        for (var key in orderProducts[item]) {
+      for (let item = 0, orderProductsLen = orderProducts.length; item < orderProductsLen; item++) {
+        for (let key in orderProducts[item]) {
           resultComment += ` ${key}:${orderProducts[item][key]}`;
         }
         if(item < orderProductsLen - 1) {

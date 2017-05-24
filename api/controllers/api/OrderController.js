@@ -16,10 +16,6 @@ module.exports = {
         data.lastname = loginUser.lastName;
       }
 
-      if(data.products === '[]') {
-        throw Error('您的購物車內是空的，請回首頁選購商品！');
-      }
-
       // some data can fetch from request
       data.userAgent = req.header["user-agent"] || '';
       data.ip = req.ip;
@@ -30,6 +26,11 @@ module.exports = {
 
       // check Product Numbers
       const products = JSON.parse(data.products);
+
+      if(products.length === 0) {
+        throw Error('您的購物車內是空的，請回首頁選購商品！');
+      }
+
       const stock = await ProductService.checkStock({
         transaction,
         products

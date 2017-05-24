@@ -314,10 +314,10 @@ module.exports = {
 
   checkNewEmail: ({username, api, email, type}) => {
     try {
-      let checkEmailTemplete = sails.config.mail.templete.checkNewEmail;
-      let mailSendConfig = {...checkEmailTemplete, to: email};
+      const checkEmailTemplete = sails.config.mail.templete.checkNewEmail;
+      const mailSendConfig = {...checkEmailTemplete, to: email};
       let DOMAIN_HOST = sails.config.appUrl;
-      if(DOMAIN_HOST.split('').reverse().join('')[0] === '/') {
+      if(DOMAIN_HOST.slice(-1) === '/') {
         DOMAIN_HOST = DOMAIN_HOST.slice(0, DOMAIN_HOST.length-1);
       }
       const url = `${DOMAIN_HOST}${api}`

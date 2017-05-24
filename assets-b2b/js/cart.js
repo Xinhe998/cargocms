@@ -1,9 +1,9 @@
 function checkOptionMaxValue() {
-  const optionMaxValue = parseInt($('input[name=orderType]:checked').attr('data-max'));
-  $('.shoppingcart').attr('max', optionMaxValue);
-  const optionValue = parseInt($('.shoppingcart').val());
+  var optionMaxValue = parseInt($('input[name=orderType]:checked').attr('data-max'));
+  $('.order-quantity').attr('max', optionMaxValue);
+  var optionValue = parseInt($('.order-quantity').val());
   if(optionValue > optionMaxValue) {
-    $('.shoppingcart').val(optionMaxValue);
+    $('.order-quantity').val(optionMaxValue);
   }
 }
 function getProductInfo(productDom) {
@@ -15,7 +15,7 @@ function getProductInfo(productDom) {
       title: '提示',
       text: '<p>訂購數量超過庫存量。</p></br></p>可購買數量' + max + '包</p>',
       html: true
-    })
+    });
   }
   if (!number) number = 0;
   var price = Number(productDom.find('.product-price span').text());

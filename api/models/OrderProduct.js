@@ -71,7 +71,7 @@ module.exports = {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{
-          let total = this.getDataValue('total');
+          const total = this.getDataValue('total');
           if(!total){
             return '';
           }
@@ -86,7 +86,7 @@ module.exports = {
       type: Sequelize.VIRTUAL,
       get: function(){
         try{
-          let price = this.getDataValue('price');
+          const price = this.getDataValue('price');
           if(!price){
             return '';
           }
@@ -102,8 +102,8 @@ module.exports = {
       type: Sequelize.VIRTUAL,
       get: function(){
         try {
-          let total = this.getDataValue('total');
-          let tax = this.getDataValue('tax');
+          const total = this.getDataValue('total');
+          const tax = this.getDataValue('tax');
           if(!total || !tax){
             return '';
           }
