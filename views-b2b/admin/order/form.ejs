@@ -223,6 +223,17 @@
         <input type="text" name="paymentMethod" placeholder="" v-model="data.item.paymentMethod" disabled>
         <b class="tooltip tooltip-bottom-right">付款方式</b></label>
     </section>
+
+    <section class="col col-lg-3 col-xs-3">
+      <label class="label">訂單狀態</label>
+      <label class="input state-disabled">
+        <select class="form-control" name="status" title="訂單狀態" v-model="data.item.status" disabled>
+          <option value="" disabled selected>請選擇</option>
+          <% for(var item = 0, statusLength = data.orderStatus.length; item < statusLength; item ++) { %>
+            <option value="<%= data.orderStatus[item].name %>"><%= data.orderStatus[item].title %></option>
+          <% }%>
+        </select><i></i>
+    </section>
   </div>
 
   <div class="row">
@@ -340,7 +351,8 @@ const requiredFieldName =[
   'shippingPostcode',
   'shippingMethod', 
   'total', 
-  'tracking'
+  'tracking',
+  'status'
 ]
 requiredFieldName.forEach((field) => formRules[field] = {required:true})
 formRules.email.email = true
@@ -382,6 +394,9 @@ var formMessages = {
   },
   tracking: {
     required: '請給予追蹤代碼'
+  },
+  status: {
+    required: '請給予訂單狀態'
   }
 }
 </script>

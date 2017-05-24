@@ -123,10 +123,15 @@ module.exports = {
       delete data.AllpayId;
       delete data.OrderPaymentId;
       
+
       const message = 'Update success.';
+
       const item = await Order.update(data ,{
         where: { id, },
       });
+
+      await OrderService.updateStatus(id, data.status);
+      sails.log('item=>',item)
       res.ok({ message, data: { item } });
     } catch (e) {
       res.serverError(e);
@@ -149,44 +154,11 @@ module.exports = {
       const { id } = req.params;
       const { status } = req.body;
 
-      const orderStatus = await OrderStatus.findOne({
-        where: {
-          name: status
-        }
-      });
-
-      const item = await Order.find({
-        where: {
-          id,
-        },
-      });
-      item.OrderStatusId = orderStatus.id;
-      await item.save();
-
-      await OrderHistory.create({
-        notify: true,
-        comment: `訂單 ID:${id} 變更狀態為:${status}`,
-        OrderId: id,
-        OrderStatudId: orderStatus.id
-      });
-
-      let messageConfig, mail;
-      switch (status) {
-        case 'PROCESSING':
-          console.log('mail@PROCESSING');
-          messageConfig = await MessageService.orderConfirm({
-            email: item.email,
-            serialNumber: item.orderNumber,
-            username: `${item.lastname}${item.firstname}`,
-          });
-          break;
-      }
-      mail = await Message.create(messageConfig);
-      await MessageService.sendMail(mail);
+      const item = await OrderService.updateStatus(id, status);
 
       const message = '訂單狀態變更成功.';
-      const itemId = item.id;
-      res.ok({ message, data: { itemId } });
+
+      res.ok({ message, data: { itemId: item.id } });
 
     } catch (e) {
       res.serverError(e);
