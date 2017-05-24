@@ -193,7 +193,7 @@ module.exports = {
 
 
       for (let item = 0, orderProductsLen = orderProducts.length; item < orderProductsLen; item++) {
-        for (let key in orderProducts[item]) {
+        for (const key in orderProducts[item]) {
           resultComment += ` ${key}:${orderProducts[item][key]}`;
         }
         if(item < orderProductsLen - 1) {

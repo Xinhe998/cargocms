@@ -316,10 +316,7 @@ module.exports = {
     try {
       const checkEmailTemplete = sails.config.mail.templete.checkNewEmail;
       const mailSendConfig = {...checkEmailTemplete, to: email};
-      let DOMAIN_HOST = sails.config.appUrl;
-      if(DOMAIN_HOST.slice(-1) === '/') {
-        DOMAIN_HOST = DOMAIN_HOST.slice(0, DOMAIN_HOST.length-1);
-      }
+      const DOMAIN_HOST = sails.config.appUrl;
       const url = `${DOMAIN_HOST}${api}`
 
       mailSendConfig.subject = sprintf(mailSendConfig.subject, { username });

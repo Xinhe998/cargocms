@@ -267,7 +267,7 @@ module.exports = {
       }, signToken);
       let messageConfig = await MessageService.checkNewEmail({
         email: email,
-        api: `/validate/email?token=${token}`,
+        api: `validate/email?token=${token}`,
         username: displayName,
         type: type,
       });

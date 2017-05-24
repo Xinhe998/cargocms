@@ -17,7 +17,7 @@ var defaultVueMathod = {
 	cancel: function (event, getQuery) {
 		var callbackUrl = $('#main-form').data('callback') || '';
 		var url = '/admin/#/admin/' + modelName;
-    if(_.isNil(getQuery) || typeof getQuery === 'undefined') {
+    if(_.isNil(getQuery)) {
       getQuery = '';
     } else {
       getQuery = '?' + getQuery;
@@ -242,7 +242,7 @@ var defaultVueMathod = {
 	renderTable: function (getQuery) {
 		/* BASIC ;*/
     var responsiveHelper_datatable = undefined;
-    if(_.isNil(getQuery) || typeof getQuery === 'undefined') {
+    if(_.isNil(getQuery)) {
       getQuery = '';
     } else {
       getQuery = '?' + getQuery;

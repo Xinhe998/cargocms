@@ -27,7 +27,7 @@ module.exports = {
       // check Product Numbers
       const products = JSON.parse(data.products);
 
-      if(products.length === 0) {
+      if(_.isEmpty(products)) {
         throw Error('您的購物車內是空的，請回首頁選購商品！');
       }
 
