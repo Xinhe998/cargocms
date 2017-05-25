@@ -162,7 +162,11 @@ module.exports = {
 
             // save Quantity to productOption
             productOption.ProductOptionValue.quantity = calcNewOptionQuantity;
-            await productOption.save({ transaction });
+            await productOption.ProductOptionValue.save({ transaction });
+
+            let test = await ProductOptionValue.find({
+              where: { id: productOption.ProductOptionValue.id }
+            })
           }
           orderProductCreateData.total = Number(orderedProduct.quantity) * Number(productOption.ProductOptionValue.price);
           orderProductCreateData.price = productOption.ProductOptionValue.price;

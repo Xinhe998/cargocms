@@ -60,6 +60,22 @@ module.exports = {
 
       const productOptionValue = await ProductOptionValue.create(productOptionValueData);
 
+      const findAllOptionQuantity = await ProductOptionValue.findAll({
+        where: { ProductId: productOptionValueData.ProductId }
+      });
+
+      let totalOptionQuantity = 0;
+      for(let item of findAllOptionQuantity) {
+        totalOptionQuantity += item.quantity;
+      }
+
+      let findProduct = await Product.findOne({
+        where: { id: data.ProductId }
+      });
+
+      findProduct.quantity = totalOptionQuantity;
+      await findProduct.save();
+
       let message = 'Create success.';
       res.ok({ message, data: { item } } );
     } catch (e) {
@@ -92,6 +108,22 @@ module.exports = {
         where: { ProductOptionId: id, },
       });
 
+      const findAllOptionQuantity = await ProductOptionValue.findAll({
+        where: { ProductId: productOptionValueData.ProductId }
+      });
+
+      let totalOptionQuantity = 0;
+      for(let item of findAllOptionQuantity) {
+        totalOptionQuantity += item.quantity;
+      }
+
+      let findProduct = await Product.findOne({
+        where: { id: data.ProductId }
+      });
+
+      findProduct.quantity = totalOptionQuantity;
+      await findProduct.save();
+
       const message = 'Update success.';
       res.ok({ message, data: { item } });
     } catch (e) {
@@ -104,6 +136,23 @@ module.exports = {
       const { id } = req.params;
       const item = await ProductOption.destroy({ where: { id } });
       await ProductOptionValue.destroy({ where: { ProductOptionId: id } });
+
+      const findProductOption = await ProductOption.find({ where: { id } });
+      const findAllOptionQuantity = await ProductOptionValue.findAll({
+        where: { ProductId: findProductOption.ProductId }
+      });
+
+      let totalOptionQuantity = 0;
+      for(let item of findAllOptionQuantity) {
+        totalOptionQuantity += item.quantity;
+      }
+
+      let findProduct = await Product.findOne({
+        where: { id: findProductOption.ProductId }
+      });
+      findProduct.quantity = totalOptionQuantity;
+      await findProduct.save();
+
       let message = 'Delete success';
       res.ok({message, data: {item}});
     } catch (e) {
