@@ -51,8 +51,8 @@
       <input type="hidden" name="length" value="<%= q.length %>" /> 
       <input type="hidden" name="category" value="<%= q.category %>" /> 
       <input type="hidden" name="limit" value="<%= q.limit %>" /> 
+      <input type="hidden" name="q" value="<%= q.q %>" /> 
       <ol class="breadcrumb">
-        <li><input name="q" type="text" class="form-control" placeholder="搜尋產品" value="<%= q.q %>"></li>
         <% ['price|asc|價格低至高', 'price|desc|價格高至低', 'time|asc|最新上架'].forEach((sort) => { %>
           <% const [sortBy, sortDir, sortName] = sort.split('|'); %>
           <% if(`${sortBy}|${sortDir}` === `${q.sort}|${q.sortDir}`) { %>

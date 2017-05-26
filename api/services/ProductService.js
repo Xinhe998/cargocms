@@ -22,16 +22,21 @@ module.exports = {
         },
         include: [
           {
-            model: Category,
-            where: {
-              id: categoryId
-            }
-          }, {
             model: ProductDescription,
             required: true,
           }
         ]
       };
+      
+      // 有非0的種類ID，沒有的話就不限制種類
+      if(categoryId) {
+        query.include.push({
+          model: Category,
+          where: {
+            id: categoryId
+          }
+        });
+      }
 
       if(supplierId){
         query.include.push({

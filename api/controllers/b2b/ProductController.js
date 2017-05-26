@@ -13,33 +13,34 @@ module.exports = {
        * @property {String} query.sortDir - 排序方向 ('asc'|'desc')
        */
       let {start, length, category, supplier, limit, q, sort, sortDir = 'asc'} = req.query;
-
-      if( !category ){
-        category = 1;
-      }
+      category = Number(category);
       
+      if( !category && q ) {
+        category = 0;
+      } else if ( !category && !q ) {
+        category = 1;
+      } 
       // 防錯
       if(sort && sort.split('|').length > 1)
-        [sort, sortDir] = sort.split('|')
+        [sort, sortDir] = sort.split('|');
       sort = ['price', 'time'].Find((e) => e === sort);
       sortDir = ['asc', 'desc'].Find((e) => e === sortDir.toLowerCase());
       
-
       const result = await ProductService.find({
         start,
         length,
-        categoryId: category,
         supplierId: supplier,
+        categoryId: category,
         limit,
         keyword: q, 
         sortBy: (sort === 'time') ? 'createdAt' : sort,
         sortDir
       });
-
       let categorys = await Category.findAll({
         order: 'sortOrder asc',
         include: CategoryDescription
       });
+      categorys = categorys.map((category) => category.toJSON());
 
       // categorys = categorys.map(function( category ){
       //   return category.CategoryDescription.name;
@@ -53,7 +54,7 @@ module.exports = {
             items: result,
             categorys,
             query: Object.assign({start: '', length: '', category: '', supplier: '', limit: '', q: '', sort: '', sortDir: ''},
-            {start, length, category, supplier, limit, q, sort, sortDir}),
+            {start, length, category: category.toString(), supplier, limit, q, sort, sortDir}),
           },
           errors: req.flash('error')[0],
         }
