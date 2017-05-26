@@ -1,3 +1,12 @@
+<style>
+.table td {
+  text-align: right;
+}
+.table th {
+  text-align: right;
+}
+</style>
+
 <fieldset>
 
   <div class="row">
@@ -207,6 +216,13 @@
         <input type="text" name="shippingCode" placeholder="" v-model="data.item.shippingCode" disabled>
         <b class="tooltip tooltip-bottom-right">運送代碼</b></label>
     </section>
+
+    <section class="col col-lg-3 col-xs-3">
+      <label class="label">付款方式</label>
+      <label class="input state-disabled">
+        <input type="text" name="paymentMethod" placeholder="" v-model="data.item.paymentMethod" disabled>
+        <b class="tooltip tooltip-bottom-right">付款方式</b></label>
+    </section>
   </div>
 
   <div class="row">
@@ -257,7 +273,7 @@
     <section class="col col-lg-12 col-xs-12">
       <label class="label">訂購產品</label>
       <label class="table state-disabled fn-edit-disabled">
-      <div class="margin-buttom-20">
+      <div class="table margin-buttom-20">
         <table class="table">
           <thead>
             <tr>
@@ -274,9 +290,9 @@
               <td class="col-xs-3">
                 {{ orderProduct.supplierName }}
               </td>
-              <td class="col-xs-2">{{ orderProduct.formatPrice }}</td>
+              <td class="col-xs-2">$ {{ orderProduct.formatPrice }}</td>
               <td class="col-xs-2">{{ orderProduct.quantity }}</td>
-              <td class="col-xs-2">{{ orderProduct.formatTotal }}</td>
+              <td class="col-xs-2">$ {{ orderProduct.formatTotal }}</td>
             </tr>
           </tbody>
         </table>
