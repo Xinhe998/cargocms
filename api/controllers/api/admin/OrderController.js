@@ -131,7 +131,6 @@ module.exports = {
       });
 
       await OrderService.updateStatus(id, data.status);
-      sails.log('item=>',item)
       res.ok({ message, data: { item } });
     } catch (e) {
       res.serverError(e);

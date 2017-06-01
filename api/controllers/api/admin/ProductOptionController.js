@@ -76,7 +76,7 @@ module.exports = {
       findProduct.quantity = totalOptionQuantity;
       await findProduct.save();
 
-      let message = 'Create success.';
+      const message = 'Create success.';
       res.ok({ message, data: { item } } );
     } catch (e) {
       res.serverError(e);
