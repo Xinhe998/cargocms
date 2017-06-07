@@ -26,9 +26,9 @@
   // background-position: 50% 46%;
   // box-shadow: 0 -3px 10px 2px rgba(0, 0, 0, 0.25) inset;
   background: url('http://i.imgur.com/Z2K6d9T.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 50% 13%;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: 50% 13% !important;
   margin-top: -20px;
   box-shadow: 0 -6px 12px -3px rgba(0, 0, 0, 0.19) inset;
   @media (max-width: 1074px) {

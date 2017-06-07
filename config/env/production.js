@@ -96,4 +96,8 @@ module.exports = {
     '貨到付款': '黑貓宅急便', 
   },
 
+  imageList: {
+    banner: '',
+  }
+
 };
