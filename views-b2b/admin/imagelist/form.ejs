@@ -9,17 +9,17 @@
     </section>
 
     <section row="">
-      <label class="label key">名稱</label>
+      <label class="label key">版位</label>
       <label class="input state-disabled ">
       <input type="text" name="key" placeholder="" v-model="data.item.key" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入名稱</b></label>
+      <b class="tooltip tooltip-bottom-right">請輸入版位</b></label>
     </section>
 
     <section row="">
-      <label class="label">版位</label>
+      <label class="label">描述</label>
       <label class="input state-disabled ">
       <input type="text" name="description" placeholder="" v-model="data.item.description" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入版位</b></label>
+      <b class="tooltip tooltip-bottom-right">請輸入描述</b></label>
     </section>
 
 		<section row="" class="hidden">
@@ -31,21 +31,21 @@
 
 </fieldset>
 <script>
-  var formRules = {
+var formRules = {
     key:{
       required: true,
     },
-    value:{
+    description:{
       required: true,
-    },
+    }
   };
 
   var formMessages = {
     key:{
-      required: "請給予 名稱",
+      required: "請給予 版位",
     },
-    value:{
-      required: "請給予 數值",
+    description:{
+      required: "請給予 描述",
     },
   };
   function getconfig() {
