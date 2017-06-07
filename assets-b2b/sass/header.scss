@@ -1,40 +1,58 @@
 .b2b-navbar {
-  border-top: 3px solid #ab3c33 !important;
-  background-color: white;
-  .b2b-cart {
-    li {
-      a span {
-        padding-right: 2em;
-        vertical-align: text-top;
-      }
-      i {
-        margin-left: 6px;
-        padding: 5px;
-        float: right;
-        position: relative;
-        &:hover {
-          color: #b71010;
+    border-top: 3px solid #ab3c33 !important;
+    background-color: white;
+    @media (max-width: 768px) {
+        #cart {
+            display: none;
         }
-      }
-      a:hover {
-        background-color: transparent;
-      }
-      .btn {
-        margin: 5px 2em;
-        border-radius: 21px;
-        padding: 7px;
-        background: #efefef;
-        &:hover {
-          background-color: #f4f4f4;
+        #mobile-cart-icon {
+            text-decoration: none;
         }
-      }
-      .btn-checkout {
-        background-color: black;
-        color: white;
-        &:hover {
-          background-color: rgb(101, 101, 101);
+        .navbar-center {
+            position: absolute;
+            left: 50%;
+            transform: translatex(-50%);
         }
-      }
     }
-  }
+    @media (min-width: 768px) {
+        .xs-show-only {
+            display: none !important;
+        }
+    }
+    .b2b-cart {
+        li {
+            a span {
+                padding-right: 2em;
+                vertical-align: text-top;
+            }
+            i {
+                margin-left: 6px;
+                padding: 5px;
+                float: right;
+                position: relative;
+                &:hover {
+                    color: #b71010;
+                }
+            }
+            a:hover {
+                background-color: transparent;
+            }
+            .btn {
+                margin: 5px 2em;
+                border-radius: 21px;
+                padding: 7px;
+                background: #efefef;
+                &:hover {
+                    background-color: #f4f4f4;
+                }
+            }
+            .btn-checkout {
+                background-color: black;
+                color: white;
+                &:hover {
+                    background-color: rgb(101, 101, 101);
+                }
+            }
+        }
+    }
 }
