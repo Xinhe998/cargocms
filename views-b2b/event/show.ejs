@@ -18,6 +18,11 @@
 <% LayoutUtils.addMeta({ property:"article:tag", content:"LFP" }); %>
 <% LayoutUtils.addMeta({ property:"article:tag", content:"LabFnP" }); %>
 
+<div class="b2b-breadcrumbs">
+  <div class="container" style="max-width: 960px;">
+    <h1>購物說明</h1>
+  </div>
+</div>
 <!--=== Blog Show ===-->
 <div class="bg-color-light">
 	<div class="container content-sm">
@@ -57,7 +62,19 @@
 				</div>
 			</div> -->
 
-			<div class="col-md-10 col-md-offset-1">
+			<!-- Q&A Sidebar -->
+			<div class="col-md-3 hidden-xs native-hide">
+				<ul class="nav nav-pills nav-stacked margin-bottom-50" style="margin-top: 16px;">
+					<% sidebarItems.items.forEach(function(post){ %>
+						<li class="text-overflow">
+							<a href="/events/<%= post.alias || post.id %>"><%= post.title %></a>
+						</li>
+					<% }); %>
+				</ul>
+			</div>
+			<!-- End Q&A Sidebar -->
+
+			<div class="col-md-9">
 
 				<%- include post.ejs %>
 
