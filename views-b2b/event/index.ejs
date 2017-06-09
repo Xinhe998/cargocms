@@ -34,13 +34,18 @@ li a, label {
 }
 </style>
 
+<div class="b2b-breadcrumbs">
+  <div class="container" style="max-width: 960px;">
+    <h1>購物說明</h1>
+  </div>
+</div>
 <!--=== Blog Posts ===-->
 <div class="bg-color-light">
 	<div class="container content-sm">
 		<div class="row">
 			<!-- Blog Sidebar -->
 			<div class="col-md-3 hidden-xs native-hide">
-				<ul class="list-unstyled blog-trending margin-bottom-50">
+				<ul class="nav nav-pills nav-stacked margin-bottom-50">
 					<% data.items.forEach(function(post){ %>
 						<li class="text-overflow">
 							<a href="/events/<%= post.alias || post.id %>"><%= post.title %></a>
