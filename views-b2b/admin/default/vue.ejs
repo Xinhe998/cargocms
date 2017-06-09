@@ -8,6 +8,7 @@ function getConfig() {
 }
 var defaultVueMathod = {
 
+  // 在單頁式的情況下 SmartMessageBox 會需要重新整理才能重複使用，所以需要這個 function 來解決這問題
   dismissMessageBox: function () {
     ExistMsg = 0;
     SmartMSGboxCount = 0;

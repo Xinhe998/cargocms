@@ -42,8 +42,11 @@ module.exports = {
   update: async (req, res) => {
     try {
       const { id } = req.params;
-      const data = req.body;
+      let data = req.body;
       const message = 'Update success.';
+      if(_.isNil(data.deletedAt)) {
+        delete data.deletedAt;
+      }
       const item = await OrderProduct.update(data ,{
         where: { id, },
       });

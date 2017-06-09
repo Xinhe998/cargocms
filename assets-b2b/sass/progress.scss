@@ -1,0 +1,44 @@
+.header-progress-bar {
+  li.active .index {
+    background-color: #ff5353;
+  }
+  .index {
+    background-color: #bababa;
+    color: #fff;
+    display: inline-block;
+    border-radius: 100px;
+    line-height: 1;
+    padding: 7px;
+    width: 35px;
+    height: 35px;
+  }
+  li {
+    &.active {
+      .step-title {
+        border-bottom: 2px solid #ff5353;
+        padding-bottom: 2px;
+      }
+      color: #ff5353;
+      color: #ff5353;
+    }
+    text-align: center;
+    color: #bababa;
+    float: left;
+    height: 40px;
+    display: block;
+    line-height: 40px;
+    position: relative;
+    width: 30%;
+    font-size: 22px;
+    &.step1 {
+      width: 29.166666%;
+    }
+    &.step-arrow {
+      width: 4.166666%;
+      font-size: 22px;
+    }
+    &.active + .step-arrow {
+      color: #ff5353;
+    }
+  }
+}

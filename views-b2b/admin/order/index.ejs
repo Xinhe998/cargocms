@@ -87,7 +87,7 @@
       <td>{{ item.comment }}</td>
       <td>{{ item.total }}</td>
       <td>{{ item.tax }}</td>
-      <td>{{ item.totalIncludeTax }}</td>
+      <td>{{ item.regularNoTaxTotal }}</td>
       <!-- <td>{{ item.tracking }}</td>
       <td>{{ item.ip }}</td>
       <td>{{ item.forwardedIp }}</td>
@@ -232,6 +232,7 @@
 		var serverSidePaging = <%= (data.serverSidePaging != null)?data.serverSidePaging:false %>;
 		<%- include vue.ejs %>
 		appMain.$mount("#main-index");
-		appMain.loadItems(appMain.renderTable);
+    appMain.loadItems(appMain.renderTable);
+    appMain.dismissMessageBox();
 	};
 </script>

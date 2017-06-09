@@ -90,7 +90,7 @@ module.exports.init = async () => {
         "totalIncludeTax": 687037,
         "commission": 0,
         "marketingId": 0,
-        "tracking": "確定訂單",
+        "tracking": "訂單建立",
         "languageId": 0,
         "ip": "",
         "forwardedIp": "",
