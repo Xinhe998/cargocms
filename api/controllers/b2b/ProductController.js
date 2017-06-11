@@ -29,7 +29,9 @@ module.exports = {
           data:{
             items: result,
             categorys,
-            banner: sails.config.imageList.banner || 'http://i.imgur.com/Z2K6d9T.jpg',
+          },
+          layoutImages: {
+            banner: sails.config.layoutImages.banner[0],
           },
           errors: req.flash('error')[0],
         }
