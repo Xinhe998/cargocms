@@ -105,3 +105,6 @@
 
 ### Product 欄位增加
 * 增加一個 unit 欄位，型態 STRING，不可為空值，在 weight 之後。
+
+### ProductDescriptions 欄位類型變動
+* 將 precautions 型態改為 TEXT。
