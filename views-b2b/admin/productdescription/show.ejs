@@ -10,5 +10,10 @@
 		appMain.$mount("#main-edit");
 		appMain.loadItem();
 	};
+	setTimeout(function () {
+		$('.summernote').each(function (index) {
+			$('.summernote').eq(index).summernote('disable');
+		});
+	}, 1500)
 
 </script>
