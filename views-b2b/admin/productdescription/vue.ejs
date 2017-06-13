@@ -63,7 +63,7 @@ var ready = function () {
       
         function onerror (err) {
           console.error(err);
-          swal('錯誤', '發生不明原因，無法上傳圖片。', 'error');
+          alert('錯誤，發生不明原因，無法上傳圖片。')
         }
         var self = this;
         var formdata = new FormData();
@@ -93,8 +93,6 @@ var ready = function () {
       summernotes.each(function (index) {
         var summernote = summernotes.eq(index);
         var markup = summernote.summernote('code');
-        console.log(markup);
-        console.log(summernote.attr('name'));
         appMain.data.item[summernote.attr('name')] = markup;
       });
       return true;
