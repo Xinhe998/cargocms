@@ -53,7 +53,7 @@ var ready = function () {
       ],
       callbacks: {
         onInit: function() {
-        console.log(this)
+          $(this).summernote('code', this.innerText);
           if(document.querySelector('.spinner'))
             document.querySelector('.spinner').classList.remove('spinner');
         },
