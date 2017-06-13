@@ -54,7 +54,8 @@ var ready = function () {
       callbacks: {
         onInit: function() {
         console.log(this)
-          document.querySelector('.spinner').classList.remove('spinner');
+          if(document.querySelector('.spinner'))
+            document.querySelector('.spinner').classList.remove('spinner');
         },
         onImageUpload: function(files) {
         
