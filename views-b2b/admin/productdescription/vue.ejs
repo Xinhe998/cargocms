@@ -37,6 +37,64 @@ var appModel = {
   }
 }
 
+var ready = function () {
+  setTimeout(function () {
+    $('.summernote').summernote({
+      height: 180,
+      dialogsInBody: true,
+      lang: 'zh-TW',
+      toolbar: [
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['insert', ['picture', 'link']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['misc', ['redo', 'undo', 'fullscreen']],
+      ],
+      callbacks: {
+        onInit: function() {
+        console.log(this)
+          document.querySelector('.spinner').classList.remove('spinner');
+        },
+        onImageUpload: function(files) {
+        
+          function onerror (err) {
+            console.error(err);
+            swal('錯誤', '發生不明原因，無法上傳圖片。', 'error');
+          }
+          var self = this;
+          var formdata = new FormData();
+          formdata.append('qquuid', files[0].name); 
+          formdata.append('qqfilename', files[0].name); 
+          formdata.append('qqtotalfilesize', files[0].size); 
+          formdata.append('uploadPic', files[0]); 
+          var xhr = new XMLHttpRequest();
+          xhr.open('post', '/api/admin/upload');
+          xhr.onload = function () {
+            try {
+              var json = JSON.parse(xhr.responseText);
+              $(self).summernote('insertImage', json.data.url);
+            } catch (err) {
+              onerror(err);
+            }
+          };
+          xhr.onerror = onerror;
+          xhr.send(formdata);
+        }
+      }
+    });
+  
+    $('form')[0].onsubmit = function (event) { 
+      var summernotes = $('.summernote');
+      summernotes.each(function (index) {
+        var summernote = summernotes.eq(index);
+        var markup = summernote.summernote('code'); 
+        appMain.data.item[summernote[0].getAttribute('name')] = markup;
+      });
+    };
+  }, 3000);
+}
+
 /* TABLETOOLS */
 
 <%- include ../default/vue.ejs %>

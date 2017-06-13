@@ -1,4 +1,37 @@
+<style>
+.spinner {
+  width: 200px;
+  height: 200px;
+  background-color: #666;
+
+  margin: 100px auto;
+  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+  animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+
+@-webkit-keyframes sk-rotateplane {
+  0% { -webkit-transform: perspective(600px) }
+  50% { -webkit-transform: perspective(600px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(600px) rotateY(180deg)  rotateX(180deg) }
+}
+
+@keyframes sk-rotateplane {
+  0% { 
+    transform: perspective(600px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(600px) rotateX(0deg) rotateY(0deg) 
+  } 50% { 
+    transform: perspective(600px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(600px) rotateX(-180.1deg) rotateY(0deg) 
+  } 100% { 
+    transform: perspective(600px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(600px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+</style>
+
 <fieldset>
+  
+  <div class="spinner"></div>
 
   <div class="row">
     <section class="col col-lg-6 col-xs-6">
@@ -14,38 +47,6 @@
         <b class="tooltip tooltip-bottom-right">出貨日期</b></label>
     </section>
     
-  </div>
-
-  <div class="row">
-    <section class="col col-lg-6 col-xs-6">
-      <label class="label">描述</label>
-      <label class="input state-disabled">
-        <textarea class="form-control" name="description" placeholder="" v-model="data.item.description" rows="3" disabled></textarea>
-        <b class="tooltip tooltip-bottom-right">描述</b></label>
-    </section>
-
-    <section class="col col-lg-6 col-xs-6">
-      <label class="label">規格</label>
-      <label class="input state-disabled">
-        <textarea class="form-control" name="specification" placeholder="" v-model="data.item.specification" rows="3" disabled></textarea>
-        <b class="tooltip tooltip-bottom-right">規格</b></label>
-    </section>
-  </div>
-
-  <div class="row">
-    <section class="col col-lg-6 col-xs-6">
-      <label class="label">品牌故事</label>
-      <label class="input state-disabled">
-        <textarea class="form-control" name="story" placeholder="" v-model="data.item.story" rows="3" disabled></textarea>
-        <b class="tooltip tooltip-bottom-right">品牌故事</b></label>
-    </section>
-
-    <section class="col col-lg-6 col-xs-6">
-      <label class="label">注意事項</label>
-      <label class="input state-disabled">
-        <textarea class="form-control" name="precautions" placeholder="" v-model="data.item.precautions" rows="3" disabled></textarea>
-        <b class="tooltip tooltip-bottom-right">注意事項</b></label>
-    </section>
   </div>
 
   <div class="row">
@@ -101,6 +102,39 @@
     </section>
   </div>
 
+  <div class="row">
+    <section class="col col-xs-12">
+      <label class="label">描述</label>
+      <div class="summernote" name="description">{{data.item.description}}</div>
+      <b class="tooltip tooltip-bottom-right">描述</b>
+    </section>
+  </div>
+
+  <div class="row">
+    <section class="col col-xs-12">
+      <label class="label">規格</label>
+      <div class="summernote" name="specification">{{data.item.specification}}</div>
+      <b class="tooltip tooltip-bottom-right">規格</b>
+    </section>
+  </div>
+
+  <div class="row">
+    <section class="col col-xs-12">
+      <label class="label">品牌故事</label>
+      <div class="summernote" name="story">{{data.item.story}}</div>
+      <input type="hidden" name="story">
+      <b class="tooltip tooltip-bottom-right">品牌故事</b>
+    </section>
+  </div>
+
+  <div class="row">
+    <section class="col col-xs-12">
+      <label class="label">注意事項</label>
+      <div class="summernote" name="precautions">{{data.item.precautions}}</div>
+      <b class="tooltip tooltip-bottom-right">注意事項</b>
+    </section>
+  </div>
+
 </fieldset>
 <script>
 var formRules = {
@@ -133,4 +167,8 @@ var formMessages = {
     required: '請給予描述'
   },
 }
+
+$(function() {
+});
+
 </script>
