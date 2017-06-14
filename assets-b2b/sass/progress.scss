@@ -1,44 +1,144 @@
-.header-progress-bar {
-  li.active .index {
-    background-color: #ff5353;
-  }
-  .index {
-    background-color: #bababa;
-    color: #fff;
-    display: inline-block;
-    border-radius: 100px;
-    line-height: 1;
-    padding: 7px;
-    width: 35px;
-    height: 35px;
-  }
-  li {
-    &.active {
-      .step-title {
-        border-bottom: 2px solid #ff5353;
-        padding-bottom: 2px;
-      }
-      color: #ff5353;
-      color: #ff5353;
+@media (min-width: 1600px) {
+    .xs-only {
+        display: none;
     }
-    text-align: center;
-    color: #bababa;
-    float: left;
-    height: 40px;
-    display: block;
-    line-height: 40px;
-    position: relative;
-    width: 30%;
-    font-size: 22px;
-    &.step1 {
-      width: 29.166666%;
+    .header-progress-bar {
+        li.active .index {
+            background-color: #ff5353;
+        }
+        .index {
+            background-color: #bababa;
+            color: #fff;
+            display: inline-block;
+            border-radius: 100px;
+            line-height: 1;
+            padding: 7px;
+            width: 35px;
+            height: 35px;
+        }
+        li {
+            text-align: center;
+            color: #bababa;
+            float: left;
+            height: 40px;
+            display: block;
+            line-height: 40px;
+            position: relative;
+            width: 30%;
+            font-size: 22px;
+            &.active {
+                color: #ff5353;
+                color: #ff5353;
+                .step-title {
+                    border-bottom: 2px solid #ff5353;
+                    padding-bottom: 2px;
+                }
+            }
+            &.step1 {
+                width: 29.166666%;
+            }
+            &.step-arrow {
+                width: 4.166666%;
+                font-size: 22px;
+            }
+            &.active+.step-arrow {
+                color: #ff5353;
+            }
+        }
     }
-    &.step-arrow {
-      width: 4.166666%;
-      font-size: 22px;
+}
+
+@media (max-width: 1600px) and (min-width: 620px) {
+    .xs-only {
+        display: none;
     }
-    &.active + .step-arrow {
-      color: #ff5353;
+    .header-progress-bar {
+        li.active .index {
+            background-color: #ff5353;
+        }
+        .index {
+            background-color: #bababa;
+            color: #fff;
+            display: inline-block;
+            border-radius: 100px;
+            line-height: 1;
+            padding: 10px;
+            width: 35px;
+            height: 35px;
+        }
+        li {
+            text-align: center;
+            color: #bababa;
+            float: left;
+            height: 40px;
+            display: block;
+            line-height: 40px;
+            position: relative;
+            width: 30%;
+            font-size: 14px;
+            &.active {
+                color: #ff5353;
+                color: #ff5353;
+                .step-title {
+                    border-bottom: 2px solid #ff5353;
+                    padding-bottom: 2px;
+                }
+            }
+            &.step1 {
+                width: 29.166666%;
+            }
+            &.step-arrow {
+                width: 4.166666%;
+                font-size: 14px;
+            }
+            &.active+.step-arrow {
+                color: #ff5353;
+            }
+        }
     }
-  }
+}
+
+@media (max-width: 620px) {
+    .header-progress-bar {
+        li.active .index {
+            background-color: #ff5353;
+        }
+        .index {
+            background-color: #bababa;
+            color: #fff;
+            display: inline-block;
+            border-radius: 100px;
+            line-height: 1;
+            padding: 10px;
+            padding-left: 13px;
+            width: 35px;
+            height: 35px;
+        }
+        li {
+            color: #bababa;
+            display: block;
+            line-height: 40px;
+            position: relative;
+            font-size: 14px;
+            &.active {
+                color: #ff5353;
+                color: #ff5353;
+                .step-title {
+                    border-bottom: 2px solid #ff5353;
+                    padding-bottom: 2px;
+                }
+            }
+            &.step-arrow {
+                display: none;
+            }
+            &.active+.step-arrow {
+                color: #ff5353;
+            }
+        }
+    }
+    #div-center {
+        position: relative;
+        width: 250px;
+        margin: 0 auto;
+    }
 }

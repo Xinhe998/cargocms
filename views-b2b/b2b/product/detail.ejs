@@ -101,6 +101,10 @@
   </div>
   
 </div>
+<a href="/order/form" id="cart-fixed">
+  <i class="fa fa-shopping-cart fa-lg cart-fixed-icon" aria-hidden="true"></i>
+  <span v-text="carts.length" v-show="carts.length > 0" class="badge number-circle">
+</a>
 
 <% LayoutUtils.addScripts('/assets/b2b/plugins/jquery-flexslider/jquery.flexslider-min.js'); %>
 <% LayoutUtils.addScripts('/assets/b2b/plugins/toastr/toastr.min.js'); %>
