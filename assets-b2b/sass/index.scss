@@ -184,3 +184,8 @@ body {
         padding: 1px 1px;
     }
 }
+@media (min-width: 768px) {
+    #cart-fixed {
+        display: none;
+    }
+}
