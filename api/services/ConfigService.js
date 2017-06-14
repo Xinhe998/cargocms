@@ -129,14 +129,6 @@ module.exports = {
   getPath: (data, path, result, allData, nowPointer) => {
     try {
       if(_.isEmpty(data)) {
-        if(_.isEmpty(data)) {
-          for(var item in allData) {
-            if(!_.isEmpty(allData[item])) {
-              ConfigService.getPath(allData[item], item, result, allData, item);
-              break;
-            }
-          }
-        }
         return result;
       } else {
         for (const key of Object.keys(data)) {
