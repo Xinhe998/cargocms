@@ -107,7 +107,6 @@ module.exports = {
           type: 'image/jpeg',
           storage: 'url'
         });
-        sails.log(`=> IMG${ProductImageImageItem}.jpg`)
 
 
         productImage = await ProductImage.create({

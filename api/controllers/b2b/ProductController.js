@@ -30,6 +30,9 @@ module.exports = {
             items: result,
             categorys,
           },
+          layoutImages: {
+            banner: sails.config.layoutImages.banner[0],
+          },
           errors: req.flash('error')[0],
         }
       );

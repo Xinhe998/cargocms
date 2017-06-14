@@ -96,4 +96,11 @@ module.exports = {
     '貨到付款': '黑貓宅急便', 
   },
 
+  layoutImages: {
+    banner: [{
+      url: 'http://i.imgur.com/Z2K6d9T.jpg',
+      dimension: '1500x1001',
+    }],
+  }
+
 };

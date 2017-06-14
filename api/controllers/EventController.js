@@ -43,7 +43,18 @@ module.exports = {
         e = Object.assign(e, EventService.getTicketStatus(e, new Date()));
       });
 
-      res.view('event/show', {data, social});
+      // Get Q&A sidebar items
+      const order = 'DESC';
+      let where = {
+        publish: true,
+        type: ["internal-event", "external-event"]
+      }
+
+      let posts = await Post.findAllHasJoin({order, where});
+      const items = posts;
+      const sidebarItems = {items}
+
+      res.view('event/show', {data, social, sidebarItems});
     } catch (e) {
       res.serverError(e);
     }

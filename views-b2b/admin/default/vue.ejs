@@ -8,15 +8,20 @@ function getConfig() {
 }
 var defaultVueMathod = {
 
+  // 在單頁式的情況下 SmartMessageBox 會需要重新整理才能重複使用，所以需要這個 function 來解決這問題
   dismissMessageBox: function () {
     ExistMsg = 0;
     SmartMSGboxCount = 0;
     $('.divMessageBox').remove();
   },
 
-	cancel: function (event, getQuery) {
+	cancel: function (event, getQuery, extraModelName) {
 		var callbackUrl = $('#main-form').data('callback') || '';
-		var url = '/admin/#/admin/' + modelName;
+		if(typeof extraModelName === 'undefined') {
+      var url = '/admin/#/admin/' + modelName;
+    } else {
+      var url = '/admin/#/admin/' + extraModelName;
+    }
     if(_.isNil(getQuery)) {
       getQuery = '';
     } else {
@@ -29,13 +34,17 @@ var defaultVueMathod = {
 			location.href = url + getQuery;
 		});
 	},
-  save: function (event, getQuery) {
+  save: function (event, getQuery, extraModelName) {
 		var ajaxSuccess = function (result) {
 			var callbackUrl = $('#main-form').data('callback') || '';
-			var url = '/admin/#/admin/' + modelName;
+			if(typeof extraModelName === 'undefined') {
+        var url = '/admin/#/admin/' + modelName;
+      } else {
+        var url = '/admin/#/admin/' + extraModelName;
+      }
       if(getQuery !== '') {
         getQuery = '?' + getQuery;
-      } 
+      }
 			if (callbackUrl!== '') {
 				url = '/admin/#/admin' + callbackUrl + getQuery;
 			}
@@ -65,13 +74,17 @@ var defaultVueMathod = {
 			error: ajaxError,
 		});
 	},
-  update: function (event, getQuery) {
+  update: function (event, getQuery, extraModelName) {
 		var ajaxSuccess = function (result) {
 			var callbackUrl = $('#main-form').data('callback') || '';
-      var url = '/admin/#/admin/' + modelName;
+      if(typeof extraModelName === 'undefined') {
+        var url = '/admin/#/admin/' + modelName;
+      } else {
+        var url = '/admin/#/admin/' + extraModelName;
+      }
       if(getQuery !== '') {
         getQuery = '?' + getQuery;
-      } 
+      }
 			if (callbackUrl!== '') {
 				url = '/admin/#/admin' + callbackUrl + getQuery;
 			}
@@ -239,8 +252,9 @@ var defaultVueMathod = {
     };
     $.ajax(ajaxConfig).done(ajaxSuccess).fail(ajaxError);
 	},
-	renderTable: function (getQuery) {
+	renderTable: function (getQuery, extraModelName) {
 		/* BASIC ;*/
+
     var responsiveHelper_datatable = undefined;
     if(_.isNil(getQuery)) {
       getQuery = '';
@@ -254,7 +268,7 @@ var defaultVueMathod = {
 		};
 		var option = appModel.data.option;
 		var customAjax = option.ajax || {};
-		var url = customAjax.url || '/api/' + prefix + modelName;
+	  var url = customAjax.url || '/api/' + prefix + modelName;  // 因為是讀原先 Model 的資料，所以這邊不使用 extraModelName
 		url = url + "?serverSidePaging=" + serverSidePaging + '&' + getQuery.replace('?','');
 		var ajax = {
 	    "url": url,
@@ -311,7 +325,11 @@ var defaultVueMathod = {
 				if (appMain.customSearch) {
 					appMain.customSearch();
 				}
-				location.href = '/api/admin/' + modelName + '/export?' + serialize(appModel.pagingQuery)
+        if(typeof extraModelName === 'undefined') {
+				  location.href = '/api/admin/' + modelName + '/export?' + serialize(appModel.pagingQuery)
+        } else {
+          location.href = '/api/admin/' + extraModelName + '/export?' + serialize(appModel.pagingQuery)
+        }
 			}
 		}
 
@@ -319,7 +337,11 @@ var defaultVueMathod = {
 			"sExtends": "text",
 			"sButtonText": "新增",
 			"fnClick": function (nButton, oConfig, oFlash) {
-				location.href = '/admin/#/admin/' + modelName + '/create' + getQuery;
+        if(typeof extraModelName === 'undefined') {
+				  location.href = '/admin/#/admin/' + modelName + '/create' + getQuery;
+        } else {
+          location.href = '/admin/#/admin/' + extraModelName + '/create' + getQuery;
+        }
 			}
 		}
 
@@ -378,7 +400,11 @@ var defaultVueMathod = {
 							var isSelected = appModel.view.table.selectIndex !== COMMON.DEFAULT_INDEX;
 							if (isSelected) {
 								var id = appModel.view.table.selectIndex;
-								location.href = '/admin/#/admin/' + modelName + '/show/' + id + getQuery;
+                if(typeof extraModelName === 'undefined') {
+								  location.href = '/admin/#/admin/' + modelName + '/show/' + id + getQuery;
+                } else {
+                  location.href = '/admin/#/admin/' + extraModelName + '/show/' + id + getQuery;
+                }
 							} else {
 								messageApp.show({
 									desc: '請先選擇一筆資料',
@@ -395,7 +421,11 @@ var defaultVueMathod = {
 							var isSelected = appModel.view.table.selectIndex !== COMMON.DEFAULT_INDEX;
 							if (isSelected) {
 								var id = appModel.view.table.selectIndex;
-								location.href = '/admin/#/admin/' + modelName + '/edit/' + id + getQuery;
+                if(typeof extraModelName === 'undefined') {
+								  location.href = '/admin/#/admin/' + modelName + '/edit/' + id + getQuery;
+                } else {
+                  location.href = '/admin/#/admin/' + extraModelName + '/edit/' + id + getQuery;
+                }
 							} else {
 								messageApp.show({
 									desc: '請先選擇一筆資料',
@@ -549,7 +579,7 @@ var defaultVueMathod = {
 		};
 		messageApp.confirm(msg, action);
 	},
-	setupForm: function (type) {
+	setupForm: function (type, extraModelName) {
 		var registerForm = $("#main-form");
 
     if(appModel.data.option.imgUpload){
@@ -568,15 +598,19 @@ var defaultVueMathod = {
 			},
 			submitHandler: function (form) {
 				if (type === 'create') {
-					appMain.save('', getConfig());
+					appMain.save('', getConfig(), extraModelName);
 					return false;
 				} else if (type === 'edit') {
-					appMain.update('', getConfig());
+					appMain.update('', getConfig(), extraModelName);
 					return false;
 				}
 			}
 		});
 	}
+}
+
+if(typeof ready === 'undefined') {
+  var ready = function () {console.log('vue is ready.');};
 }
 
 if(typeof computed === 'undefined') {
@@ -586,5 +620,6 @@ if(typeof computed === 'undefined') {
 window.appMain = new Vue({
 	data: appModel,
   methods: defaultVueMathod,
+  ready: ready,
   computed: computed,
 });

@@ -162,7 +162,8 @@ module.exports = {
 
             // save Quantity to productOption
             productOption.ProductOptionValue.quantity = calcNewOptionQuantity;
-            await productOption.save({ transaction });
+            await productOption.ProductOptionValue.save({ transaction });
+
           }
           orderProductCreateData.total = Number(orderedProduct.quantity) * Number(productOption.ProductOptionValue.price);
           orderProductCreateData.price = productOption.ProductOptionValue.price;
@@ -329,5 +330,60 @@ module.exports = {
       sails.log.error(e);
       throw e;
     }
+  },
+
+  async updateStatus (id, status) {
+    try {
+
+      sails.log('id, status=>', id, status)
+
+      if(_.isNil(id) || _.isNil(status)) {
+        throw new Error('can not find id or status');
+      }
+
+      const orderStatus = await OrderStatus.findOne({
+        where: {
+          name: status
+        }
+      });
+
+      const item = await Order.find({
+        where: {
+          id,
+        },
+      });
+      item.OrderStatusId = orderStatus.id;
+      if(status === 'NEW') {
+        item.tracking = '訂單建立'
+      }
+      await item.save();
+
+      await OrderHistory.create({
+        notify: true,
+        comment: `訂單 ID:${id} 變更狀態為:${status}`,
+        OrderId: id,
+        OrderStatudId: orderStatus.id
+      });
+
+      let messageConfig, mail;
+      switch (status) {
+        case 'PROCESSING':
+          console.log('mail@PROCESSING');
+          messageConfig = await MessageService.orderConfirm({
+            email: item.email,
+            serialNumber: item.orderNumber,
+            username: `${item.lastname}${item.firstname}`,
+          });
+          break;
+      }
+      mail = await Message.create(messageConfig);
+      await MessageService.sendMail(mail);
+
+      return item;
+    } catch (e) {
+      sails.log.error(e);
+      throw e;
+    }
   }
+
 }

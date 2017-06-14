@@ -28,13 +28,13 @@ var appModel = {
     },
   }
 }
-  function getconfig() {
-    var query = location.hash.split('/').reverse()[0].split('?')[1];
-    if(typeof query === 'undefined') {
-      query = '';
-    }
-    return query;
+function getconfig() {
+  var query = location.hash.split('/').reverse()[0].split('?')[1];
+  if(typeof query === 'undefined') {
+    query = '';
   }
+  return query;
+}
 
 /* TABLETOOLS */
 
@@ -131,7 +131,7 @@ appMain.cancel = function (event) {
   var getQuery = getConfig();
   if(getQuery !== '') {
     getQuery = '?' + getQuery;
-  } 
+  }
   if (callbackUrl!== '') {
     url = '/admin/#/admin' + callbackUrl + getQuery;
   }
@@ -151,7 +151,7 @@ appMain.delete = function (event) {
       var getQuery = getConfig();
       if(getQuery !== '') {
         getQuery = '?' + getQuery;
-      } 
+      }
       var ajaxSuccess = function (result) {
         appModel.view.table.selectIndex = COMMON.DEFAULT_INDEX;
         messageApp.show({
@@ -193,7 +193,7 @@ appMain.delete = function (event) {
 
 appMain.hideIndex = function() {  // 暫時權限擋連結
   if(getConfig() === '') {
-    window.location.href = '/admin/#/admin/dashboard'; 
+    window.location.href = '/admin/#/admin/dashboard';
   }
 }
 appMain.taxrateOnly = function() {
@@ -204,6 +204,7 @@ appMain.taxrateOnly = function() {
     document.getElementsByClassName('value')[0].innerHTML = '稅率';
   }
 }
+
 
 
 

@@ -6,14 +6,13 @@
 
 	var pagefunction = function() {
 		<%- include vue.ejs %>
-    appMain.loadProduct();
+
 		appMain.$mount("#main-edit");
-		appMain.loadItem();
+    appMain.hideIndex();
+    appMain.loadItem(function() {
+      appMain.getDescription();
+      appMain.setImage();
+    });
 	};
-	setTimeout(function () {
-		$('.summernote').each(function (index) {
-			$('.summernote').eq(index).summernote('disable');
-		});
-	}, 1500)
 
 </script>

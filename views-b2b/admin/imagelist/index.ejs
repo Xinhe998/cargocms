@@ -5,22 +5,23 @@
     <tr>
 
 
-        <th data-hide=""
-        data-class="" class="no-sort">
-          註釋
+        <th data-hide="phone,tablet"
+        data-class="" class="no-sort name">
+          版位
         </th>
 
 
         <th data-hide=""
-        data-class="" class="no-sort">
-          通知
+        data-class="" class="no-sort key">
+          描述
         </th>
 
 
         <th data-hide=""
-        data-class="" class="no-sort">
-          供應商出貨單ID
+        data-class="" class="image no-sort">
+          Image
         </th>
+
 
       <th width="80" data-hide="phone,tablet"></th>
     </tr>
@@ -29,13 +30,13 @@
   <tbody>
     <tr v-for="item in data.items">
 
-        <td>{{ item.comment}}</td>
+        <td>{{ item.key}}</td>
 
-        <td>{{ item.notify}}</td>
+        <td>{{ item.description}}</td>
 
-        <td>{{ item.SupplierShipOrderId}}</td>
+        <td>{{ item.value}}</td>
 
-      <td align="center" style="cursor: pointer;">
+      <td align="center" valign="center" style="cursor: pointer;">
         <div class="row">
           <a class="btn btn-default btn-xs" role="button" v-on:click="show(item.id)">
             <i class="fa-fw fa fa-eye text-muted" />
@@ -55,17 +56,44 @@
 
     // server only
     var columns = [
-      { "data": "comment" },
 
-      { "data": "notify" },
 
-      { "data": "SupplierShipOrderId" },
-      
-      { "data": null },
+          { "data": "key" }, // 名稱
+
+
+
+          { "data": "description" }, // 版位
+
+
+
+          { "data": "value" }, // Image
+
+
+        { "data": null },
     ]
 
     // server only
     var columnDefs = [
+
+
+
+
+
+
+
+
+
+      {
+				"targets"  : 'image',
+				"orderable": false,
+				"searchable": false,
+				"render": function ( data, type, row ) {
+					if(data){
+            return `<div class="text-center"><img width="60" src='${JSON.parse(data)[0].url}'/></div>`;
+          }
+          return '';
+				}
+			},
       {
         "targets"  : 3,
         "orderable": false,
@@ -76,6 +104,9 @@
           '<a name="showDataButton" class="btn btn-default btn-xs" role="button" data-id="'+row.id+'">'+
           '<i class="fa-fw fa fa-eye text-muted" />'+
           '</a>'+
+          '<a name="editDataButton" class="btn btn-default btn-xs" role="button" data-id="'+row.id+'">'+
+          '<i class="fa-fw fa fa-pencil-square-o text-muted"/>'+
+          '</a>'+
           '</div>';
           return colBody;
         }
@@ -84,6 +115,12 @@
     var serverSidePaging = <%= (data.serverSidePaging != null)?data.serverSidePaging:false %>;
     <%- include vue.ejs %>
     appMain.$mount("#main-index");
-    appMain.loadItems(appMain.renderTable);
+    appMain.loadItems(function() {
+      appMain.renderTable(getConfig(), 'imagelist');
+      appMain.filterConfig();
+      appMain.hidenSearch();
+      appMain.hideIndex();
+      appMain.createDisablede();
+    });
   };
 </script>

@@ -4,6 +4,52 @@
     <h1>確認訂購</h1>
   </div>
 </div>
+
+<br>
+
+<div class="container">
+	<div class="row">
+		<div class="col-xs-offset-2 col-xs-8">
+			<div class="header-progress-bar">
+				<ul>
+					<li class="step1">
+						<span>
+							<span class="index">1</span>
+							<span class="step-title">挑選商品</span>
+						</span>
+					</li>
+					<li class="step-arrow">
+						<span>
+							<i class="fa fa-angle-right" aria-hidden="true"></i>
+						</span>
+					</li>
+					<li class="step2 active">
+						<span>
+							<span class="index">2</span>
+							<span class="step-title">付款方式與確認資料</span>
+						</span>
+
+					</li>
+					<li class="step-arrow">
+            <span>
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </span>
+					</li>
+					<li class="step3">
+						<span>
+							<span class="index">3</span>
+							<span class="step-title">完成訂購</span>
+						</span>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<hr>
+
 <form id="order" method='post' action='/order'>
   <div class="container b2b-order-form" id="orderForm">
   	<div class="row" style="margin-top: 2em;">
@@ -153,13 +199,13 @@
     <hr style="border-top: 2px solid #aaa"/>
     <table class="b2b-bill-info pull-right">
       <tr>
-        <th>合計</th><td>$ {{ sumTotal | moneyNum}}</td>
+        <th>合計</th><td>$ {{ regularTotal | moneyNum}}</td>
       </tr>
       <tr>
-        <th>營業稅</th><td>$ {{ grandTax | moneyNum }}</td>
+        <th>營業稅</th><td>$ {{ regularTax | moneyNum }}</td>
       </tr>
       <tr>
-        <th>總計</th><td>$ {{ sumTotal + grandTax | moneyNum}}</td>
+        <th>總計</th><td>$ {{ regularTotal + regularTax | moneyNum}}</td>
       </tr>
     </table>
     <div class="col-xs-12">

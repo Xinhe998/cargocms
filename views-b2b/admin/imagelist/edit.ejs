@@ -8,15 +8,14 @@
 	var pagefunction = function() {
 		<%- include vue.ejs %>
 		appMain.$mount("#main-edit");
-    appMain.loadItem( function(){
+    appMain.loadItem(function() {
+      appMain.getDescription();
+      appMain.setImage();
       appMain.onEnterPageEdit();
       appMain.editDisabled();
-    });
-    appMain.setupForm("edit");
-
-    // 因為SmartMessageBox不能重複呼叫，必須重新整理才能使用，所以這邊多加這個 method 來解決這問題
-    appMain.dismissMessageBox();
-
+      appMain.hideIndex();
+    }, 'imagelist');
+		appMain.setupForm("edit");
 	};
 
 </script>
