@@ -88,7 +88,12 @@ module.exports = {
 
   taxrate : 0.05,
   paymentSetting: {
-    ATM: '000123123456',
+    bank: '國泰世華',
+    bankId: '013',
+    bankBranch: '南屯',
+    bankBranchId: '2402',
+    ATMid: '808080808080',
+    accountName: '管李仁',
   },
 
   paymentMethods: {
