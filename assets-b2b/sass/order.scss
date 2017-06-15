@@ -10,6 +10,9 @@
 }
 .b2b-order-form {
   max-width: 960px;
+  td {
+    word-break: break-all;
+  }
   .info-icon {
     font-size: 8em;
     color: #9a9a9a;
