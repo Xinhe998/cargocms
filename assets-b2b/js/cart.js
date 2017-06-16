@@ -286,6 +286,24 @@ var OrderForm = new Vue({
             }
         },
     },
+    watch: {
+        carts: function() {
+            var checkTag = $('#orderForm').length;
+            if( $('#orderForm').length ) {    // 檢查 orderForm 是否存在，用以判斷是否在確認訂單耶面
+                var nowCount = JSON.parse(localStorage.cart || '[]');
+                var cartsLen = nowCount.length;
+                if (cartsLen === 0) {
+                    swal({
+                        title: '提醒',
+                        text: '您的購物車內是空的，請回首頁選購商品。',
+                        type: 'info',
+                    }, function() {
+                        window.location.href = '/';
+                    })
+                }
+            }
+        }
+    },
     computed: {
         regularTotal: function() {
             var sum = 0;
