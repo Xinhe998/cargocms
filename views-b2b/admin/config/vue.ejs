@@ -197,14 +197,43 @@ appMain.hideIndex = function() {  // 暫時權限擋連結
   }
 }
 appMain.taxrateOnly = function() {
-  if(getconfig() === 'taxrate') {
+if(getconfig() === 'taxrate') {
     $('.key').attr('data-hide', 'always');
     $('.type').attr('data-hide', 'always');
     document.getElementsByClassName('name')[0].innerHTML = '名稱';
     document.getElementsByClassName('value')[0].innerHTML = '稅率';
+    $('.key').hide()
+    $('.type').hide()
+    $('.description').hide()
+    $('.td-key').parent().hide()
+    $('.td-type').parent().hide()
+    $('.td-description').parent().hide()
+  }
+}
+appMain.paymentMethodsOnly = function() {
+  if(getconfig() === 'paymentMethods') {
+    $('.key').attr('data-hide', 'always');
+    $('.type').attr('data-hide', 'always');
+    document.getElementsByClassName('key')[0].innerHTML = '付款方式';
+    document.getElementsByClassName('value')[0].innerHTML = '內容';
+    $('.description').hide()
+    $('.type').hide()
+    $('.name').hide()
+    $('.td-type').parent().hide();
+    $('.td-name').parent().hide();
+    $('.td-description').parent().hide();
   }
 }
 
+appMain.DataTableInitComplete = function() {
+  $('.loading-wrapper').removeClass('active');
+  appMain.taxrateOnly();
+  appMain.paymentMethodsOnly();
+}
+
+appMain.disableNew = function() {
+  $('#ToolTables_main-table_2').hide();
+}
 
 
 

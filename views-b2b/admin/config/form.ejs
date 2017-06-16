@@ -16,7 +16,7 @@
     </section>
   
     <section row="">
-      <label class="label">描述</label>
+      <label class="label description">描述</label>
       <label class="input state-disabled ">
       <input type="text" name="description" placeholder="" v-model="data.item.description" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入描述</b></label>
@@ -78,7 +78,15 @@
   if(getconfig() === 'taxrate') {
     document.getElementsByClassName('key')[0].parentNode.style.display = 'none';
     document.getElementsByClassName('type')[0].parentNode.style.display = 'none';
+    document.getElementsByClassName('description')[0].parentNode.style.display = 'none';
     document.getElementsByClassName('name')[0].innerHTML = '名稱';
     document.getElementsByClassName('value')[0].innerHTML = '稅率';
+  }
+  if(getconfig() === 'paymentMethods') {
+    document.getElementsByClassName('description')[0].parentNode.style.display = 'none';
+    document.getElementsByClassName('type')[0].parentNode.style.display = 'none';
+    document.getElementsByClassName('name')[0].parentNode.style.display = 'none';
+    document.getElementsByClassName('value')[0].innerHTML = '內容';
+    document.getElementsByClassName('key')[0].innerHTML = '付款方式';
   }
 </script>
