@@ -4,7 +4,7 @@ module.exports.init = async () => {
     const isDevMode = sails.config.environment === 'development';
     const isDropMode = sails.config.models.migrate == 'drop';
 
-    if (isDevMode && isDropMode) {
+    // if (isDevMode && isDropMode) {
 
       const post = await Post.create({
         title: '購物常見問題',
@@ -231,7 +231,7 @@ ATM轉帳帳號資訊如下：<br>
         PostId: post4.id
       });
 
-    }
+    // }
 
   } catch (e) {
     console.error(e);
