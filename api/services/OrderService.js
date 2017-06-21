@@ -368,11 +368,19 @@ module.exports = {
       let messageConfig, mail;
       switch (status) {
         case 'PROCESSING':
-          console.log('mail@PROCESSING');
+          const orderProductStringTable = await OrderService.stringOrderProduct({
+            modelName: 'orderproduct',
+            orderId: item.id
+          })
           messageConfig = await MessageService.orderConfirm({
             email: item.email,
             serialNumber: item.orderNumber,
             username: `${item.lastname}${item.firstname}`,
+            shipmentUsername: `${item.lastname}${item.firstname}`,
+            phone: item.shippingTelephone,
+            shipmentAddress: `${item.shippingPostcode} ${item.shippingCity}${item.shippingAddress1}`,
+            note: item.comment,
+            productName: orderProductStringTable
           });
           break;
       }
