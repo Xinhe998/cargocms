@@ -314,9 +314,9 @@ module.exports = {
         `;
       }
       orderProductTable = `
-      <table>
+      <table style="width: 100%">
       <thead>
-        <tr>
+        <tr style="text-align: left">
           <th>名稱</th><th>數量</th><th>單價</th><th>小計</th>
         </tr>
       </thead>
