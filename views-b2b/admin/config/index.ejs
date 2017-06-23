@@ -1,4 +1,14 @@
-
+<%
+    let isTaxrate, isPayment = false;
+    switch(data.query) {
+      case 'taxrate':
+        isTaxrate = true;
+        break;
+      case 'paymentMethods':
+        isPayment = true;
+        break;
+    }
+%>
 <!-- client -->
 <table id="main-table" class="table table-striped table-bordered table-hover" width="100%">
   <thead>
@@ -11,31 +21,37 @@
         </th>
       
         
-        <th data-hide="phone,tablet"
+        <th data-hide="<%= isPayment ? 'always' : 'phone,tablet' %>"
         data-class="" class="no-sort name">
-          分類
+        <%= isTaxrate ? '名稱' :'分類' %>
         </th>
       
         
-        <th data-hide=""
+        <th data-hide="<%= isTaxrate ? 'always' : '' %>"
         data-class="" class="no-sort key">
-          小分類
+        <%= isPayment ? '付款方式' :'小分類' %>
         </th>
       
         
-        <th data-hide=""
+        <th data-hide="<%= (isTaxrate || isPayment) ? 'always' : '' %>"
         data-class="" class="no-sort description">
           描述
         </th>
       
         
         <th data-hide=""
-        data-class="" class="no-sort value">
-          數值
+            data-class="" class="no-sort value">
+          <% if(isPayment) { %> 
+            內容
+          <% } else if(isTaxrate) { %> 
+            稅率
+          <% } else { %> 
+            數值 
+          <% } %>
         </th>
       
         
-        <th data-hide=""
+        <th data-hide="always"
         data-class="" class="no-sort type">
           類型
         </th>
@@ -203,11 +219,4 @@
     });
     appMain.disableNew();
   };
-  function getconfig() {
-    var query = location.hash.split('/').reverse()[0].split('?')[1];
-    if(typeof query === 'undefined') {
-      query = '';
-    }
-    return query;
-  }
 </script>

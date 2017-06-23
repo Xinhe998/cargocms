@@ -267,9 +267,10 @@ var defaultVueMathod = {
 			phone: 480
 		};
 		var option = appModel.data.option;
-		var customAjax = option.ajax || {};
+    var customAjax = option.ajax || {};
 	  var url = customAjax.url || '/api/' + prefix + modelName;  // 因為是讀原先 Model 的資料，所以這邊不使用 extraModelName
-		url = url + "?serverSidePaging=" + serverSidePaging + '&' + getQuery.replace('?','');
+    url = url + "?serverSidePaging=" + serverSidePaging + '&filter=' + getQuery.replace('?','');
+    console.log('url=>', url)
 		var ajax = {
 	    "url": url,
 	    "type": customAjax.method || 'get',

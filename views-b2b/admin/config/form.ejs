@@ -1,40 +1,98 @@
+<%
+  let isTaxrate, isPayment = false;
+  let valueInfo = '數值';
+  let nameInfo = '分類';
+  let keyInfo = '小分類';
+  switch(data.query) {
+    case 'taxrate':
+      isTaxrate = true;
+      valueInfo = '稅率';
+      nameInfo = '名稱';
+      break;
+    case 'paymentMethods':
+      isPayment = true;
+      valueInfo = '內容';
+      keyInfo = '付款方式';
+      break;
+  }
+  const hide = 'display: none';
+%>
 <fieldset>
 
   
     <section row="">
-      <label class="label name">分類</label>
+      <label class="label name" style="<%= isPayment ? hide : '' %>"><%= nameInfo %></label>
       <label class="input state-disabled ">
-      <input type="text" name="name" placeholder="" v-model="data.item.name" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入分類</b></label>
+      <input type="text" name="name" placeholder="" v-model="data.item.name" style="<%= isPayment ? hide : '' %>" disabled readonly>
     </section>
   
     <section row="">
-      <label class="label key">小分類</label>
+      <label class="label key" style="<%= isTaxrate ? hide : "" %>"><%= nameInfo %></label>
       <label class="input state-disabled ">
-      <input type="text" name="key" placeholder="" v-model="data.item.key" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入小分類</b></label>
+        <input type="text" name="key" placeholder="" v-model="data.item.key" <%= isPayment ? 'readonly' : '' %> style="<%= isTaxrate ? hide : "" %>" disabled>
+        <b class="tooltip tooltip-bottom-right">請輸入<%= nameInfo %></b></label>
     </section>
   
     <section row="">
-      <label class="label description">描述</label>
+      <label class="label description" style="<%= (isTaxrate || isPayment) ? hide : "" %>">描述</label>
       <label class="input state-disabled ">
-      <input type="text" name="description" placeholder="" v-model="data.item.description" disabled>
+      <input type="text" name="description" placeholder="" v-model="data.item.description" style="<%= (isTaxrate || isPayment) ? hide : "" %>" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入描述</b></label>
     </section>
   
     <section row="">
-      <label class="label value">數值</label>
+      <label class="label value"><%= valueInfo %></label>
       <label class="input state-disabled ">
       <input type="text" name="value" placeholder="" v-model="data.item.value" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入數值</b></label>
+      <b class="tooltip tooltip-bottom-right">請輸入<%= valueInfo %></label>
+      </b></label>
     </section>
   
     <section row="">
-      <label class="label type">類型</label>
+      <label class="label type" style="display: none">類型</label>
       <label class="input state-disabled ">
-      <input type="text" name="type" placeholder="" v-model="data.item.type" disabled>
+      <input type="text" name="type" placeholder="" v-model="data.item.type" style="display: none" disabled>
       <b class="tooltip tooltip-bottom-right">請輸入類型</b></label>
     </section>
+
+    <% if(isPayment && data.type === 'ATM') { %>
+
+    <section row="">
+      <label class="label bankId">銀行代碼</label>
+      <label class="input state-disabled">
+      <input type="text" name="bankId" placeholder="" v-model="data.item.bankId" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入銀行代碼</b></label>
+    </section>
+
+    <section row="">
+      <label class="label bankBranch">分行名</label>
+      <label class="input state-disabled">
+      <input type="text" name="bankBranch" placeholder="" v-model="data.item.bankBranch" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入分行名</b></label>
+    </section>
+
+    <section row="">
+      <label class="label bankBranchId">分行代碼</label>
+      <label class="input state-disabled">
+      <input type="text" name="bankBranchId" placeholder="" v-model="data.item.bankBranchId" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入分行代碼</b></label>
+    </section>
+
+    <section row="">
+      <label class="label account">帳號</label>
+      <label class="input state-disabled">
+      <input type="text" name="account" placeholder="" v-model="data.item.account" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入帳號</b></label>
+    </section>
+
+    <section row="">
+      <label class="label accountName">受款人姓名</label>
+      <label class="input state-disabled">
+      <input type="text" name="accountName" placeholder="" v-model="data.item.accountName" disabled>
+      <b class="tooltip tooltip-bottom-right">請輸入受款人姓名</b></label>
+    </section>
+      
+    <% } %>
   
 
 </fieldset>
@@ -68,25 +126,4 @@
       required: "請給予 類型",
     },
   };
-  function getconfig() {
-    var query = location.hash.split('/').reverse()[0].split('?')[1];
-    if(typeof query === 'undefined') {
-      query = '';
-    }
-    return query;
-  }
-  if(getconfig() === 'taxrate') {
-    document.getElementsByClassName('key')[0].parentNode.style.display = 'none';
-    document.getElementsByClassName('type')[0].parentNode.style.display = 'none';
-    document.getElementsByClassName('description')[0].parentNode.style.display = 'none';
-    document.getElementsByClassName('name')[0].innerHTML = '名稱';
-    document.getElementsByClassName('value')[0].innerHTML = '稅率';
-  }
-  if(getconfig() === 'paymentMethods') {
-    document.getElementsByClassName('description')[0].parentNode.style.display = 'none';
-    document.getElementsByClassName('type')[0].parentNode.style.display = 'none';
-    document.getElementsByClassName('name')[0].parentNode.style.display = 'none';
-    document.getElementsByClassName('value')[0].innerHTML = '內容';
-    document.getElementsByClassName('key')[0].innerHTML = '付款方式';
-  }
 </script>

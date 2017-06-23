@@ -1,4 +1,4 @@
-
+<% const isPayment = data.query === 'paymentMethods' ? true : false; %>
 <%- include form.ejs %>
 
 <!-- SCRIPTS ON PAGE EVENT -->
@@ -6,12 +6,15 @@
 
 
 	var pagefunction = function() {
-		<%- include vue.ejs %>
+    <%- include vue.ejs %>
 		appMain.$mount("#main-edit");
 		appMain.loadItem(function() {
       appMain.onEnterPageEdit();
       appMain.editDisabled();
       appMain.hideIndex();
+      <% if(isPayment && data.type === 'ATM') { %>
+          appMain.isPaymentFormInit();
+      <% } %>
     });
 		appMain.setupForm("edit");
 	};
