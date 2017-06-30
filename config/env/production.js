@@ -87,14 +87,16 @@ module.exports = {
   },
 
   taxrate : 0.05,
-  paymentSetting: {
-    ATM: '000123123456',
-  },
 
-  paymentMethods: {
-    ATM: '111 222 333 444', 
-    '貨到付款': '黑貓宅急便', 
-  },
+  paymentMethods: [{
+    type: 'ATM',
+    provider: '國泰世華銀行',
+    other: '{"bankId": "013", "bankBranch": "南屯", "bankBranchId": "2402", "account": "808080808080", "accountName": "管李仁"}'  
+  }, {
+    type: '貨到付款',
+    provider: '黑貓宅急便', 
+    other: '{}',
+  }],
 
   layoutImages: {
     banner: [{

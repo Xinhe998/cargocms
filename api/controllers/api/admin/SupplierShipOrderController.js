@@ -157,14 +157,13 @@ module.exports = {
         if (status === 'SHIPPED') {
           const order = await Order.findById(supplierShipOrder.OrderId);
           console.log("## the Order ==>", order);
-          const productName = findSupplierShipOrderProduct.map((prod) => {
-            prod = prod.toJSON();
-            return prod.model;
+          const orderProductStringTable = await OrderService.stringOrderProduct({
+            modelName: 'suppliershiporderproduct',
+            orderId: order.id
           })
-          console.log("## product names =>",productName);
           const mailMessage = {};
           mailMessage.orderNumber = order.orderNumber;
-          mailMessage.productName = productName.join('<br />');
+          mailMessage.productName = orderProductStringTable;
           mailMessage.shippingName = order.shippingLastname + order.shippingFirstname;
           mailMessage.username  = order.displayName;
           mailMessage.telephone = order.telephone;

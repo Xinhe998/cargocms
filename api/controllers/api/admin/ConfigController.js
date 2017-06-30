@@ -3,7 +3,7 @@ module.exports = {
   find: async (req, res) => {
     try {
       const { query, method, body } = req;
-      const { serverSidePaging } = query;
+      const { serverSidePaging, filter } = query;
       const modelName = req.options.controller.split("/").reverse()[0];
       const include = [  ];
       const isPost = method === 'POST';
@@ -12,6 +12,29 @@ module.exports = {
       let result;
       if (mServerSidePaging) {
         result = await PagingService.process({ query: mQuery, modelName, include });
+        let newData = [];
+        const dataLength = result.data.length;
+        const createPaymentMethod = (dataLength > 1) ? false : true;
+        if(filter === 'paymentMethods') {
+          if(createPaymentMethod) {
+            let paymentValues = JSON.parse(result.data[0].value);
+            for(let item of paymentValues) {
+              let data = {
+                'name': 'paymentMethods',
+                'key': item.type,
+                'description': item.other,
+                'value': item.provider,
+                'type': 'array',
+              }
+              const fomateData = await Config.create(data);
+              newData.push(fomateData);
+            }
+            // await ConfigService.load();
+            result.data = newData;
+          } else {
+            result.data.shift();
+          }
+        }
       } else {
         const items = await sails.models[modelName].findAll({
           include

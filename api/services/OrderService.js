@@ -314,9 +314,9 @@ module.exports = {
         `;
       }
       orderProductTable = `
-      <table>
+      <table style="width: 100%">
       <thead>
-        <tr>
+        <tr style="text-align: left">
           <th>名稱</th><th>數量</th><th>單價</th><th>小計</th>
         </tr>
       </thead>
@@ -368,11 +368,19 @@ module.exports = {
       let messageConfig, mail;
       switch (status) {
         case 'PROCESSING':
-          console.log('mail@PROCESSING');
+          const orderProductStringTable = await OrderService.stringOrderProduct({
+            modelName: 'orderproduct',
+            orderId: item.id
+          })
           messageConfig = await MessageService.orderConfirm({
             email: item.email,
             serialNumber: item.orderNumber,
             username: `${item.lastname}${item.firstname}`,
+            shipmentUsername: `${item.lastname}${item.firstname}`,
+            phone: item.shippingTelephone,
+            shipmentAddress: `${item.shippingPostcode} ${item.shippingCity}${item.shippingAddress1}`,
+            note: item.comment,
+            productName: orderProductStringTable
           });
           break;
       }

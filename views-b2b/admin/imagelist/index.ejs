@@ -83,6 +83,15 @@
 
 
 
+
+      {
+				"targets"  : 1,
+				"orderable": false,
+				"searchable": false,
+				"render": function ( data, type, row ) {
+          return '<div class="key">' + JSON.parse(row.value)[0].dimension + '</div>';
+				}
+			},
       {
 				"targets"  : 'image',
 				"orderable": false,
@@ -122,5 +131,6 @@
       appMain.hideIndex();
       appMain.createDisablede();
     });
+    appMain.rename();
   };
 </script>

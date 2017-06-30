@@ -1,4 +1,4 @@
-
+<% const isPayment = data.query === 'paymentMethods' ? true : false; %>
 <%- include form.ejs %>
 
 <!-- SCRIPTS ON PAGE EVENT -->
@@ -9,7 +9,10 @@
 
 		appMain.$mount("#main-edit");
     appMain.hideIndex();
-		appMain.loadItem();
+    appMain.loadItem();
+    <% if(isPayment && data.type === 'ATM') { %>
+        appMain.isPaymentFormInit();
+    <% } %>
 	};
 
 </script>

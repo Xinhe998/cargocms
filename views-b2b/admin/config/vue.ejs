@@ -17,7 +17,11 @@ var appModel = {
       description: '',
       value: '',
       type: 'text',
-
+      bankId: '',
+      bankBranch: '',
+      bankBranchId: '',
+      account: '',
+      accountName: '',
     },
     items: [],
     option: {}
@@ -27,13 +31,6 @@ var appModel = {
       selectIndex: COMMON.DEFAULT_INDEX,
     },
   }
-}
-function getconfig() {
-  var query = location.hash.split('/').reverse()[0].split('?')[1];
-  if(typeof query === 'undefined') {
-    query = '';
-  }
-  return query;
 }
 
 /* TABLETOOLS */
@@ -125,6 +122,91 @@ appMain.edit = function (id) {
   location.href = '/admin/#/admin/' + modelName + '/edit/' + id + getQuery;
 }
 
+appMain.save = function (event, getQuery, extraModelName) {
+  appMain.data.item.description = '{"bankId": "' + appMain.data.item.bankId + '", "bankBranch": "' + appMain.data.item.bankBranch + '", "bankBranchId": "' + appMain.data.item.bankBranchId + '", "account": "' + appMain.data.item.account + '", "accountName": "' + appMain.data.item.accountName + '"}';
+  var ajaxSuccess = function (result) {
+    var callbackUrl = $('#main-form').data('callback') || '';
+    if(typeof extraModelName === 'undefined') {
+      var url = '/admin/#/admin/' + modelName;
+    } else {
+      var url = '/admin/#/admin/' + extraModelName;
+    }
+    if(getQuery !== '') {
+      getQuery = '?' + getQuery;
+    }
+    if (callbackUrl!== '') {
+      url = '/admin/#/admin' + callbackUrl + getQuery;
+    }
+    location.href = url + getQuery;
+    messageApp.show({
+      desc: '新增成功！',
+      type: 'success'
+    });
+  }; // end ajaxSuccess
+
+  var ajaxError = function (result) {
+    messageApp.show({
+      desc: '新增資料失敗！errorMessage: ' + result.responseJSON.message,
+      type: 'error',
+    });
+  };
+
+  $.ajax({
+    url: '/api/' + prefix + modelName,
+    type: 'POST',
+    dataType: 'json',
+    data: appModel.data.item,
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: ajaxSuccess,
+    error: ajaxError,
+  });
+}
+
+appMain.update = function (event, getQuery, extraModelName) {
+  //var originData = appMain.data.item.description;
+  appMain.data.item.description = '{"bankId": "' + appMain.data.item.bankId + '", "bankBranch": "' + appMain.data.item.bankBranch + '", "bankBranchId": "' + appMain.data.item.bankBranchId + '", "account": "' + appMain.data.item.account + '", "accountName": "' + appMain.data.item.accountName + '"}';
+  var ajaxSuccess = function (result) {
+    var callbackUrl = $('#main-form').data('callback') || '';
+    if(typeof extraModelName === 'undefined') {
+      var url = '/admin/#/admin/' + modelName;
+    } else {
+      var url = '/admin/#/admin/' + extraModelName;
+    }
+    if(getQuery !== '') {
+      getQuery = '?' + getQuery;
+    }
+    if (callbackUrl!== '') {
+      url = '/admin/#/admin' + callbackUrl + getQuery;
+    }
+    location.href = url + getQuery;
+    messageApp.show({
+      desc: '更新資料成功！',
+      type: 'success'
+    });
+  }; // end ajaxSuccess
+
+  var ajaxError = function (result) {
+    messageApp.show({
+      desc: '更新資料失敗！errorMessage: ' + result.responseJSON.message,
+      type: 'error'
+    });
+  };
+
+  $.ajax({
+    url: '/api/' + prefix + modelName + '/' + appModel.data.item.id,
+    type: 'PUT',
+    dataType: 'json',
+    data: appModel.data.item,
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: ajaxSuccess,
+    error: ajaxError,
+  });
+}
+
 appMain.cancel = function (event) {
   var callbackUrl = $('#main-form').data('callback') || '';
   var url = '/admin/#/admin/' + modelName;
@@ -196,15 +278,18 @@ appMain.hideIndex = function() {  // 暫時權限擋連結
     window.location.href = '/admin/#/admin/dashboard';
   }
 }
-appMain.taxrateOnly = function() {
-  if(getconfig() === 'taxrate') {
-    $('.key').attr('data-hide', 'always');
-    $('.type').attr('data-hide', 'always');
-    document.getElementsByClassName('name')[0].innerHTML = '名稱';
-    document.getElementsByClassName('value')[0].innerHTML = '稅率';
-  }
+
+appMain.disableNew = function() {
+  $('#ToolTables_main-table_2').hide();
 }
 
-
-
+appMain.isPaymentFormInit = function() {
+	console.log('appMain.data=', appMain.data.item)
+  var data = JSON.parse(appMain.data.item.description);
+  $('input[name="bankId"]').val(data.bankId)
+  $('input[name="bankBranch"]').val(data.bankBranch)
+  $('input[name="bankBranchId"]').val(data.bankBranchId)
+  $('input[name="account"]').val(data.account)
+  $('input[name="accountName"]').val(data.accountName)
+}
 
