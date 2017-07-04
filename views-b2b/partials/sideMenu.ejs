@@ -9,8 +9,11 @@
   <h1 class="logo-text">雲端<br>漁場</h1>
   <span class="decoration-text">熱門分類</span>
   <ul class="b2b-side-nav-list">
+    <% if(data.query.q) { %>
+      <li><a class="active" style="font-size:24px;">搜尋結果</a></li>
+    <% } %>
     <% const category = Number(data.query.category);
-       for(let i = 0; i < data.categorys.length; i++) { %>
+    for(let i = 0; i < data.categorys.length; i++) { %>
       <% if( req.url === '/' && data.categorys[i].id  === 1 ){ %>
         <li><a class="active" href="product?start=0&length=10&category=<%= data.categorys[i].id %>&limit=false"><%= data.categorys[i].CategoryDescription.name %></a></li>
       <% } else if ( category && category == data.categorys[i].id ) { %>
@@ -21,7 +24,6 @@
     <% } %>
   </ul>
 </aside>
-
 
 <% LayoutUtils.addScriptBlock(`
   $(document).ready(function(){
