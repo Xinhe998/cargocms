@@ -163,9 +163,9 @@
           <div class="form-group">
             <label for=""><span class="column-require">*</span>選擇付款方式</label>
             <select class="form-control" name="paymentMethod">
-              <% data.paymentMethods.forEach((method) => { %>
-                <option value="<%= method %>"><%= method %></option>
-              <% }) %>
+              <% for(let key in data.paymentMethods) { %>
+                <option value="<%= key %>"><%= key %></option>
+              <% } %>
             </select>
           </div>
 

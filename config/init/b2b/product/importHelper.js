@@ -39,7 +39,7 @@ module.exports.create = async(obj) => {
             where: { name: category.name }
         }]
     });
-    console.log('findCategory=>', findCategory);
+    // console.log('findCategory=>', findCategory);
     if (findCategory === null) {
         findCategory = await Category.create({
             image: image.url,

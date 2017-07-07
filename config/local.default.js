@@ -98,9 +98,8 @@ module.exports = {
       level: 'info'
     }
   },
-  
   paymentMethods: {
     ATM: '111 222 333 444', 
     '貨到付款': '黑貓宅急便', 
-  },
+  }
 }

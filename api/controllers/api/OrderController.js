@@ -130,25 +130,13 @@ module.exports = {
       })
 
       message = 'get Order info success';
-
-      // get all payment methods from db
-      const paymentMethodArray = [];
-      let paymentMethods = await Config.findAll({
-        where: {
-          name: 'paymentMethods'
-        }
-      });
-      paymentMethods = JSON.parse(JSON.stringify(paymentMethods));
-      paymentMethods.forEach((item) => {
-        paymentMethodArray.push(item);
-      });
-
+      
       res.view('b2b/order/index', {
         message: message,
         data: {
           item: order,
           product: orderProduct,
-          paymentMethods: paymentMethodArray || []
+          paymentMethods: sails.config.paymentMethods
         }
       });
 
