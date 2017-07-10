@@ -23,8 +23,8 @@ module.exports = {
       // 防錯
       if(sort && sort.split('|').length > 1)
         [sort, sortDir] = sort.split('|');
-      sort = ['price', 'time'].Find((e) => e === sort);
-      sortDir = ['asc', 'desc'].Find((e) => e === sortDir.toLowerCase());
+      sort = UtilsService.findInArray(['price', 'time'], sort);
+      sortDir = UtilsService.findInArray(['asc', 'desc'], sortDir.toLowerCase());
       
       const result = await ProductService.find({
         start,

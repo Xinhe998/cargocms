@@ -13,7 +13,6 @@ import fs from 'fs';
 import shortid from 'shortid';
 import MailerService from 'sails-service-mailer';
 import rc from 'rc';
-import polyfill from './polyfill';
 module.exports.bootstrap = async (cb) => {
 
   try {
@@ -216,9 +215,6 @@ module.exports.bootstrap = async (cb) => {
 
     await ConfigService.sync();
     await ConfigService.load();
-
-    sails.log('=== polyfill ===');
-    polyfill.init();
 
     cb();
   } catch (e) {

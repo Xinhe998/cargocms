@@ -1,3 +1,26 @@
+if (!Array.prototype.find) {
+  Array.prototype.find = function(predicate) {
+    if (this === null) {
+      throw new TypeError('Array.prototype.find called on null or undefined');
+    }
+    if (typeof predicate !== 'function') {
+      throw new TypeError('predicate must be a function');
+    }
+    var list = Object(this);
+    var length = list.length >>> 0;
+    var thisArg = arguments[1];
+    var value;
+
+    for (var i = 0; i < length; i++) {
+      value = list[i];
+      if (predicate.call(thisArg, value, i, list)) {
+        return value;
+      }
+    }
+    return undefined;
+  };
+}
+
 module.exports = {
   find: async (req , res) => {
     try{
@@ -16,9 +39,9 @@ module.exports = {
       
       // 防錯
       if(sort.split('|').length > 1)
-        [sort, sortDir] = sort.split('|')
-      sort = ['price', 'time'].Find((e) => e === sort);
-      sortDir = ['asc', 'desc'].Find((e) => e === sortDir.toLowerCase());
+        [sort, sortDir] = sort.split('|');
+      sort = UtilsService.findInArray(['price', 'time'], sort);
+      sortDir = UtilsService.findInArray(['asc', 'desc'], sortDir.toLowerCase());
       sort = (sort === 'time') ? 'createdAt' : sort;
 
       const result = await ProductService.findAll({
