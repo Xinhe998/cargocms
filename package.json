@@ -113,7 +113,8 @@
     "build-prod-docker-images": "docker build -t trunk/sails .",
     "start-mysql-docker": "docker-compose up -d mysql",
     "start-web-docker": "docker rm -f web || true && docker run -d --link mysql -p 1337:1337 --restart always --name web trunk/sails",
-    "start-prod-docker": "npm run start-mysql-docker && npm run start-web-docker"
+    "start-prod-docker": "npm run start-mysql-docker && npm run start-web-docker",
+    "eslintrc": "node_modules/.bin/sails-generate-eslintrc -c .eslintrc.js -f api/models,api/controllers,api/services,api/controllers/api,api/controllers/api/admin,api/controllers/api/labfnp"
   },
   "main": "app.js",
   "repository": {
