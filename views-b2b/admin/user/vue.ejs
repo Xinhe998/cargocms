@@ -1,207 +1,302 @@
-<fieldset>
-  <section>
-    <label class="label"><span class="text-danger">*</span>必填欄位</label>
-  </section>
-  <section>
-    <label class="label"><span class="text-danger">*</span>權限</label>
-    <label class="checkbox state-disabled">
-      <input type="checkbox" id="admin" name="admin" value="admin" v-model="data.item.rolesArray" @chick="addRoles">
-      <i></i>管理員</label>
-    <label class="checkbox state-disabled">
-      <input type="checkbox" id="supplier" name="supplier" value="supplier" v-model="data.item.rolesArray" @chick="addRoles">
-      <i></i>供應商</label>
-    <label class="user checkbox state-disabled">
-      <input type="checkbox" id="user" name="user" value="user" v-model="data.item.rolesArray" checked disabled @chick="addRoles">
-      <i></i>使用者</label>
-  </section>
+var COMMON = {
+  DOUBLE_CLICK_TIME_PERIOD: 250,
+  DEFAULT_INDEX: -1,
+  DEFAULT_AVATAR: "/assets/admin/img/avatars/default.png",
+};
 
-  <br>
-  <hr>
-  <br>
-
-  <section>
-    <label class="label">供應商角色</label>
-    <label class="select">
-      <select v-model="data.item.Supplier.id" name="supplier">
-        <option value="" selected>無</option>
-        <option v-for="supplier in data.option.supplierList" v-bind:value="supplier.id">
-          {{ supplier.name }}
-        </option>
-      </select> <i></i>
-    </label>
-  </section>
-
-  <section>
-    <label class="label"><span class="text-danger">*</span>使用者帳號</label>
-    <label class="input state-disabled"><i class="icon-append fa fa-user"></i>
-      <input type="text" name="username" placeholder="" v-model="data.item.username" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入使用者帳號</b></label>
-  </section>
-
-  <section>
-    <label class="label"><span class="text-danger">*</span>Email</label>
-    <label class="input state-disabled"><i class="icon-append fa fa-envelope-o"></i>
-      <input type="email" name="email" placeholder="" v-model="data.item.email" disabled>
-      <b class="tooltip tooltip-bottom-right">請輸入 Email</b></label>
-  </section>
-
-  <div class="row">
-    <section class="col col-6">
-      <label class="label"><span class="text-danger">*</span>姓氏</label>
-      <label class="input">
-        <input type="text" name="lastName" placeholder="" v-model="data.item.lastName" disabled>
-      </label>
-    </section>
-
-    <section class="col col-xs-12 col-sm-6">
-      <label class="label"><span class="text-danger">*</span>名字</label>
-      <label class="input state-disabled">
-        <input type="text" name="firstName" placeholder="" v-model="data.item.firstName" disabled>
-      </label>
-    </section>
-  </div>
-
-  <div class="row">
-    <section class="col col-xs-12 col-sm-6">
-      <label class="label"><span class="text-danger">*</span>密碼</label>
-      <label class="input state-disabled"> <i class="icon-append fa fa-lock"></i>
-        <input type="password" name="password" placeholder="" id="password" v-model="data.item.Passports[0].password" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入密碼</b> </label>
-    </section>
-
-    <section class="col col-xs-12 col-sm-6">
-      <label class="label"><span class="text-danger">*</span>確認密碼</label>
-      <label class="input state-disabled"> <i class="icon-append fa fa-lock"></i>
-        <input type="password" name="passwordConfirm" placeholder="" v-model="data.option.passwordConfirm" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入密碼</b> </label>
-    </section>
-  </div>
-
-  <div class="row">
-    <section class="col col-xs-12">
-      <label class="input state-disabled"><i class="icon-append fa fa-birthday-cake"></i>
-        <input type="date" name="birthday" placeholder="請輸入生日 例：1970-01-01" v-model="data.item.birthday" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入 生日</b></label>
-    </section>
-    <section class="col col-xs-12">
-      <label class="input state-disabled"><i class="icon-append fa fa-phone"></i>
-        <input type="number" name="phone1" placeholder="請輸入手機號碼" v-model="data.item.phone1" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入 手機號碼</b></label>
-    </section>
-    <section class="col col-xs-12">
-      <label class="input state-disabled"><i class="icon-append fa fa-phone"></i>
-        <input type="number" name="phone2" placeholder="請輸入市話號碼" v-model="data.item.phone2" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入 市話號碼</b></label>
-    </section>
-
-    <section class="col col-xs-12">
-      <div class="hidden">
-        <input type="text" name="city" placeholder="" v-model="data.item.city" disabled>
-        <input type="text" name="district" placeholder="" v-model="data.item.district" disabled>
-        <input type="text" name="postCode" placeholder="" v-model="data.item.postCode" disabled>
-      </div>
-
-      <div class="row" id="twzipcode">
-        <div class="col col-xs-4" data-role="county" data-name="userCity"></div>
-        <div class="col col-xs-4" data-role="district" data-name="userDistrict"></div>
-        <div class="col col-xs-4" data-role="zipcode" data-name="userPostCode"></div>
-      </div>
-    </section>
-
-    <section class="col col-xs-12">
-      <label class="input state-disabled"><i class="icon-append fa fa-map-marker"></i>
-        <input type="text" name="address" placeholder="請輸入收件地址" v-model="data.item.address" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入 收件地址</b></label>
-    </section>
-
-    <section class="col col-xs-12">
-      <label class="input state-disabled"><i class="icon-append fa fa-map-marker"></i>
-        <input type="text" name="address2" placeholder="請輸入收件地址2" v-model="data.item.address2" disabled>
-        <b class="tooltip tooltip-bottom-right">請輸入 收件地址2</b></label>
-    </section>
-
-  </div>
-  <!--
-  <div class="row">
-    <section class="col col-6">
-      <label class="select">
-        <select name="gender">
-          <option value="0" selected="" disabled="">Gender</option>
-          <option value="1">Male</option>
-          <option value="2">Female</option>
-          <option value="3">Prefer not to answer</option>
-        </select> <i></i> </label>
-    </section>
-    <section class="col col-6">
-      <label class="input"> <i class="icon-append fa fa-calendar"></i>
-        <input type="text" name="request" placeholder="Request activation on" class="datepicker" data-dateformat='dd/mm/yy'>
-      </label>
-    </section>
-  </div>
-  <section>
-    <label class="checkbox">
-      <input type="checkbox" name="subscription" id="subscription">
-      <i></i>I want to receive news and special offers</label>
-    <label class="checkbox">
-      <input type="checkbox" name="terms" id="terms">
-      <i></i>I agree with the Terms and Conditions</label>
-  </section> -->
-</fieldset>
-
-<script>
-var formRules = {
-  username : {
-    required : true
+var itemBeforeEdit = {};
+var prefix = 'admin/';
+var modelName = "user";
+var appModel = {
+  modelName: modelName,
+  prefix: prefix,
+  data: {
+    item: {
+      avatar: '',
+      displayName: '',
+      username: '',
+      email: '',
+      firstName: '',
+      lastName: '',
+      birthday: '',
+      phone1: '',
+      phone2: '',
+      address: '',
+      address2: '',
+      city: '',
+      district: '',
+      postCode: '',
+      password: '',
+      Roles: [],
+      rolesArray: [],
+      Passports: [{
+        password: ""
+      }],
+      Supplier: {}
+    },
+    items: [],
+    option: {
+      passwordConfirm: '',
+      defaultSort: [
+        [11, 'desc']
+      ],
+      supplierList: [],
+    }
   },
-  email : {
-    required : true,
-    email : true
-  },
-  firstname : {
-    required : true
-  },
-  lastname : {
-    required : true
-  },
-  password : {
-    required : true,
-    minlength : 3,
-  },
-  passwordConfirm : {
-    required : true,
-    minlength : 3,
-    equalTo : '#password'
-  },
-  brithday : {
-    required : false,
-    onsubmit : false,
-    dateISO: true
-  },
+  view: {
+    table: {
+      selectIndex: COMMON.DEFAULT_INDEX,
+    },
+  }
 }
-  // Messages for form validation
-var formMessages = {
-  username : {
-    required : '請輸入使用者帳號'
-  },
-  email : {
-    required : '請輸入 Email',
-    email : '請確認輸入的 Email 格式'
-  },
-  firstname : {
-    required : '請輸入使用者姓'
-  },
-  lastname : {
-    required : '請輸入使用者名'
-  },
-  password : {
-    required : '請輸入密碼'
-  },
-  passwordConfirm : {
-    required : '請再次輸入密碼以便確認',
-    equalTo : '請輸入相同的密碼'
-  },
-  brithday : {
-    dateISO : "請輸入正確日期格式"
-  },
+
+/* TABLETOOLS */
+
+<%- include ../default/vue.ejs %>
+// 需要新增函式可以對 appMain 進行定義，如：
+// appMain.log = function () {console.log("123")}
+appMain.addressColumn = function() {
+  $('#twzipcode').twzipcode({});
+  $('#twzipcode input').addClass('form-control');
+  $('#twzipcode select').addClass('form-control');
+
+  $("[name=userCity]").val($("[name=city]").val());
+  $("[name=userCity]").change();
+  $("[name=userDistrict]").val($("[name=district]").val());
+  $("[name=userPostCode]").val($("[name=postCode]").val());
+
+  $('#twzipcode select').on('change', function() {
+    $("[name=city]").val($("[name=userCity]").val());
+    $("[name=district]").val($("[name=userDistrict]").val());
+    $("[name=postCode]").val($("[name=userPostCode]").val());
+    appMain.data.item.city = $("[name=userCity]").val();
+    appMain.data.item.district = $("[name=userDistrict]").val();
+    appMain.data.item.postCode = $("[name=userPostCode]").val();
+  });
 }
-</script>
+
+appMain.addRoles = function() {
+  var roles = [];
+  $('#admin').prop('checked') ? roles.push('admin') : '';
+  $('#supplier').prop('checked') ? roles.push('supplier') : '';
+  $('#user').prop('checked') ? roles.push('user') : '';
+  appMain.data.item.rolesArray = roles;
+}
+
+appMain.supplierRole = function() {
+  if ($('input[name=supplier]').prop('checked')) {
+    $('select[name=supplier]').prop('disabled', false);
+  } else {
+    $('select[name=supplier]').prop('disabled', true);
+  }
+
+  $("input[name=supplier]").on('change', function(event) {
+    if ($('input[name=supplier]').prop('checked')) {
+      $('select[name=supplier]').prop('disabled', false);
+      $('select[name=supplier] option:first-child').prop('disabled', true);
+      // $('select[name=supplier] option:nth-child(2)').prop('selected', true);
+    } else {
+      $('select[name=supplier]').prop('disabled', true);
+      $('select[name=supplier]').val('');
+      $('select[name=supplier] option:first-child').prop('disabled', false);
+
+    }
+  });
+}
+
+
+appMain.loadSupllier = function () {
+  $.get('/api/admin/supplier', ajaxSuccess);
+  function ajaxSuccess(result) {
+    if (result.success) {
+      appModel.data.option.supplierList = result.data.items;
+    }
+  } // end ajaxSuccess
+}
+
+appMain.DateOfBirthday = function () {
+  $('input[name="birthday"]').datepicker({
+    changeYear: true,
+    yearRange: "-100:+0",
+    dateFormat: 'yy-mm-dd',
+    prevText: '<i class="fa fa-angle-left"></i>',
+    nextText: '<i class="fa fa-angle-right"></i>'
+  });
+}
+
+appMain.addUserBdayExportButton = function() {
+  var newBtn = '<a class="DTTT_button DTTT_button_text" id="ToolTables_main-table_custom_0" title="匯出壽星" tabindex="0" aria-controls="main-table"><span>匯出壽星</span></a>';
+  $(newBtn).prependTo('.DTTT_container');
+
+  $('#ToolTables_main-table_custom_0').on('click', function() {
+    var download = function(url, data, id) {
+      $.post(url, data)
+        .done(function(result) {
+          $('<iframe>', { id: id, src: '/api/admin/download?fileName=' + result.data }).hide().appendTo('body');
+        })
+        .fail(function(result) {
+          console.log(result);
+        });
+    }
+    $.SmartMessageBox({
+      title: "壽星資料",
+      content: "請選擇要匯出的月份：<br/>" +
+        "<select id='birthdayMonth' class='form-control'>" +
+        "<option value='1' >1 月</option>" +
+        "<option value='2' >2 月</option>" +
+        "<option value='3' >3 月</option>" +
+        "<option value='4' >4 月</option>" +
+        "<option value='5' >5 月</option>" +
+        "<option value='6' >6 月</option>" +
+        "<option value='7' >7 月</option>" +
+        "<option value='8' >8 月</option>" +
+        "<option value='9' >9 月</option>" +
+        "<option value='10' >10月</option>" +
+        "<option value='11' >11月</option>" +
+        "<option value='12' >12月</option>" +
+        "</select> <br/>",
+      buttons: "[取消][匯出壽星資料]"
+    }, function(ButtonPress) {
+      if (ButtonPress === '匯出壽星資料') {
+        var month = $("#birthdayMonth").val();
+        download('/api/admin/' + modelName + '/exportBirthday', { month: month }, 'exportExcel');
+      }
+    });
+    var dateMonth = new Date();
+    dateMonth = (dateMonth.getMonth() + 1).toString()
+    $("#birthdayMonth").val(dateMonth);
+  });
+};
+
+appMain.addFilterDeactivateUserButton = function() {
+  var newBtn = '<a class="DTTT_button DTTT_button_text" id="ToolTables_main-table_custom_1" title="已停用使用者" tabindex="1" aria-controls="main-table"><span>已停用使用者</span></a>';
+  $(newBtn).prependTo('.DTTT_container');
+
+  $('#ToolTables_main-table_custom_1').on('click', function() {
+      appMain.loadItems(appMain.renderTable, 'deactivate=true');
+  });
+};
+
+appMain.addFilterActivateUserButton = function() {
+  var newBtn = '<a class="DTTT_button DTTT_button_text" id="ToolTables_main-table_custom_2" title="全部使用者" tabindex="2" aria-controls="main-table"><span>全部使用者</span></a>';
+  $(newBtn).prependTo('.DTTT_container');
+
+  $('#ToolTables_main-table_custom_2').on('click', function() {
+      appMain.loadItems(appMain.renderTable);
+  });
+};
+
+appMain.DataTableInitComplete = function() {
+  appMain.addUserBdayExportButton();
+  appMain.addFilterDeactivateUserButton();
+  appMain.addFilterActivateUserButton();
+  $('.loading-wrapper').removeClass('active');
+}
+
+appMain.userDisabled = function () {
+  $('button.btn-danger').text('停用');
+};
+
+appMain.delete = function () {
+  var msg = {
+    title: '停用',
+    content: '確認停用此筆資料？',
+    btnArray: ['停用', '取消'],
+  };
+  var action = function (ButtonPressed) {
+    if (ButtonPressed === '停用') {
+      var ajaxSuccess = function (result) {
+        appModel.view.table.selectIndex = COMMON.DEFAULT_INDEX;
+        messageApp.show({
+          desc: `停用資料成功！`,
+          type: 'success'
+        });
+        var callbackUrl = $('#main-form').data('callback') || '';
+        var url = '/admin/#/admin/' + modelName;
+        if (callbackUrl!== '') {
+          url = '/admin/#/admin' + callbackUrl;
+        }
+        location.href = url;
+        setTimeout(function () {
+          location.href = url;
+        }, 500);
+      }; // end ajaxSuccess
+
+      var ajaxError = function (result) {
+        messageApp.show({
+          desc: '停用資料失敗！errorMessage: ' + result.responseJSON.message,
+          type: 'error'
+        });
+      };
+
+      $.ajax({
+        url: '/api/' + prefix + modelName + '/' + appModel.data.item.id,
+        type: 'DELETE',
+        dataType: 'json',
+        xhrFields: {
+          withCredentials: true
+        },
+        success: ajaxSuccess,
+        error: ajaxError,
+      });
+    }
+  };
+  messageApp.confirm(msg, action);
+};
+
+appMain.hideUserDisabledBtn = function () {
+  $('button.btn-danger').addClass('hidden');
+};
+
+appMain.userEnabled = function(){
+  var userId = appMain.data.item.id;
+  var checkBtn = '<button type="button" class="btn btn-success pull-left">啟用</button>';
+  $(checkBtn).prependTo('footer');
+
+  $('.btn-success').on('click', function(){
+    $.SmartMessageBox({
+      title : "提醒",
+      content:'是否啟用此帳號 ? ',
+      buttons : "[確認][取消]"
+    },function(ButtonPress) {
+        if(ButtonPress === "取消"){
+          return 0;
+        }
+        
+        var ajaxSuccess = function (result) {
+          location.href = '/admin/#/admin/' + modelName;
+          appMain.dismissMessageBox();
+          messageApp.show({
+          desc: '啟用成功！',
+          type: 'success'
+          });
+        }; // end ajaxSuccess
+
+        var ajaxError = function (result) {
+          setTimeout(function(){
+            location.replace('/admin/login');
+          },800);
+          appMain.dismissMessageBox();
+          messageApp.show({
+            desc: '啟用失敗！errorMessage: ' + result.responseJSON.message,
+            type: 'error'
+          });
+        };
+
+        $.ajax({
+          url: '/api/' + prefix + modelName + '/activate/' + userId,
+          type: 'PUT',
+          dataType: 'json',
+          data: {},
+          xhrFields: {
+          withCredentials: true,
+          },
+          success: ajaxSuccess,
+          error: ajaxError,
+        }).done(function(result){
+          defaultTable.api().ajax.reload(null, false);
+        });
+      }
+    );
+  });
+}
