@@ -87,7 +87,7 @@
       </ul>
       
       <!--搜尋欄-->
-      <% const q = data.query || {}; %>
+      <% const q = (typeof data !== 'undefined') ? (data.query || {}) : {}; %>
       <form method="GET" action="/" class="navbar-form navbar-right">
         <input type="hidden" name="category" value="<%= (q.q) ? q.category : 0 %>" /> 
         <div class="form-group">
