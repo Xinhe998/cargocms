@@ -177,7 +177,11 @@
         "orderable": false,
         "searchable": false,
         "render": function ( data, type, row ) {
-          var colBody = '<div class="td-value">' + JSON.parse(row.value)[0] + '</div>';
+          <% if(isPayment) { %>
+              var colBody = '<div class="td-value">' + JSON.parse(row.value)[0] + '</div>';
+          <% } else { %>
+              var colBody = '<div class="td-value">' + row.value + '</div>';
+          <% } %>
           return colBody;
         }
       },
