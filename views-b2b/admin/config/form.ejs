@@ -19,7 +19,7 @@
 %>
 <fieldset>
 
-  
+  <h1><%= JSON.stringify(data) %></h1> 
     <section row="">
       <label class="label name" style="<%= isPayment ? hide : '' %>"><%= nameInfo %></label>
       <label class="input state-disabled ">
@@ -101,9 +101,6 @@
     name:{
       required: true,
     },
-    key:{
-      required: true,
-    },
     value:{
       required: true,
     },
@@ -115,9 +112,6 @@
   var formMessages = {
     name:{
       required: "請給予 分類",
-    },
-    key:{
-      required: "請給予 小分類",
     },
     value:{
       required: "請給予 數值",

@@ -123,6 +123,7 @@ appMain.edit = function (id) {
 }
 
 appMain.save = function (event, getQuery, extraModelName) {
+  appMain.data.item.value = '[\"' + appMain.data.item.value + '\"]';
   appMain.data.item.description = '{"bankId": "' + appMain.data.item.bankId + '", "bankBranch": "' + appMain.data.item.bankBranch + '", "bankBranchId": "' + appMain.data.item.bankBranchId + '", "account": "' + appMain.data.item.account + '", "accountName": "' + appMain.data.item.accountName + '"}';
   var ajaxSuccess = function (result) {
     var callbackUrl = $('#main-form').data('callback') || '';
@@ -166,6 +167,7 @@ appMain.save = function (event, getQuery, extraModelName) {
 
 appMain.update = function (event, getQuery, extraModelName) {
   //var originData = appMain.data.item.description;
+  appMain.data.item.value = '[\"' + appMain.data.item.value + '\"]';
   appMain.data.item.description = '{"bankId": "' + appMain.data.item.bankId + '", "bankBranch": "' + appMain.data.item.bankBranch + '", "bankBranchId": "' + appMain.data.item.bankBranchId + '", "account": "' + appMain.data.item.account + '", "accountName": "' + appMain.data.item.accountName + '"}';
   var ajaxSuccess = function (result) {
     var callbackUrl = $('#main-form').data('callback') || '';
@@ -287,9 +289,19 @@ appMain.isPaymentFormInit = function() {
 	console.log('appMain.data=', appMain.data.item)
   var data = JSON.parse(appMain.data.item.description);
   $('input[name="bankId"]').val(data.bankId)
+  appMain.data.item.bankId = data.bankId
   $('input[name="bankBranch"]').val(data.bankBranch)
+  appMain.data.item.bankBranch = data.bankBranch
   $('input[name="bankBranchId"]').val(data.bankBranchId)
+  appMain.data.item.bankBranchId= data.bankBranchId
   $('input[name="account"]').val(data.account)
+  appMain.data.item.account = data.account
   $('input[name="accountName"]').val(data.accountName)
+  appMain.data.item.accountName = data.accountName
+}
+
+appMain.formatValue = function() {
+  var value = appMain.data.item.value;
+  appMain.data.item.value = JSON.parse(value)[0];
 }
 
