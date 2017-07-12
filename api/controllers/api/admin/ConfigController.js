@@ -23,7 +23,7 @@ module.exports = {
                 'name': 'paymentMethods',
                 'key': item.type,
                 'description': item.other,
-                'value': item.provider,
+                'value': '[\"' + item.provider + '\"]',
                 'type': 'array',
               }
               const fomateData = await Config.create(data);

@@ -58,8 +58,20 @@ module.exports = {
         mailMessage.phone = order.telephone;
         
 
+        const result = await Config.findOne({
+          where: { key: 'ATM' }
+        })
+        sails.log('result.dataValues=>', result.dataValues)
+        const bankName = JSON.parse(result.dataValues.value)[0];
+        sails.log('JSON.Parse(result.dataValues.value)=>', JSON.parse(result.dataValues.value))
+        sails.log('JSON.Parse(result.dataValues.value)[0]=>', JSON.parse(result.dataValues.value)[0])
+        const ATMInfo = JSON.parse(result.dataValues.description);
+        const bankId = ATMInfo.bankId;
+        const account = ATMInfo.account;
+
         if(order.paymentMethod === 'ATM') {
-          mailMessage.UseATM = `如果確認訂單無誤請盡快匯款，以利出貨流程<br />銀行名稱: ${sails.config.paymentSetting.bank}  代號: ${sails.config.paymentSetting.bankId}<br />ATM帳號: ${sails.config.paymentSetting.ATMid}`;
+          mailMessage.UseATM = `如果確認訂單無誤請盡快匯款，以利出貨流程<br />銀行名稱: ${bankName}  代號: ${bankId}<br />ATM帳號: ${account}`;
+          sails.log('mailMessage.UseATM=>', mailMessage.UseATM)
         } else {
           mailMessage.UseATM = '';
         }
@@ -130,25 +142,13 @@ module.exports = {
       })
 
       message = 'get Order info success';
-
-      // get all payment methods from db
-      const paymentMethodArray = [];
-      let paymentMethods = await Config.findAll({
-        where: {
-          name: 'paymentMethods'
-        }
-      });
-      paymentMethods = JSON.parse(JSON.stringify(paymentMethods));
-      paymentMethods.forEach((item) => {
-        paymentMethodArray.push(item);
-      });
-
+      
       res.view('b2b/order/index', {
         message: message,
         data: {
           item: order,
           product: orderProduct,
-          paymentMethods: paymentMethodArray || []
+          paymentMethods: sails.config.paymentMethods
         }
       });
 

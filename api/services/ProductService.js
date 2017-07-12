@@ -1,24 +1,42 @@
 module.exports = {
-  find: async ({start, length, categoryId, supplierId, limit}) => {
+  /**
+   * @params {Object} options - 選項
+   * @params {Number} options.start - 起始位置
+   * @params {Number} options.length - 長度
+   * @params {Number} options.categoryId - 種類ID
+   * @params {Number} options.supplierId - 供應商ID
+   * @params {Boolean} options.limit - 是否限制長度
+   * @params {String} options.keyword - 關鍵字
+   * @params {String} options.sortBy - 用哪個屬性來排序 ('price'|'createdAt')
+   * @params {String} options.sortDir - 排序方向 ('asc'|'desc')
+   */
+  find: async ({start, length, categoryId, supplierId, limit, keyword, sortBy, sortDir}) => {
     try{
-
       let query = {
-        order: 'sortOrder ASC',
+        order: [['sortOrder', 'ASC']],
         where: {
           publish: true,
+          model:{
+            $like: (keyword) ? `%${keyword}%` : '%'
+          }
         },
         include: [
           {
-            model: Category,
-            where: {
-              id: categoryId
-            }
-          }, {
             model: ProductDescription,
             required: true,
           }
         ]
       };
+      
+      // 有非0的種類ID，沒有的話就不限制種類
+      if(categoryId) {
+        query.include.push({
+          model: Category,
+          where: {
+            id: categoryId
+          }
+        });
+      }
 
       if(supplierId){
         query.include.push({
@@ -28,6 +46,9 @@ module.exports = {
           }
         });
       }
+      
+      if(sortBy)
+        query.order.unshift((sortDir) ? [sortBy, sortDir] : sortBy);
 
       if ( limit === 'true'){
         query.offset = Number(start);

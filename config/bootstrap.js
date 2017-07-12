@@ -15,8 +15,8 @@ import MailerService from 'sails-service-mailer';
 import rc from 'rc';
 module.exports.bootstrap = async (cb) => {
 
-
   try {
+  
     if(!sails.config.appUrl) sails.config.appUrl = "localhost:"+ sails.config.port
     if(sails.config.appUrl.endsWith('/'))
     sails.config.appUrl = sails.config.appUrl.substr(0, sails.config.appUrl.length - 1)

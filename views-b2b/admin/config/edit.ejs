@@ -12,8 +12,11 @@
       appMain.onEnterPageEdit();
       appMain.editDisabled();
       appMain.hideIndex();
-      <% if(isPayment && data.type === 'ATM') { %>
-          appMain.isPaymentFormInit();
+      <% if(isPayment) { %>
+          appMain.formatValue();
+          <% if(data.type === 'ATM') { %>
+            appMain.isPaymentFormInit();
+          <% } %>
       <% } %>
     });
 		appMain.setupForm("edit");

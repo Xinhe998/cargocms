@@ -1,14 +1,58 @@
+if (!Array.prototype.find) {
+  Array.prototype.find = function(predicate) {
+    if (this === null) {
+      throw new TypeError('Array.prototype.find called on null or undefined');
+    }
+    if (typeof predicate !== 'function') {
+      throw new TypeError('predicate must be a function');
+    }
+    var list = Object(this);
+    var length = list.length >>> 0;
+    var thisArg = arguments[1];
+    var value;
+
+    for (var i = 0; i < length; i++) {
+      value = list[i];
+      if (predicate.call(thisArg, value, i, list)) {
+        return value;
+      }
+    }
+    return undefined;
+  };
+}
+
 module.exports = {
   find: async (req , res) => {
     try{
-      const {start, length, category, supplier, limit} = req.query;
+      /**
+       * @property {Object} query - req.query
+       * @property {Number} query.start - 起始位置
+       * @property {Number} query.length - 長度
+       * @property {Number} query.category - 種類ID
+       * @property {Number} query.supplier - 供應商ID
+       * @property {Boolean} query.limit - 是否限制長度
+       * @property {String} query.q - 關鍵字
+       * @property {String} query.sort - 用哪個屬性來排序 ('price'|'time')
+       * @property {String} query.sortDir - 排序方向 ('asc'|'desc')
+       */
+      let {start, length, category, supplier, limit, q, sort, sortDir = 'asc'} = req.query;
+      
+      // 防錯
+      if(sort.split('|').length > 1)
+        [sort, sortDir] = sort.split('|');
+      sort = UtilsService.findInArray(['price', 'time'], sort);
+      sortDir = UtilsService.findInArray(['asc', 'desc'], sortDir.toLowerCase());
+      sort = (sort === 'time') ? 'createdAt' : sort;
 
       const result = await ProductService.findAll({
         start,
         length,
         categoryId: category,
         supplierId: supplier,
-        limit
+        limit,
+        keyword: q, 
+        sortBy: sort,
+        sortDir
       });
 
       const message = 'Get Product Success';

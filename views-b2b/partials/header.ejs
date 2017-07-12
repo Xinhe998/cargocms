@@ -19,6 +19,9 @@
     <% include ../lib/login.inc.ejs %>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <!--右推搜尋欄用的-->
+      <ul class="nav navbar-nav col-md-2"></ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/questions">購物說明</a></li>
         <% if (!req.session.authenticated) { %>
@@ -82,6 +85,15 @@
         <% } %>
 
       </ul>
+      
+      <!--搜尋欄-->
+      <% const q = (typeof data !== 'undefined') ? (data.query || {}) : {}; %>
+      <form method="GET" action="/" class="navbar-form navbar-right">
+        <input type="hidden" name="category" value="<%= (q.q) ? q.category : 0 %>" /> 
+        <div class="form-group">
+          <input type="text" name="q" class="form-control" placeholder="搜尋所有產品" value="<%= (q.q) ? q.q : '' %>">
+        </div>
+      </form>
     </div><!-- /.navbar-collapse -->
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -98,10 +110,7 @@
         <li v-show="carts.length === 0" style="text-align:center"><span>購物車是空的</span><li>
       </ul>
     </div><!-- /.navbar-collapse -->
-
-
-
-
+    
   </div><!-- /.container-fluid -->
 </nav>
 
