@@ -1,0 +1,26 @@
+<h1><%console.log('data=>',data);%></h1>
+<h1><%console.log('data=>',data.data.dataValues);%></h1>
+<table id="main-table" class="table table-stripe table-bordered table-hover" width="100%">
+    <thread>
+    <tr>
+        <th width="10%" class="">ID</th>
+        <th width="10%" class="">Code</span></th>
+        <th width="20%" class="">Locale</span></th>
+        <th width="20%" class="">Image</span></th>
+        <th width="20%" class="">Directory</span></th>
+        <th width="20%" class="">SortOrder</span></th>
+        <th width="20%" class="">Status</span></th>
+    </tr>
+    </thread>
+    <tbody>
+        <tr>
+            <td><%=data.data.dataValues.id%></td>
+            <td><%=data.data.dataValues.code%></td>
+            <td><%=data.data.dataValues.locale%></td>
+            <td><%=data.data.dataValues.image%></td>
+            <td><%=data.data.dataValues.directory%></td>
+            <td><%=data.data.dataValues.sortOrder%></td>
+            <td><%=data.data.dataValues.status%></td>
+        </tr>    
+    </tbody>
+</table>

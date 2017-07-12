@@ -21,7 +21,7 @@ describe('about Language Service Operation',function(){
     });
     it('find Language should success.',async(done)=>{
         try{
-            const result=await LanguageService.findLanguageName('testLanguage');
+            const result=await LanguageService.findByLanguageName('testLanguage');
             result.name.should.be.equal('testLanguage');
             done();
         }catch(e){

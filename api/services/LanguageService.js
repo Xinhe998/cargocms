@@ -61,14 +61,11 @@ module.exports = {
     deleteByLanguageName: async (languageName) => {
         try {
 
-            const deletedLangue = await Language.destroy({
+            const deletedLanguage = await Language.destroy({
                 where: {
                     name: languageName
                 }
             });
-            /*if(deletedLangue) {
-            sails.log.info(`${languageName} is destroy!`);
-            }*/
         } catch (e) {
             throw e;
         }
