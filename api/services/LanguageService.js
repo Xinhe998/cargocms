@@ -1,4 +1,4 @@
-javascript = module.exports = {
+module.exports = {
     create: async ({ laguageName, languageCode, languageLocale, languageDirectory, languageSortOrder, languageStatus })=> {
         try {
             /*sails.log.info({ languageName, languageCode, languageLocale, languageImage, languageDirectory, languageSortOrder, languageStatus
@@ -40,8 +40,13 @@ javascript = module.exports = {
             });
 
             if (updatedLanguage) {
-                updatedLanguage.name = language.name; updatedLanguage.code = language.code; updatedLanguage.locale = language.locale; updatedLanguage.image = language.image;
-                updatedLanguage.directory = language.directory; updatedLanguage.sortOrder = language.sortOrder; updatedLanguage.status = language.status;
+                updatedLanguage.name = language.name; 
+                updatedLanguage.code = language.code; 
+                updatedLanguage.locale = language.locale; 
+                updatedLanguage.image = language.image;
+                updatedLanguage.directory = language.directory; 
+                updatedLanguage.sortOrder = language.sortOrder; 
+                updatedLanguage.status = language.status;
             } else {
                 sails.log.warn(`${language.name} can't find!`);
             }
