@@ -45,7 +45,11 @@ module.exports = {
       // categorys = categorys.map(function( category ){
       //   return category.CategoryDescription.name;
       // });
-      
+      let banners = {};
+      for(let item in sails.config.layoutImages) {
+        banners[item] = (sails.config.layoutImages[item])
+      }
+
       q = (!q) ? '' : q;
 
       res.view('index',
@@ -57,7 +61,7 @@ module.exports = {
             {start, length, category: category.toString(), supplier, limit, q, sort, sortDir}),
           },
           layoutImages: {
-            banner: sails.config.layoutImages.banner[0],
+            banners: banners,
           },
           errors: req.flash('error')[0],
         }

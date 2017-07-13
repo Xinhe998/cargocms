@@ -78,11 +78,28 @@ module.exports = {
       other: '{}',
     }]
   },
+
   layoutImages: {
-    banner: [{
+    'banner-1': [{
       url: 'http://i.imgur.com/Z2K6d9T.jpg',
       dimension: '1500x1001',
     }],
-  }
+    'banner-2': [{
+      url: 'http://i.imgur.com/Z2K6d9T.jpg',
+      dimension: '1500x1001',
+    }],
+    'banner-3': [{
+      url: 'http://i.imgur.com/Z2K6d9T.jpg',
+      dimension: '1500x1001',
+    }],
+    'banner-4': [{
+      url: 'http://i.imgur.com/Z2K6d9T.jpg',
+      dimension: '1500x1001',
+    }],
+    'banner-5': [{
+      url: 'http://i.imgur.com/Z2K6d9T.jpg',
+      dimension: '1500x1001',
+    }],
 
+  }
 };
