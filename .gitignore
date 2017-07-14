@@ -131,3 +131,4 @@ test/stress/*.xls
 .c9 
 .eslintrc
 yarn.lock
+package-lock.json

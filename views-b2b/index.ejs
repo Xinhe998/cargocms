@@ -1,3 +1,4 @@
+<% LayoutUtils.addStylesheets('/assets/b2b/plugins/jquery-flexslider/flexslider.css'); %>
 <% LayoutUtils.addMeta({ property:"og:image", content:SocialService.getShareUrl() + "/assets/b2b/img/fb-og-image.jpg" }); %>
 <% LayoutUtils.addMeta({ property:"og:image:url", content:SocialService.getShareUrl() + "/assets/b2b/img/fb-og-image.jpg"  }); %>
 <% LayoutUtils.addMeta({ property:"og:image:type", content:"image/jpeg" }); %>
@@ -19,19 +20,20 @@
     height: 100%;
     z-index: -1;"></div>-->
   <% include lib/login.inc.ejs %>
-	<div class="row b2b-content b2b-content-header" style="background-image: url()">
-		<div class="col-md-12">
-			<h1 style="
-      height: 161px;
-      background: rgba(255, 255, 255, 0);
-      margin: 35px 10px 37px;
-      /* text-align: center; */
-      line-height: 161px;
-      font-size: 7em;
-      color: white;
-      text-transform: uppercase;
-      text-shadow: 2px 2px 2px rgba(0,0,0,.25);">b2b</h1>
-		</div>
+	<div class="row b2b-content b2b-content-header" style="">
+
+    <div class="row">
+        <div class="flexslider col-md-12">
+          <ul class="slides">
+            <% var count=0;for(var key in layoutImages.banners) { %>
+               count++;
+              <li>
+                  <img class="product-image-cover" src="<%= layoutImages.banners[key][count].url %>" alt="">
+               </li>
+            <% } %>
+          </ul>
+        </div>
+
 		<!--<div class="col-md-4">
 			<form class="b2b-login">
 			  <div class="form-group">
@@ -120,9 +122,14 @@
 			<i class="fa fa-shopping-cart fa-lg cart-fixed-icon" aria-hidden="true"></i>
 			<span v-text="carts.length" v-show="carts.length > 0" class="badge number-circle">
     </a>
-
+<% LayoutUtils.addScripts('/assets/b2b/plugins/jquery-flexslider/jquery.flexslider-min.js'); %>
 <% LayoutUtils.addScripts('/assets/unify/js/app.js', '/assets/unify/js/plugins/owl-carousel.js'); %>
 <% LayoutUtils.addScriptBlock(`
+
+    $('.flexslider').flexslider({
+      animation: "slide"
+})
+
   var error = ${errors ? 'true' : 'false'};
   var infoMsg  = '${req.flash('info')[0]}';
   if (error) {
@@ -139,4 +146,5 @@
   $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
   });
+
 `); %>

@@ -12,8 +12,8 @@
   ],
   "license": "MIT",
   "keywords": [],
-  "engines" : {
-    "node" : "^6.9.1"
+  "engines": {
+    "node": "^6.9.1"
   },
   "dependencies": {
     "axios": "^0.14.0",
